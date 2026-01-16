@@ -8,7 +8,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -56,7 +58,14 @@ public class PcGridAdapter extends GenericGridAdapter<PcView.ComputerObject> {
     private final Set<String> loadingUuids = Collections.synchronizedSet(new HashSet<>());
     
     // 控制是否显示未配对设备（默认显示）
-    private boolean showUnpairedDevices = true;
+    private boolean showUnpairedDevices;
+    
+    // 头像点击回调接口
+    public interface AvatarClickListener {
+        void onAvatarClick(ComputerDetails computer, View itemView);
+    }
+    
+    private AvatarClickListener avatarClickListener;
 
     public PcGridAdapter(Context context, PreferenceConfiguration prefs) {
         super(context, R.layout.pc_grid_item);
@@ -64,6 +73,13 @@ public class PcGridAdapter extends GenericGridAdapter<PcView.ComputerObject> {
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         this.showUnpairedDevices = sharedPreferences.getBoolean(PREF_SHOW_UNPAIRED_DEVICES, true);
+    }
+    
+    /**
+     * 设置头像点击监听器
+     */
+    public void setAvatarClickListener(AvatarClickListener listener) {
+        this.avatarClickListener = listener;
     }
 
     public void updateLayoutWithPreferences(Context context, PreferenceConfiguration prefs) {
@@ -131,12 +147,12 @@ public class PcGridAdapter extends GenericGridAdapter<PcView.ComputerObject> {
                 String rawAppList = CacheHelper.readInputStreamToString(
                         CacheHelper.openCacheFileForInput(ctx.getCacheDir(), "applist", computer.uuid));
 
-                if (rawAppList == null || rawAppList.isEmpty()) {
+                if (rawAppList.isEmpty()) {
                     return null;
                 }
 
                 List<NvApp> appList = NvHTTP.getAppListByReader(new StringReader(rawAppList));
-                if (appList == null || appList.isEmpty()) {
+                if (appList.isEmpty()) {
                     return null;
                 }
 
@@ -208,9 +224,8 @@ public class PcGridAdapter extends GenericGridAdapter<PcView.ComputerObject> {
     
     /**
      * 重新排序列表（公开方法，用于电脑状态更新后重新排序）
-     * @return true 如果排序顺序真的改变了，false 如果顺序没有变化
      */
-    public boolean resort() {
+    public void resort() {
         // 保存排序前的顺序（通过 UUID 列表）
         List<String> beforeOrder = new ArrayList<>();
         for (PcView.ComputerObject obj : itemList) {
@@ -226,7 +241,7 @@ public class PcGridAdapter extends GenericGridAdapter<PcView.ComputerObject> {
         
         // 检查排序后的顺序是否改变
         if (beforeOrder.size() != itemList.size()) {
-            return true; // 列表大小改变，肯定有变化
+            return; // 列表大小改变，肯定有变化
         }
         
         for (int i = 0; i < itemList.size(); i++) {
@@ -234,11 +249,10 @@ public class PcGridAdapter extends GenericGridAdapter<PcView.ComputerObject> {
             String currentUuid = (obj != null && obj.details != null && obj.details.uuid != null) 
                     ? obj.details.uuid : "";
             if (!beforeOrder.get(i).equals(currentUuid)) {
-                return true; // 顺序改变了
+                return; // 顺序改变了
             }
         }
-        
-        return false; // 顺序没有改变
+
     }
 
     private void sortList() {
@@ -248,7 +262,7 @@ public class PcGridAdapter extends GenericGridAdapter<PcView.ComputerObject> {
             boolean rhsIsAdd = isAddComputerCard(rhs);
             if (lhsIsAdd && !rhsIsAdd) return 1;
             if (!lhsIsAdd && rhsIsAdd) return -1;
-            if (lhsIsAdd && rhsIsAdd) return 0;
+            if (lhsIsAdd) return 0;
             
             // 在线设备排在离线设备前面
             boolean lhsOnline = lhs.details != null && lhs.details.state == ComputerDetails.State.ONLINE;
@@ -257,7 +271,7 @@ public class PcGridAdapter extends GenericGridAdapter<PcView.ComputerObject> {
             if (!lhsOnline && rhsOnline) return 1;
             
             // 在在线设备中，已配对设备排在未配对设备前面
-            if (lhsOnline && rhsOnline) {
+            if (lhsOnline) {
                 boolean lhsUnpaired = isUnpairedComputer(lhs);
                 boolean rhsUnpaired = isUnpairedComputer(rhs);
                 if (lhsUnpaired && !rhsUnpaired) return 1;
@@ -265,7 +279,10 @@ public class PcGridAdapter extends GenericGridAdapter<PcView.ComputerObject> {
             }
             
             // 同组内按名称排序
-            return lhs.details.name.toLowerCase().compareTo(rhs.details.name.toLowerCase());
+            if (lhs.details != null) {
+                return lhs.details.name.toLowerCase().compareTo(rhs.details.name.toLowerCase());
+            }
+            return 0;
         });
     }
     
@@ -292,8 +309,8 @@ public class PcGridAdapter extends GenericGridAdapter<PcView.ComputerObject> {
                 && obj.details.pairState == PairingManager.PairState.NOT_PAIRED;
     }
 
-    public boolean removeComputer(PcView.ComputerObject computer) {
-        return itemList.remove(computer);
+    public void removeComputer(PcView.ComputerObject computer) {
+        itemList.remove(computer);
     }
     
     /**
@@ -356,11 +373,20 @@ public class PcGridAdapter extends GenericGridAdapter<PcView.ComputerObject> {
 
     @Override
     public Object getItem(int i) {
-        return getFilteredItems().get(i);
+        List<PcView.ComputerObject> filtered = getFilteredItems();
+        if (i < 0 || i >= filtered.size()) {
+            return null;
+        }
+        return filtered.get(i);
     }
     
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
+        List<PcView.ComputerObject> filtered = getFilteredItems();
+        if (i < 0 || i >= filtered.size()) {
+            return convertView != null ? convertView : inflater.inflate(R.layout.pc_grid_item, viewGroup, false);
+        }
+
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.pc_grid_item, viewGroup, false);
         }
@@ -370,10 +396,44 @@ public class PcGridAdapter extends GenericGridAdapter<PcView.ComputerObject> {
         TextView txtView = convertView.findViewById(R.id.grid_text);
         View spinnerView = convertView.findViewById(R.id.grid_spinner);
 
-        List<PcView.ComputerObject> filtered = getFilteredItems();
-        populateView(convertView, imgView, spinnerView, txtView, overlayView, filtered.get(i));
+        PcView.ComputerObject computer = filtered.get(i);
+        populateView(convertView, imgView, spinnerView, txtView, overlayView, computer);
+        
+        // 为可见的头像图片设置触摸监听器（仅对非添加卡片）
+        if (imgView != null) {
+            setupImageTouchListener(imgView, convertView, computer);
+        }
 
         return convertView;
+    }
+    
+    private void setupImageTouchListener(ImageView imageView, View itemView, PcView.ComputerObject computer) {
+        if (isAddComputerCard(computer) || avatarClickListener == null || computer.details == null) {
+            imageView.setOnTouchListener(null);
+            imageView.setClickable(false);
+            return;
+        }
+        
+        final ComputerDetails computerDetails = computer.details;
+        
+        GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                if (avatarClickListener != null) {
+                    avatarClickListener.onAvatarClick(computerDetails, itemView);
+                }
+                return true;
+            }
+            
+            @Override
+            public void onLongPress(MotionEvent e) {
+                itemView.performLongClick();
+            }
+        });
+        
+        imageView.setOnTouchListener((v, event) -> gestureDetector.onTouchEvent(event));
+        imageView.setClickable(true);
+        imageView.setFocusable(false);
     }
 
     @SuppressLint("SetTextI18n")
@@ -493,4 +553,3 @@ public class PcGridAdapter extends GenericGridAdapter<PcView.ComputerObject> {
         }
     }
 }
-

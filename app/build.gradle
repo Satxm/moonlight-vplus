@@ -11,8 +11,8 @@ android {
         minSdk 22
         targetSdk 35
 
-        versionName "12.6.2"
-        versionCode = 359
+        versionName "12.6.4"
+        versionCode = 361
 
         // Generate native debug symbols to allow Google Play to symbolicate our native crashes
         ndk.debugSymbolLevel = 'FULL'
@@ -179,6 +179,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:5.0.5'
     implementation 'com.squareup:seismic:1.0.3'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
+    implementation 'androidx.tvprovider:tvprovider:1.1.0'
 
     // Firebase Analytics
     implementation platform('com.google.firebase:firebase-bom:32.7.0')

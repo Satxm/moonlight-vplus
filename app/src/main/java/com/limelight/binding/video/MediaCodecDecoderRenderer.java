@@ -24,7 +24,6 @@ import com.limelight.nvstream.jni.MoonBridge;
 import com.limelight.preferences.PreferenceConfiguration;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.media.MediaCodec;
@@ -51,9 +50,9 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
     // Used on versions < 5.0
     private ByteBuffer[] legacyInputBuffers;
 
-    private MediaCodecInfo avcDecoder;
-    private MediaCodecInfo hevcDecoder;
-    private MediaCodecInfo av1Decoder;
+    private final MediaCodecInfo avcDecoder;
+    private final MediaCodecInfo hevcDecoder;
+    private final MediaCodecInfo av1Decoder;
 
     private final ArrayList<byte[]> vpsBuffers = new ArrayList<>();
     private final ArrayList<byte[]> spsBuffers = new ArrayList<>();
@@ -65,8 +64,8 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
     private ByteBuffer nextInputBuffer;
 
 
-    private Context context;
-    private Activity activity;
+    private final Context context;
+    private final Activity activity;
     private MediaCodec videoDecoder;
     private Thread rendererThread;
     private boolean needsSpsBitstreamFixup, isExynos4;
@@ -79,19 +78,19 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
     private int videoFormat;
     private SurfaceHolder renderTarget;
     private volatile boolean stopping;
-    private CrashListener crashListener;
+    private final CrashListener crashListener;
     private boolean reportedCrash;
-    private int consecutiveCrashCount;
-    private String glRenderer;
+    private final int consecutiveCrashCount;
+    private final String glRenderer;
     private boolean foreground = true;
-    private PerfOverlayListener perfListener;
+    private final PerfOverlayListener perfListener;
 
     private static final int CR_MAX_TRIES = 10;
     private static final int CR_RECOVERY_TYPE_NONE = 0;
     private static final int CR_RECOVERY_TYPE_FLUSH = 1;
     private static final int CR_RECOVERY_TYPE_RESTART = 2;
     private static final int CR_RECOVERY_TYPE_RESET = 3;
-    private AtomicInteger codecRecoveryType = new AtomicInteger(CR_RECOVERY_TYPE_NONE);
+    private final AtomicInteger codecRecoveryType = new AtomicInteger(CR_RECOVERY_TYPE_NONE);
     private final Object codecRecoveryMonitor = new Object();
 
     // Each thread that touches the MediaCodec object or any associated buffers must have a flag
@@ -114,21 +113,21 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
     private long initialExceptionTimestamp;
     private static final int EXCEPTION_REPORT_DELAY_MS = 3000;
 
-    private VideoStats activeWindowVideoStats;
-    private VideoStats lastWindowVideoStats;
-    private VideoStats globalVideoStats;
+    private final VideoStats activeWindowVideoStats;
+    private final VideoStats lastWindowVideoStats;
+    private final VideoStats globalVideoStats;
 
     private long lastTimestampUs;
     private int lastFrameNumber;
     private int refreshRate;
-    private PreferenceConfiguration prefs;
+    private final PreferenceConfiguration prefs;
 
     // Map to track enqueue time for each timestamp
     // Key: timestamp in microseconds (from enqueueTimeUs)
     // Value: enqueue time in milliseconds (from SystemClock.uptimeMillis())
     private final Map<Long, Long> timestampToEnqueueTime = new HashMap<>();
 
-    private LinkedBlockingQueue<Integer> outputBufferQueue = new LinkedBlockingQueue<>();
+    private final LinkedBlockingQueue<Integer> outputBufferQueue = new LinkedBlockingQueue<>();
     private long lastRenderedFrameTimeNanos;
     private HandlerThread choreographerHandlerThread;
     private Handler choreographerHandler;
@@ -610,12 +609,7 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
             configureAndStartDecoder(format);
             LimeLog.info("Using codec " + selectedDecoderInfo.getName() + " for hardware decoding " + format.getString(MediaFormat.KEY_MIME));
             configured = true;
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            if (throwOnCodecError) {
-                throw e;
-            }
-        } catch (IllegalStateException e) {
+        } catch (IllegalArgumentException | IllegalStateException e) {
             e.printStackTrace();
             if (throwOnCodecError) {
                 throw e;
@@ -1172,7 +1166,7 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
             long timeUntilDeadline = nextVsyncNs - presentationDeadlineNs - currentTime;
             if (timeUntilDeadline < 0) {
                 // 已经错过 deadline，使用 0 让系统尽快渲染
-                LimeLog.warning("错过 presentation deadline，使用立即渲染");
+                // LimeLog.warning("错过 presentation deadline，使用立即渲染");
                 return 0;
             }
         }
@@ -1199,10 +1193,9 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
         surfaceFlingerFrameCount++;
         activeWindowVideoStats.totalFramesRendered++;
 
-        if (surfaceFlingerFrameCount % 100 == 0) {
+        if (surfaceFlingerFrameCount % 12000 == 0) {
             float avgError = surfaceFlingerTimingError / 1000000.0f / surfaceFlingerFrameCount;
-            LimeLog.info(String.format("精确同步: %d帧, 跳帧: %d, 平均误差: %.3fms",
-                    surfaceFlingerFrameCount, surfaceFlingerSkippedFrames, avgError));
+            LimeLog.info(String.format("精确同步: %d帧, 跳帧: %d, 平均误差: %.3fms", surfaceFlingerFrameCount, surfaceFlingerSkippedFrames, avgError));
         }
     }
 
@@ -1311,13 +1304,12 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
                             }
                         } else {
                             switch (outIndex) {
-                                case MediaCodec.INFO_TRY_AGAIN_LATER:
-                                    break;
                                 case MediaCodec.INFO_OUTPUT_FORMAT_CHANGED:
                                     LimeLog.info("Output format changed");
                                     outputFormat = videoDecoder.getOutputFormat();
                                     LimeLog.info("New output format: " + outputFormat);
                                     break;
+                                case MediaCodec.INFO_TRY_AGAIN_LATER:
                                 default:
                                     break;
                             }
@@ -1443,6 +1435,10 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
                 Choreographer.getInstance().removeFrameCallback(MediaCodecDecoderRenderer.this);
             });
         }
+
+        // Unblock any threads waiting on the output buffer queue
+        // We add a dummy value to ensure take() returns if it's blocked
+        outputBufferQueue.add(-1);
     }
 
     @Override
@@ -1493,7 +1489,14 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
 
     @Override
     public void cleanup() {
-        videoDecoder.release();
+        if (videoDecoder != null) {
+            try {
+                videoDecoder.release();
+            } catch (Exception e) {
+                // Ignore exceptions during shutdown
+                LimeLog.warning("Exception during decoder release: " + e.getMessage());
+            }
+        }
         timestampToEnqueueTime.clear();
     }
 
@@ -2077,7 +2080,7 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
     }
 
     static class DecoderHungException extends RuntimeException {
-        private int hangTimeMs;
+        private final int hangTimeMs;
 
         DecoderHungException(int hangTimeMs) {
             this.hangTimeMs = hangTimeMs;
@@ -2098,7 +2101,7 @@ public class MediaCodecDecoderRenderer extends VideoDecoderRenderer implements C
         private static final long serialVersionUID = 8985937536997012406L;
         protected static final String DELIMITER = BuildConfig.DEBUG ? "\n" : " | ";
 
-        private String text;
+        private final String text;
 
         RendererException(MediaCodecDecoderRenderer renderer, Exception e) {
             this.text = generateText(renderer, e);
