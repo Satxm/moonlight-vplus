@@ -26,6 +26,11 @@
     <string name="pcview_menu_send_sleep">发送睡眠指令</string>
     <string name="pcview_menu_sleep_success">主机已睡眠</string>
     <string name="pcview_menu_sleep_fail">主机睡眠失败</string>
+    <string name="pcview_menu_secondary_screen"> 作为副屏串流（基地适用） </string>
+    <string name="pcview_menu_disable_ipv6">禁用 IPv6</string>
+    <string name="pcview_menu_enable_ipv6">启用 IPv6</string>
+    <string name="pcview_ipv6_disabled">已禁用此电脑的 IPv6 连接</string>
+    <string name="pcview_ipv6_enabled">已启用此电脑的 IPv6 连接</string>
 
     <!-- Network test strings -->
     <string name="nettest_title_waiting">测试网络连接中</string>
@@ -62,6 +67,7 @@
 
     <!-- Errors -->
     <string name="error_pc_offline">电脑离线中</string>
+    <string name="no_app_found_for_streaming">未找到可串流应用</string>
     <string name="error_manager_not_running">ComputerManager 服务未运行。请稍等几秒或重启 App。</string>
     <string name="error_unknown_host">无法解析主机地址</string>
     <string name="error_404">GFE 返回了 HTTP 404 错误，确保你的电脑显卡支持串流。使用远程桌面软件同样会引起此错误，请尝试重启电脑或重装GFE。</string>
@@ -186,7 +192,6 @@
     <string name="addpc_unknown_host">无法解析电脑的IP地址，请确保IP地址输入无误。</string>
     <string name="addpc_enter_ip">请输入一个IP地址</string>
     <string name="addpc_wrong_sitelocal">该地址似乎不正确。 您必须使用路由器的公共IP地址通过Internet进行串流。</string>
-
     <string name="title_choose_address">选择连接地址</string>
 
     <!-- Preferences -->
@@ -274,6 +279,8 @@
     <string name="summary_checkbox_usb_bind_all">强制Moonlight的USB驱动接管所有受支持的Xbox手柄</string>
     <string name="title_checkbox_mouse_emulation">通过手柄模拟鼠标</string>
     <string name="summary_checkbox_mouse_emulation">长按开始键将手柄切换为鼠标模式</string>
+    <string name="title_checkbox_enable_start_key_menu">启用长按开始键菜单</string>
+    <string name="summary_checkbox_enable_start_key_menu">长按开始键将打开游戏菜单</string>
     <string name="title_analog_scrolling">使用摇杆控制鼠标移动</string>
     <string name="summary_analog_scrolling">在鼠标模式下选择用哪个摇杆控制鼠标移动</string>
     <string name="title_checkbox_vibrate_fallback">用设备震动模拟游戏震动效果</string>
@@ -415,9 +422,13 @@
     <string name="summary_enable_hdr">当游戏和显卡支持时以HDR模式串流，HDR需要显卡支持 HEVC/AV1 Main 10 编码。⚠注意：串流返回菜单中的HDR开关是切换windows的HDR。</string>
     <string name="title_enable_hdr_high_brightness">启用 HDR 串流高亮度</string>
     <string name="summary_enable_hdr_high_brightness">启用 HDR 串流时强制使用最高屏幕亮度</string>
+    <string name="title_hdr_mode">HDR 模式</string>
+    <string name="summary_hdr_mode">选择 HDR 传输函数：HDR10 (PQ) 适用于大多数显示器，HLG 适用于广播内容</string>
+    <string name="hdr_mode_hdr10">HDR10 (PQ)</string>
+    <string name="hdr_mode_hlg">HLG (混合对数伽马)</string>
     <string name="title_full_range">强制完全动态范围视频 (实验性)</string>
-    <string name="summary_full_range">如果你的设备无法正确显示全范围视频内容，这会导致明暗区域的细节丢失。</string>
     <string name="title_enable_perf_overlay">性能监控图层</string>
+    <string name="summary_full_range">如果你的设备无法正确显示全范围视频内容，这会导致明暗区域的细节丢失。</string>
     <string name="summary_enable_perf_overlay">显示实时的串流监控数据，盯帧必备！</string>
     <string name="title_perf_overlay_orientation">性能统计显示方向</string>
     <string name="summary_perf_overlay_orientation">选择性能统计信息的显示方向</string>
@@ -708,4 +719,8 @@
     <string name="unpaired_devices_hidden">已隐藏未配对设备</string>
     <string name="new_unpaired_device_shown">检测到新的未配对设备，已自动显示未配对设备</string>
     <string name="host_resolution_changed">主机分辨率已变更为 %1$dx%2$d</string>
+
+    <!-- Drawer Menu -->
+    <string name="menu">菜单</string>
+    <string name="title_settings">设置</string>
 </resources>

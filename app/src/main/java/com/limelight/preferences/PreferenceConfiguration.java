@@ -84,6 +84,7 @@ public class PreferenceConfiguration {
     private static final String LEGACY_DISABLE_FRAME_DROP_PREF_STRING = "checkbox_disable_frame_drop";
     private static final String ENABLE_HDR_PREF_STRING = "checkbox_enable_hdr";
     private static final String ENABLE_HDR_HIGH_BRIGHTNESS_PREF_STRING = "checkbox_enable_hdr_high_brightness";
+    private static final String HDR_MODE_PREF_STRING = "list_hdr_mode"; // 0=SDR, 1=HDR10, 2=HLG
     private static final String ENABLE_PIP_PREF_STRING = "checkbox_enable_pip";
     private static final String ENABLE_PERF_OVERLAY_STRING = "checkbox_enable_perf_overlay";
     private static final String PERF_OVERLAY_LOCKED_STRING = "perf_overlay_locked";
@@ -138,8 +139,10 @@ public class PreferenceConfiguration {
     private static final String ENABLE_MIC_PREF_STRING = "checkbox_enable_mic";
     private static final String MIC_BITRATE_PREF_STRING = "seekbar_mic_bitrate_kbps";
     private static final String MIC_ICON_COLOR_PREF_STRING = "list_mic_icon_color";
+    
     private static final String ENABLE_ESC_MENU_PREF_STRING = "checkbox_enable_esc_menu";
     private static final String ESC_MENU_KEY_PREF_STRING = "list_esc_menu_key";
+    private static final String ENABLE_START_KEY_MENU_PREF_STRING = "checkbox_enable_start_key_menu";
     
     // 控制流only模式设置
     private static final String CONTROL_ONLY_PREF_STRING = "checkbox_control_only";
@@ -173,6 +176,7 @@ public class PreferenceConfiguration {
     private static final boolean HALF_HEIGHT_OSC_PORTRAIT_DEFAULT = true;
     private static final boolean DEFAULT_ENABLE_HDR = false;
     private static final boolean DEFAULT_ENABLE_HDR_HIGH_BRIGHTNESS = false;
+    private static final int DEFAULT_HDR_MODE = 1; // 默认 HDR10/PQ 模式 (0=禁用自动HDR切换, 1=HDR10, 2=HLG)
     private static final boolean DEFAULT_ENABLE_PIP = false;
     private static final boolean DEFAULT_ENABLE_PERF_OVERLAY = false;
     private static final boolean DEFAULT_PERF_OVERLAY_LOCKED = false;
@@ -216,6 +220,7 @@ public class PreferenceConfiguration {
     private static final String DEFAULT_MIC_ICON_COLOR = "solid_white"; // 默认白
     private static final boolean DEFAULT_ENABLE_ESC_MENU = true; // 默认启用ESC菜单
     private static final int DEFAULT_ESC_MENU_KEY = KeyEvent.KEYCODE_ESCAPE;
+    private static final boolean DEFAULT_ENABLE_START_KEY_MENU = true; // 默认启用长按start键菜单
     
     // 控制流only模式默认值
     private static final boolean DEFAULT_CONTROL_ONLY = false;
@@ -230,6 +235,12 @@ public class PreferenceConfiguration {
     
     private static final boolean DEFAULT_ENABLE_LOCAL_CURSOR_RENDERING = true;
     public boolean enableLocalCursorRendering;
+    //自定义按键映射
+    public boolean enableCustomKeyMap;
+    //修复鼠标中键识别
+    public boolean fixMouseMiddle;
+    //修复本地鼠标滚轮识别
+    public boolean fixMouseWheel;
     public static final int FRAME_PACING_MIN_LATENCY = 0;
     public static final int FRAME_PACING_BALANCED = 1;
     public static final int FRAME_PACING_CAP_FPS = 2;
@@ -309,6 +320,7 @@ public class PreferenceConfiguration {
     public boolean halfHeightOscPortrait;
     public boolean enableHdr;
     public boolean enableHdrHighBrightness;
+    public int hdrMode; // 0=HDR disabled, 1=HDR10/PQ, 2=HLG
     public boolean enablePip;
     public boolean enablePerfOverlay;
     public boolean perfOverlayLocked;
@@ -367,6 +379,9 @@ public class PreferenceConfiguration {
     // ESC菜单设置
     public boolean enableEscMenu;
     public int escMenuKey;
+    
+    // Start键菜单设置
+    public boolean enableStartKeyMenu;
     
     // 控制流only模式设置
     public boolean controlOnly;
@@ -780,6 +795,9 @@ public class PreferenceConfiguration {
         config.enableDoubleClickDrag = prefs.getBoolean(ENABLE_DOUBLE_CLICK_DRAG_PREF_STRING, DEFAULT_ENABLE_DOUBLE_CLICK_DRAG);
         config.doubleTapTimeThreshold = prefs.getInt(DOUBLE_TAP_TIME_THRESHOLD_PREF_STRING, DEFAULT_DOUBLE_TAP_TIME_THRESHOLD);
         config.enableLocalCursorRendering = prefs.getBoolean(ENABLE_LOCAL_CURSOR_RENDERING_PREF_STRING, DEFAULT_ENABLE_LOCAL_CURSOR_RENDERING);
+        config.enableCustomKeyMap=prefs.getBoolean("checkbox_special_key_map",false);
+        config.fixMouseMiddle=prefs.getBoolean("checkbox_mouse_middle",false);
+        config.fixMouseWheel=prefs.getBoolean("checkbox_mouse_wheel",false);
         config.enableSops = prefs.getBoolean(SOPS_PREF_STRING, DEFAULT_SOPS);
         config.stretchVideo = prefs.getBoolean(STRETCH_PREF_STRING, DEFAULT_STRETCH);
         config.playHostAudio = prefs.getBoolean(HOST_AUDIO_PREF_STRING, DEFAULT_HOST_AUDIO);
@@ -793,6 +811,12 @@ public class PreferenceConfiguration {
         config.halfHeightOscPortrait = prefs.getBoolean(HALF_HEIGHT_OSC_PORTRAIT_PREF_STRING, HALF_HEIGHT_OSC_PORTRAIT_DEFAULT);
         config.enableHdr = prefs.getBoolean(ENABLE_HDR_PREF_STRING, DEFAULT_ENABLE_HDR) && !isShieldAtvFirmwareWithBrokenHdr();
         config.enableHdrHighBrightness = prefs.getBoolean(ENABLE_HDR_HIGH_BRIGHTNESS_PREF_STRING, DEFAULT_ENABLE_HDR_HIGH_BRIGHTNESS);
+        // HDR mode is stored as a String from ListPreference, default to HDR10 (1)
+        try {
+            config.hdrMode = Integer.parseInt(prefs.getString(HDR_MODE_PREF_STRING, String.valueOf(DEFAULT_HDR_MODE)));
+        } catch (NumberFormatException e) {
+            config.hdrMode = DEFAULT_HDR_MODE;
+        }
         config.enablePip = prefs.getBoolean(ENABLE_PIP_PREF_STRING, DEFAULT_ENABLE_PIP);
         config.enablePerfOverlay = prefs.getBoolean(ENABLE_PERF_OVERLAY_STRING, DEFAULT_ENABLE_PERF_OVERLAY);
         config.perfOverlayLocked = prefs.getBoolean(PERF_OVERLAY_LOCKED_STRING, DEFAULT_PERF_OVERLAY_LOCKED);
@@ -892,6 +916,9 @@ public class PreferenceConfiguration {
         config.enableEscMenu = prefs.getBoolean(ENABLE_ESC_MENU_PREF_STRING, DEFAULT_ENABLE_ESC_MENU);
         
         String escMenuKeyStr = prefs.getString(ESC_MENU_KEY_PREF_STRING, String.valueOf(DEFAULT_ESC_MENU_KEY));
+        
+        // 读取Start键菜单设置
+        config.enableStartKeyMenu = prefs.getBoolean(ENABLE_START_KEY_MENU_PREF_STRING, DEFAULT_ENABLE_START_KEY_MENU);
         try {
             config.escMenuKey = Integer.parseInt(escMenuKeyStr);
         } catch (NumberFormatException e) {
@@ -1037,6 +1064,7 @@ public class PreferenceConfiguration {
                     .putString(MIC_ICON_COLOR_PREF_STRING, micIconColor)
                     .putBoolean(ENABLE_ESC_MENU_PREF_STRING, enableEscMenu)
                     .putString(ESC_MENU_KEY_PREF_STRING, String.valueOf(escMenuKey))
+                    .putBoolean(ENABLE_START_KEY_MENU_PREF_STRING, enableStartKeyMenu)
                     .putBoolean(CONTROL_ONLY_PREF_STRING, controlOnly)
                     .putBoolean(ENABLE_NATIVE_MOUSE_POINTER_PREF_STRING, enableNativeMousePointer)
                     .putBoolean(ENABLE_DOUBLE_CLICK_DRAG_PREF_STRING, enableDoubleClickDrag)
@@ -1067,6 +1095,7 @@ public class PreferenceConfiguration {
         copy.videoFormat = this.videoFormat;
         copy.enableHdr = this.enableHdr;
         copy.enableHdrHighBrightness = this.enableHdrHighBrightness;
+        copy.hdrMode = this.hdrMode;
         copy.enablePerfOverlay = this.enablePerfOverlay;
         copy.perfOverlayLocked = this.perfOverlayLocked;
         copy.perfOverlayOrientation = this.perfOverlayOrientation;
@@ -1084,6 +1113,7 @@ public class PreferenceConfiguration {
         copy.micIconColor = this.micIconColor;
         copy.enableEscMenu = this.enableEscMenu;
         copy.escMenuKey = this.escMenuKey;
+        copy.enableStartKeyMenu = this.enableStartKeyMenu;
         copy.enableNativeMousePointer = this.enableNativeMousePointer;
         copy.enableDoubleClickDrag = this.enableDoubleClickDrag;
         copy.enableLocalCursorRendering = this.enableLocalCursorRendering;

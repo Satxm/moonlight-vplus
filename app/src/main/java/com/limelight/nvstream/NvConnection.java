@@ -12,6 +12,8 @@ import android.net.RouteInfo;
 import android.os.Build;
 import android.provider.Settings;
 
+import com.limelight.utils.NetHelper;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -206,24 +208,20 @@ public class NvConnection {
     }
 
     private int detectServerConnectionType() {
+        // 使用 NetHelper 进行快速网络类型检测
+        boolean isVpn = NetHelper.isActiveNetworkVpn(appContext);
+        boolean isMobile = NetHelper.isActiveNetworkMobile(appContext);
+        
+        // VPN 和移动网络都视为远程连接
+        if (isVpn || isMobile) {
+            return StreamConfiguration.STREAM_CFG_REMOTE;
+        }
+        
+        // 进一步检查路由以确定是否为本地连接
         ConnectivityManager connMgr = (ConnectivityManager) appContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Network activeNetwork = connMgr.getActiveNetwork();
             if (activeNetwork != null) {
-                NetworkCapabilities netCaps = connMgr.getNetworkCapabilities(activeNetwork);
-                if (netCaps != null) {
-                    if (netCaps.hasTransport(NetworkCapabilities.TRANSPORT_VPN) ||
-                            !netCaps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_VPN)) {
-                        // VPNs are treated as remote connections
-                        return StreamConfiguration.STREAM_CFG_REMOTE;
-                    }
-                    else if (netCaps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                        // Cellular is always treated as remote to avoid any possible
-                        // issues with 464XLAT or similar technologies.
-                        return StreamConfiguration.STREAM_CFG_REMOTE;
-                    }
-                }
-
                 // Check if the server address is on-link
                 LinkProperties linkProperties = connMgr.getLinkProperties(activeNetwork);
                 if (linkProperties != null) {
@@ -522,6 +520,7 @@ public class NvConnection {
                         context.videoCapabilities,
                         context.streamConfig.getColorSpace(),
                         context.streamConfig.getColorRange(),
+                        context.streamConfig.getHdrMode(),
                         context.streamConfig.getEnableMic(),
                         context.streamConfig.getControlOnly());
                 if (ret != 0) {
@@ -771,6 +770,68 @@ public class NvConnection {
      */
     public interface BitrateAdjustmentCallback {
         void onSuccess(int newBitrate);
+        void onFailure(String errorMessage);
+    }
+
+    /**
+     * 旋转服务端显示器
+     * @param angle 旋转角度（0, 90, 180, 270）
+     * @param callback 回调接口，用于通知结果（可选）
+     */
+    public void rotateDisplay(int angle, DisplayRotationCallback callback) {
+        new Thread(() -> {
+            NvHTTP h;
+            try {
+                h = new NvHTTP(context.serverAddress, context.httpsPort, uniqueId, clientName, context.serverCert, cryptoProvider);
+            } catch (IOException e) {
+                LimeLog.warning("Failed to create NvHTTP for display rotation: " + e.getMessage());
+                if (callback != null) {
+                    callback.onFailure("Failed to create HTTP connection: " + e.getMessage());
+                }
+                return;
+            }
+            
+            try {
+                LimeLog.info("Sending display rotation request: " + angle + " degrees");
+                boolean success = h.rotateDisplay(angle, context.displayName);
+                
+                if (success) {
+                    LimeLog.info("Display rotation successful: " + angle + " degrees");
+                    if (callback != null) {
+                        callback.onSuccess(angle);
+                    }
+                } else {
+                    LimeLog.warning("Display rotation request failed (server returned false)");
+                    if (callback != null) {
+                        callback.onFailure("Server returned failure response");
+                    }
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                LimeLog.warning("Display rotation interrupted: " + e.getMessage());
+                if (callback != null) {
+                    callback.onFailure("Operation interrupted");
+                }
+            } catch (java.io.FileNotFoundException e) {
+                // 服务端不支持 rotate-display 接口（返回 404）
+                LimeLog.warning("Display rotation not supported by server (404): " + e.getMessage());
+                if (callback != null) {
+                    callback.onFailure("服务端不支持显示旋转功能，请更新服务端版本");
+                }
+            } catch (IOException e) {
+                LimeLog.warning("Failed to rotate display: " + e.getMessage());
+                if (callback != null) {
+                    callback.onFailure("网络错误: " + e.getMessage());
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * 显示器旋转回调接口
+     */
+    public interface DisplayRotationCallback {
+        void onSuccess(int angle);
         void onFailure(String errorMessage);
     }
 

@@ -72,6 +72,7 @@
             android:defaultValue="false" />
     </PreferenceCategory>
     <PreferenceCategory
+        android:key="category_screen_position"
         android:title="@string/category_screen_position_settings"
         android:icon="@drawable/ic_screen_position"
         android:layout="@layout/preference_category_material">
@@ -110,6 +111,7 @@
         
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/category_audio_settings"
+        android:key="category_audio_settings"
         android:layout="@layout/preference_category_material">
         <ListPreference
             android:key="list_audio_config"
@@ -191,6 +193,11 @@
             android:title="@string/title_checkbox_mouse_emulation"
             android:summary="@string/summary_checkbox_mouse_emulation"
             android:defaultValue="true" />
+        <CheckBoxPreference
+            android:key="checkbox_enable_start_key_menu"
+            android:title="@string/title_checkbox_enable_start_key_menu"
+            android:summary="@string/summary_checkbox_enable_start_key_menu"
+            android:defaultValue="true" />
         <ListPreference
             android:key="analog_scrolling"
             android:dependency="checkbox_mouse_emulation"
@@ -264,6 +271,21 @@
             android:summary="@string/summary_double_tap_time_threshold"
             android:text="ms"
             android:title="@string/title_double_tap_time_threshold" />
+        <CheckBoxPreference
+            android:key="checkbox_special_key_map"
+            android:title="特殊按键映射"
+            android:summary="键盘Home键映射Esc键，Esc+数字键/符号映射F1到F12,Esc+Q键映射串流菜单,安卓截图键映射Windows截图,安卓上一首/播放暂停/下一首分别映射到F5/F10/F11。"
+            android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="checkbox_mouse_middle"
+            android:title="修复鼠标中键"
+            android:summary="在一些设备上鼠标中键可能被识别为返回键，选中尝试修复此问题。"
+            android:defaultValue="true" />
+        <CheckBoxPreference
+            android:key="checkbox_mouse_wheel"
+            android:title="修复本地鼠标滚轮"
+            android:summary="在一些设备上使用本地鼠标滚轮可能产生触屏滑动事件，选中尝试修复此问题。"
+            android:defaultValue="true" />
         <CheckBoxPreference
             android:key="checkbox_sync_touch_event_with_display"
             android:title="@string/title_checkbox_sync_touch_event_with_display"
@@ -423,6 +445,7 @@
             />
     </PreferenceCategory>
     <PreferenceCategory 
+        android:key="category_crown_features"
         android:title="@string/category_crown_features"
         android:icon="@drawable/ic_enhance"
         android:layout="@layout/preference_category_material">
@@ -449,6 +472,7 @@
             android:summary="@string/summary_about_author" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/category_host_settings"
+        android:key="category_host_settings"
         android:layout="@layout/preference_category_material">
         <CheckBoxPreference
             android:key="checkbox_enable_sops"
@@ -566,6 +590,14 @@
             android:title="@string/title_enable_hdr_high_brightness"
             android:summary="@string/summary_enable_hdr_high_brightness"
             android:defaultValue="false" />
+        <ListPreference
+            android:key="list_hdr_mode"
+            android:dependency="checkbox_enable_hdr"
+            android:title="@string/title_hdr_mode"
+            android:summary="@string/summary_hdr_mode"
+            android:entries="@array/hdr_mode_entries"
+            android:entryValues="@array/hdr_mode_values"
+            android:defaultValue="1" />
         <CheckBoxPreference
             android:key="checkbox_full_range"
             android:title="@string/title_full_range"

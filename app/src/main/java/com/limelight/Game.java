@@ -68,6 +68,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Rational;
 import android.view.Display;
@@ -101,10 +102,12 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Locale;
+import java.util.Set;
 
 import com.limelight.services.KeyboardAccessibilityService;
 
@@ -172,7 +175,10 @@ public class Game extends Activity implements SurfaceHolder.Callback,
     private boolean surfaceCreated = false;
     private boolean attemptedConnection = false;
     // private AnalyticsManager analyticsManager;
-    // private long streamStartTime;
+    private long streamStartTime;           // 串流开始的时间戳
+    private long accumulatedStreamTime;     // 累计的有效串流时间（排除后台暂停）
+    private long lastActiveTime;            // 上次活跃的时间戳（用于计算暂停时间）
+    private boolean isStreamingActive;      // 串流是否处于活跃状态
     private int suppressPipRefCount = 0;
     private String pcName;
     private String appName;
@@ -217,6 +223,13 @@ public class Game extends Activity implements SurfaceHolder.Callback,
     private final Map<Integer, NativeTouchContext.Pointer> nativeTouchPointerMap = new HashMap<>();
     private String currentHostAddress; // 保存当前连接的IP
     private boolean shouldResumeSession = false;
+    
+    // 记录上次的旋转角度，用于检测旋转变化
+    private int lastRotation = -1;
+    
+    // 标记当前是否是服务端主动旋转导致的客户端方向切换
+    // 如果是，则不应该再通知服务端旋转，避免死循环
+    private boolean isServerInitiatedRotation = false;
 
     public enum BackKeyMenuMode {
         GAME_MENU,     // 游戏菜单模式
@@ -342,8 +355,17 @@ public class Game extends Activity implements SurfaceHolder.Callback,
     public static final String EXTRA_PC_USEVDD = "usevdd";
     public static final String EXTRA_APP_CMD = "CmdList";
     public static final String EXTRA_DISPLAY_NAME = "DisplayName";
+    public static final String EXTRA_SCREEN_COMBINATION_MODE = "Screen combination mode";
 
     private ExternalDisplayManager externalDisplayManager;
+
+    private float fakeScrollInitialY = -1;
+    private float scrollTotal = 0;
+    private long lastMouseHoverTime = 0; // 记录最后一次鼠标活跃的时间
+    private boolean waitRelease = false;
+    private boolean detectScrolling = false;
+    private boolean detectMouseMiddle = false;
+    private boolean detectMouseMiddleDown = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -380,7 +402,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
 
         // Read the stream preferences
         prefConfig = PreferenceConfiguration.readPreferences(this);
-        tombstonePrefs = Game.this.getSharedPreferences("DecoderTombstone", 0);
+        tombstonePrefs = Game.this.getSharedPreferences("解码器墓碑", 0);
 
         // Initialize app settings manager
         appSettingsManager = new AppSettingsManager(this);
@@ -390,6 +412,12 @@ public class Game extends Activity implements SurfaceHolder.Callback,
 
         // 检查是否使用上一次设置并应用（不覆盖全局配置）
         applyLastSettingsToCurrentSession();
+        
+        // 检查是否有自定义的屏幕组合模式设置（通过 Intent 传递）
+        int customScreenMode = getIntent().getIntExtra(EXTRA_SCREEN_COMBINATION_MODE, -1);
+        if (customScreenMode != -1) {
+            prefConfig.screenCombinationMode = customScreenMode;
+        }
 
         // Set flat region size for long press jitter elimination.
         NativeTouchContext.INTIAL_ZONE_PIXELS = prefConfig.longPressflatRegionPixels;
@@ -854,6 +882,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                 .setAudioConfiguration(prefConfig.audioConfiguration)
                 .setColorSpace(decoderRenderer.getPreferredColorSpace())
                 .setColorRange(decoderRenderer.getPreferredColorRange())
+                .setHdrMode(willStreamHdr ? prefConfig.hdrMode : MoonBridge.HDR_MODE_SDR)
                 .setPersistGamepadsAfterDisconnect(!prefConfig.multiController)
                 .setUseVdd(pcUseVdd)
                 .setEnableMic(prefConfig.enableMic)
@@ -896,6 +925,15 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         });
         // 重置状态变量
         requestedNotificationOverlayVisibility = View.GONE;
+        
+        // 重置旋转状态，以便重新检测初始方向
+        lastRotation = -1;
+        isServerInitiatedRotation = false;
+        // 取消所有待处理的旋转任务
+        if (pendingRotationRunnable != null) {
+            rotationHandler.removeCallbacks(pendingRotationRunnable);
+            pendingRotationRunnable = null;
+        }
 
         // 2. 获取 Intent 参数
         String host = Game.this.getIntent().getStringExtra(EXTRA_HOST);
@@ -1167,7 +1205,12 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         super.onConfigurationChanged(newConfig);
 
         // Set requested orientation for possible new screen size
-        setPreferredOrientationForCurrentDisplay();
+        // 但如果当前旋转是由服务端主动旋转导致的，则跳过，避免覆盖我们设置的方向
+        if (!isServerInitiatedRotation) {
+            setPreferredOrientationForCurrentDisplay();
+        } else {
+            LimeLog.info("onConfigurationChanged: skipping setPreferredOrientationForCurrentDisplay due to server-initiated rotation");
+        }
 
         if (virtualController != null) {
             // Refresh layout of OSC for possible new screen size
@@ -1242,6 +1285,99 @@ public class Game extends Activity implements SurfaceHolder.Callback,
 
         // Re-apply display position
         refreshDisplayPosition();
+        
+        // 检测旋转变化并通知服务端（仅在自动旋转模式下）
+        // 但如果当前旋转是由服务端主动旋转导致的，则不应该再通知服务端，避免死循环
+        if (prefConfig.rotableScreen && conn != null && !isServerInitiatedRotation) {
+            handleRotationChange();
+        } else if (isServerInitiatedRotation) {
+            LimeLog.info("onConfigurationChanged: rotation is server-initiated, skipping notification to server");
+            // 重置标志，因为方向切换已经完成
+            isServerInitiatedRotation = false;
+        }
+    }
+
+    private void checkAndSyncOrientation(int width, int height) {
+        Display display = externalDisplayManager != null ?
+                externalDisplayManager.getTargetDisplay() : getWindowManager().getDefaultDisplay();
+        if (display == null) {
+            LimeLog.warning("checkAndSyncOrientation: display is null");
+            return;
+        }
+        
+        android.graphics.Point size = new android.graphics.Point();
+        display.getRealSize(size);
+        
+        boolean clientIsLandscape = size.x > size.y;
+        boolean serverIsLandscape = width > height;
+        
+        LimeLog.info("checkAndSyncOrientation: client=" + size.x + "x" + size.y + 
+                " (" + (clientIsLandscape ? "landscape" : "portrait") + ")" +
+                ", server=" + width + "x" + height + 
+                " (" + (serverIsLandscape ? "landscape" : "portrait") + ")");
+        
+        if (clientIsLandscape != serverIsLandscape) {
+            LimeLog.info("checkAndSyncOrientation: mismatch detected, notifying server");
+            handleRotationChange();
+        } else {
+            LimeLog.info("checkAndSyncOrientation: orientation matches");
+            if (lastRotation == -1) {
+                lastRotation = clientIsLandscape ? 1 : 0;
+            }
+        }
+    }
+    
+    /**
+     * 处理旋转变化，通知服务端同步修改分辨率
+     */
+    private final Handler rotationHandler = new Handler(Looper.getMainLooper());
+    private Runnable pendingRotationRunnable = null;
+    private static final long ROTATION_DEBOUNCE_MS = 3000;
+    
+    private void handleRotationChange() {
+        int orientation = getResources().getConfiguration().orientation;
+        boolean isLandscape = (orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE);
+        int currentOrientation = isLandscape ? 1 : 0;
+        
+        LimeLog.info("处理旋转变化：isLandscape=" + isLandscape + ", 最后旋转=" + lastRotation);
+        
+        if (conn == null || !connected) {
+            LimeLog.warning("handleRotationChange：连接未准备好");
+            return;
+        }
+        
+        if (lastRotation == -1) {
+            lastRotation = currentOrientation;
+            LimeLog.info("handleRotationChange：第一次调用，orientation=" + currentOrientation);
+        } else if (currentOrientation == lastRotation) {
+            return;
+        } else {
+            lastRotation = currentOrientation;
+        }
+        
+        int angle = isLandscape ? 0 : 90;
+        
+        if (pendingRotationRunnable != null) {
+            rotationHandler.removeCallbacks(pendingRotationRunnable);
+        }
+        
+        pendingRotationRunnable = () -> {
+            LimeLog.info("handleRotationChange：通知服务器，angle=" + angle);
+            conn.rotateDisplay(angle, new NvConnection.DisplayRotationCallback() {
+                @Override
+                public void onSuccess(int angle) {
+                    LimeLog.info("显示旋转至 " + angle + " 度数");
+                }
+
+                @Override
+                public void onFailure(String errorMessage) {
+                    LimeLog.warning("无法旋转显示： " + errorMessage);
+                }
+            });
+            pendingRotationRunnable = null;
+        };
+        
+        rotationHandler.postDelayed(pendingRotationRunnable, ROTATION_DEBOUNCE_MS);
     }
 
     @androidx.annotation.RequiresApi(Build.VERSION_CODES.O)
@@ -1698,6 +1834,13 @@ public class Game extends Activity implements SurfaceHolder.Callback,
     protected void onStop() {
         super.onStop();
 
+        // 暂停串流时长计时（进入后台时串流实际上是暂停的）
+        if (isStreamingActive && lastActiveTime > 0) {
+            accumulatedStreamTime += System.currentTimeMillis() - lastActiveTime;
+            isStreamingActive = false;
+            LimeLog.info("串流时长计时暂停，已累计: " + (accumulatedStreamTime / 1000) + " 秒");
+        }
+
         // 检查是否是因为进入后台（包括锁屏、滑到任务栏、Home键）导致的应用停止
         // 只要 Activity 不是正在 Finishing（即不是用户点了退出或崩溃），且开启了快速恢复，就标记为需要恢复
         if (!shouldResumeSession && !isFinishing()) {
@@ -1796,7 +1939,15 @@ public class Game extends Activity implements SurfaceHolder.Callback,
 
         // 记录游戏流媒体结束事件
         // if (analyticsManager != null && pcName != null && streamStartTime > 0) {
-            // long streamDuration = System.currentTimeMillis() - streamStartTime;
+            // 计算精确的有效串流时长
+            // = 已累计的时间 + 当前活跃段时间（如果当前是活跃状态）
+            // long effectiveStreamDuration = accumulatedStreamTime;
+            // if (isStreamingActive && lastActiveTime > 0) {
+                // effectiveStreamDuration += System.currentTimeMillis() - lastActiveTime;
+            // }
+            
+            // 同时记录总耗时（包括后台暂停时间）用于对比
+            // long totalElapsedTime = System.currentTimeMillis() - streamStartTime;
 
             // 收集性能数据
             // int resolutionWidth = 0;
@@ -1811,9 +1962,17 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                 // averageDecoderLatency = decoderRenderer.getAverageDecoderLatency();
             // }
 
-            // analyticsManager.logGameStreamEnd(pcName, appName, streamDuration,
+            // 使用有效串流时长进行统计
+            // analyticsManager.logGameStreamEnd(pcName, appName, effectiveStreamDuration,
                     // decoderMessage, resolutionWidth, resolutionHeight,
                     // averageEndToEndLatency, averageDecoderLatency);
+            
+            // LimeLog.info("串流统计 - 有效时长: " + (effectiveStreamDuration / 1000) + "秒, 总耗时: " + (totalElapsedTime / 1000) + "秒");
+            
+            // 重置统计状态
+            // streamStartTime = 0;
+            // accumulatedStreamTime = 0;
+            // isStreamingActive = false;
         // }
 
         if (shouldResumeSession) {
@@ -1975,6 +2134,11 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         return handleKeyDown(event) || super.onKeyDown(keyCode, event);
     }
 
+    private final Set<Integer> pressedKeys = new HashSet<>();
+    // 0代表未按下，1代表按下esc，2代表按下自定义组合键
+    private int escState = 0; // 0 = 空闲，1 = ESC已按下，2 = 已进入组合键
+    private Handler handler = new Handler(Looper.getMainLooper());
+    private Runnable escConfirmRunnable;
     @Override
     public boolean handleKeyDown(KeyEvent event) {
         switch (event.getKeyCode()) {
@@ -1983,6 +2147,10 @@ public class Game extends Activity implements SurfaceHolder.Callback,
             case KeyEvent.KEYCODE_APP_SWITCH:
                 // 如果是系统导航键，则跳过我们的去重逻辑，
                 // 让事件继续被正常处理。
+            case KeyEvent.KEYCODE_VOLUME_UP:
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+            case KeyEvent.KEYCODE_VOLUME_MUTE:
+            case KeyEvent.KEYCODE_POWER:
                 break;
             default:
                 // 只有当事件不是来自服务、服务正在运行、且事件源不是虚拟键盘（即来自物理键盘）时，
@@ -1995,6 +2163,76 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                     return true;
                 }
                 break;
+        }
+
+        // 自定义组合键，只能其它+esc，esc+其它时，esc抬起时其它才会down
+        int keyCode = event.getKeyCode();
+        pressedKeys.add(keyCode);
+        if (prefConfig.enableCustomKeyMap) {
+            if (keyCode == KeyEvent.KEYCODE_ESCAPE) {
+                escState = 1;
+//            Log.d("debug", "Esc: Down");
+                // 启动延迟判断是否是单独的ESC键
+                escConfirmRunnable = () -> {
+                    if (escState == 1) {
+//                    Log.d("debug", "Esc: Confirmed as Single");
+                        short translated = keyboardTranslator.translate(KeyEvent.KEYCODE_ESCAPE, event.getDeviceId());
+                        conn.sendKeyboardInput(translated, KeyboardPacket.KEY_DOWN, (byte) 0, MoonBridge.SS_KBE_FLAG_NON_NORMALIZED);
+                        escState = 0;
+                    }
+                };
+                handler.postDelayed(escConfirmRunnable, 200); // 延迟判断
+                return true;
+            }
+
+            if (escState == 1) {
+                // 若在ESC后检测到自定义键按下，取消ESC单键判断
+                handler.removeCallbacks(escConfirmRunnable);
+
+                if (keyCode == KeyEvent.KEYCODE_Q) {
+//                Log.d("debug", "Esc + Q: Down");
+                    escState = 2;
+                    return true;
+                }
+                else if (keyCode >= KeyEvent.KEYCODE_1 && keyCode <= KeyEvent.KEYCODE_9) {
+//                Log.d("debug", "Esc + num: Down");
+                    escState = 2;
+                    int fKeyCode = KeyEvent.KEYCODE_F1 + (keyCode - KeyEvent.KEYCODE_1);
+                    short translated = keyboardTranslator.translate(fKeyCode, event.getDeviceId());
+                    conn.sendKeyboardInput(translated, KeyboardPacket.KEY_DOWN, (byte) 0, MoonBridge.SS_KBE_FLAG_NON_NORMALIZED);
+                    return true;
+                }
+                else if (keyCode == KeyEvent.KEYCODE_0) {
+//                Log.d("debug", "Esc + 0: Down -> F10");
+                    escState = 2;
+                    int fKeyCode = KeyEvent.KEYCODE_F10;
+                    short translated = keyboardTranslator.translate(fKeyCode, event.getDeviceId());
+                    conn.sendKeyboardInput(translated, KeyboardPacket.KEY_DOWN, (byte) 0, MoonBridge.SS_KBE_FLAG_NON_NORMALIZED);
+                    return true;
+                }
+                else if (keyCode == KeyEvent.KEYCODE_MINUS) {
+//                Log.d("debug", "Esc + -: Down -> F11");
+                    escState = 2;
+                    int fKeyCode = KeyEvent.KEYCODE_F11;
+                    short translated = keyboardTranslator.translate(fKeyCode, event.getDeviceId());
+                    conn.sendKeyboardInput(translated, KeyboardPacket.KEY_DOWN, (byte) 0, MoonBridge.SS_KBE_FLAG_NON_NORMALIZED);
+                    return true;
+                }
+                else if (keyCode == KeyEvent.KEYCODE_EQUALS) {
+//                Log.d("debug", "Esc + =: Down -> F12");
+                    escState = 2;
+                    int fKeyCode = KeyEvent.KEYCODE_F12;
+                    short translated = keyboardTranslator.translate(fKeyCode, event.getDeviceId());
+                    conn.sendKeyboardInput(translated, KeyboardPacket.KEY_DOWN, (byte) 0, MoonBridge.SS_KBE_FLAG_NON_NORMALIZED);
+                    return true;
+                }
+                else{
+                    // 非自定义组合键，不做处理
+                    short translated = keyboardTranslator.translate(KeyEvent.KEYCODE_ESCAPE, event.getDeviceId());
+                    conn.sendKeyboardInput(translated, KeyboardPacket.KEY_DOWN, (byte) 0, MoonBridge.SS_KBE_FLAG_NON_NORMALIZED);
+                    escState = 0;
+                }
+            }
         }
 
         // Pass-through virtual navigation keys
@@ -2020,6 +2258,17 @@ public class Game extends Activity implements SurfaceHolder.Callback,
             // Always return true, otherwise the back press will be propagated
             // up to the parent and finish the activity.
             return true;
+        }
+
+        // 鼠标中键（同时影响触摸返回）
+        if (detectMouseMiddle && eventSource == InputDevice.SOURCE_KEYBOARD &&
+                event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            if (android.os.SystemClock.uptimeMillis() - lastMouseHoverTime < 250) {
+                detectMouseMiddleDown = true;
+                detectMouseMiddle = false;
+                conn.sendMouseButtonDown(MouseButtonPacket.BUTTON_MIDDLE);
+                return true;
+            }
         }
 
         boolean handled = false;
@@ -2120,6 +2369,73 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                 }
             }
         }
+
+        int keyCode = event.getKeyCode();
+        pressedKeys.remove(keyCode);
+
+        if (prefConfig.enableCustomKeyMap) {
+            if (keyCode == KeyEvent.KEYCODE_ESCAPE) {
+                handler.removeCallbacks(escConfirmRunnable); // 若未执行则移除
+                if (escState == 1) {
+                    // 没有组合键，短时间内抬起
+//                Log.d("debug", "Esc: Up (no combo)");
+                    short translated = keyboardTranslator.translate(KeyEvent.KEYCODE_ESCAPE, event.getDeviceId());
+                    conn.sendKeyboardInput(translated, KeyboardPacket.KEY_DOWN, (byte) 0, MoonBridge.SS_KBE_FLAG_NON_NORMALIZED);
+                    // 延迟发送 KEY_UP，不堵塞主线程
+                    handler.postDelayed(() -> {
+                        conn.sendKeyboardInput(translated, KeyboardPacket.KEY_UP, (byte) 0, MoonBridge.SS_KBE_FLAG_NON_NORMALIZED);
+                    }, 50); // 延迟 50ms
+                    escState = 0;
+                } else if (escState == 2) {
+                    // 组合键已触发，不处理ESC
+//                Log.d("debug", "Esc: Up (combo)");
+                    escState = 0;
+                }else{
+//                Log.d("debug", "Esc: Up (no custom combo)");
+                    short translated = keyboardTranslator.translate(KeyEvent.KEYCODE_ESCAPE, event.getDeviceId());
+                    conn.sendKeyboardInput(translated, KeyboardPacket.KEY_UP, (byte) 0, MoonBridge.SS_KBE_FLAG_NON_NORMALIZED);
+                    escState = 0;
+                }
+
+                return true;
+            }
+            if(escState == 2){
+                if (keyCode == KeyEvent.KEYCODE_Q) {
+//                Log.d("debug", "Esc + Q: Up");
+                    onBackPressed();
+                    return true;
+                }
+                if (keyCode >= KeyEvent.KEYCODE_1 && keyCode <= KeyEvent.KEYCODE_9) {
+//                Log.d("debug", "Esc + num: Up");
+                    int fKeyCode = KeyEvent.KEYCODE_F1 + (keyCode - KeyEvent.KEYCODE_1);
+                    short translated = keyboardTranslator.translate(fKeyCode, event.getDeviceId());
+                    conn.sendKeyboardInput(translated, KeyboardPacket.KEY_UP, (byte) 0, MoonBridge.SS_KBE_FLAG_NON_NORMALIZED);
+                    return true;
+                }
+                if (keyCode == KeyEvent.KEYCODE_0) {
+//                Log.d("debug", "Esc + 0: Up -> F10");
+                    int fKeyCode = KeyEvent.KEYCODE_F10;
+                    short translated = keyboardTranslator.translate(fKeyCode, event.getDeviceId());
+                    conn.sendKeyboardInput(translated, KeyboardPacket.KEY_UP, (byte) 0, MoonBridge.SS_KBE_FLAG_NON_NORMALIZED);
+                    return true;
+                }
+                if (keyCode == KeyEvent.KEYCODE_MINUS) {
+//                Log.d("debug", "Esc + -: Up -> F11");
+                    int fKeyCode = KeyEvent.KEYCODE_F11;
+                    short translated = keyboardTranslator.translate(fKeyCode, event.getDeviceId());
+                    conn.sendKeyboardInput(translated, KeyboardPacket.KEY_UP, (byte) 0, MoonBridge.SS_KBE_FLAG_NON_NORMALIZED);
+                    return true;
+                }
+                if (keyCode == KeyEvent.KEYCODE_EQUALS) {
+//                Log.d("debug", "Esc + =: Up -> F12");
+                    int fKeyCode = KeyEvent.KEYCODE_F12;
+                    short translated = keyboardTranslator.translate(fKeyCode, event.getDeviceId());
+                    conn.sendKeyboardInput(translated, KeyboardPacket.KEY_UP, (byte) 0, MoonBridge.SS_KBE_FLAG_NON_NORMALIZED);
+                    return true;
+                }
+            }
+        }
+
         // Pass-through virtual navigation keys
         if ((event.getFlags() & KeyEvent.FLAG_VIRTUAL_HARD_KEY) != 0) {
             return false;
@@ -2141,6 +2457,14 @@ public class Game extends Activity implements SurfaceHolder.Callback,
 
             // Always return true, otherwise the back press will be propagated
             // up to the parent and finish the activity.
+            return true;
+        }
+
+        // 鼠标中键（同时影响触摸返回）
+        if (detectMouseMiddleDown && eventSource == InputDevice.SOURCE_KEYBOARD &&
+                event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            detectMouseMiddleDown = false;
+            conn.sendMouseButtonUp(MouseButtonPacket.BUTTON_MIDDLE);
             return true;
         }
 
@@ -2702,7 +3026,6 @@ public class Game extends Activity implements SurfaceHolder.Callback,
 
     // Returns true if the event was consumed
     // NB: View is only present if called from a view callback
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private boolean handleMotionEvent(View view, MotionEvent event) {
         // Pass through mouse/touch/joystick input if we're not grabbing
         if (!grabbedInput) {
@@ -2710,6 +3033,120 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         }
 
         int eventSource = event.getSource();
+
+        // 支持华为平板识别原生鼠标下的滚动逻辑：一次8194鼠标滑动+五次4098屏幕滑动
+        if (prefConfig.fixMouseWheel && cursorVisible &&
+                eventSource == InputDevice.SOURCE_MOUSE &&
+                (event.getActionMasked() == MotionEvent.ACTION_HOVER_MOVE ||
+                        event.getActionMasked() == MotionEvent.ACTION_MOVE ||
+                        event.getActionMasked() == MotionEvent.ACTION_DOWN ||
+                        event.getActionMasked() == MotionEvent.ACTION_BUTTON_PRESS)){
+            lastMouseHoverTime = android.os.SystemClock.uptimeMillis();
+            detectScrolling = true;
+        }
+        else if (detectScrolling){
+            // 拦截系统通过触摸屏(Source 4098)模拟的鼠标滚轮事件
+            if (eventSource == InputDevice.SOURCE_TOUCHSCREEN && event.getPointerCount() == 1) {
+                int action = event.getActionMasked();
+                if (action == MotionEvent.ACTION_CANCEL) {
+                    waitRelease = true;
+                }
+                else if (action == MotionEvent.ACTION_DOWN) {
+                    long currentTime = android.os.SystemClock.uptimeMillis();
+                    long timeDiff = currentTime - lastMouseHoverTime;
+                    if (timeDiff <= 40 || waitRelease){
+                        fakeScrollInitialY = event.getY();
+                        // 同步发送绝对坐标给远程
+                        conn.sendMousePosition(
+                                (short)event.getX(),
+                                (short)event.getY(),
+                                (short)streamView.getWidth(),
+                                (short)streamView.getHeight()
+                        );
+                        return true;
+                    }
+                    else {
+//                        Log.d("debug", "timeDiff: " + timeDiff);
+                        detectScrolling = false;
+                        waitRelease = false;
+                        scrollTotal = 0;
+                    }
+                }
+                else if (action == MotionEvent.ACTION_MOVE) {
+                    float deltaY = event.getY() - fakeScrollInitialY;
+//                    Log.d("debug", "deltaY: " + deltaY);
+                    // 向上滑一次时deltaY=64，向下-64，滚动一格产生两次
+                    fakeScrollInitialY = event.getY();
+                    scrollTotal = scrollTotal + deltaY;
+                    if (scrollTotal > 127.99){
+                        scrollTotal = scrollTotal - 128;
+//                        Log.d("debug", "send: up");
+                        conn.sendMouseHighResScroll((short) 120);
+                    }
+                    else if (scrollTotal < -127.99){
+                        scrollTotal = scrollTotal + 128;
+//                        Log.d("debug", "send: down");
+                        conn.sendMouseHighResScroll((short) -120);
+                    }
+
+                    // 拦截事件，不再向下传递，避免触发点击或UI滑动
+                    return true;
+                }
+                else if (action == MotionEvent.ACTION_UP) {
+//                    Log.d("debug", "scrollTotal: " + scrollTotal);
+                    while(scrollTotal > 127.99 || scrollTotal < -127.99) {
+//                        Log.d("debug", "滚轮还未发完");
+                        if (scrollTotal > 127.99){
+                            scrollTotal = scrollTotal - 128;
+//                            Log.d("debug", "send: up");
+                            conn.sendMouseHighResScroll((short) 120);
+                        }
+                        else {
+                            scrollTotal = scrollTotal + 128;
+//                            Log.d("debug", "send: down");
+                            conn.sendMouseHighResScroll((short) -120);
+                        }
+                    }
+                    if (!waitRelease) {
+                        detectScrolling = false;
+                    }
+                    fakeScrollInitialY = -1;
+                    scrollTotal = 0;
+                    return true;
+                }
+                else {
+                    detectScrolling = false;
+                    waitRelease = false;
+                    scrollTotal = 0;
+                }
+            }
+            else if (waitRelease && eventSource == InputDevice.SOURCE_MOUSE && event.getActionMasked() == MotionEvent.ACTION_BUTTON_RELEASE) {
+                waitRelease = false;
+            }
+            else if (!waitRelease){
+                detectScrolling = false;
+                scrollTotal = 0;
+            }
+        }
+
+        // 支持华为鼠标中键
+        if (prefConfig.fixMouseMiddle) {
+            if (cursorVisible) {
+                // 本地模式：8194：7+7（x和y不变）
+                if (eventSource == InputDevice.SOURCE_MOUSE &&
+                        event.getActionMasked() == MotionEvent.ACTION_HOVER_MOVE) {
+                    lastMouseHoverTime = android.os.SystemClock.uptimeMillis();
+                    detectMouseMiddle = true;
+                }
+            }
+            else if (eventSource == InputDevice.SOURCE_MOUSE_RELATIVE &&
+                    event.getActionMasked() == MotionEvent.ACTION_BUTTON_RELEASE) {
+                // 远程模式：131076：2+11+12+2（x和y全0.0，中间可能夹杂2，依靠12来检测）
+                lastMouseHoverTime = android.os.SystemClock.uptimeMillis();
+                detectMouseMiddle = true;
+            }
+        }
+
         int deviceSources = event.getDevice() != null ? event.getDevice().getSources() : 0;
 
         // 本地鼠标指针模式的特殊处理
@@ -3147,11 +3584,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
 
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return handleMotionEvent(null, event) || super.onGenericMotionEvent(event);
-        }
-
-        return false;
+        return handleMotionEvent(null, event) || super.onGenericMotionEvent(event);
     }
 
     private void updateMousePosition(View touchedView, MotionEvent event) {
@@ -3237,10 +3670,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
 
     @Override
     public boolean onGenericMotion(View view, MotionEvent event) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return handleMotionEvent(view, event);
-        }
-        return false;
+        return handleMotionEvent(view, event);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -3251,14 +3681,12 @@ public class Game extends Activity implements SurfaceHolder.Callback,
             //
             // NB: This is still needed even when we call the newer requestUnbufferedDispatch()!
             // Add a configuration to allow view.requestUnbufferedDispatch to be disabled.
-            if (!prefConfig.syncTouchEventWithDisplay) {
+            // requestUnbufferedDispatch(MotionEvent) requires API 30 (Android 11)
+            if (!prefConfig.syncTouchEventWithDisplay && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 view.requestUnbufferedDispatch(event);
             }
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return handleMotionEvent(view, event); //Y700平板上, onTouch的调用频率为120Hz
-        }
-        return false;
+        return handleMotionEvent(view, event); //Y700平板上, onTouch的调用频率为120Hz
     }
 
     @Override
@@ -3554,8 +3982,13 @@ public class Game extends Activity implements SurfaceHolder.Callback,
             });
         }
 
-        // 记录游戏流媒体开始事件
+        // 初始化串流时长统计
         // streamStartTime = System.currentTimeMillis();
+        // accumulatedStreamTime = 0;
+        // lastActiveTime = streamStartTime;
+        // isStreamingActive = true;
+        
+        // 记录游戏流媒体开始事件
         // if (analyticsManager != null && pcName != null) {
             // analyticsManager.logGameStreamStart(pcName, appName);
         // }
@@ -3570,6 +4003,13 @@ public class Game extends Activity implements SurfaceHolder.Callback,
     @Override
     protected void onStart() {
         super.onStart();
+
+        // 恢复串流时长计时（从后台恢复时）
+        if (!isStreamingActive && streamStartTime > 0) {
+            lastActiveTime = System.currentTimeMillis();
+            isStreamingActive = true;
+            LimeLog.info("串流时长计时恢复，之前累计: " + (accumulatedStreamTime / 1000) + " 秒");
+        }
 
         if (shouldResumeSession) {
             LimeLog.info("从后台恢复，正在快速重连...");
@@ -3695,15 +4135,19 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         final int baseHeight;
         
         if (prefConfig.resolutionScale != 100) {
-            // 基础分辨率 = 实际分辨率 * 100 / resolutionScale
             baseWidth = (alignedWidth * 100 / prefConfig.resolutionScale) & ~1;
             baseHeight = (alignedHeight * 100 / prefConfig.resolutionScale) & ~1;
-            
             LimeLog.info("Resolution scale conversion: actual=" + alignedWidth + "x" + alignedHeight + 
                     ", base=" + baseWidth + "x" + baseHeight + ", scale=" + prefConfig.resolutionScale + "%");
         } else {
             baseWidth = alignedWidth;
             baseHeight = alignedHeight;
+        }
+
+        // 首次收到分辨率时，检查并同步方向（仅在 rotableScreen 模式下）
+        if (prefConfig.rotableScreen && lastRotation == -1 && connected && conn != null) {
+            LimeLog.info("onResolutionChanged: First resolution received, checking orientation " + baseWidth + "x" + baseHeight);
+            checkAndSyncOrientation(baseWidth, baseHeight);
         }
         
         // 跳过相同分辨率的重复通知
@@ -3711,8 +4155,8 @@ public class Game extends Activity implements SurfaceHolder.Callback,
             return;
         }
 
-        LimeLog.info("Resolution changed from " + prefConfig.width + "x" + prefConfig.height + 
-                " to " + baseWidth + "x" + baseHeight + " (actual: " + alignedWidth + "x" + alignedHeight + ")");
+        LimeLog.info("Resolution changed: " + prefConfig.width + "x" + prefConfig.height + 
+                " -> " + baseWidth + "x" + baseHeight);
 
         // 更新内存中的串流基础分辨率
         prefConfig.width = baseWidth;
@@ -3723,21 +4167,23 @@ public class Game extends Activity implements SurfaceHolder.Callback,
             decoderRenderer.onResolutionChanged(baseWidth, baseHeight);
         }
         
+        final boolean isLandscape = baseWidth > baseHeight;
+        
         runOnUiThread(() -> {
             Toast.makeText(this, getString(R.string.host_resolution_changed, baseWidth, baseHeight), 
                     Toast.LENGTH_SHORT).show();
 
-            // 根据新的宽高比重新决定横竖屏
-            setPreferredOrientationForCurrentDisplay();
-
             // rotableScreen 模式下强制切换方向以匹配主机分辨率
             if (prefConfig.rotableScreen) {
-                setRequestedOrientation(baseWidth > baseHeight 
+                isServerInitiatedRotation = true;
+                setRequestedOrientation(isLandscape 
                         ? ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE 
                         : ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
+                rotationHandler.postDelayed(() -> isServerInitiatedRotation = false, 1000);
+            } else {
+                setPreferredOrientationForCurrentDisplay();
             }
 
-            // 刷新视频视图的比例/尺寸
             updateStreamViewSize(baseWidth, baseHeight);
         });
     }
@@ -3754,9 +4200,12 @@ public class Game extends Activity implements SurfaceHolder.Callback,
             return;
         }
         
-        // 获取屏幕物理尺寸（像素）
+        // 获取屏幕真实物理尺寸（像素），使用 getRealSize 而不是 getSize
+        // getSize 返回的是可用区域（去掉了状态栏和导航栏），getRealSize 返回真实屏幕尺寸
+        Display display = externalDisplayManager != null ?
+                externalDisplayManager.getTargetDisplay() : getWindowManager().getDefaultDisplay();
         Point screenSize = new Point();
-        getWindowManager().getDefaultDisplay().getSize(screenSize);
+        display.getRealSize(screenSize);
         
         // 检查主机分辨率是否超过屏幕物理尺寸
         boolean exceedsScreenSize = width > screenSize.x || height > screenSize.y;
@@ -3780,6 +4229,8 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                         " exceeds screen size " + screenSize.x + "x" + screenSize.y + 
                         ", using aspect ratio scaling");
             }
+            // 清除之前的固定尺寸设置，确保宽高比缩放正常工作
+            streamView.getHolder().setSizeFromLayout();
             streamView.setDesiredAspectRatio((double) width / height);
             streamView.requestLayout();
         }
@@ -4530,10 +4981,8 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         return streamView;
     }
 
-    public void getHandleMotionEvent(StreamView streamView, MotionEvent event) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            handleMotionEvent(streamView, event);
-        }
+    public boolean getHandleMotionEvent(StreamView streamView, MotionEvent event) {
+        return handleMotionEvent(streamView, event);
     }
 
     /**

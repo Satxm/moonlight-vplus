@@ -3,6 +3,8 @@ package com.limelight.nvstream.http;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.limelight.utils.NetHelper;
+
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.security.cert.X509Certificate;
@@ -69,6 +71,7 @@ public class ComputerDetails {
     public AddressTuple ipv6Address;
     public String macAddress;
     public X509Certificate serverCert;
+    public boolean ipv6Disabled;
 
     // Transient attributes
     public State state;
@@ -81,6 +84,7 @@ public class ComputerDetails {
     public String rawAppList;
     public boolean nvidiaServer;
     public boolean useVdd;
+    public String sunshineVersion; // Sunshine version from serverinfo
 
     public ComputerDetails() {
         state = State.UNKNOWN;
@@ -132,7 +136,8 @@ public class ComputerDetails {
         if (details.manualAddress != null) {
             this.manualAddress = details.manualAddress;
         }
-        if (details.ipv6Address != null) {
+        // 如果已禁用 IPv6，则不更新 ipv6Address（保持为 null）
+        if (details.ipv6Address != null && !this.ipv6Disabled) {
             this.ipv6Address = details.ipv6Address;
         }
         if (details.macAddress != null && !ZERO_MAC.equals(details.macAddress)) {
@@ -149,6 +154,9 @@ public class ComputerDetails {
         this.nvidiaServer = details.nvidiaServer;
         this.useVdd = details.useVdd;
         this.rawAppList = details.rawAppList;
+        if (details.sunshineVersion != null) {
+            this.sunshineVersion = details.sunshineVersion;
+        }
         
         if (details.availableAddresses != null) {
             this.availableAddresses = new ArrayList<>(details.availableAddresses);
@@ -157,7 +165,12 @@ public class ComputerDetails {
 
     public void addAvailableAddress(AddressTuple address) {
         if (address == null) return;
-        
+
+        // 如果禁用了IPv6，不添加IPv6地址
+        if (ipv6Disabled && isIpv6Address(address)) {
+            return;
+        }
+
         if (availableAddresses == null) {
             availableAddresses = new ArrayList<>();
         }
@@ -206,33 +219,20 @@ public class ComputerDetails {
                 return false;
             }
             
-            if (inetAddress.isSiteLocalAddress() || inetAddress.isLinkLocalAddress()) {
-                return true;
-            }
-            
-            return isPrivateIpv4(address.address);
+            // 复用 NetHelper 的 LAN 地址检测
+            return NetHelper.isLanAddress(address.address);
         } catch (Exception e) {
             return false;
         }
     }
 
+    /**
+     * @deprecated 使用 {@link NetHelper#isLanAddress(String)} 代替
+     */
+    @Deprecated
     private static boolean isPrivateIpv4(String addr) {
-        if (addr.startsWith("10.") || addr.startsWith("192.168.")) {
-            return true;
-        }
-        
-        if (addr.startsWith("172.")) {
-            String[] parts = addr.split("\\.");
-            if (parts.length >= 2) {
-                try {
-                    int secondOctet = Integer.parseInt(parts[1]);
-                    return secondOctet >= 16 && secondOctet <= 31;
-                } catch (NumberFormatException e) {
-                    return false;
-                }
-            }
-        }
-        return false;
+        // 委托给 NetHelper
+        return NetHelper.isLanAddress(addr);
     }
 
     public static boolean isIpv6Address(AddressTuple address) {
@@ -275,8 +275,8 @@ public class ComputerDetails {
             return selectFromLanAddresses(lanAddresses);
         }
         
-        // 其次选择IPv6地址
-        if (ipv6Address != null && availableAddresses.contains(ipv6Address)) {
+        // 其次选择IPv6地址（如果未禁用）
+        if (!ipv6Disabled && ipv6Address != null && availableAddresses.contains(ipv6Address)) {
             return ipv6Address;
         }
         
@@ -284,7 +284,16 @@ public class ComputerDetails {
         if (remoteAddress != null && availableAddresses.contains(remoteAddress)) {
             return remoteAddress;
         }
-        
+
+        // 从剩余地址中选择第一个非IPv6地址（如果IPv6被禁用）
+        if (ipv6Disabled) {
+            for (AddressTuple address : availableAddresses) {
+                if (!isIpv6Address(address)) {
+                    return address;
+                }
+            }
+        }
+
         return availableAddresses.get(0);
     }
 
@@ -292,7 +301,7 @@ public class ComputerDetails {
         if (localAddress != null && isLanIpv4Address(localAddress)) {
             return localAddress;
         }
-        if (ipv6Address != null) {
+        if (!ipv6Disabled && ipv6Address != null) {
             return ipv6Address;
         }
         if (remoteAddress != null) {
@@ -316,6 +325,13 @@ public class ComputerDetails {
         return prefs.getString(uuid, "");
     }
 
+    public String getSunshineVersionDisplay() {
+        if (sunshineVersion != null && !sunshineVersion.isEmpty()) {
+            return sunshineVersion;
+        }
+        return "Unknown";
+    }
+
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
@@ -325,12 +341,13 @@ public class ComputerDetails {
         str.append("UUID: ").append(uuid).append("\n");
         str.append("Local Address: ").append(localAddress).append("\n");
         str.append("Remote Address: ").append(remoteAddress).append("\n");
-        str.append("IPv6 Address: ").append(ipv6Address).append("\n");
+        str.append("IPv6 Address: ").append(ipv6Disabled ? "Disabled" : ipv6Address).append("\n");
         str.append("Manual Address: ").append(manualAddress).append("\n");
         str.append("MAC Address: ").append(macAddress).append("\n");
         str.append("Pair State: ").append(pairState).append("\n");
         str.append("Running Game ID: ").append(runningGameId).append("\n");
         str.append("HTTPS Port: ").append(httpsPort).append("\n");
+        str.append("Sunshine Version: ").append(getSunshineVersionDisplay()).append("\n");
         return str.toString();
     }
 }

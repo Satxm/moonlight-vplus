@@ -25,10 +25,15 @@
     <string name="pcview_menu_delete_pc">Delete PC</string>
     <string name="pcview_menu_test_network">Test Network Connection</string>
     <string name="pcview_menu_details">View Details</string>
+    <string name="pcview_menu_secondary_screen">Secondary Screen Stream (Foundation Sunshine Compatible)</string>
     <string name="pcview_menu_eol">NVIDIA GameStream End-of-Service</string>
     <string name="pcview_menu_send_sleep">Send sleep command</string>
     <string name="pcview_menu_sleep_success">Host sleep success</string>
     <string name="pcview_menu_sleep_fail">Host sleep failed</string>
+    <string name="pcview_menu_disable_ipv6">Disable IPv6</string>
+    <string name="pcview_menu_enable_ipv6">Enable IPv6</string>
+    <string name="pcview_ipv6_disabled">IPv6 disabled for this PC</string>
+    <string name="pcview_ipv6_enabled">IPv6 enabled for this PC</string>
 
     <!-- Network test strings -->
     <string name="nettest_title_waiting">Testing Network Connection</string>
@@ -65,6 +70,7 @@
 
     <!-- Errors -->
     <string name="error_pc_offline">Computer is offline</string>
+    <string name="no_app_found_for_streaming">No app found for streaming</string>
     <string name="error_manager_not_running">The ComputerManager service is not running. Please wait a few seconds or restart the app.</string>
     <string name="error_unknown_host">Failed to resolve host</string>
     <string name="error_404">GFE returned an HTTP 404 error. Make sure your PC is running a supported GPU.\nUsing remote desktop software can also cause this error. Try rebooting your machine or reinstalling GFE.</string>
@@ -189,7 +195,6 @@
     <string name="addpc_unknown_host">Unable to resolve PC address. Make sure you didn\'t make a typo in the address.</string>
     <string name="addpc_enter_ip">You must enter an IP address</string>
     <string name="addpc_wrong_sitelocal">That address doesn\'t look right. You must use your router\'s public IP address for streaming over the Internet.</string>
-
     <string name="title_choose_address">Choose a connection address</string>
 
     <!-- Preferences -->
@@ -277,6 +282,8 @@
     <string name="summary_checkbox_usb_bind_all">Use Moonlight\'s USB driver for all supported gamepads, even if native Xbox controller support is present</string>
     <string name="title_checkbox_mouse_emulation">Mouse emulation via gamepad</string>
     <string name="summary_checkbox_mouse_emulation">Long pressing the Start button will switch the gamepad into mouse mode</string>
+    <string name="title_checkbox_enable_start_key_menu">Enable long-press Start key menu</string>
+    <string name="summary_checkbox_enable_start_key_menu">Long pressing the Start button will open the game menu</string>
     <string name="title_analog_scrolling">Use an analog stick to scroll</string>
     <string name="summary_analog_scrolling">Select an analog stick to scroll when in mouse emulation mode</string>
     <string name="title_checkbox_vibrate_fallback">Emulate rumble support with vibration</string>
@@ -418,9 +425,13 @@
     <string name="summary_enable_hdr">Stream HDR when the game and PC GPU support it. HDR requires a GPU with HEVC Main 10 encoding support.</string>
     <string name="title_enable_hdr_high_brightness">Enable HDR High Brightness</string>
     <string name="summary_enable_hdr_high_brightness">Force maximum screen brightness when HDR streaming is enabled</string>
+    <string name="title_hdr_mode">HDR Mode</string>
+    <string name="summary_hdr_mode">Select HDR transfer function: HDR10 (PQ) for most displays, HLG for broadcast-style content</string>
+    <string name="hdr_mode_hdr10">HDR10 (PQ)</string>
+    <string name="hdr_mode_hlg">HLG (Hybrid Log-Gamma)</string>
     <string name="title_full_range">Force full range video (Experimental)</string>
-    <string name="summary_full_range">This will cause loss of detail in light and dark areas if your device doesn\'t properly display full range video content.</string>
     <string name="title_enable_perf_overlay">Show performance stats while streaming</string>
+    <string name="summary_full_range">This will cause loss of detail in light and dark areas if your device doesn\'t properly display full range video content.</string>
     <string name="summary_enable_perf_overlay">Display real-time stream performance information while streaming</string>
     <string name="title_perf_overlay_orientation">Performance Overlay Orientation</string>
     <string name="summary_perf_overlay_orientation">Choose the display orientation for performance statistics</string>
@@ -725,4 +736,8 @@
     <string name="unpaired_devices_hidden">Unpaired devices hidden</string>
     <string name="new_unpaired_device_shown">New unpaired device detected, showing unpaired devices</string>
     <string name="host_resolution_changed">Host resolution changed to %1$dx%2$d</string>
+
+    <!-- Drawer Menu -->
+    <string name="menu">Menu</string>
+    <string name="title_settings">Settings</string>
 </resources>
