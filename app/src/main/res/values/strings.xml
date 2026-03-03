@@ -19,6 +19,14 @@
     <string name="pcview_menu_header_offline">Offline</string>
     <string name="pcview_menu_header_unknown">Refreshing</string>
     <string name="pcview_menu_app_list">View All Apps</string>
+
+    <!-- Widget strings -->
+    <string name="widget_name">Game List</string>
+    <string name="widget_configure_title">Select Computer</string>
+    <string name="widget_no_apps">No apps found</string>
+    <string name="widget_tap_to_refresh">Tap to refresh</string>
+    <string name="widget_configure_prompt">Choose a computer to display games from:</string>
+
     <string name="pcview_menu_pair_pc">Pair with PC</string>
     <string name="pcview_menu_unpair_pc">Unpair</string>
     <string name="pcview_menu_send_wol">Send Wake-On-LAN request</string>
@@ -718,6 +726,8 @@
 
     <string name="game_menu_toggle_remote_mouse">Show/Hide Remote Mouse</string>
     <string name="toast_remote_mouse_toast">Remote mouse displayed/hidden</string>
+    <string name="notification_channel_name">Streaming backend service</string>
+    <string name="notification_channel_desc">Keep the connection active when Moonlight is running in the background</string>
 
     <!-- Output Buffer Queue Limit -->
     <string name="title_seekbar_output_buffer_queue_limit">Output Buffer Queue Limit</string>
@@ -737,7 +747,31 @@
     <string name="new_unpaired_device_shown">New unpaired device detected, showing unpaired devices</string>
     <string name="host_resolution_changed">Host resolution changed to %1$dx%2$d</string>
 
+    <string name="vdd_screen_mode_host_default">Use Sunshine host configuration (default)</string>
+    <string name="vdd_screen_mode_no_operation">Keep current layout</string>
+    <string name="vdd_screen_mode_vdd_as_primary">VDD primary + Physical extended</string>
+    <string name="vdd_screen_mode_vdd_as_secondary">Physical primary + VDD extended</string>
+    <string name="vdd_screen_mode_display_off">VDD only (disable physical displays)</string>
+    <string name="screen_combination_mode_label">Mode: %1$s</string>
+
     <!-- Drawer Menu -->
     <string name="menu">Menu</string>
     <string name="title_settings">Settings</string>
+
+    <string name="game_menu_change_resolution">Change resolution</string>
+    <string name="notification_content_streaming">Streaming in progress: %s (%s)</string>
+
+    <!-- Audio Vibration Settings -->
+    <string name="title_checkbox_audio_vibration">Enable audio-driven vibration</string>
+    <string name="summary_checkbox_audio_vibration">Vibrate device based on in-game bass and audio events</string>
+    <string name="title_seekbar_audio_vibration_strength">Vibration strength</string>
+    <string name="summary_seekbar_audio_vibration_strength">Adjust the intensity of audio-driven vibration</string>
+    <string name="suffix_seekbar_audio_vibration_strength">%</string>
+    <string name="title_list_audio_vibration_mode">Vibration routing</string>
+    <string name="summary_list_audio_vibration_mode">Choose how vibration is delivered</string>
+    <string name="title_list_audio_vibration_scene">Scene mode</string>
+    <string name="summary_list_audio_vibration_scene">Optimize vibration pattern for content type</string>
+
+    <!-- AppView Top Panel -->
+    <string name="appview_display_selection_title">Display Selection</string>
 </resources>

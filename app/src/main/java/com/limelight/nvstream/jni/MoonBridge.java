@@ -132,6 +132,18 @@ public class MoonBridge {
     private static AudioRenderer audioRenderer;
     private static VideoDecoderRenderer videoRenderer;
     private static NvConnectionListener connectionListener;
+    private static BassEnergyListener bassEnergyListener;
+
+    /**
+     * Listener for bass energy callbacks from native audio processing.
+     */
+    public interface BassEnergyListener {
+        void onBassEnergy(int intensity);
+    }
+
+    public static void setBassEnergyListener(BassEnergyListener listener) {
+        bassEnergyListener = listener;
+    }
 
     static {
         System.loadLibrary("moonlight-core");
@@ -265,6 +277,18 @@ public class MoonBridge {
         }
     }
 
+    /**
+     * Called from native layer (callbacks.c) when bass energy analysis
+     * produces a reportable intensity value.
+     *
+     * @param intensity Vibration intensity (0-100)
+     */
+    public static void bridgeBassEnergy(int intensity) {
+        if (bassEnergyListener != null) {
+            bassEnergyListener.onBassEnergy(intensity);
+        }
+    }
+
     public static void bridgeClStageStarting(int stage) {
         if (connectionListener != null) {
             connectionListener.stageStarting(getStageName(stage));
@@ -347,6 +371,7 @@ public class MoonBridge {
         MoonBridge.videoRenderer = null;
         MoonBridge.audioRenderer = null;
         MoonBridge.connectionListener = null;
+        MoonBridge.bassEnergyListener = null;
     }
 
     public static native int startConnection(String address, String appVersion, String gfeVersion,
@@ -440,4 +465,33 @@ public class MoonBridge {
     public static native int sendMicrophoneOpusData(byte[] opusData);
     
     public static native boolean isMicrophoneEncryptionEnabled();
+
+    // Bass energy analyzer control (audio-driven vibration)
+    public static native void setBassEnergyEnabled(boolean enabled);
+    public static native void setBassEnergySensitivity(float sensitivity);
+    public static native void setBassEnergySceneMode(int mode);
+
+    // Surface DataSpace control (HDR color space configuration)
+    // Equivalent to HarmonyOS OH_NativeWindow_SetColorSpace()
+    // Uses ANativeWindow_setBuffersDataSpace() via JNI (API 28+)
+
+    // DataSpace constants (from android/data_space.h)
+    // STANDARD_BT2020 (6 << 16) | TRANSFER_HLG (7 << 22) | RANGE_FULL (1 << 27)
+    public static final int DATASPACE_BT2020_HLG_FULL = 163971072;      // 0x09C60000
+    // STANDARD_BT2020 (6 << 16) | TRANSFER_HLG (7 << 22) | RANGE_LIMITED (2 << 27)
+    public static final int DATASPACE_BT2020_HLG_LIMITED = 298188800;    // 0x11C60000
+    // STANDARD_BT2020 (6 << 16) | TRANSFER_ST2084 (6 << 22) | RANGE_FULL (1 << 27)
+    public static final int DATASPACE_BT2020_PQ_FULL = 159776768;       // 0x09860000
+    // STANDARD_BT2020 (6 << 16) | TRANSFER_ST2084 (6 << 22) | RANGE_LIMITED (2 << 27)
+    public static final int DATASPACE_BT2020_PQ_LIMITED = 293994496;     // 0x11860000
+
+    /**
+     * Set the DataSpace on a Surface to tell the display pipeline
+     * the correct HDR transfer function and color space.
+     *
+     * @param surface The Surface to configure (from SurfaceHolder.getSurface())
+     * @param dataSpace One of the DATASPACE_BT2020_* constants
+     * @return 0 on success, negative on failure (-1 = API not available, -2 = invalid surface)
+     */
+    public static native int nativeSetSurfaceDataSpace(android.view.Surface surface, int dataSpace);
 }

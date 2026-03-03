@@ -16,17 +16,25 @@
     <string name="pcview_menu_header_offline">离线</string>
     <string name="pcview_menu_header_unknown">刷新中</string>
     <string name="pcview_menu_app_list">浏览游戏列表</string>
+
+    <!-- Widget strings -->
+    <string name="widget_name">应用列表</string>
+    <string name="widget_configure_title">选择主机</string>
+    <string name="widget_no_apps">未找到应用程序</string>
+    <string name="widget_tap_to_refresh">点击刷新</string>
+    <string name="widget_configure_prompt">选择一台主机来显示它的应用：</string>
+
     <string name="pcview_menu_pair_pc">和电脑配对</string>
     <string name="pcview_menu_unpair_pc">取消配对</string>
     <string name="pcview_menu_send_wol">发送 Wake-On-LAN 请求</string>
     <string name="pcview_menu_delete_pc">删除电脑</string>
     <string name="pcview_menu_test_network">测试网络连接</string>
     <string name="pcview_menu_details">查看详情</string>
+    <string name="pcview_menu_secondary_screen"> 作为副屏串流（基地适用） </string>
     <string name="pcview_menu_eol">NVIDIA GameStream 已终止服务</string>
     <string name="pcview_menu_send_sleep">发送睡眠指令</string>
-    <string name="pcview_menu_sleep_success">主机已睡眠</string>
+    <string name="pcview_menu_sleep_success">已催促主机睡眠</string>
     <string name="pcview_menu_sleep_fail">主机睡眠失败</string>
-    <string name="pcview_menu_secondary_screen"> 作为副屏串流（基地适用） </string>
     <string name="pcview_menu_disable_ipv6">禁用 IPv6</string>
     <string name="pcview_menu_enable_ipv6">启用 IPv6</string>
     <string name="pcview_ipv6_disabled">已禁用此电脑的 IPv6 连接</string>
@@ -701,6 +709,8 @@
 
     <string name="game_menu_toggle_remote_mouse">显示/隐藏远程鼠标</string>
     <string name="toast_remote_mouse_toast">远程鼠标已显示/隐藏。</string>
+    <string name="notification_channel_name">串流后台服务</string>
+    <string name="notification_channel_desc">当 Moonlight 在后台运行时保持连接活跃</string>
 
     <!-- 输出缓冲区队列大小 -->
     <string name="title_seekbar_output_buffer_queue_limit">输出缓冲区队列大小</string>
@@ -720,7 +730,31 @@
     <string name="new_unpaired_device_shown">检测到新的未配对设备，已自动显示未配对设备</string>
     <string name="host_resolution_changed">主机分辨率已变更为 %1$dx%2$d</string>
 
+    <string name="vdd_screen_mode_host_default">使用 Sunshine 主机端配置（默认）</string>
+    <string name="vdd_screen_mode_no_operation">保持当前布局</string>
+    <string name="vdd_screen_mode_vdd_as_primary">VDD主屏 + 物理副屏</string>
+    <string name="vdd_screen_mode_vdd_as_secondary">物理主屏 + VDD副屏</string>
+    <string name="vdd_screen_mode_display_off">仅VDD（关闭物理显示器）</string>
+    <string name="screen_combination_mode_label">组合模式: %1$s</string>
+
     <!-- Drawer Menu -->
     <string name="menu">菜单</string>
     <string name="title_settings">设置</string>
+
+    <string name="game_menu_change_resolution">更改分辨率</string>
+    <string name="notification_content_streaming">正在串流： %s (%s)</string>
+
+    <!-- 音频振动设置 -->
+    <string name="title_checkbox_audio_vibration">启用音频驱动振动</string>
+    <string name="summary_checkbox_audio_vibration">根据游戏内低音和音频事件振动设备</string>
+    <string name="title_seekbar_audio_vibration_strength">振动强度</string>
+    <string name="summary_seekbar_audio_vibration_strength">调整音频驱动振动的强度</string>
+    <string name="suffix_seekbar_audio_vibration_strength">%</string>
+    <string name="title_list_audio_vibration_mode">振动路由</string>
+    <string name="summary_list_audio_vibration_mode">选择振动的传递方式</string>
+    <string name="title_list_audio_vibration_scene">场景模式</string>
+    <string name="summary_list_audio_vibration_scene">根据内容类型优化振动模式</string>
+
+    <!-- AppView Top Panel -->
+    <string name="appview_display_selection_title">显示器选择</string>
 </resources>

@@ -1789,12 +1789,22 @@ public class PcView extends Activity implements AdapterFragmentCallbacks, ShakeD
         TextView descriptionText = dialogView.findViewById(R.id.text_description);
         descriptionText.setText(R.string.about_dialog_description);
 
-        new AlertDialog.Builder(this, R.style.AppDialogStyle)
+        // PcView 继承自 Activity 而非 AppCompatActivity，在 Android 6 等设备上使用
+        // R.style.AppDialogStyle（父主题为 Theme.AppCompat.Light.Dialog.Alert）会触发
+        // "You need to use a Theme.AppCompat theme" 类崩溃，故此处使用系统 Material 对话框主题。
+        int dialogTheme = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                ? android.R.style.Theme_Material_Light_Dialog_Alert
+                : android.R.style.Theme_DeviceDefault_Light_Dialog_Alert;
+        AlertDialog dialog = new AlertDialog.Builder(this, dialogTheme)
                 .setView(dialogView)
                 .setPositiveButton(R.string.about_dialog_github, (d, w) -> openUrl("https://github.com/qiin2333/moonlight-vplus"))
                 .setNeutralButton(R.string.about_dialog_qq, (d, w) -> joinQQGroup("LlbLDIF_YolaM4HZyLx0xAXXo04ZmoBM"))
                 .setNegativeButton(R.string.about_dialog_close, (d, w) -> d.dismiss())
-                .show();
+                .create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(R.drawable.app_dialog_bg_cute);
+        }
+        dialog.show();
     }
 
     @SuppressLint("DefaultLocale")
@@ -1853,7 +1863,9 @@ public class PcView extends Activity implements AdapterFragmentCallbacks, ShakeD
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == VPN_PERMISSION_REQUEST_CODE && easyTierController != null) {
             easyTierController.handleVpnPermissionResult(resultCode);
-        }
+        } // else if (requestCode == UpdateManager.INSTALL_PERMISSION_REQUEST_CODE) {
+            // UpdateManager.onInstallPermissionResult(this);
+        // }
     }
 
     // Utility

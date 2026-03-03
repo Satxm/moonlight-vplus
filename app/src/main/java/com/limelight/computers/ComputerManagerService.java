@@ -874,7 +874,7 @@ public class ComputerManagerService extends Service {
                     if (isLanAddress && diagnostics != null && 
                         (diagnostics.networkType == NetworkDiagnostics.NetworkType.WAN ||
                          diagnostics.networkType == NetworkDiagnostics.NetworkType.MOBILE)) {
-                        LimeLog.info("Skipping LAN address " + tuple.address + " on WAN/Mobile network");
+                        LimeLog.info("Skipping LAN address " + tuple.address + " on WAN/MOBILE network");
                         details = null;
                     } else {
                         // 对于其他情况，执行正常轮询
@@ -1123,6 +1123,12 @@ public class ComputerManagerService extends Service {
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
+
+                                // Trigger widget refresh
+                                Intent refreshIntent = new Intent(com.limelight.widget.GameListWidgetProvider.ACTION_REFRESH_WIDGET);
+                                refreshIntent.setComponent(new android.content.ComponentName(ComputerManagerService.this, com.limelight.widget.GameListWidgetProvider.class));
+                                refreshIntent.putExtra(com.limelight.widget.GameListWidgetProvider.EXTRA_COMPUTER_UUID, computer.uuid);
+                                sendBroadcast(refreshIntent);
 
                                 // Reset empty count if it wasn't empty this time
                                 if (!list.isEmpty()) {
