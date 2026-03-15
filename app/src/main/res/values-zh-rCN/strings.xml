@@ -347,6 +347,37 @@
     <string name="title_about_author">这是 威力加强 × 王冠 版</string>
     <string name="summary_about_author">威力加强版：作者：Qiin2333，Github：https://github.com//moonlight-android \n王冠版：作者：ACrown，请关注他的B站：西瓜hub，Github：https://github.com/WACrown/moonlight-android</string>
 
+    <string name="category_float_ball_settings">悬浮球设置</string>
+    <string name="title_checkbox_enable_float_ball">启用悬浮球</string>
+    <string name="summary_checkbox_enable_float_ball">显示一个可交互的悬浮球，用于快速操作</string>
+    <string name="title_seekbar_float_ball_auto_hide_delay">自动隐藏延迟</string>
+    <string name="summary_seekbar_float_ball_auto_hide_delay">悬浮球自动隐藏到屏幕边缘的时间</string>
+    <string name="suffix_seekbar_float_ball_auto_hide_delay_ms">ms</string>
+
+    <!-- 悬浮球手势动作 -->
+    <string name="title_float_ball_single_click_action">单击动作</string>
+    <string name="summary_float_ball_single_click_action">点击悬浮球一次时执行的动作</string>
+    <string name="title_float_ball_double_click_action">双击动作</string>
+    <string name="summary_float_ball_double_click_action">双击悬浮球时执行的动作</string>
+    <string name="title_float_ball_long_click_action">长按动作</string>
+    <string name="summary_float_ball_long_click_action">长按悬浮球时执行的动作</string>
+    <string name="title_float_ball_swipe_up_action">向上滑动动作</string>
+    <string name="summary_float_ball_swipe_up_action">向上滑动悬浮球时执行的动作</string>
+    <string name="title_float_ball_swipe_down_action">向下滑动动作</string>
+    <string name="summary_float_ball_swipe_down_action">向下滑动悬浮球时执行的动作</string>
+    <string name="title_float_ball_swipe_left_action">向左滑动动作</string>
+    <string name="summary_float_ball_swipe_left_action">向左滑动悬浮球时执行的动作</string>
+    <string name="title_float_ball_swipe_right_action">向右滑动动作</string>
+    <string name="summary_float_ball_swipe_right_action">向右滑动悬浮球时执行的动作</string>
+
+    <!-- 悬浮球动作选项 -->
+    <string name="float_ball_action_none">无动作</string>
+    <string name="float_ball_action_open_keyboard">显示虚拟键盘</string>
+    <string name="float_ball_action_open_menu">显示游戏菜单</string>
+    <string name="float_ball_action_toggle_visibility">切换悬浮球可见性</string>
+    <string name="float_ball_action_screenshot">截图</string>
+    <string name="float_ball_action_lock_screen">锁屏</string>
+
     <string name="category_host_settings">🖥️ 主机设置</string>
     <string name="title_checkbox_enable_sops">优化游戏设置</string>
     <string name="summary_checkbox_enable_sops">允许GFE为最佳串流效果自动更改游戏设置</string>

@@ -196,7 +196,7 @@ public class ElementController {
             @Override
             public void onClick(View v) {
                 changeMode(Mode.Normal);
-                controllerManager.getPageSuperMenuController().open();
+                controllerManager.pageSuperMenuController.open();
                 // 1. 通过公共方法通知 Game Activity 切换回普通菜单模式
                 ((Game) context).setcurrentBackKeyMenu(Game.BackKeyMenuMode.GAME_MENU);
 
@@ -956,7 +956,7 @@ public class ElementController {
                 @Override
                 public void sendEvent(boolean down) {
                     if (down) {
-                        controllerManager.getKeyboardUIController().toggle();
+                        game.toggleVirtualKeyboard();
                     }
                 }
 
@@ -1234,7 +1234,7 @@ public class ElementController {
     }
 
 
-    private void rumbleSingleVibrator(short lowFreqMotor, short highFreqMotor, int vibratorTime) {
+    public void rumbleSingleVibrator(short lowFreqMotor, short highFreqMotor, int vibratorTime) {
         // Since we can only use a single amplitude value, compute the desired amplitude
         // by taking 80% of the big motor and 33% of the small motor, then capping to 255.
         // NB: This value is now 0-255 as required by VibrationEffect.

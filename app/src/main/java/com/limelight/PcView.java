@@ -1797,7 +1797,7 @@ public class PcView extends Activity implements AdapterFragmentCallbacks, ShakeD
                 : android.R.style.Theme_DeviceDefault_Light_Dialog_Alert;
         AlertDialog dialog = new AlertDialog.Builder(this, dialogTheme)
                 .setView(dialogView)
-                .setPositiveButton(R.string.about_dialog_github, (d, w) -> openUrl("https://github.com/qiin2333/moonlight-vplus"))
+                .setPositiveButton(R.string.about_dialog_github, (d, w) -> openUrl(this.getString(R.string.github_url)))
                 .setNeutralButton(R.string.about_dialog_qq, (d, w) -> joinQQGroup("LlbLDIF_YolaM4HZyLx0xAXXo04ZmoBM"))
                 .setNegativeButton(R.string.about_dialog_close, (d, w) -> d.dismiss())
                 .create();

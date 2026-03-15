@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     ndkVersion "27.0.12077973"
@@ -11,11 +12,15 @@ android {
         minSdk 22
         targetSdk 35
 
-        versionName "12.7.0"
-        versionCode = 366
+        versionName "12.7.1"
+        versionCode = 367
 
         // Generate native debug symbols to allow Google Play to symbolicate our native crashes
         ndk.debugSymbolLevel = 'FULL'
+
+        ndk {
+            abiFilters 'arm64-v8a', 'armeabi-v7a'
+        }
     }
 
     flavorDimensions.add("root")
@@ -60,6 +65,10 @@ android {
         targetCompatibility JavaVersion.VERSION_11
         // 启用 desugaring 以支持 Java 8+ API 在旧版 Android 上运行
         coreLibraryDesugaringEnabled true
+    }
+
+    kotlinOptions {
+        jvmTarget = '11'
     }
 
     lint {
@@ -186,4 +195,7 @@ dependencies {
     // 注意: Firebase 33.0.0+ 需要 minSdk 23，我们使用 32.8.1 保持 API 22 兼容
     implementation platform('com.google.firebase:firebase-bom:32.8.1')
     implementation 'com.google.firebase:firebase-analytics'
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

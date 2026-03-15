@@ -2,6 +2,7 @@ package com.limelight;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.TrafficStats;
@@ -12,6 +13,8 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -340,6 +343,16 @@ public class PerformanceOverlayManager {
         if (performanceOverlayView != null && requestedPerformanceOverlayVisibility == View.VISIBLE) {
             configureDisplayItems();
             configureTextAlignment();
+        }
+    }
+
+    /**
+     * 屏幕方向变化时重新配置覆盖层布局和位置。
+     * 应由 Activity.onConfigurationChanged() 调用。
+     */
+    public void onConfigurationChanged() {
+        if (performanceOverlayView != null) {
+            configurePerformanceOverlay();
         }
     }
 
@@ -700,6 +713,18 @@ public class PerformanceOverlayManager {
         return null;
     }
 
+    /**
+     * 判断当前是否应使用垂直布局。
+     * 竖屏时强制垂直布局，横屏时遵循用户设置。
+     */
+    private boolean isEffectiveVerticalLayout() {
+        boolean isPortrait = activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+        if (isPortrait) {
+            return true;
+        }
+        return prefConfig.perfOverlayOrientation == PreferenceConfiguration.PerfOverlayOrientation.VERTICAL;
+    }
+
     private void configurePerformanceOverlay() {
         if (performanceOverlayView == null) {
             return;
@@ -707,8 +732,9 @@ public class PerformanceOverlayManager {
 
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) performanceOverlayView.getLayoutParams();
 
-        // 设置方向
-        if (prefConfig.perfOverlayOrientation == PreferenceConfiguration.PerfOverlayOrientation.VERTICAL) {
+        // 设置方向：竖屏时强制垂直布局
+        boolean isPortrait = activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+        if (isEffectiveVerticalLayout()) {
             performanceOverlayView.setOrientation(LinearLayout.VERTICAL);
             performanceOverlayView.setBackgroundColor(activity.getResources().getColor(R.color.overlay_background_vertical));
         } else {
@@ -723,7 +749,12 @@ public class PerformanceOverlayManager {
         SharedPreferences prefs = activity.getSharedPreferences("performance_overlay", Activity.MODE_PRIVATE);
         boolean hasCustomPosition = prefs.getBoolean("has_custom_position", false);
 
-        if (hasCustomPosition) {
+        if (isPortrait) {
+            // 竖屏时强制右上角
+            layoutParams.gravity = Gravity.RIGHT | Gravity.TOP;
+            layoutParams.leftMargin = 0;
+            layoutParams.topMargin = 0;
+        } else if (hasCustomPosition) {
             // 使用自定义位置
             layoutParams.gravity = Gravity.NO_GRAVITY;
             layoutParams.leftMargin = prefs.getInt("left_margin", 0);
@@ -784,7 +815,7 @@ public class PerformanceOverlayManager {
             return;
         }
 
-        boolean isVertical = prefConfig.perfOverlayOrientation == PreferenceConfiguration.PerfOverlayOrientation.VERTICAL;
+        boolean isVertical = isEffectiveVerticalLayout();
         boolean isRightSide = determineRightSidePosition(isVertical);
 
         // 只在垂直布局且位置在右侧时，将文字设置为右对齐
@@ -840,33 +871,65 @@ public class PerformanceOverlayManager {
             textView.setShadowLayer(1.5f, 0.5f, 0.5f, 0x60000000);
         }
 
+        // 计算 PPI 自适应字体大小
+        float titleSize = getAdaptiveTextSizePx(11f);
+        float bodySize = getAdaptiveTextSizePx(10f);
+
         // 根据TextView的ID设置特定的字体样式
         int viewId = textView.getId();
         if (viewId == R.id.perfRes) {
             textView.setTypeface(Typeface.create("sans-serif-medium", Typeface.BOLD));
-            textView.setTextSize(11);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, titleSize);
         } else if (viewId == R.id.perfDecoder) {
             textView.setTypeface(Typeface.create("sans-serif-medium", Typeface.BOLD));
-            textView.setTextSize(10);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, bodySize);
         } else if (viewId == R.id.perfRenderFps) {
             textView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-            textView.setTextSize(10);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, bodySize);
         } else if (viewId == R.id.perfPacketLoss) {
             textView.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
-            textView.setTextSize(10);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, bodySize);
         } else if (viewId == R.id.perfNetworkLatency) {
             textView.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
-            textView.setTextSize(10);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, bodySize);
         } else if (viewId == R.id.perfDecodeLatency) {
             textView.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
-            textView.setTextSize(10);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, bodySize);
         } else if (viewId == R.id.perfHostLatency) {
             textView.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
-            textView.setTextSize(10);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, bodySize);
         } else if (viewId == R.id.perfBattery) {
             textView.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
-            textView.setTextSize(10);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, bodySize);
         }
+    }
+
+    /**
+     * 根据屏幕物理尺寸计算自适应字体大小（像素）。
+     * 以 SP 为基线，根据屏幕短边 dp 值相对于参考手机做平方根阻尼缩放，
+     * 确保手机上与原来一致，平板/电视适度放大但不会过大。
+     *
+     * 参考基准: 1080p xxhdpi 手机，短边 ≈ 411dp
+     * - 手机 (411dp): scaleFactor=1.0 → 与原 SP 完全一致
+     * - 平板 (800dp): scaleFactor≈1.4 → 适度放大
+     * - 电视 (1920dp): scaleFactor≈2.2 → 合理放大，不会 4 倍暴涨
+     */
+    private float getAdaptiveTextSizePx(float baseSizeSp) {
+        DisplayMetrics dm = activity.getResources().getDisplayMetrics();
+        int shortSide = Math.min(dm.widthPixels, dm.heightPixels);
+
+        // 短边 dp 值 = 短边像素 / density
+        float shortSideDp = shortSide / dm.density;
+        float referenceDp = 411f; // 典型手机短边 dp (1080px / 2.625)
+
+        // 平方根阻尼：大屏增长减缓，避免大屏字体过大
+        float scaleFactor = (float) Math.sqrt(shortSideDp / referenceDp);
+
+        // 基于 SP 标准像素值再乘以阻尼系数
+        float targetPx = baseSizeSp * dm.density * scaleFactor;
+
+        // 限制范围：最小 8px，最大 40px
+        return Math.max(8f, Math.min(targetPx, 40f));
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -1051,7 +1114,7 @@ public class PerformanceOverlayManager {
      * 根据点击位置显示对应项目的信息
      */
     private void showClickedItemInfo() {
-        if (prefConfig.perfOverlayOrientation == PreferenceConfiguration.PerfOverlayOrientation.VERTICAL) {
+        if (isEffectiveVerticalLayout()) {
             showClickedItemInfoVertical();
         } else {
             showClickedItemInfoHorizontal();
