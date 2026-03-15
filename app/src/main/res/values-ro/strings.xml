@@ -12,7 +12,6 @@
     <!-- PC view menu entries -->
     <string name="pcview_menu_app_list">Vezi lista de jocuri</string>
     <string name="pcview_menu_pair_pc">Împerechează PC-ul</string>
-    <string name="pcview_menu_unpair_pc">Desperechează</string>
     <string name="pcview_menu_send_wol">Trimite o cerere Wake-On-LAN</string>
     <string name="pcview_menu_delete_pc">Șterge PC</string>
     <string name="pcview_menu_details">Vezi detalii</string>
@@ -28,7 +27,6 @@
     <!-- WOL messages -->
     <string name="wol_pc_online">PC-ul este accesibil</string>
     <string name="wol_no_mac">Nu s-a putut porni PC-ul deoarece GFE nu a comunicat o adresa MAC</string>
-    <string name="wol_waking_pc">Se pornește PC-ul…</string>
     <string name="wol_waking_msg">Poate dura puțin până PC-ul pornește. Dacă nu pornește, verifică dacă este configurat corect pentru Wake-On-LAN.</string>
     <string name="wol_fail">Nu s-au putut trimite pachetele Wake-On-LAN</string>
     <!-- Unpair messages -->
@@ -74,11 +72,6 @@
     <string name="delete_pc_msg">Sigur dorești să ștergi acest PC?</string>
     <string name="slow_connection_msg">Conexiune inceată catre PC\nRedu rata de biți</string>
     <string name="poor_connection_msg">Conexiune slabă catre PC</string>
-    <string name="perf_overlay_decoder">Decodor: %1$s</string>
-    <string name="perf_overlay_incomingfps">Rata cadrelor primite din rețea: %1$.2f FPS</string>
-    <string name="perf_overlay_renderingfps">Rata de afisare a cadrelor: %1$.2f FPS</string>
-    <string name="perf_overlay_netdrops">Cadre pierdute de rețea: %1$.2f%%</string>
-    <string name="perf_overlay_dectime">Timpul mediu de decodare: %1$.2f ms</string>
     <!-- AppList activity -->
     <string name="applist_connect_msg">Se conectează la PC…</string>
     <string name="applist_menu_resume">Continuă Sesiunea</string>
@@ -87,16 +80,12 @@
     <string name="applist_menu_cancel">Anulează</string>
     <string name="applist_menu_details">Vezi detalii</string>
     <string name="applist_menu_scut">Creează o scurtătură</string>
-    <string name="applist_menu_tv_channel">Adaugă la canal</string>
     <string name="applist_refresh_title">Lista de aplicații</string>
     <string name="applist_refresh_msg">Reîmprospătare aplicații…</string>
-    <string name="applist_refresh_error_title">Eroare</string>
-    <string name="applist_refresh_error_msg">Nu s-a putut obține lista de aplicații</string>
     <string name="applist_quit_app">Închidere în curs</string>
     <string name="applist_quit_success">Închis cu succes</string>
     <string name="applist_quit_fail">Nu s-a putut închide lista</string>
     <string name="applist_quit_confirmation">Sigur dorești să închizi aplicația curentă? Toate datele nesalvate vor fi pierdute.</string>
-    <string name="applist_details_id">ID-ul aplicației:</string>
     <!-- Add computer manually activity -->
     <string name="title_add_pc">Adaugă PC manual</string>
     <string name="msg_add_pc">Conectare în curs…</string>
@@ -150,7 +139,6 @@
     <string name="dialog_title_reset_osc">Resetarea schemei de controale</string>
     <string name="dialog_text_reset_osc">Sigur dorești să ștergi schema salvată a controalelor de pe ecran?</string>
     <string name="toast_reset_osc_success">Controalele de pe ecran au fost resetate la setarile implicite</string>
-    <string name="title_osc_opacity">Modifică opacitatea controalelor de pe ecran</string>
     <string name="summary_osc_opacity">Ajustează gradul de transparență al controalelor de pe ecran</string>
     <string name="dialog_title_osc_opacity">Modifică opacitatea</string>
     <string name="suffix_osc_opacity">%</string>
@@ -165,8 +153,6 @@
     <string name="title_checkbox_host_audio">Redă audio si pe PC</string>
     <string name="summary_checkbox_host_audio">Sunetul se va auzi atat pe acest dispozitiv cât și pe PC</string>
     <string name="category_advanced_settings">Setări avansate</string>
-    <string name="title_disable_frame_drop">Nu pierde cadre intenționat</string>
-    <string name="summary_disable_frame_drop">Poate să reducă micro-stuttering pe anumite device-uri, dar s-ar putea să crească latența</string>
     <string name="title_video_format">Modifica setările HEVC</string>
     <string name="summary_video_format">HEVC funcționează cu o conexiune mai slaba, dar necesită un dispozitiv recent, performant</string>
     <string name="title_enable_hdr">Activează HDR (Experimental)</string>

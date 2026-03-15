@@ -3,7 +3,6 @@
     <!-- PC view menu entries -->
     <string name="pcview_menu_app_list">Посмотреть список игр</string>
     <string name="pcview_menu_pair_pc">Создать пару с PC</string>
-    <string name="pcview_menu_unpair_pc">Разорвать пару</string>
     <string name="pcview_menu_send_wol">Отправить Wake-On-LAN запрос</string>
     <string name="pcview_menu_delete_pc">Удалить PC</string>
     <!-- Network test strings -->
@@ -24,7 +23,6 @@
     <!-- WOL messages -->
     <string name="wol_pc_online">Компьютер в сети</string>
     <string name="wol_no_mac">Невозможно разбудить PC потому что GFE не отправило MAC адрес</string>
-    <string name="wol_waking_pc">Пробуждение PC…</string>
     <string name="wol_waking_msg">Пробуждение PC может занять несколько секунд.
 	    Если этого не происходит, удостоверьтесь что Wake-On-LAN настроен правильно.
     </string>
@@ -65,11 +63,8 @@
     <string name="applist_menu_quit">Выйти из сессии</string>
     <string name="applist_menu_quit_and_start">Выйти из текущей игры и запустить</string>
     <string name="applist_menu_cancel">Отмена</string>
-    <string name="applist_menu_tv_channel">Добавать на канал</string>
     <string name="applist_refresh_title">Список приложений</string>
     <string name="applist_refresh_msg">Обновление приложений…</string>
-    <string name="applist_refresh_error_title">Ошибка</string>
-    <string name="applist_refresh_error_msg">Ошибка при получении списка приложений</string>
     <string name="applist_quit_app">Выход из</string>
     <string name="applist_quit_success">Выход произошёл успешно из</string>
     <string name="applist_quit_fail">Ошибка при выходе</string>
@@ -145,8 +140,6 @@
     <string name="dialog_title_reset_osc">Сбросить Схему</string>
     <string name="dialog_text_reset_osc">Вы уверены что хотите удалить сохранненную схему расположения кнопок?</string>
     <string name="toast_reset_osc_success">Экранные элементы управления возвращены к положениям по умолчанию</string>
-    <string name="title_disable_frame_drop">Никогда не пропускать кадры</string>
-    <string name="summary_disable_frame_drop">Может уменьшить микрозависания на некоторых устройствах, но также увеличить задержку</string>
     <string name="title_enable_hdr">Включить HDR (Экспериментально)</string>
     <string name="summary_enable_hdr">Транслировать в HDR если игра и GPU компьютера поддерживают это. HDR требует видеокарты GTX 1000 серии или более новой.</string>
     <string name="title_enable_post_stream_toast">Показывать отчёт о задержке после трансляции</string>
@@ -163,7 +156,6 @@
     <string name="poor_connection_msg">Слабое соединение с PC</string>
     <string name="title_details">Детали</string>
     <string name="title_unlock_fps">Разблокировать все возможные частоты обновления</string>
-    <string name="applist_details_id">ID приложения:</string>
     <string name="title_checkbox_vibrate_fallback">Эмуляция виброотдачи</string>
     <string name="summary_checkbox_vibrate_osc">Вибрировать устройство для эмуляции виброотдачи при экранном управлении</string>
     <string name="summary_checkbox_vibrate_fallback">Вибрировать устройство для эмуляции виброотдачи для геймпадов без поддержки вибрации</string>
@@ -173,11 +165,6 @@
     <string name="title_checkbox_mouse_nav_buttons">Включить кнопки вперед и назад для мыши</string>
     <string name="slow_connection_msg">Медленное подключение к PC\nУменьшите битрейт</string>
     <string name="summary_unlock_fps">Трансляция со скоростью 90 или 120 кадров в секунду может уменьшить задержку на устройствах высокого класса, но может вызвать задержки или сбой на устройствах без поддержки этого функционала</string>
-    <string name="perf_overlay_decoder">Декодер: %1$s</string>
-    <string name="perf_overlay_incomingfps">Входящая частота кадров из сети: %1$.2f FPS</string>
-    <string name="perf_overlay_renderingfps">Частота кадров при рендеринге: %1$.2f FPS</string>
-    <string name="perf_overlay_netdrops">Отброшеных кадров вашей сетью: %1$.2f%%</string>
-    <string name="perf_overlay_dectime">Среднее время декодирования: %1$.2f ms</string>
     <string name="summary_fps_list">Увеличение для более плавного видео потока. Уменьшите для лучшей производительности на более слабых устройствах.</string>
     <string name="scut_invalid_uuid">Указанный PC недействителен</string>
     <string name="scut_invalid_app_id">Указанное приложение недействительно</string>
@@ -188,7 +175,6 @@
     <string name="pcview_menu_header_unknown">Обновление</string>
     <string name="pcview_menu_header_offline">Оффлайн</string>
     <string name="pcview_menu_header_online">Онлайн</string>
-    <string name="title_osc_opacity">Изменить прозрачность экранных элементов управления</string>
     <string name="check_ports_msg">Проверьте свой брандмауэр и правила переадресации портов для порта(ов):</string>
     <string name="early_termination_error">Что-то пошло не так на вашем хост-компьютере при запуске трансляции.
 \n
@@ -208,9 +194,7 @@
 \nНаконец, ваше устройство или хост-компьютер может не поддерживать потоковую передачу в родном разрешении. Если это не работает на вашем устройстве, к сожалению, вам просто не повезло.</string>
     <string name="title_native_res_dialog">Предупреждение о родном разрешении</string>
     <string name="video_decoder_init_failed">Видеодекодер не инициализирован. Ваше устройство может не поддерживать выбранное разрешение или частоту кадров.</string>
-    <string name="perf_overlay_streamdetails">Видеострим: %1$s %2$.2f FPS</string>
     <string name="resolution_prefix_native_fullscreen">Родной полноэкранный режим</string>
-    <string name="perf_overlay_netlatency">Средняя задержка сети: %1$d мс (дисперсия: %2$d мс)</string>
     <!-- Array strings -->
     <string name="audioconf_stereo">Стерео</string>
     <string name="audioconf_51surround">5.1 Объёмный звук</string>
@@ -231,16 +215,10 @@
 \n
 \nПопробуйте выключить HDR, изменить разрешение стрима или разрешение экрана на хост-ПК.</string>
     <string name="summary_checkbox_enable_audiofx">Позволяет работать аудио эффектам во время стрима, но может увеличить задержку звука</string>
-    <string name="title_setup_guide">Инструкция по настройке</string>
-    <string name="summary_setup_guide">Посмотреть инструкцию о том как настроить ваш пк для стриминга</string>
-    <string name="title_troubleshooting">Руководство по устранению неполадок</string>
     <string name="summary_frame_pacing">Укажите как сбалансировать задержку и плавностью видео</string>
-    <string name="summary_privacy_policy">Посмотреть политику конфиденциальности Moonlight</string>
-    <string name="title_privacy_policy">Политика конфиденциальности</string>
     <string name="resolution_360p">360p</string>
     <string name="resolution_1080p">1080p</string>
     <string name="resolution_1440p">1440p</string>
-    <string name="summary_troubleshooting">Посмотрите советы по обнаружению и устранению проблем</string>
     <string name="category_help">Помощь</string>
     <string name="resolution_720p">720p</string>
     <string name="resolution_prefix_native_portrait">(Портретный)</string>

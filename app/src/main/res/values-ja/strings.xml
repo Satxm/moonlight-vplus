@@ -3,7 +3,6 @@
     <!-- PC view menu entries -->
     <string name="pcview_menu_app_list">ゲームリストを表示</string>
     <string name="pcview_menu_pair_pc">コンピュータとペアリング</string>
-    <string name="pcview_menu_unpair_pc">ペアリングを解除r</string>
     <string name="pcview_menu_send_wol">Wake-On-LANリクエストを送信する</string>
     <string name="pcview_menu_delete_pc">コンピュータをリストから削除する</string>
     <!-- Pair messages -->
@@ -17,7 +16,6 @@
     <!-- WOL messages -->
     <string name="wol_pc_online">コンピュータはオンラインです</string>
     <string name="wol_no_mac">GFEがMACアドレスを送信しなかったため、コンピュータを起動することができません</string>
-    <string name="wol_waking_pc">コンピュータを起動中</string>
     <string name="wol_waking_msg">コンピュータが起動するまで数秒かかる可能性があります。Wake-On-LANが正しく構成されているか確認してください</string>
     <string name="wol_fail">Wake-On-LANパケットの送信に失敗しました</string>
     <!-- Unpair messages -->
@@ -55,8 +53,6 @@
     <string name="applist_menu_cancel">キャンセル</string>
     <string name="applist_refresh_title">ゲームリスト</string>
     <string name="applist_refresh_msg">ゲームリストを更新中</string>
-    <string name="applist_refresh_error_title">エラー</string>
-    <string name="applist_refresh_error_msg">ゲームリストの取得に失敗しました</string>
     <string name="applist_quit_app">終了中</string>
     <string name="applist_quit_success">ゲームを終了しました</string>
     <string name="applist_quit_fail">ゲームが終了できませんでした</string>
@@ -102,7 +98,6 @@
     <string name="summary_video_format">HEVCは動画に必要な帯域幅を圧縮します。この機能にはなるべく新しいデバイスが必要です</string>
     <string name="suffix_osc_opacity">%</string>
     <string name="dialog_title_osc_opacity">透過率</string>
-    <string name="title_osc_opacity">透過率</string>
     <string name="summary_osc_opacity">オンスクリーンコントローラの透過率を調整します</string>
     <string name="title_only_l3r3">L3 と R3 のみ表示します</string>
     <string name="summary_only_l3r3">L3 と R3 以外のボタンを表示しない</string>

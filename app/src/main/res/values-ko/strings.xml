@@ -9,7 +9,6 @@
     <!-- PC view menu entries -->
     <string name="pcview_menu_app_list">모든 게임 보기</string>
     <string name="pcview_menu_pair_pc">PC와 페어링</string>
-    <string name="pcview_menu_unpair_pc">페어링 해제</string>
     <string name="pcview_menu_send_wol">Wake-On-LAN request 보내기</string>
     <string name="pcview_menu_delete_pc">PC 삭제</string>
     <!-- Pair messages -->
@@ -24,7 +23,6 @@
     <!-- WOL messages -->
     <string name="wol_pc_online">컴퓨터가 온라인 상태입니다</string>
     <string name="wol_no_mac">저장된 MAC 주소가 없기 때문에 PC를 켤 수 없습니다.</string>
-    <string name="wol_waking_pc">PC를 깨우는 중…</string>
     <string name="wol_waking_msg">PC를 켜는 데에 약간의 시간이 걸립니다. PC가 켜지지 않으면, Wake-On-Lan이 설정되어있는지 확인하세요.</string>
     <string name="wol_fail">Wake-On-LAN 패킷을 보내는 데에 실패했습니다</string>
     <!-- Unpair messages -->
@@ -68,8 +66,6 @@
     <string name="applist_menu_cancel">취소</string>
     <string name="applist_refresh_title">앱 리스트</string>
     <string name="applist_refresh_msg">앱 로드 중…</string>
-    <string name="applist_refresh_error_title">오류</string>
-    <string name="applist_refresh_error_msg">앱 리스트를 얻는데 실패함</string>
     <string name="applist_quit_app">종료중</string>
     <string name="applist_quit_success">종료됨</string>
     <string name="applist_quit_fail">종료 실패</string>
@@ -134,16 +130,9 @@
 \n모니터가 필요한 디스플레이 구성을 지원하지 않을 경우 가상 모니터 설정을 시도할 수 있습니다. 장치나 호스트 PC가 특정 해상도나 새로 고침 빈도로 스트리밍을 지원하지 않을 수 있습니다.</string>
     <string name="title_native_res_dialog">네이티브 해상도 주의사항</string>
     <string name="addpc_wrong_sitelocal">주소가 잘못된 것 같습니다. 인터넷을 통해 스트리밍하려면 라우터의 공용 IP 주소를 사용해야합니다.</string>
-    <string name="applist_details_id">앱 ID:</string>
     <string name="applist_menu_hide_app">게임 숨기기</string>
     <string name="applist_menu_scut">바로가기 만들기</string>
     <string name="applist_menu_details">세부사항</string>
-    <string name="perf_overlay_dectime">평균 디코딩 시간 : %1$.2f ms</string>
-    <string name="perf_overlay_netlatency">평균 네트워크 지연 시간 : %1$d ms (편차 : %2$d ms)</string>
-    <string name="perf_overlay_netdrops">네트워크에 의해 손실 된 프레임 : %1$.2f%%</string>
-    <string name="perf_overlay_renderingfps">렌더링 프레임속도 : %1$.2f FPS</string>
-    <string name="perf_overlay_incomingfps">네트워크를 통해 받은 프레임속도: %1$.2f FPS</string>
-    <string name="perf_overlay_decoder">디코더:%1$s</string>
     <string name="poor_connection_msg">PC와의 연결이 불안정함</string>
     <string name="slow_connection_msg">PC와의 연결이 불안정합니다.
 \n비트레이트를 줄이세요</string>
@@ -182,21 +171,17 @@
     <string name="pcview_menu_details">PC 세부정보</string>
     <string name="scut_pc_not_found">PC를 찾을 수 없음</string>
     <string name="suffix_seekbar_bitrate_mbps">Mbps</string>
-    <string name="applist_menu_tv_channel">채널 추가하기</string>
     <string name="scut_invalid_uuid">PC를 사용할 수 없음</string>
     <string name="scut_invalid_app_id">앱을 사용할 수 없음</string>
     <string name="summary_enable_post_stream_toast">스트림 종료 후 지연시간 정보 표시</string>
     <string name="title_enable_post_stream_toast">스트리밍 후 지연시간 정보 표시</string>
     <string name="summary_enable_hdr">게임 및 PC의 GPU가 HDR을 지원하는 경우 HDR을 활성화합니다. HDR에는 GTX 1000 시리즈 또는 그 이상의 GPU가 필요합니다.</string>
     <string name="title_enable_hdr">HDR활성화 (실험용)</string>
-    <string name="summary_disable_frame_drop">일부 장치에서 미세한 끊김 현상을 줄일 수 있지만 지연 시간이 늘어날 수 있습니다.</string>
-    <string name="title_disable_frame_drop">프레임드랍 최적화</string>
     <string name="summary_unlock_fps">90 또는 120FPS로 스트리밍하면 지연 시간이 줄어들 수 있지만 이를 지원할 수 없는 장치에서는 지연 또는 불안정 할 수 있습니다</string>
     <string name="title_unlock_fps">모든 프레임 속도 잠금 해제</string>
     <string name="summary_checkbox_enable_pip">PIP모드를 사용하는 중에 화면은 볼 수 있지만 제어는 할 수 없습니다</string>
     <string name="dialog_title_osc_opacity">투명도 조절</string>
     <string name="summary_osc_opacity">가상컨트롤러의 투명도를 조절할 수 있습니다</string>
-    <string name="title_osc_opacity">가상컨트롤러의 투명도 설정</string>
     <string name="toast_reset_osc_success">가상 컨트롤러 배치가 초기화되었습니다</string>
     <string name="dialog_text_reset_osc">저장된 가상 컨트롤러 배치를 초기화 하시겠습니까\?</string>
     <string name="dialog_title_reset_osc">가상 컨트롤러 배치 초기화</string>
@@ -214,7 +199,6 @@
     <string name="summary_checkbox_usb_bind_all">Xbox 컨트롤러를 기본으로 지원하는 경우에도 지원되는 모든 컨트롤러에 Moonlight의 USB 드라이버를 사용합니다</string>
     <string name="title_checkbox_usb_bind_all">기본 Xbox 컨트롤러 지원 무시</string>
     <string name="title_checkbox_mouse_emulation">컨트롤러를 마우스처럼 사용하기</string>
-    <string name="perf_overlay_streamdetails">비디오 스트림 : %1$s %2$.2f FPS</string>
     <string name="unable_to_pin_shortcut">현재 런처에서는 바로가기 생성이 불가능합니다.</string>
     <string name="resolution_prefix_native_fullscreen">네이티브 (전체화면)</string>
     <!-- Array strings -->
@@ -231,12 +215,6 @@
     <string name="fps_90">90 FPS</string>
     <string name="fps_120">120 FPS</string>
     <string name="audioconf_stereo">스트레오</string>
-    <string name="title_setup_guide">시작 가이드</string>
-    <string name="summary_setup_guide">스트리밍을 위해 게임 PC를 설정하는 방법 보기</string>
-    <string name="title_troubleshooting">문제 해결 가이드</string>
-    <string name="summary_troubleshooting">일반적인 스트리밍 문제 진단 및 해결을 위한 팁 보기</string>
-    <string name="title_privacy_policy">개인 정보 정책</string>
-    <string name="summary_privacy_policy">Moonlight의 개인 정보 보호 정책 보기</string>
     <string name="summary_frame_pacing">비디오 지연 시간과 부드러움의 균형을 맞추는 방법 설정</string>
     <string name="pacing_latency">최저 지연 시간 선호</string>
     <string name="pacing_balanced">균형</string>
@@ -265,7 +243,6 @@
     <string name="summary_checkbox_gamepad_touchpad_as_mouse">터치패드로 컨트롤러를 에뮬레이션하는 경우에도 호스트 마우스를 제어하기 위해 컨트롤러 터치패드 입력을 강제합니다.</string>
     <string name="pcview_menu_eol">NVIDIA GameStream 지원 종료</string>
     <string name="pair_pairing_help">호스트 PC에서 Sunshine을 실행 중인 경우 Sunshine 웹 UI로 이동하여 PIN을 입력합니다.</string>
-    <string name="perf_overlay_hostprocessinglatency">호스트 처리 대기 시간 최소/최대/평균: %1$.1f/%2$.1f/%3$.1f ms</string>
     <string name="fps_suffix_fps">FPS</string>
     <string name="title_native_fps_dialog">네이티브 FPS 주의사항</string>
     <string name="category_gamepad_settings">컨트롤러 설정</string>

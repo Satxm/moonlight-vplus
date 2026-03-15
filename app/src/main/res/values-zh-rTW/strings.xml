@@ -12,7 +12,6 @@
     <!-- PC view menu entries -->
     <string name="pcview_menu_app_list">檢視遊戲清單</string>
     <string name="pcview_menu_pair_pc"> 和電腦配對 </string>
-    <string name="pcview_menu_unpair_pc"> 取消配對 </string>
     <string name="pcview_menu_send_wol">傳送 Wake-On-LAN 要求</string>
     <string name="pcview_menu_delete_pc"> 刪除電腦 </string>
     <string name="pcview_menu_details">檢視詳細資料</string>
@@ -28,7 +27,6 @@
     <!-- WOL messages -->
     <string name="wol_pc_online">電腦已上線</string>
     <string name="wol_no_mac">無法喚醒電腦，因為沒有已儲存的 MAC 位址</string>
-    <string name="wol_waking_pc">正在喚醒電腦…</string>
     <string name="wol_waking_msg">喚醒電腦需要一些時間。如果電腦沒有喚醒，請確保 Wake-On-LAN 設定無誤。</string>
     <string name="wol_fail">無法傳送 Wake-On-LAN 資料包</string>
     <!-- Unpair messages -->
@@ -73,11 +71,6 @@
     <string name="slow_connection_msg">與電腦連線過慢
 \n 請降低位元速率</string>
     <string name="poor_connection_msg">與電腦連線不良</string>
-    <string name="perf_overlay_decoder">解碼器：%1$s</string>
-    <string name="perf_overlay_incomingfps">網路接收影格速率：%1$.2f FPS</string>
-    <string name="perf_overlay_renderingfps">轉譯影格速率：%1$.2f FPS</string>
-    <string name="perf_overlay_netdrops">網路丟失影格：%1$.2f%%</string>
-    <string name="perf_overlay_dectime">平均解碼時間：%1$.2f ms</string>
     <!-- AppList activity -->
     <string name="applist_connect_msg">正在連線電腦…</string>
     <string name="applist_menu_resume">繼續工作階段</string>
@@ -86,16 +79,12 @@
     <string name="applist_menu_cancel"> 取消 </string>
     <string name="applist_menu_details">檢視詳細資料</string>
     <string name="applist_menu_scut">建立捷徑</string>
-    <string name="applist_menu_tv_channel">新增至頻道</string>
     <string name="applist_refresh_title">遊戲清單</string>
     <string name="applist_refresh_msg">正在重新整理…</string>
-    <string name="applist_refresh_error_title"> 錯誤 </string>
-    <string name="applist_refresh_error_msg">無法取得遊戲清單</string>
     <string name="applist_quit_app">正在結束</string>
     <string name="applist_quit_success">成功結束</string>
     <string name="applist_quit_fail">無法結束</string>
     <string name="applist_quit_confirmation">您確定要結束執行中的遊戲？所有未儲存的資料將丟失。</string>
-    <string name="applist_details_id">App ID：</string>
     <!-- Add computer manually activity -->
     <string name="title_add_pc">手動新增電腦</string>
     <string name="msg_add_pc">正在連線電腦…</string>
@@ -164,15 +153,12 @@
     <string name="title_checkbox_host_audio">在電腦上播放音訊</string>
     <string name="summary_checkbox_host_audio">在電腦和本裝置同時輸出音訊</string>
     <string name="category_advanced_settings">進階設定</string>
-    <string name="title_disable_frame_drop">永不丟失影格</string>
-    <string name="summary_disable_frame_drop">可能會減少在一些裝置上的卡頓，但會增加延時</string>
     <string name="title_video_format">變更轉碼器設定</string>
     <string name="summary_video_format">較新的轉碼器可以降低視訊頻寬需求 (若您的裝置支援)。如果主機軟體或 GPU 不支援，轉碼器選取項目可能會被忽略。</string>
     <string name="title_enable_hdr">啟用 HDR (實驗性)</string>
     <string name="summary_enable_hdr">在遊戲和 GPU 支援時以 HDR 模式串流，HDR 模式需要支援 HEVC Main 10 編碼的 GPU。</string>
     <string name="title_enable_post_stream_toast">串流後顯示延時資訊</string>
     <string name="summary_enable_post_stream_toast">串流結束後顯示延時資訊</string>
-    <string name="title_osc_opacity">變更螢幕控制按鈕透明度</string>
     <string name="dialog_title_osc_opacity">變更不透明度</string>
     <string name="suffix_osc_opacity">%</string>
     <string name="summary_osc_opacity">使螢幕控制按钮變得更透明/更不透明</string>
@@ -212,8 +198,6 @@
     <string name="pcview_menu_header_unknown">正在重新整理</string>
     <string name="pcview_menu_header_offline">離線</string>
     <string name="pcview_menu_header_online">線上</string>
-    <string name="perf_overlay_netlatency">平均網路延時：%1$d ms (抖動：%2$d ms)</string>
-    <string name="perf_overlay_streamdetails">視訊串流：%1$s %2$.2f FPS</string>
     <string name="resolution_prefix_native_fullscreen">原生全螢幕</string>
     <!-- Array strings -->
     <string name="audioconf_stereo">立體聲</string>
@@ -238,12 +222,6 @@
     <string name="pacing_latency">偏好低延遲</string>
     <string name="pacing_balanced_alt">FPS 上限平衡</string>
     <string name="category_help">說明</string>
-    <string name="title_troubleshooting">疑難排解指南</string>
-    <string name="summary_setup_guide">檢視關於如何設定你的遊戲電腦以進行串流的指示</string>
-    <string name="title_privacy_policy">隱私權政策</string>
-    <string name="title_setup_guide">設定指南</string>
-    <string name="summary_troubleshooting">檢視診斷和修正常見串流問題的提示</string>
-    <string name="summary_privacy_policy">檢視 Moonlight 的隱私權政策</string>
     <string name="summary_seekbar_deadzone">注意：有些遊戲可以強制執行一個比 Moonlight 設定大的死區。</string>
     <string name="title_checkbox_absolute_mouse_mode">遠端桌面滑鼠模式</string>
     <string name="summary_checkbox_absolute_mouse_mode">這可以讓滑鼠在遠端桌面使用中的加速表現更加自然，但與很多遊戲不相容。</string>
@@ -266,7 +244,6 @@
     <string name="title_checkbox_gamepad_touchpad_as_mouse">一律使用觸摸板控制滑鼠</string>
     <string name="summary_checkbox_gamepad_motion_sensors">在使用動態感測器模擬手把時啟用支援的主機以要求動態感測器資料，若動態感測器未在遊戲中使用，停用後可能會輕微降低電力和網路使用量。</string>
     <string name="videoformat_h264always">偏好 H.264</string>
-    <string name="perf_overlay_hostprocessinglatency">主機處理延遲最小值/最大值/平均值：%1$.1f/%2$.1f/%3$.1f ms</string>
     <string name="summary_checkbox_gamepad_touchpad_as_mouse">強制手把觸摸板輸入以控制主機滑鼠，即使在使用觸摸板模擬手把時。</string>
     <string name="title_checkbox_gamepad_motion_sensors">一律使用手把動態感測器</string>
     <string name="videoformat_av1always">偏好 AV1 (實驗性)</string>

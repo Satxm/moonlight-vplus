@@ -6,8 +6,6 @@
     <string name="title_enable_hdr">Bật HDR (Thử nghiệm)</string>
     <string name="summary_video_format">HEVC làm giảm yêu cầu băng thông video nhưng yêu cầu một thiết bị mới hơn</string>
     <string name="title_video_format">Thay đổi cài đặt HEVC</string>
-    <string name="summary_disable_frame_drop">Có thể làm giảm sự khựng nhỏ trên một số thiết bị, nhưng có thể làm tăng độ trễ</string>
-    <string name="title_disable_frame_drop">Không bao giờ giảm khung hình</string>
     <string name="summary_checkbox_disable_warnings">Tắt các thông báo cảnh báo kết nối trên màn hình trong khi stream</string>
     <string name="title_checkbox_disable_warnings">Tắt các thông báo cảnh báo</string>
     <string name="summary_unlock_fps">Việc stream tại 90 hoặc 120 FPS có thể sẽ giảm độ trễ trên các thiết bị tầm cao nhưng có thể sẽ gây ra lag hoặc mất ổn định trên các thiết bị không thể hỗ trợ việc đó</string>
@@ -25,7 +23,6 @@
     <string name="suffix_osc_opacity">%</string>
     <string name="dialog_title_osc_opacity">Thay đổi độ trong suốt</string>
     <string name="summary_osc_opacity">Làm cho điều khiển trên màn hình (ít) trong suốt hơn</string>
-    <string name="title_osc_opacity">Thay đổi độ trong suốt của điều khiển trên màn hình</string>
     <string name="toast_reset_osc_success">Đã đặt lại điều khiển trên màn hình về mặc định</string>
     <string name="dialog_text_reset_osc">Bạn có chắc bạn muốn xoá bố cục điều khiển trên màn hình đã lưu của bạn không\?</string>
     <string name="dialog_title_reset_osc">Đặt lại bố cục</string>
@@ -85,17 +82,13 @@
     <string name="addpc_fail">Không thể kết nối đến máy tính được chỉ định. Hãy chắc chắn là các cổng được yêu cầu được cho phép qua tường lửa.</string>
     <string name="msg_add_pc">Đang kết nối đến PC…</string>
     <string name="title_add_pc">Thêm PC thủ công</string>
-    <string name="applist_details_id">ID ứng dụng:</string>
     <string name="applist_quit_confirmation">Bạn có chắc bạn muốn thoát ứng dụng đang chạy không\? Tất cả dữ liệu chưa được lưu sẽ bị mất.</string>
     <string name="applist_quit_fail">Thoát thất bại</string>
     <string name="applist_quit_success">Thoát thành công</string>
     <string name="applist_quit_app">Đang thoát</string>
-    <string name="applist_refresh_error_msg">Lấy danh sách ứng dụng thất bại</string>
-    <string name="applist_refresh_error_title">Lỗi</string>
     <string name="applist_refresh_msg">Đang làm mới các ứng dụng…</string>
     <string name="applist_refresh_title">Danh sách ứng dụng</string>
     <string name="applist_menu_hide_app">Ẩn ứng dụng</string>
-    <string name="applist_menu_tv_channel">Thêm vào kênh</string>
     <string name="applist_menu_scut">Tạo lối tắt</string>
     <string name="applist_menu_details">Xem chi tiết</string>
     <string name="applist_menu_cancel">Huỷ</string>
@@ -103,11 +96,6 @@
     <string name="applist_menu_quit">Thoát phiên làm việc</string>
     <string name="applist_menu_resume">Tiếp tục phiên làm việc</string>
     <string name="applist_connect_msg">Đang kết nối đến PC…</string>
-    <string name="perf_overlay_decoder">Trình giải mã: %1$s</string>
-    <string name="perf_overlay_incomingfps">Tốc độ khung hình đang đến từ mạng: %1$.2f FPS</string>
-    <string name="perf_overlay_renderingfps">Tốc độ khung hình kết xuất: %1$.2f FPS</string>
-    <string name="perf_overlay_netdrops">Khung hình bị giảm bởi kết nối mạng: %1$.2f%%</string>
-    <string name="perf_overlay_dectime">Thời gian giải mã trung bình: %1$.2f ms</string>
     <string name="poor_connection_msg">Kết nối đến PC bị kém</string>
     <string name="slow_connection_msg">Kết nối đến PC bị chậm.
 \nHãy giảm tốc độ bit</string>
@@ -160,7 +148,6 @@
     <string name="unpairing">Đang huỷ ghép đôi…</string>
     <string name="wol_fail">Gửi các gói Wake-On-LAN thất bại</string>
     <string name="wol_waking_msg">PC của bạn có thể sẽ mất một vài giây để thức giấc. Nếu nó không thức giấc, hãy chắc chắn là nó được thiết lập đúng cho Wake-On-LAN.</string>
-    <string name="wol_waking_pc">Đang đánh thức PC…</string>
     <string name="wol_no_mac">Không thể đánh thức PC vì GFE đã không gửi một địa chỉ MAC</string>
     <string name="wol_pc_online">Máy tính đang trực tuyến</string>
     <string name="pair_already_in_progress">Việc ghép đôi đang được thực hiện rồi</string>
@@ -189,7 +176,6 @@
     <string name="pcview_menu_test_network">Thử nghiệm kết nối mạng</string>
     <string name="pcview_menu_delete_pc">Xoá PC</string>
     <string name="pcview_menu_send_wol">Gửi yêu cầu Wake-On-LAN</string>
-    <string name="pcview_menu_unpair_pc">Huỷ ghép đôi</string>
     <string name="pcview_menu_pair_pc">Ghép đôi với PC</string>
     <string name="pcview_menu_app_list">Xem tất cả ứng dụng</string>
     <string name="pcview_menu_header_unknown">Đang làm mới</string>
@@ -202,8 +188,6 @@
     <string name="scut_pc_not_found">Không tìm thấy PC</string>
     <string name="scut_not_paired">PC chưa được ghép đôi</string>
     <string name="scut_deleted_pc">PC đã bị xoá</string>
-    <string name="perf_overlay_netlatency">Độ trễ mạng trung bình: %1$d ms (sai số: %2$d ms)</string>
-    <string name="perf_overlay_streamdetails">Tốc độ khung hình: %1$s %2$.2f FPS</string>
     <string name="resolution_prefix_native_fullscreen">Toàn màn hình theo hệ thống</string>
     <string name="title_frame_pacing">Nhịp độ khung hình video</string>
     <string name="summary_frame_pacing">Chỉ ra cách cân bằng giữa độ trễ video và độ mượt mà</string>

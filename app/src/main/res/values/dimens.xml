@@ -7,8 +7,6 @@
     <dimen name="tv_channel_logo_height">80dp</dimen>
 
     <dimen name="activity_safearea_top">46dp</dimen>
-    <dimen name="keyboard_top_view_seek_bar_min_width">60dp</dimen>
-    <dimen name="game_menu_dialog_width">576dp</dimen>
 
     <!-- PC View toolbar buttons -->
     <dimen name="pc_toolbar_button_size">64dp</dimen>
@@ -24,7 +22,6 @@
     <dimen name="appview_content_margin">20dp</dimen>
     <dimen name="appview_content_padding">15dp</dimen>
     <dimen name="appview_bottom_margin">10dp</dimen>
-    <dimen name="appview_icon_button_size">48dp</dimen>
     <dimen name="appview_panel_padding">12dp</dimen>
     <dimen name="appview_panel_elevation">12dp</dimen>
 

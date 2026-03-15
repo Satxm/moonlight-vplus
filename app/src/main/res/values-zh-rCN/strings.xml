@@ -19,20 +19,17 @@
 
     <!-- Widget strings -->
     <string name="widget_name">应用列表</string>
-    <string name="widget_configure_title">选择主机</string>
     <string name="widget_no_apps">未找到应用程序</string>
     <string name="widget_tap_to_refresh">点击刷新</string>
     <string name="widget_configure_prompt">选择一台主机来显示它的应用：</string>
 
     <string name="pcview_menu_pair_pc">和电脑配对</string>
-    <string name="pcview_menu_unpair_pc">取消配对</string>
     <string name="pcview_menu_send_wol">发送 Wake-On-LAN 请求</string>
     <string name="pcview_menu_delete_pc">删除电脑</string>
     <string name="pcview_menu_test_network">测试网络连接</string>
     <string name="pcview_menu_details">查看详情</string>
     <string name="pcview_menu_secondary_screen"> 作为副屏串流（基地适用） </string>
     <string name="pcview_menu_eol">NVIDIA GameStream 已终止服务</string>
-    <string name="pcview_menu_send_sleep">发送睡眠指令</string>
     <string name="pcview_menu_sleep_success">已催促主机睡眠</string>
     <string name="pcview_menu_sleep_fail">主机睡眠失败</string>
     <string name="pcview_menu_disable_ipv6">禁用 IPv6</string>
@@ -63,7 +60,6 @@
     <!-- WOL messages -->
     <string name="wol_pc_online">电脑在线中</string>
     <string name="wol_no_mac">无法唤醒电脑，因为没有存储的 MAC 地址</string>
-    <string name="wol_waking_pc">唤醒电脑中……</string>
     <string name="wol_waking_msg">唤醒电脑需要一些时间。\n如果电脑没有唤醒，请确保 Wake-On-LAN 设置无误。</string>
     <string name="wol_fail">无法发送 Wake-On-LAN 数据包</string>
 
@@ -124,14 +120,6 @@
     <string name="delete_pc_msg">你确定要删除这台电脑？</string>
     <string name="slow_connection_msg">与电脑连接过慢\n请降低码率</string>
     <string name="poor_connection_msg">与电脑连接不良</string>
-    <string name="perf_overlay_streamdetails">视频流： %1$s %2$.2f FPS</string>
-    <string name="perf_overlay_decoder">解码器： %1$s</string>
-    <string name="perf_overlay_incomingfps">网络接收帧数： %1$.2f FPS</string>
-    <string name="perf_overlay_renderingfps">渲染帧数： %1$.2f FPS</string>
-    <string name="perf_overlay_hostprocessinglatency">主机处理延迟最小值/最大值/平均值：%1$.1f/%2$.1f/%3$.1f ms</string>
-    <string name="perf_overlay_netdrops">网络丢失帧： %1$.2f%%</string>
-    <string name="perf_overlay_netlatency">平均网络延迟： %1$d ms (抖动： %2$d ms)</string>
-    <string name="perf_overlay_dectime">平均解码时间： %1$.2f ms</string>
 
     <!-- AppList activity -->
     <string name="applist_connect_msg">正在连接电脑……</string>
@@ -143,17 +131,13 @@
     <string name="applist_menu_cancel">取消</string>
     <string name="applist_menu_details">查看详情</string>
     <string name="applist_menu_scut">创建快捷方式</string>
-    <string name="applist_menu_tv_channel">添加到频道</string>
     <string name="applist_menu_hide_app">隐藏游戏</string>
     <string name="applist_refresh_title">游戏列表</string>
     <string name="applist_refresh_msg">刷新中……</string>
-    <string name="applist_refresh_error_title">错误</string>
-    <string name="applist_refresh_error_msg">获取列表失败</string>
     <string name="applist_quit_app">退出中</string>
     <string name="applist_quit_success">成功退出串流</string>
     <string name="applist_quit_fail">退出串流失败</string>
     <string name="applist_quit_confirmation">您确定要退出当前游戏？所有未保存的数据将丢失。</string>
-    <string name="applist_details_id">App ID：</string>
 
     <!-- In Game menu -->
     <string name="game_menu">🍥🍬 V+ 串流选项</string>
@@ -164,32 +148,15 @@
     <string name="perf_overlay_locked">固定</string>
     <string name="game_menu_toggle_virtual_controller">虚拟手柄</string>
     <string name="game_menu_toggle_host_keyboard">主机键盘</string>
-    <string name="game_menu_toggle_all_keyboard">切换 PC 键盘</string>
-    <string name="game_menu_toggle_classic">切换到经典鼠标模式</string>
-    <string name="game_menu_toggle_enhanced">切换到增强式多点触控</string>
     <string name="game_menu_toggle_mouse_on">手柄模拟鼠标-打开</string>
     <string name="game_menu_toggle_mouse_off">手柄模拟鼠标-关闭</string>
     <string name="game_menu_disconnect">断开连接</string>
-    <string name="game_menu_exit">断开并退出串流</string>
     <string name="game_menu_disconnect_and_quit">断开并退出串流</string>
     <string name="game_menu_cancel">取消</string>
     <string name="game_menu_send_keys">发送特殊按键</string>
-    <string name="game_menu_send_keys_esc">发送 ESC</string>
-    <string name="game_menu_send_keys_f11">发送 F11 (全屏状态切换)</string>
-    <string name="game_menu_send_keys_ctrl_v">发送 CTRL + V (粘贴剪贴板)</string>
-    <string name="game_menu_send_keys_win">发送 WIN (win开始菜单)</string>
-    <string name="game_menu_send_keys_win_d">发送 WIN + D (切到桌面)</string>
-    <string name="game_menu_send_keys_win_g">发送 WIN + G (打开 Xbox Game Bar)</string>
-    <string name="game_menu_send_keys_shift_tab">发送 SHIFT + TAB (打开 Steam 图层)</string>
-    <string name="game_menu_send_keys_alt_home">发送 ALT + HOME (小飞机/RTSS 主机性能监控开关)</string>
-    <string name="game_menu_adjust_bitrate">调整码率</string>
-    <string name="game_menu_bitrate_custom">自定义码率</string>
     <string name="game_menu_bitrate_current">当前: %d Mbps</string>
     <string name="game_menu_bitrate_adjustment_success">码率调整成功至 %d Mbps</string>
     <string name="game_menu_bitrate_adjustment_failed">码率调整失败</string>
-    <string name="game_menu_ok">确定</string>
-    <string name="game_menu_bitrate_range">码率范围:</string>
-    <string name="game_menu_bitrate_range_value">0.5 - 200 Mbps</string>
     <string name="game_menu_bitrate_tip">拖动滑动条实时调整码率, 需要更高的码率请到设置菜单操作。</string>
 
     <!-- Add computer manually activity -->
@@ -272,8 +239,6 @@
     <string name="suffix_seekbar_mic_bitrate_kbps">kbps</string>
     <string name="title_list_mic_icon_color">麦克风图标颜色</string>
     <string name="summary_list_mic_icon_color">选择麦克风按钮图标的颜色</string>
-    <string name="title_checkbox_enable_background_audio">后台音频模式</string>
-    <string name="summary_checkbox_enable_background_audio">隐藏整个窗口并在后台播放音频，让您在听音时使用其他应用</string>
 
     <string name="category_gamepad_settings">🎮 手柄设置</string>
     <string name="title_seekbar_deadzone">调整摇杆死区</string>
@@ -349,10 +314,6 @@
     <string name="summary_pointer_velocity_factor">设置增强型触控区内的触点移速比例。100% = 禁用，小于100%为缩小，大于100%为放大</string>
     <string name="dialog_title_pointer_velocity_factor">增强型触控区内的触点移速比例</string>
     <string name="suffix_pointer_velocity_factor">%</string>
-    <string name="title_fixed_x_velocity">设置增强型触控区内触点的水平方向固定移速</string>
-    <string name="summary_fixed_x_velocity">设置增强型触控区内触点的水平方向固定移速. 0像素 = 禁用，大于0将禁用水平方向的移速比例，改为固定移速</string>
-    <string name="dialog_title_fixed_x_velocity">触点水平方向固定移速</string>
-    <string name="suffix_fixed_x_velocity">像素</string>
 
     <string name="category_on_screen_controls_settings">📱 屏幕控制按钮设置</string>
     <string name="title_checkbox_show_onscreen_controls">显示屏幕控制按钮</string>
@@ -365,7 +326,6 @@
     <string name="summary_show_guide_button">在屏幕上显示引导按钮</string>
     <string name="title_half_height_osc_portrait">竖屏模式半高</string>
     <string name="summary_half_height_osc_portrait">竖屏下控制按钮将显示于下半屏</string>
-    <string name="title_osc_opacity">更改屏幕按钮透明度</string>
     <string name="summary_osc_opacity">令屏幕按钮变得更透明/更不透明</string>
     <string name="dialog_title_osc_opacity">透明度</string>
     <string name="suffix_osc_opacity">%</string>
@@ -422,8 +382,6 @@
     <string name="summary_checkbox_reduce_refresh_rate">较低的屏幕刷新率可以在增加一些视频延迟的情况下省电</string>
     <string name="title_checkbox_disable_warnings">禁用错误提示</string>
     <string name="summary_checkbox_disable_warnings">串流中禁用连接错误提示</string>
-    <string name="title_disable_frame_drop">永不掉帧</string>
-    <string name="summary_disable_frame_drop">可能会减少在一些设备上的卡顿，但会增加延迟</string>
     <string name="title_video_format">更改编解码器设置</string>
     <string name="summary_video_format">如果您的设备支持较新的编解码器，则可以降低视频带宽要求。如果主机软件或显卡不支持编解码器选择，则可能会忽略编解码器选择。</string>
     <string name="title_enable_hdr">启用 HDR </string>
@@ -442,8 +400,6 @@
     <string name="summary_perf_overlay_orientation">选择性能统计信息的显示方向</string>
     <string name="title_perf_overlay_position">性能统计显示位置</string>
     <string name="summary_perf_overlay_position">水平时选择顶部/底部，垂直时选择四个角位置</string>
-    <string name="title_reset_perf_overlay_position">重置性能统计位置</string>
-    <string name="summary_reset_perf_overlay_position">将性能统计重置到预设位置</string>
     <string name="title_perf_overlay_display_items">性能统计显示项目</string>
     <string name="summary_perf_overlay_display_items">选择要在性能覆盖层中显示的信息项目</string>
     <string name="title_enable_post_stream_toast">串流完毕显示延迟信息</string>
@@ -452,17 +408,8 @@
     <string name="summary_checkbox_enable_stun">这会尝试利用 STUN 服务器获取被控端的公网访问方式，以便在离开局域网环境后继续连接。但此功能可能会导致无公网 IP 用户扫描变慢</string>
 
     <string name="category_help">📋 帮助</string>
-    <string name="title_setup_guide">安装向导</string>
-    <string name="summary_setup_guide">查看有关如何设置游戏电脑以进行流传输的说明</string>
-    <string name="title_troubleshooting">解决方案向导</string>
-    <string name="summary_troubleshooting">查看有关诊断和修复常见流传输问题的提示</string>
-    <string name="check_for_updates">检查更新</string>
-    <string name="summary_check_for_updates">检查是否有新版本可用</string>
     <string name="title_about_mode">关于 Moonlight V+</string>
     <string name="summary_about_mode">请前往GitHub查看，喜欢的话点个Star支持一下我们吧</string>
-    <string name="title_moonlight_vplus_pc_download">Moonlight V+ PC 版下载</string>
-    <string name="title_privacy_policy">隐私政策</string>
-    <string name="summary_privacy_policy">查看 Moonlight 隐私政策</string>
 
     <string name="mic_stats_continuity">音频连续性: %.1f%% (捕获:%d 编码:%d 发送:%d 丢弃:%d)</string>
 
@@ -531,9 +478,6 @@
     <string name="videoformat_hevcalways">首选 HEVC</string>
 
     <!-- Crown feature toggle -->
-    <string name="crown_toggle_button">王冠</string>
-    <string name="crown_mode_normal">普通模式</string>
-    <string name="crown_mode_crown">王冠模式</string>
     <string name="crown_switch_to_normal">退出王冠模式</string>
     <string name="crown_switch_to_crown">启用王冠模式</string>
     <string name="game_menu_crown_function">王冠功能</string>
@@ -617,7 +561,6 @@
     <string name="gyro_activation_method">激活按键</string>
     <string name="gyro_invert_x_axis">X 轴反转</string>
     <string name="gyro_invert_y_axis">Y 轴反转</string>
-    <string name="gyro_sensitivity">灵敏度</string>
     <string name="gyro_sensitivity_format">灵敏度 %.1fx</string>
     <string name="gyro_activation_always">常开</string>
 
@@ -655,7 +598,6 @@
     <string name="app_last_settings_title">上一次设置</string>
     <string name="app_last_settings_none">无上一次设置</string>
     <string name="app_last_settings_use_checkbox">使用上一次设置</string>
-    <string name="app_last_settings_apply_success">已应用上一次设置</string>
     <string name="app_last_settings_start_with_last">使用上一次设置启动</string>
 
     <!-- Setting detail strings -->
@@ -667,7 +609,6 @@
     <string name="setting_hdr_enabled">HDR：开启</string>
     <string name="setting_mic_enabled">麦克风：%1$dkbps</string>
     <string name="setting_native_mouse_enabled">原生鼠标：开启</string>
-    <string name="setting_gyro_sensitivity">陀螺仪：%1$.1fx</string>
     <string name="setting_bitrate_card_enabled">码率卡片：开启</string>
     <string name="setting_gyro_card_enabled">陀螺仪卡片：开启</string>
     <string name="setting_QuickKey_card_enabled">特殊按键卡片：开启</string>

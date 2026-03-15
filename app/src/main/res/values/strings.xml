@@ -22,20 +22,17 @@
 
     <!-- Widget strings -->
     <string name="widget_name">Game List</string>
-    <string name="widget_configure_title">Select Computer</string>
     <string name="widget_no_apps">No apps found</string>
     <string name="widget_tap_to_refresh">Tap to refresh</string>
     <string name="widget_configure_prompt">Choose a computer to display games from:</string>
 
     <string name="pcview_menu_pair_pc">Pair with PC</string>
-    <string name="pcview_menu_unpair_pc">Unpair</string>
     <string name="pcview_menu_send_wol">Send Wake-On-LAN request</string>
     <string name="pcview_menu_delete_pc">Delete PC</string>
     <string name="pcview_menu_test_network">Test Network Connection</string>
     <string name="pcview_menu_details">View Details</string>
     <string name="pcview_menu_secondary_screen">Secondary Screen Stream (Foundation Sunshine Compatible)</string>
     <string name="pcview_menu_eol">NVIDIA GameStream End-of-Service</string>
-    <string name="pcview_menu_send_sleep">Send sleep command</string>
     <string name="pcview_menu_sleep_success">Host sleep success</string>
     <string name="pcview_menu_sleep_fail">Host sleep failed</string>
     <string name="pcview_menu_disable_ipv6">Disable IPv6</string>
@@ -66,7 +63,6 @@
     <!-- WOL messages -->
     <string name="wol_pc_online">Computer is online</string>
     <string name="wol_no_mac">Unable to wake PC because there is no stored MAC address</string>
-    <string name="wol_waking_pc">Waking PC…</string>
     <string name="wol_waking_msg">It may take a few seconds for your PC to wake up.\nIf it doesn\'t, make sure it\'s configured properly for Wake-On-LAN.</string>
     <string name="wol_fail">Failed to send Wake-On-LAN packets</string>
 
@@ -127,14 +123,6 @@
     <string name="delete_pc_msg">Are you sure you want to delete this PC?</string>
     <string name="slow_connection_msg">Slow connection to PC\nReduce your bitrate</string>
     <string name="poor_connection_msg">Poor connection to PC</string>
-    <string name="perf_overlay_streamdetails">Video stream: %1$s %2$.2f FPS</string>
-    <string name="perf_overlay_decoder">Decoder: %1$s</string>
-    <string name="perf_overlay_incomingfps">Incoming frame rate from network: %1$.2f FPS</string>
-    <string name="perf_overlay_renderingfps">Rendering frame rate: %1$.2f FPS</string>
-    <string name="perf_overlay_hostprocessinglatency">Host processing latency min/max/average: %1$.1f/%2$.1f/%3$.1f ms</string>
-    <string name="perf_overlay_netdrops">Frames dropped by your network connection: %1$.2f%%</string>
-    <string name="perf_overlay_netlatency">Average network latency: %1$d ms (variance: %2$d ms)</string>
-    <string name="perf_overlay_dectime">Average decoding time: %1$.2f ms</string>
 
     <!-- AppList activity -->
     <string name="applist_connect_msg">Connecting to PC…</string>
@@ -146,17 +134,13 @@
     <string name="applist_menu_cancel">Cancel</string>
     <string name="applist_menu_details">View Details</string>
     <string name="applist_menu_scut">Create Shortcut</string>
-    <string name="applist_menu_tv_channel">Add to Channel</string>
     <string name="applist_menu_hide_app">Hide App</string>
     <string name="applist_refresh_title">App List</string>
     <string name="applist_refresh_msg">Refreshing apps…</string>
-    <string name="applist_refresh_error_title">Error</string>
-    <string name="applist_refresh_error_msg">Failed to get app list</string>
     <string name="applist_quit_app">Quitting</string>
     <string name="applist_quit_success">Successfully quit</string>
     <string name="applist_quit_fail">Failed to quit</string>
     <string name="applist_quit_confirmation">Are you sure you want to quit the running app? All unsaved data will be lost.</string>
-    <string name="applist_details_id">App ID:</string>
 
     <!-- In Game menu -->
     <string name="game_menu">🍥🍬 V+ Game Menu</string>
@@ -167,32 +151,15 @@
     <string name="perf_overlay_locked">Fixed</string>
     <string name="game_menu_toggle_virtual_controller">Toggle Virtual Controller</string>
     <string name="game_menu_toggle_host_keyboard">Toggle Host Keyboard</string>
-    <string name="game_menu_toggle_all_keyboard">Toggle PC Keyboard</string>
-    <string name="game_menu_toggle_classic">Switch to classic mouse mode</string>
-    <string name="game_menu_toggle_enhanced">Switch to enhanced multi-touch</string>
     <string name="game_menu_toggle_mouse_on">Enable Controller Mouse Emulation</string>
     <string name="game_menu_toggle_mouse_off">Disable Controller Mouse Emulation</string>
     <string name="game_menu_disconnect">Disconnect</string>
-    <string name="game_menu_exit">Disconnect and exit</string>
     <string name="game_menu_disconnect_and_quit">Disconnect and Quit</string>
     <string name="game_menu_cancel">Cancel</string>
     <string name="game_menu_send_keys">Send special Key(s)</string>
-    <string name="game_menu_send_keys_esc">Send ESC (Menu)</string>
-    <string name="game_menu_send_keys_f11">Send F11 (Toggle Full Screen)</string>
-    <string name="game_menu_send_keys_ctrl_v">Send CTRL + V (Paste Clipboard)</string>
-    <string name="game_menu_send_keys_win">Send WIN (Toggle Windows Start Menu)</string>
-    <string name="game_menu_send_keys_win_d">Send WIN + D (Switch to Desktop)</string>
-    <string name="game_menu_send_keys_win_g">Send WIN + G (Open Xbox Game Bar)</string>
-    <string name="game_menu_send_keys_shift_tab">Send SHIFT + TAB (Open Steam Overlay)</string>
-    <string name="game_menu_send_keys_alt_home">Send ALT + HOME (Toggle RTSS)</string>
-    <string name="game_menu_adjust_bitrate">Adjust Bitrate</string>
-    <string name="game_menu_bitrate_custom">Custom Bitrate</string>
     <string name="game_menu_bitrate_current">Current: %d Mbps</string>
     <string name="game_menu_bitrate_adjustment_success">Bitrate adjusted successfully to %d Mbps</string>
     <string name="game_menu_bitrate_adjustment_failed">Failed to adjust bitrate</string>
-    <string name="game_menu_ok">OK</string>
-    <string name="game_menu_bitrate_range">Bitrate Range:</string>
-    <string name="game_menu_bitrate_range_value">0.5 - 200 Mbps</string>
     <string name="game_menu_bitrate_tip">Drag the slider to adjust bitrate in real-time. Higher values mean better quality but require better network.</string>
 
     <!-- Add computer manually activity -->
@@ -275,8 +242,6 @@
     <string name="suffix_seekbar_mic_bitrate_kbps">kbps</string>
     <string name="title_list_mic_icon_color">Microphone icon color</string>
     <string name="summary_list_mic_icon_color">Choose the color scheme for the microphone button icon</string>
-    <string name="title_checkbox_enable_background_audio">Background Audio Mode</string>
-    <string name="summary_checkbox_enable_background_audio">Hide the entire window and play audio in background, allowing you to use other apps while listening</string>
 
     <string name="category_gamepad_settings">🎮 Gamepad Settings</string>
     <string name="title_seekbar_deadzone">Adjust analog stick deadzone</string>
@@ -352,10 +317,6 @@
     <string name="summary_pointer_velocity_factor">Set pointer velocity factor for enhanced touch zone. Set 100% to disable</string>
     <string name="dialog_title_pointer_velocity_factor">Set pointer velocity factor for enhanced touch zone. Set 100% to disable</string>
     <string name="suffix_pointer_velocity_factor">%</string>
-    <string name="title_fixed_x_velocity">Set fixed X (horizontal) velocity</string>
-    <string name="summary_fixed_x_velocity">Set fixed X (horizontal) velocity. Set 0 to disable fixed x velocity mode. Larger than 0 means disable horizontal velocity factor to use fixed velocity instead.</string>
-    <string name="dialog_title_fixed_x_velocity">Set fixed X (horizontal) velocity in pixels. Set 0 to disable fixed x velocity.</string>
-    <string name="suffix_fixed_x_velocity">pixels</string>
 
     <string name="category_on_screen_controls_settings">📱 On-screen Controls Settings</string>
     <string name="title_checkbox_show_onscreen_controls">Show on-screen controls</string>
@@ -368,7 +329,6 @@
     <string name="summary_show_guide_button">Show the guide button on screen</string>
     <string name="title_half_height_osc_portrait">Half-height in portrait mode</string>
     <string name="summary_half_height_osc_portrait">In portrait mode, the control buttons will appear on the lower half of the screen</string>
-    <string name="title_osc_opacity">Change opacity of on-screen controls</string>
     <string name="summary_osc_opacity">Make the on-screen controls more/less transparent</string>
     <string name="dialog_title_osc_opacity">Change opacity</string>
     <string name="suffix_osc_opacity">%</string>
@@ -425,8 +385,6 @@
     <string name="summary_checkbox_reduce_refresh_rate">Lower display refresh rates can save power at the expense of some additional video latency</string>
     <string name="title_checkbox_disable_warnings">Disable warning messages</string>
     <string name="summary_checkbox_disable_warnings">Disable on-screen connection warning messages while streaming</string>
-    <string name="title_disable_frame_drop">Never drop frames</string>
-    <string name="summary_disable_frame_drop">May reduce micro-stuttering on some devices, but can increase latency</string>
     <string name="title_video_format">Change codec settings</string>
     <string name="summary_video_format">Newer codecs can lower video bandwidth requirements if your device supports them. Codec selections may be ignored if not supported by the host software or GPU.</string>
     <string name="title_enable_hdr">Enable HDR (Experimental)</string>
@@ -445,8 +403,6 @@
     <string name="summary_perf_overlay_orientation">Choose the display orientation for performance statistics</string>
     <string name="title_perf_overlay_position">Performance Overlay Position</string>
     <string name="summary_perf_overlay_position">Choose top/bottom for horizontal orientation, or four corner positions for vertical orientation</string>
-    <string name="title_reset_perf_overlay_position">Reset Performance Overlay Position</string>
-    <string name="summary_reset_perf_overlay_position">Reset performance overlay to preset position</string>
     <string name="title_perf_overlay_display_items">Performance Overlay Display Items</string>
     <string name="summary_perf_overlay_display_items">Select information items to display in the performance overlay</string>
     <string name="title_enable_post_stream_toast">Show latency message after streaming</string>
@@ -455,17 +411,8 @@
     <string name="summary_checkbox_enable_stun">This will attempt to use a STUN server to obtain the controlled device\'s public network access method, so that it can continue to connect after leaving the local network environment. However, this feature may slow down scanning for users without a public IP.</string>
 
     <string name="category_help">📋 Help</string>
-    <string name="title_setup_guide">Setup guide</string>
-    <string name="summary_setup_guide">View instructions on how to set up your gaming PC for streaming</string>
-    <string name="title_troubleshooting">Troubleshooting guide</string>
-    <string name="summary_troubleshooting">View tips for diagnosing and fixing common streaming issues</string>
-    <string name="check_for_updates">Check for updates</string>
-    <string name="summary_check_for_updates">Check if there is a new version available</string>
     <string name="title_about_mode">About</string>
     <string name="summary_about_mode">View app information and project details</string>
-    <string name="title_moonlight_vplus_pc_download">Moonlight V+ PC Download</string>
-    <string name="title_privacy_policy">Privacy policy</string>
-    <string name="summary_privacy_policy">View Moonlight\'s privacy policy</string>
 
     <string name="mic_stats_continuity">Audio continuity: %.1f%% (Captured:%d Encoded:%d Sent:%d Dropped:%d)</string>
 
@@ -548,9 +495,6 @@
     <string name="videoformat_hevcalways">Prefer HEVC</string>
 
     <!-- Crown feature toggle -->
-    <string name="crown_toggle_button">Crown</string>
-    <string name="crown_mode_normal">Normal Mode</string>
-    <string name="crown_mode_crown">Crown Mode</string>
     <string name="crown_switch_to_normal">Switch to Normal Mode</string>
     <string name="crown_switch_to_crown">Switch to Crown Mode</string>
     <string name="game_menu_crown_function">Crown Function</string>
@@ -634,7 +578,6 @@
     <string name="gyro_activation_method">Act Key</string>
     <string name="gyro_invert_x_axis">X Rev</string>
     <string name="gyro_invert_y_axis">Y Rev</string>
-    <string name="gyro_sensitivity">Sensitivity</string>
     <string name="gyro_sensitivity_format">Sensitivity %.1fx</string>
     <string name="gyro_activation_always">Always On</string>
 
@@ -672,7 +615,6 @@
     <string name="app_last_settings_title">Last Settings</string>
     <string name="app_last_settings_none">No last settings</string>
     <string name="app_last_settings_use_checkbox">Use last settings</string>
-    <string name="app_last_settings_apply_success">Applied last settings</string>
     <string name="app_last_settings_start_with_last">Started with last settings</string>
 
     <!-- Setting detail strings -->
@@ -684,7 +626,6 @@
     <string name="setting_hdr_enabled">HDR: Enabled</string>
     <string name="setting_mic_enabled">Microphone: %1$dkbps</string>
     <string name="setting_native_mouse_enabled">Native Mouse: Enabled</string>
-    <string name="setting_gyro_sensitivity">Gyroscope: %1$.1fx</string>
     <string name="setting_bitrate_card_enabled">Bitrate Card: Enabled</string>
     <string name="setting_gyro_card_enabled">Gyro Card: Enabled</string>
     <string name="setting_QuickKey_card_enabled">Special key card: Activate</string>

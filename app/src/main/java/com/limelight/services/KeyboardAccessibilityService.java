@@ -155,8 +155,8 @@ public class KeyboardAccessibilityService extends AccessibilityService {
 
         // 正常的系统按键过滤逻辑
         switch (event.getKeyCode()) {
-            // case KeyEvent.KEYCODE_BACK:
-            // case KeyEvent.KEYCODE_HOME:
+            case KeyEvent.KEYCODE_BACK:
+            case KeyEvent.KEYCODE_HOME:
             case KeyEvent.KEYCODE_APP_SWITCH:
             case KeyEvent.KEYCODE_VOLUME_UP:
             case KeyEvent.KEYCODE_VOLUME_DOWN:

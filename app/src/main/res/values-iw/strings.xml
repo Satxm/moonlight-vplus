@@ -4,7 +4,6 @@
     <string name="scut_not_paired">מחשב לא מצורף</string>
     <string name="help_loading_msg">טוען עמוד עזרה…</string>
     <string name="pcview_menu_header_online">פעיל</string>
-    <string name="pcview_menu_unpair_pc">הסר אימות</string>
     <string name="pcview_menu_details">הראה פרטים</string>
     <string name="nettest_text_waiting">מונלייט בודק את הרשת שלך ובודק אם ישנם פורטים הכרחיים חסומים
 \n
@@ -53,10 +52,6 @@
     <string name="ip_hint">כתובת IP של המחשב המארח</string>
     <string name="title_details">פרטים</string>
     <string name="poor_connection_msg">חיבור חלש למחשב</string>
-    <string name="perf_overlay_decoder">מפענח: %1$s</string>
-    <string name="perf_overlay_incomingfps">פריימים לשניה מהרשת: %1$.2f FPS</string>
-    <string name="perf_overlay_netdrops">פריימים שנפלו בחיבור רשת: %1$.2f%%</string>
-    <string name="perf_overlay_dectime">זמן פענוח ממוצע: %1$.2f ms</string>
     <string name="applist_connect_msg">מתחבר למחשב…</string>
     <string name="applist_menu_resume">חזור לשידור</string>
     <string name="applist_menu_quit_and_start">סגור משחק נוכחי והתחל</string>
@@ -64,7 +59,6 @@
     <string name="applist_menu_scut">צור קיצור דרך</string>
     <string name="applist_quit_app">יוצא</string>
     <string name="applist_quit_success">יציאה הושלמה בהצלחה</string>
-    <string name="applist_details_id">מספר אפליקציה:</string>
     <string name="title_add_pc">הוספת מחשב ידנית</string>
     <string name="addpc_enter_ip">חייב להכניס כתובת IP</string>
     <string name="category_basic_settings">הגדרות בסיסיות</string>
@@ -78,7 +72,6 @@
     <string name="pairing">מאמת…</string>
     <string name="pair_pc_ingame">מחשב באמצע משחק. נא לצאת מהמשחק לפני ביצוע חיבור.</string>
     <string name="pair_already_in_progress">פעולת החיבור מתבצעת</string>
-    <string name="wol_waking_pc">מעיר מחשב…</string>
     <string name="error_manager_not_running">שירות \"ניהול-מחשב\" לא פעיל. אנא חכה כמה שניות להפעלה מחדש של האפליקציה.</string>
     <string name="title_decoding_reset">הגדרות וידיאו אופסו</string>
     <string name="error_404">GFE החזיר שגיאת 404. אנא וודא שהמחשב עם כרטיס מסך נתמך. שימוש בתוכנת חיבור מרוחק יכולה לגרום לשגיאה זו. נסה להפעיל מחדש את המחשב או להתקין GFE.</string>
@@ -112,18 +105,12 @@
     <string name="yes">כן</string>
     <string name="no">לא</string>
     <string name="help">עזרה</string>
-    <string name="perf_overlay_streamdetails">הזרמת וידיאו: %1$s %2$.2f FPS</string>
-    <string name="perf_overlay_renderingfps">פריימים מרונדרים: %1$.2f FPS</string>
     <string name="applist_menu_hide_app">הסתר אפליקציה</string>
-    <string name="perf_overlay_netlatency">מהירות תגובה ממוצעת: %1$d ms (שונות: %2$d ms)</string>
     <string name="applist_menu_quit">הפסק שידור</string>
     <string name="applist_menu_cancel">בטל</string>
-    <string name="applist_refresh_error_msg">נכשל להשיג רשימת אפליקציות</string>
     <string name="applist_quit_fail">יציאה נכשלה</string>
-    <string name="applist_menu_tv_channel">הוסף לערוץ</string>
     <string name="applist_refresh_title">רשימת אפליקציות</string>
     <string name="applist_refresh_msg">מרענן אפליקציות…</string>
-    <string name="applist_refresh_error_title">שגיאה</string>
     <string name="applist_quit_confirmation">אתה בטוח שאתה רוצה לסגור את האפליקציה הנוכחית\? מידע שלא נשמר ייאבד.</string>
     <string name="msg_add_pc">מתחבר למחשב…</string>
     <string name="addpc_unknown_host">נכשל לאתר כתובת מחשב. נא לוודא שאין שגיאה בכתובת.</string>

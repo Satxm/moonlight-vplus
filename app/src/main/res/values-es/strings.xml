@@ -3,7 +3,6 @@
     <!-- PC view menu entries -->
     <string name="pcview_menu_app_list">Ver lista de juegos</string>
     <string name="pcview_menu_pair_pc">Emparejar con PC</string>
-    <string name="pcview_menu_unpair_pc">Desemparejar</string>
     <string name="pcview_menu_send_wol">Enviar petición Wake-On-LAN</string>
     <string name="pcview_menu_delete_pc">Eliminar PC</string>
     <!-- Pair messages -->
@@ -17,7 +16,6 @@
     <!-- WOL messages -->
     <string name="wol_pc_online">Ordenador encendido</string>
     <string name="wol_no_mac">No se puede activar el PC porque no hay ninguna dirección MAC almacenada</string>
-    <string name="wol_waking_pc">Iniciando PC…</string>
     <string name="wol_waking_msg">Puede tomar algunos segundos iniciar tu PC.
 	    Si no se inicia asegúrate que está configurado correctamente para Wake-On-LAN.
     </string>
@@ -61,8 +59,6 @@
     <string name="applist_menu_cancel">Cancelar</string>
     <string name="applist_refresh_title">Lista de aplicaciones</string>
     <string name="applist_refresh_msg">Actualizando lista de aplicaciones…</string>
-    <string name="applist_refresh_error_title">Error</string>
-    <string name="applist_refresh_error_msg">Error al cargar lista de aplicaciones</string>
     <string name="applist_quit_app">Cerrando</string>
     <string name="applist_quit_success">Cerrado satisfactoriamente</string>
     <string name="applist_quit_fail">Error al cerrar</string>
@@ -143,23 +139,13 @@
     <string name="title_audio_config_list">Configuración de Sonido Envolvente</string>
     <string name="title_decoding_reset">Reiniciar Opciones de Video</string>
     <string name="no_video_received_error">No se recibe video desde el equipo anfitrión.</string>
-    <string name="applist_details_id">ID de Aplicación:</string>
     <string name="title_checkbox_mouse_emulation">Emulación de ratón usando el mando</string>
     <string name="pacing_latency">Preferir la menor latencia posible</string>
     <string name="pacing_balanced">Equilibrado</string>
     <string name="pacing_smoothness">Preferir mayor fluidez de video (puede incrementar significativamente la latencia)</string>
-    <string name="perf_overlay_decoder">Decodificador: %1$s</string>
-    <string name="perf_overlay_incomingfps">Tasa de cuadros obtenida de la red: %1$.2f FPS</string>
-    <string name="perf_overlay_renderingfps">Tasa de Cuadros Renderizada: %1$.2f FPS</string>
-    <string name="perf_overlay_netdrops">Cuadros perdidos por tu conexión de internet: %1$.2f%%</string>
-    <string name="perf_overlay_netlatency">Latencia promedio de red:%1$d ms (variación: %2$d ms)</string>
-    <string name="perf_overlay_dectime">Tiempo promedio de descodificado: %1$.2f ms</string>
-    <string name="perf_overlay_streamdetails">Transmisión video: %1$s %2$.2f FPS</string>
     <string name="title_fps_list">Tasa de cuadros en el video</string>
     <string name="summary_fps_list">Incrementar para una experiencia mas fluida en la transmisión. Disminuir para una mejoría en el rendimiento en dispositivos de gama de entrada.</string>
     <string name="summary_reset_osc">Reiniciar toda la configuración a las predeterminadas de tamaño y posición para los controles en pantalla</string>
-    <string name="summary_troubleshooting">Mostrar consejos para diagnosticar y corregir errores comunes respecto a la transmisión</string>
-    <string name="title_privacy_policy">Política de Privacidad</string>
     <string name="resolution_360p">360p</string>
     <string name="resolution_1440p">1440p</string>
     <string name="resolution_4k">4K</string>
@@ -168,7 +154,6 @@
     <string name="resolution_720p">720p</string>
     <string name="fps_120">120 FPS</string>
     <string name="audioconf_71surround">7.1 Sonido Envolvente</string>
-    <string name="title_troubleshooting">Guía de Solución de Errores</string>
     <string name="resolution_1080p">1080p</string>
     <string name="summary_frame_pacing">Especificar como balancear la latencia de video y la fluidez</string>
     <string name="pacing_balanced_alt">Equilibrado con limitador de FPS (Cuadros por Segundo)</string>
@@ -188,7 +173,6 @@
     <string name="poor_connection_msg">Conexión pobre al PC</string>
     <string name="applist_menu_details">Ver Detalles</string>
     <string name="applist_menu_scut">Crear Acceso Directo</string>
-    <string name="applist_menu_tv_channel">Agregar al Canal</string>
     <string name="applist_menu_hide_app">Esconder Aplicación</string>
     <string name="applist_connect_msg">Conectando al Equipo…</string>
     <string name="summary_checkbox_mouse_nav_buttons">Activar esta opción puede desconfigurar la función de clic derecho en algunos dispositivos inestables</string>
@@ -233,19 +217,13 @@
     <string name="dialog_title_reset_osc">Reiniciar a Plantilla Predeterminada</string>
     <string name="dialog_text_reset_osc">¿Estás seguro de que quieres eliminar tus configuraciones guardadas para las plantillas de los controles en pantalla\?</string>
     <string name="toast_reset_osc_success">Establecer Controles en Pantalla en modo Predeterminado</string>
-    <string name="title_osc_opacity">Cambiar la transparencia de los controles en pantalla</string>
     <string name="summary_osc_opacity">Hacer los controles en pantalla más/menos transparentes</string>
     <string name="dialog_title_osc_opacity">Cambiar opacidad</string>
     <string name="summary_checkbox_enable_pip">Permite que la transmisión sea vista (pero no controlable) mientras se usa la multitarea</string>
-    <string name="title_disable_frame_drop">Nunca disminuir cuadros</string>
-    <string name="summary_disable_frame_drop">Puede reducir micro-tartamudeos (Stuttering) en algunos dispositivos , pero puede incrementar latencia</string>
     <string name="title_enable_hdr">Activar HDR (Alto Rango Dinámico / Experimental)</string>
     <string name="summary_enable_hdr">Transmite en HDR cuando el juego y la GPU del PC lo admitan. HDR requiere una GPU compatible con la codificación HEVC Main 10.</string>
     <string name="title_enable_post_stream_toast">Mostrar mensajes sobre latencia mientras se transmite</string>
     <string name="category_help">Ayuda</string>
-    <string name="title_setup_guide">Guía para la Configuración</string>
-    <string name="summary_setup_guide">Mostrar instrucciones para como configurar tu PC para juegos para la transmisión</string>
-    <string name="summary_privacy_policy">Mostrar la política de privacidad de Moonlight</string>
     <string name="resolution_480p">480p</string>
     <string name="fps_30">30 FPS</string>
     <string name="fps_60">60 FPS</string>
@@ -268,7 +246,6 @@
     <string name="title_checkbox_gamepad_motion_sensors">Permitir el uso de los sensores de movimiento del gamepad</string>
     <string name="videoformat_av1always">Preferir AV1 (Experimental)</string>
     <string name="videoformat_h264always">Prefiero H.264</string>
-    <string name="perf_overlay_hostprocessinglatency">Latencia de procesamiento del host mín/máx/promedio: %1$.1f/%2$.1f/%3$.1f ms</string>
     <string name="summary_checkbox_gamepad_touchpad_as_mouse">Fuerza la entrada del touchpad del gamepad para controlar el ratón del host, incluso cuando se emula un gamepad con touchpad.</string>
     <string name="title_checkbox_gamepad_touchpad_as_mouse">Controla siempre el ratón con el touchpad</string>
     <string name="summary_checkbox_gamepad_motion_sensors">Permite a los hosts compatibles solicitar datos de los sensores de movimiento al emular un gamepad con los sensores de movimiento. La desactivación puede reducir ligeramente el consumo de energía y el uso de la red si los sensores de movimiento no se utilizan en el juego.</string>
@@ -303,15 +280,11 @@
     <string name="category_crown_features">Área de Características Crown</string>
     <string name="category_enhanced_touch_settings">👆 Toque Multi-Punto Mejorado</string>
     <string name="category_screen_position_settings">Configuración de Pantalla</string>
-    <string name="check_for_updates">Buscar actualizaciones</string>
     <string name="copy_content">Copiar Contenido</string>
     <string name="copy_details">Copiar Detalles</string>
     <string name="copy_success">Contenido copiado al portapapeles</string>
-    <string name="crown_mode_crown">Modo Crown</string>
-    <string name="crown_mode_normal">Modo Normal</string>
     <string name="crown_switch_to_crown">Cambiar a Modo Crown</string>
     <string name="crown_switch_to_normal">Cambiar a Modo Normal</string>
-    <string name="crown_toggle_button">Crown</string>
     <string name="custom_resolution_input_title">Ingresar Resolución Personalizada</string>
     <string name="dialog_button_cancel">CANCELAR</string>
     <string name="dialog_button_clear">LIMPIAR</string>
@@ -323,20 +296,15 @@
     <string name="dialog_title_add_custom_key">Agregar botones personalizados</string>
     <string name="dialog_title_background_image_api">API de Imagen de Fondo</string>
     <string name="dialog_title_enhanced_touch_zone_divider">Menos del 50% significa dividir desde un punto a la izquierda, más del 50% significa derecha</string>
-    <string name="dialog_title_fixed_x_velocity">Establecer velocidad X (horizontal) fija en píxeles. Establecer 0 para deshabilitar velocidad x fija.</string>
     <string name="dialog_title_pointer_velocity_factor">Establecer factor de velocidad del puntero para la zona de toque mejorada. Establecer 100% para deshabilitar</string>
     <string name="dialog_title_select_keys_to_delete">Seleccionar el botón a eliminar</string>
     <string name="dialog_virtual_keyboard_hint">Haz clic en las teclas para crear una combinación</string>
     <string name="fps_144">144 FPS</string>
     <string name="fps_165">165 FPS</string>
     <string name="game_menu_add_custom_key">Agregar botón personalizado</string>
-    <string name="game_menu_adjust_bitrate">Ajustar Tasa de Bits</string>
     <string name="game_menu_bitrate_adjustment_failed">Error al ajustar tasa de bits</string>
     <string name="game_menu_bitrate_adjustment_success">Tasa de bits ajustada exitosamente a %d Mbps</string>
     <string name="game_menu_bitrate_current">Actual: %d Mbps</string>
-    <string name="game_menu_bitrate_custom">Tasa de Bits Personalizada</string>
-    <string name="game_menu_bitrate_range">Rango de Tasa de Bits:</string>
-    <string name="game_menu_bitrate_range_value">0.5 - 200 Mbps</string>
     <string name="game_menu_bitrate_tip">Arrastra el deslizador para ajustar la tasa de bits en tiempo real. Valores más altos significan mejor calidad pero requieren mejor red.</string>
     <string name="game_menu_cancel">Cancelar</string>
     <string name="game_menu_configure_crown_function">Configurar Función Crown</string>
@@ -346,18 +314,8 @@
     <string name="game_menu_disconnect">Desconectar</string>
     <string name="game_menu_disconnect_and_quit">Desconectar y Salir</string>
     <string name="game_menu_edit_mode">Modo de edición de botón Crown</string>
-    <string name="game_menu_ok">OK</string>
     <string name="game_menu_send_keys">Enviar tecla(s) especial(es)</string>
-    <string name="game_menu_send_keys_alt_home">Enviar ALT + HOME (Alternar RTSS)</string>
-    <string name="game_menu_send_keys_ctrl_v">Enviar CTRL + V (Pegar Portapapeles)</string>
-    <string name="game_menu_send_keys_esc">Enviar ESC (Menú)</string>
-    <string name="game_menu_send_keys_f11">Enviar F11 (Alternar Pantalla Completa)</string>
-    <string name="game_menu_send_keys_shift_tab">Enviar SHIFT + TAB (Abrir Superposición de Steam)</string>
-    <string name="game_menu_send_keys_win">Enviar WIN (Alternar Menú Inicio de Windows)</string>
-    <string name="game_menu_send_keys_win_d">Enviar WIN + D (Cambiar a Escritorio)</string>
-    <string name="game_menu_send_keys_win_g">Enviar WIN + G (Abrir Barra de Juegos Xbox)</string>
     <string name="game_menu_switch_touch_mode">Cambiar modo de toque</string>
-    <string name="game_menu_toggle_all_keyboard">Alternar Teclado de PC</string>
     <string name="game_menu_toggle_elements_visibility">Mostrar/Ocultar Teclas Virtuales</string>
     <string name="game_menu_toggle_host_keyboard">Alternar Teclado del Host</string>
     <string name="game_menu_toggle_keyboard">Alternar Teclado en Pantalla</string>
@@ -373,7 +331,6 @@
     <string name="gyro_activation_method">Método de Activación</string>
     <string name="gyro_invert_x_axis">X Rev</string>
     <string name="gyro_invert_y_axis">Y Rev</string>
-    <string name="gyro_sensitivity">Sensibilidad</string>
     <string name="gyro_sensitivity_format">Sensibilidad %.1fx</string>
     <string name="height_hint">ej. 1080</string>
     <string name="height_label">Alto:</string>
@@ -409,7 +366,6 @@
     <string name="resolution_added_successfully">Resolución agregada exitosamente</string>
     <string name="resolution_already_exists">Esta resolución ya existe</string>
     <string name="suffix_enhanced_touch_zone_divider">%</string>
-    <string name="suffix_fixed_x_velocity">píxeles</string>
     <string name="suffix_pointer_velocity_factor">%</string>
     <string name="suffix_seekbar_flat_region_pixels">píxeles</string>
     <string name="suffix_seekbar_keyboard_toggle_fingers_native_touch"> </string>
@@ -417,7 +373,6 @@
     <string name="summary_about_author">Crown\'s Bilibili: XiguaHub, por favor síguelos. GitHub: https://github.com/WACrown/moonlight-android</string>
     <string name="summary_about_mode">Ver información de la aplicación y detalles del proyecto</string>
     <string name="summary_background_image_api">Ingresa una API de imagen de fondo personalizada, o una URL de imagen única. Deja vacío para ver imágenes aleatorias</string>
-    <string name="summary_check_for_updates">Verificar si hay una nueva versión disponible</string>
     <string name="summary_checkbox_enable_enhanced_touch">	</string>
     <string name="summary_checkbox_enable_esc_menu">Cuando está habilitado, presionar doble ESC abre el menú de retorno de transmisión, una sola presión de ESC se pasa al host</string>
     <string name="summary_checkbox_enable_keyboard_toggle_in_native_touch">	</string>
@@ -431,14 +386,12 @@
     <string name="summary_enable_perf_overlay">Mostrar información de rendimiento de transmisión en tiempo real mientras transmites</string>
     <string name="summary_enhanced_touch_zone_divider">Define dónde dividir zonas de toque nativo y toque mejorado, menos del 50% significa dividir desde un punto a la izquierda, más del 50% significa derecha</string>
     <string name="summary_export_super_config">Exportar archivo de configuración de botones personalizados y configuraciones de transmisión</string>
-    <string name="summary_fixed_x_velocity">Establecer velocidad X (horizontal) fija. Establecer 0 para deshabilitar modo de velocidad x fija. Mayor que 0 significa deshabilitar factor de velocidad horizontal para usar velocidad fija en su lugar.</string>
     <string name="summary_import_super_config">Importar archivo de configuración de botones personalizados y configuraciones de transmisión</string>
     <string name="summary_merge_super_config">Fusionar botones de configuración nuevos en configuración existente</string>
     <string name="summary_perf_overlay_display_items">Seleccionar elementos de información para mostrar en la superposición de rendimiento</string>
     <string name="summary_perf_overlay_orientation">Elegir la orientación de visualización para estadísticas de rendimiento</string>
     <string name="summary_perf_overlay_position">Elegir arriba/abajo para orientación horizontal, o cuatro posiciones de esquina para orientación vertical</string>
     <string name="summary_pointer_velocity_factor">Establecer factor de velocidad del puntero para zona de toque mejorada. Establecer 100% para deshabilitar</string>
-    <string name="summary_reset_perf_overlay_position">Reiniciar superposición de rendimiento a posición preestablecida</string>
     <string name="summary_screen_offset_x">Desplazamiento horizontal de la pantalla</string>
     <string name="summary_screen_offset_y">Desplazamiento vertical de la pantalla</string>
     <string name="summary_screen_position">Elegir la posición de la pantalla cuando se usa resolución no pantalla completa</string>
@@ -481,15 +434,12 @@
     <string name="title_enable_perf_overlay">Mostrar estadísticas de rendimiento mientras transmites</string>
     <string name="title_enhanced_touch_zone_divider">Divisor de zona de toque mejorada</string>
     <string name="title_export_super_config">Exportar Configuración</string>
-    <string name="title_fixed_x_velocity">Establecer velocidad X (horizontal) fija</string>
     <string name="title_import_super_config">Importar Configuración</string>
     <string name="title_merge_super_config">Fusionar Configuración</string>
-    <string name="title_moonlight_vplus_pc_download">Descarga de Moonlight V+ PC</string>
     <string name="title_perf_overlay_display_items">Elementos de Visualización de Superposición de Rendimiento</string>
     <string name="title_perf_overlay_orientation">Orientación de Superposición de Rendimiento</string>
     <string name="title_perf_overlay_position">Posición de Superposición de Rendimiento</string>
     <string name="title_pointer_velocity_factor">Factor de velocidad del puntero</string>
-    <string name="title_reset_perf_overlay_position">Reiniciar Posición de Superposición de Rendimiento</string>
     <string name="title_screen_offset_x">Desplazamiento Horizontal</string>
     <string name="title_screen_offset_y">Desplazamiento Vertical</string>
     <string name="title_screen_position">Posición de Pantalla</string>

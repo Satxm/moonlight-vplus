@@ -12,7 +12,6 @@
 \nUjistěte se, že na hostitelském počítači neběží žádný obsah chráněný DRM. Můžete také zkusit restartovat hostitelský PC.
 \n
 \nPokud problém přetrvává, zkuste přeinstalovat ovladače GPU a GeForce Experience.</string>
-    <string name="wol_waking_pc">Probouzení PC…</string>
     <string name="nettest_text_success">Vypadá to, že vaše síť Moonlight neblokuje. Pokud máte i tak potíže s připojením, zkontrolujte nastavení firewallu vašeho PC.
 \n
 \nPokud se pokoušíte streamovat po internetu, nainstalujte si na svůj počítač Moonlight Internet Hosting Tool a spusťte přiložený program Internet Streaming Tester pro kontrolu vašeho připojení k Internetu.</string>
@@ -46,13 +45,11 @@
     <string name="applist_menu_quit">Ukončit</string>
     <string name="applist_menu_quit_and_start">Ukončit současnou hru a spustit</string>
     <string name="applist_menu_cancel">Zrušit</string>
-    <string name="applist_menu_tv_channel">Přidat do kanálu</string>
     <string name="applist_refresh_title">Seznam aplikací</string>
     <string name="applist_menu_resume">Pokračovat</string>
     <string name="applist_menu_details">Zobrazit detaily</string>
     <string name="applist_menu_scut">Vytvořit zkratku</string>
     <string name="addpc_success">Počítač přidán úspěšně</string>
-    <string name="applist_details_id">ID aplikace:</string>
     <string name="addpc_fail">K zadanému počítači se nepodařilo připojit. Ujistěte se, že jsou ve firewallu povoleny nezbytné porty.</string>
     <string name="addpc_enter_ip">Musíte zadat IP adresu</string>
     <string name="title_native_res_dialog">Varování pro nativní rozlišení</string>
@@ -63,8 +60,6 @@
     <string name="ip_hint">IP adresa GeForce PC</string>
     <string name="conn_hardware_latency">Průměrné zpoždění hardwarového dekodéru:</string>
     <string name="conn_client_latency">Průměrné zpoždění při dekódování snímků:</string>
-    <string name="perf_overlay_netlatency">Průměrné zpoždění sítě: %1$d ms (odchylka: %2$d ms)</string>
-    <string name="perf_overlay_dectime">Průměrný čas pro dekódování: %1$.2f ms</string>
     <string name="applist_connect_msg">Připojování k PC…</string>
     <string name="title_checkbox_touchscreen_trackpad">Použít dotykový displej jako trackpad</string>
     <string name="title_checkbox_multi_controller">Automatická detekce připojení herního ovladače</string>
@@ -85,15 +80,11 @@
     <string name="summary_only_l3r3">Skryje veškerá virtuální tlačítka kromě L3 a R3</string>
     <string name="category_ui_settings">Nastavení zobrazení</string>
     <string name="suffix_osc_opacity">%</string>
-    <string name="title_setup_guide">Průvodce nastavením</string>
     <string name="title_checkbox_disable_warnings">Zakázat varovací zprávy</string>
     <string name="category_help">Nápověda</string>
     <string name="summary_checkbox_disable_warnings">Zakáže varování o pomalém připojení během streamování</string>
-    <string name="title_disable_frame_drop">Nezahazovat snímky</string>
     <string name="resolution_4k">4K</string>
     <string name="fps_30">30 FPS</string>
-    <string name="title_troubleshooting">Průvodce řešením problémů</string>
-    <string name="summary_troubleshooting">Zobrazit tipy pro diagnózu a opravu běžných problémů se streamováním</string>
     <string name="resolution_720p">720p</string>
     <string name="resolution_1080p">1080p</string>
     <string name="resolution_1440p">1440p</string>
@@ -106,7 +97,6 @@
     <string name="category_audio_settings">Nastavení zvuku</string>
     <string name="title_checkbox_enable_audiofx">Povolit podporu systémového ekvalizéru</string>
     <string name="category_input_settings">Nastavení vstupu</string>
-    <string name="summary_setup_guide">Zobrazit instrukce k nastavení vašeho herního PC pro streamování</string>
     <string name="dialog_title_osc_opacity">Změnit průhlednost</string>
     <string name="fps_60">60 FPS</string>
     <string name="fps_90">90 FPS</string>
@@ -119,7 +109,6 @@
     <string name="pcview_menu_header_unknown">Obnovování</string>
     <string name="pcview_menu_app_list">Zobrazit všechny aplikace</string>
     <string name="pcview_menu_pair_pc">Spárovat s PC</string>
-    <string name="pcview_menu_unpair_pc">Zrušit párování</string>
     <string name="pcview_menu_send_wol">Poslat Wake-On-LAN požadavek</string>
     <string name="pcview_menu_delete_pc">Smazat PC</string>
     <string name="pcview_menu_test_network">Otestovat připojení k síti</string>
@@ -151,11 +140,7 @@
     <string name="no">Ne</string>
     <string name="lost_connection">Připojení k PC bylo ztraceno</string>
     <string name="title_details">Detaily</string>
-    <string name="perf_overlay_renderingfps">Vykreslovací snímková frekvence: %1$.2f FPS</string>
-    <string name="perf_overlay_netdrops">Snímky zahozeny vašim připojením: %1$.2f%%</string>
     <string name="applist_refresh_msg">Obnovování aplikací…</string>
-    <string name="applist_refresh_error_title">Chyba</string>
-    <string name="applist_refresh_error_msg">Nezdařilo se získat seznam aplikací</string>
     <string name="applist_quit_app">Ukončování</string>
     <string name="applist_quit_success">Úspěšně ukončeno</string>
     <string name="applist_quit_fail">Ukončení se nezdařilo</string>
@@ -170,7 +155,6 @@
     <string name="summary_checkbox_touchscreen_trackpad">Pokud je povoleno, dotykový displej funguje jako trackpad. Pokud je zakázáno, dotykový displej ovládá kurzor myši přímo.</string>
     <string name="title_reset_osc">Vymazat uložené rozložení ovladače na obrazovce</string>
     <string name="summary_reset_osc">Resetuje všechna nastavení ovladače na obrazovce na jejich výchozí velikost a pozici</string>
-    <string name="title_osc_opacity">Změnit průhlednost ovladače na obrazovce</string>
     <string name="category_advanced_settings">Pokročilá nastavení</string>
     <string name="title_unlock_fps">Odemknout všechny možné snímkové frekvence</string>
     <string name="title_checkbox_reduce_refresh_rate">Povolit snížení obnovovací frekvence</string>
@@ -188,8 +172,6 @@
     <string name="summary_unlock_fps">Streamování v 90 nebo 120 FPS může snížit zpoždění na dražších zařízeních, ale může způsobit zasekávání nebo nestabilitu na zařízeních, které je nepodporují</string>
     <string name="title_enable_post_stream_toast">Zobrazit informace o zpoždění po streamování</string>
     <string name="summary_enable_post_stream_toast">Zobrazit informace o zpoždění po skončení streamování</string>
-    <string name="title_privacy_policy">Zásady ochrany osobních údajů</string>
-    <string name="summary_privacy_policy">Zobrazit zásady ochrany osobních údajů Moonlightu</string>
     <string name="resolution_360p">360p</string>
     <string name="resolution_480p">480p</string>
     <string name="pacing_balanced_alt">Vyvážené s limitem FPS</string>
@@ -206,9 +188,6 @@
     <string name="slow_connection_msg">Pomalé připojení k PC
 \nSnižte datový tok</string>
     <string name="poor_connection_msg">Špatné připojení k PC</string>
-    <string name="perf_overlay_streamdetails">Video stream: %1$s %2$.2f FPS</string>
-    <string name="perf_overlay_decoder">Dekodér: %1$s</string>
-    <string name="perf_overlay_incomingfps">Příchozí snímková frekvence po síti: %1$.2f FPS</string>
     <string name="text_native_res_dialog">GeForce Experience oficiálně nepodporuje nativní rozlišení a proto nenastaví rozlišení displeje vašeho hostitelského PC. Musíte jej nastavit ručně ve hře.
 \n
 \nPokud v NVIDIA Control Panelu vytvoříte vlastní rozlišení pro vaše zařízení, prosím ujistěte se, že jste si přečetli a že chápete varování od NVIDIE ohledně možného poškození monitoru, nestability PC a dalších možných problémů.
@@ -236,7 +215,6 @@
     <string name="summary_checkbox_small_icon_mode">Díky menšímu box artu v seznamu aplikací uvidíte na obrazovce více aplikací naráz</string>
     <string name="category_host_settings">Nastavení hostitele</string>
     <string name="title_checkbox_enable_sops">Optimalizovat herní nastavení</string>
-    <string name="summary_disable_frame_drop">Může na některých zařízeních snížit mikrozádrhy, ale může zvýšit zpoždění</string>
     <string name="title_video_format">Změnit nastavení HEVC</string>
     <string name="summary_video_format">HEVC sníží datový přenos, ale vyžaduje novější zařízení</string>
     <string name="title_enable_hdr">Povolit HDR (experimentální)</string>

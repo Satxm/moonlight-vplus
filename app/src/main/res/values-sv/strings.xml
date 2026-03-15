@@ -12,7 +12,6 @@
     <string name="pcview_menu_header_unknown">Uppdaterar</string>
     <string name="pcview_menu_app_list">Visa alla appar</string>
     <string name="pcview_menu_pair_pc">Para ihop med PC</string>
-    <string name="pcview_menu_unpair_pc">Koppla bort</string>
     <string name="pcview_menu_send_wol">Skicka begäran om Wake-On-LAN</string>
     <string name="pcview_menu_delete_pc">Radera PC</string>
     <string name="pcview_menu_test_network">Testa nätverksanslutning</string>
@@ -32,7 +31,6 @@
     <string name="pair_already_in_progress">Fogning redan i utveckling</string>
     <string name="wol_pc_online">Datorn är online</string>
     <string name="wol_no_mac">Det går inte att väcka datorn eftersom det inte finns någon lagrad MAC-adress</string>
-    <string name="wol_waking_pc">Väcker dator…</string>
     <string name="wol_waking_msg">Det kan ta några sekunder innan datorn vaknar upp. Om den inte gör det, kontrollera att den är korrekt konfigurerad för Wake-On-LAN.</string>
     <string name="wol_fail">Misslyckades med att skicka Wake-On-LAN-paket</string>
     <string name="unpairing">Bortkopplar…</string>
@@ -69,12 +67,6 @@
     <string name="slow_connection_msg">Långsam anslutning till datorn
 \nMinska din bithastighet</string>
     <string name="poor_connection_msg">Dålig anslutning till datorn</string>
-    <string name="perf_overlay_streamdetails">Videoström: %1$s %2$.2f FPS</string>
-    <string name="perf_overlay_decoder">Avkodare: %1$s</string>
-    <string name="perf_overlay_incomingfps">Inkommande bildfrekvens från nätverket: %1$.2f FPS</string>
-    <string name="perf_overlay_renderingfps">Renderingens bildfrekvens: %1$.2f FPS</string>
-    <string name="perf_overlay_netdrops">Ramar som tappats av din nätverksanslutning: %1$.2f%%</string>
-    <string name="perf_overlay_dectime">Genomsnittlig avkodningstid: %1$.2f ms</string>
     <string name="applist_connect_msg">Fogar till dator…</string>
     <string name="applist_menu_resume">Återuppta session</string>
     <string name="applist_menu_quit">Avsluta session</string>
@@ -82,12 +74,9 @@
     <string name="applist_menu_cancel">Avbryt</string>
     <string name="applist_menu_details">Visa detaljer</string>
     <string name="applist_menu_scut">Skapa genväg</string>
-    <string name="applist_menu_tv_channel">Lägg till i kanal</string>
     <string name="applist_menu_hide_app">Dölj appen</string>
     <string name="applist_refresh_title">Applista</string>
     <string name="applist_refresh_msg">Friskar upp appar…</string>
-    <string name="applist_refresh_error_title">Fel</string>
-    <string name="applist_refresh_error_msg">Misslyckades att få app lista</string>
     <string name="applist_quit_app">Avslutar</string>
     <string name="applist_quit_success">Framgångsrikt avslutad</string>
     <string name="applist_quit_confirmation">Är du säker på att du vill avsluta den pågående appen\? Alla osparade datamatrial kommer att gå förlorade.</string>
@@ -96,7 +85,6 @@
     <string name="addpc_fail">Det går inte att foga till den angivna datorn. Kontrollera att de nödvändiga portarna tillåts genom brandväggen.</string>
     <string name="addpc_success">Lyckades lägga till dator</string>
     <string name="addpc_unknown_host">Det går inte att lösa PC-adressen. Kontrollera att du inte har skrivit fel i adressen.</string>
-    <string name="applist_details_id">Applikations identitet:</string>
     <string name="addpc_enter_ip">Du måste ange en IP-adress</string>
     <string name="addpc_wrong_sitelocal">Den adressen ser inte rätt ut. Du måste använda routerns offentliga IP-adress för att streama via Internet.</string>
     <string name="category_basic_settings">Grundinställningar</string>
@@ -141,7 +129,6 @@
     <string name="dialog_title_reset_osc">Återställ formgivning</string>
     <string name="dialog_text_reset_osc">Är du säker på att du vill ta bort din sparade layout för skärmenheterna\?</string>
     <string name="toast_reset_osc_success">Kontroller på skärmen återställs till ursprungsinställningen</string>
-    <string name="title_osc_opacity">Jämka genomskinligheten av skärmkontrollerna</string>
     <string name="suffix_osc_opacity">%</string>
     <string name="title_checkbox_enable_pip">Sätt på bild-i-bild-observatörsläge</string>
     <string name="title_language_list">Språk</string>
@@ -158,8 +145,6 @@
     <string name="title_checkbox_reduce_refresh_rate">Tillåt minskning av uppdateringsfrekvensen</string>
     <string name="title_checkbox_disable_warnings">Ta bort varningsmedelanden</string>
     <string name="summary_checkbox_disable_warnings">Ta bort varningsmeddelanden om inmatning på skärmen när du strömmar</string>
-    <string name="title_disable_frame_drop">Tappa aldrig bildramar</string>
-    <string name="summary_disable_frame_drop">Kan minska mikrohack på vissa enheter, men kan öka latensen</string>
     <string name="title_video_format">Ändra codec-inställningar</string>
     <string name="summary_video_format">Nyare codecs kan sänka videobandbreddskraven om din enhet stöder dem. Codec-val kan ignoreras om det inte stöds av värdprogramvaran eller GPU:n.</string>
     <string name="title_enable_hdr">Sätt på HDR (Prövning)</string>
@@ -167,11 +152,6 @@
     <string name="title_full_range">Tvinga video med fullt omfång (Prövning)</string>
     <string name="summary_enable_post_stream_toast">Visa ett meddelande med information om latens när strömmen avslutas</string>
     <string name="category_help">Hjälp</string>
-    <string name="title_setup_guide">Installationsguide</string>
-    <string name="title_troubleshooting">Vägledning för felsökning</string>
-    <string name="summary_troubleshooting">Visa gissningar för att utvärdera och åtgärda vanliga strömningsbeskymmer</string>
-    <string name="title_privacy_policy">Integritetspolicy</string>
-    <string name="summary_privacy_policy">Visa Moonlights integritetspolicy</string>
     <string name="resolution_360p">360p</string>
     <string name="resolution_480p">480p</string>
     <string name="resolution_720p">720p</string>
@@ -212,7 +192,6 @@
     <string name="searching_pc">Söker efter värddatorer i det lokala nätverket...
 \n
 \n Kontrollera att Sunshine körs på värddatorn eller att GameStream är aktiverat i inställningarna för GeForce Experience SHIELD.</string>
-    <string name="perf_overlay_netlatency">Genomsnittlig nätverksfördröjning: %1$d ms (varians: %2$d ms)</string>
     <string name="applist_quit_fail">Misslyckades att avsluta</string>
     <string name="title_native_res_dialog">Varning för ursprunglig upplösning</string>
     <string name="text_native_res_dialog">Inbyggd upplösning och/eller FPS kanske inte stöds av streamingservern. Du kommer förmodligen att behöva konfigurera ett matchande anpassat visningsläge för värddatorn manuellt.
@@ -241,7 +220,6 @@
     <string name="summary_full_range">Detta kan leda till förlust av detalj i ljusa och mörka områden om enheten inte visar videoinnehåll med fullt omfång på rätt sätt.</string>
     <string name="fps_120">120 FPS</string>
     <string name="title_enable_post_stream_toast">Visa meddelande om latenstid efter strömning</string>
-    <string name="summary_setup_guide">Visa instruktioner om hur du utformar din speldator för strömning</string>
     <string name="resolution_1080p">1080p</string>
     <string name="fps_60">60 FPS</string>
     <string name="summary_frame_pacing">Ange hur du ska balansera videofördröjning och jämnhet</string>
@@ -253,7 +231,6 @@
     <string name="videoformat_av1always">Föredra AV1 (experimentell)</string>
     <string name="videoformat_hevcalways">Föredra HEVC</string>
     <string name="videoformat_h264always">Föredra H.264</string>
-    <string name="perf_overlay_hostprocessinglatency">Värdbearbetningsfördröjning min/max/genomsnitt: %1$.1f/%2$.1f/%3$.1f ms</string>
     <string name="title_checkbox_gamepad_touchpad_as_mouse">Styr alltid musen med pekplatta</string>
     <string name="summary_checkbox_gamepad_touchpad_as_mouse">Tvingar indata från spelkontroll pekplattan att styra värdmusen, även när man emulerar en spelkontroll med en pekplatta.</string>
     <string name="summary_checkbox_gamepad_motion_sensors">Aktiverar stöd för värden att begära rörelsesensor data när du emulerar en spelkontroll med rörelsesensorer. Inaktivering kan minska ström och nätverksanvändningen något om rörelsesensorer inte används i spelet.</string>

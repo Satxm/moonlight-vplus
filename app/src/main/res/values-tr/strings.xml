@@ -25,7 +25,6 @@
     <string name="pcview_menu_details">Detayları Görüntüle</string>
     <string name="pcview_menu_test_network">Ağ Bağlantısını Test Et</string>
     <string name="pcview_menu_delete_pc">PC\'yi sil</string>
-    <string name="pcview_menu_unpair_pc">Eşleştirmeyi kaldır</string>
     <string name="pcview_menu_pair_pc">PC ile eşle</string>
     <string name="pcview_menu_app_list">Bütün Uygulamaları Göster</string>
     <string name="pcview_menu_header_unknown">Yenileniyor</string>
@@ -53,7 +52,6 @@
     <string name="pair_already_in_progress">Eşleştirme zaten devam ediyor</string>
     <string name="wol_pc_online">Bilgisayar çevrimiçi</string>
     <string name="wol_no_mac">GFE bir MAC adresi göndermediği için bilgisayar uyandırılamıyor</string>
-    <string name="wol_waking_pc">Bilgisayar uyandırılıyor…</string>
     <string name="wol_fail">Yerel Ağda Uyandırma paketleri gönderilemedi</string>
     <string name="wol_waking_msg">Bilgisayarınızın uyanması birkaç saniye sürebilir. Eğer uyanmazsa, Yerel Ağda Uyandırma için doğru şekilde yapılandırıldığından emin olun.</string>
     <string name="unpair_fail">Eşleşme kaldırılamadı</string>
@@ -95,27 +93,18 @@
     <string name="slow_connection_msg">Bilgisayara yavaş bağlantı
 \nBit hızınızı düşürün</string>
     <string name="poor_connection_msg">Bilgisayar ile zayıf bağlantı</string>
-    <string name="perf_overlay_streamdetails">Video akışı: %1$s %2$.2f FPS</string>
-    <string name="perf_overlay_decoder">Kod çözücü: %1$s</string>
-    <string name="perf_overlay_incomingfps">Ağdan gelen kare hızı: %1$.2f FPS</string>
-    <string name="perf_overlay_renderingfps">İşleme kare hızı: %1$.2f FPS</string>
-    <string name="perf_overlay_netdrops">Ağ bağlantınız tarafından düşen kare sayısı: %1$.2f%%</string>
-    <string name="perf_overlay_dectime">Ortalama kod çözme süresi: %1$.2f ms</string>
     <string name="applist_menu_resume">Oturumu sürdür</string>
     <string name="applist_menu_quit">Oturumu sonlandır</string>
     <string name="applist_menu_quit_and_start">Mevcut oyundan çık ve başla</string>
     <string name="applist_menu_cancel">İptal</string>
     <string name="applist_menu_details">Detayları göster</string>
     <string name="applist_menu_scut">Kısayol oluştur</string>
-    <string name="applist_menu_tv_channel">Kanala ekle</string>
     <string name="applist_menu_hide_app">Uygulamayı gizle</string>
     <string name="applist_refresh_title">Uygulama listesi</string>
     <string name="applist_quit_success">Başarıyla çıkıldı</string>
-    <string name="applist_refresh_error_msg">Uygulama listesi alınamadı</string>
     <string name="applist_quit_app">Çıkılıyor</string>
     <string name="applist_quit_fail">Çıkılamadı</string>
     <string name="applist_quit_confirmation">Çalışan uygulamadan çıkmak istediğinizden emin misiniz\? Kaydedilmemiş tüm veriler kaybolacaktır.</string>
-    <string name="applist_details_id">Uygulama kimliği:</string>
     <string name="msg_add_pc">Bilgisayara bağlanıyor…</string>
     <string name="addpc_success">Bilgisayar başarıyla eklendi</string>
     <string name="addpc_fail">Belirtilen bilgisayara bağlanılamıyor. Gerekli bağlantı noktalarına güvenlik duvarı üzerinden izin verildiğinden emin olun.</string>
@@ -133,7 +122,6 @@
     <string name="conn_client_latency_hw">donanım kod çözücü gecikmesi:</string>
     <string name="pcview_menu_send_wol">Yerel Ağda Uyandırma isteği gönder</string>
     <string name="applist_refresh_msg">Uygulamalar yenileniyor…</string>
-    <string name="applist_refresh_error_title">Hata</string>
     <string name="title_add_pc">Bilgisayarı manuel olarak Ekle</string>
     <string name="title_resolution_list">Video çözünürlüğü</string>
     <string name="summary_fps_list">Daha akıcı bir video akışı için artırın. Düşük uçlu cihazlarda daha iyi performans için azaltın.</string>
@@ -158,7 +146,6 @@
 \n GeForce Experience SHIELD ayarlarında GameStream\'in etkinleştirildiğinden emin olun.</string>
     <string name="applist_connect_msg">Bilgisayara bağlanıyor…</string>
     <string name="no">Hayır</string>
-    <string name="perf_overlay_netlatency">Ortalama ağ gecikmesi: %1$d ms (varyans: %2$d ms)</string>
     <string name="addpc_wrong_sitelocal">Bu adres doğru görünmüyor. İnternet üzerinden akış için yönlendiricinizin genel IP adresini kullanmanız gerekir.</string>
     <string name="text_native_res_dialog">Yerel çözünürlük modları GeForce Experience tarafından resmi olarak desteklenmez, bu nedenle ana ekran çözünürlüğünüzü kendisi ayarlamaz. Oyun içindeyken manuel olarak ayarlamanız gerekecektir.
 \n

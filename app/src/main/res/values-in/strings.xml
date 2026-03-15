@@ -10,7 +10,6 @@
     <string name="pcview_menu_header_unknown">Memuat ulang</string>
     <string name="pcview_menu_app_list">Lihat semua aplikasi</string>
     <string name="pcview_menu_pair_pc">Pasangkan dengan komputer</string>
-    <string name="pcview_menu_unpair_pc">Batalkan pemasangan</string>
     <string name="pcview_menu_send_wol">Kirim permintaan Wake-On-LAN</string>
     <string name="pcview_menu_delete_pc">Hapus komputer</string>
     <string name="nettest_title_waiting">Menguji koneksi jaringan</string>
@@ -31,7 +30,6 @@
     <string name="pair_already_in_progress">Pemasangan sedang berlangsung</string>
     <string name="wol_pc_online">Komputer tersedia</string>
     <string name="wol_no_mac">Tidak bisa membangunkan komputer karena GFE tidak mengirimkan alamat MAC</string>
-    <string name="wol_waking_pc">Membangunkan komputer…</string>
     <string name="wol_waking_msg">Membangunkan komputer mungkin akan membutuhkan beberapa saat. Jika tidak bisa, pastikan konfigurasi Wake-On-LAN sudah benar.</string>
     <string name="unpairing">Memutuskan pemasangan…</string>
     <string name="unpair_success">Pemutusan pemasangan berhasil</string>
@@ -68,9 +66,6 @@
     <string name="slow_connection_msg">Koneksi terhadap komputer lambat
 \nKurangi bitrate anda</string>
     <string name="poor_connection_msg">Koneksi dengan komputer buruk</string>
-    <string name="perf_overlay_streamdetails">Stream video: %1$s %2$.2f FPS</string>
-    <string name="perf_overlay_decoder">Dekoder: %1$s</string>
-    <string name="perf_overlay_incomingfps">Kecepatan bingkai masuk dari jaringan: %1$.2f FPS</string>
     <string name="scut_deleted_pc">Komputer dihapus</string>
     <string name="scut_invalid_app_id">Aplikasi yang diberikan tidak valid</string>
     <string name="pcview_menu_test_network">Uji koneksi jaringan</string>
@@ -98,7 +93,6 @@
     <string name="applist_menu_quit_and_start">Keluar dari Game Saat Ini dan Mulai</string>
     <string name="applist_menu_quit">Keluar dari Sesi</string>
     <string name="applist_quit_confirmation">Anda yakin ingin keluar dari aplikasi yang sedang berjalan\? Semua data yang belum disimpan akan hilang.</string>
-    <string name="applist_details_id">ID Aplikasi:</string>
     <string name="addpc_wrong_sitelocal">Alamat itu sepertinya salah. Anda harus menggunakan alamat IP publik perute untuk streaming melalui Internet.</string>
     <string name="category_basic_settings">Pengaturan dasar</string>
     <string name="title_fps_list">Kecepatan bingkai video</string>
@@ -127,7 +121,6 @@
     <string name="title_checkbox_disable_warnings">Nonaktifkan pesan peringatan</string>
     <string name="summary_checkbox_disable_warnings">Nonaktifkan pesan peringatan koneksi di layar saat streaming</string>
     <string name="error_unknown_host">Gagal menyelesaikan host</string>
-    <string name="perf_overlay_dectime">Waktu decoding rata-rata: %1$.2f ms</string>
     <string name="category_host_settings">Pengaturan tuan rumah</string>
     <string name="frame_conversion_error">PC host melaporkan kesalahan penyandian video yang fatal.
 \n
@@ -169,7 +162,6 @@
     <string name="summary_checkbox_vibrate_osc">Getarkan perangkat Anda untuk meniru gemuruh untuk kontrol di layar</string>
     <string name="summary_only_l3r3">Sembunyikan semua tombol virtual kecuali L3 dan R3</string>
     <string name="summary_reset_osc">Menyetel ulang semua kontrol di layar ke ukuran dan posisi default</string>
-    <string name="title_osc_opacity">Ubah opasitas kontrol di layar</string>
     <string name="summary_osc_opacity">Jadikan kontrol di layar lebih/kurang transparan</string>
     <string name="dialog_title_osc_opacity">Ubah opasitas</string>
     <string name="suffix_osc_opacity">%</string>
@@ -183,15 +175,9 @@
     <string name="summary_unlock_fps">Streaming pada 90 atau 120 FPS dapat mengurangi latensi pada perangkat kelas atas, tetapi dapat menyebabkan kelambatan atau ketidakstabilan pada perangkat yang tidak dapat mendukungnya</string>
     <string name="title_checkbox_reduce_refresh_rate">Izinkan pengurangan kecepatan penyegaran</string>
     <string name="summary_checkbox_reduce_refresh_rate">Kecepatan refresh tampilan yang lebih rendah dapat menghemat daya dengan mengorbankan beberapa latensi video tambahan</string>
-    <string name="applist_refresh_error_title">Kesalahan</string>
     <string name="pair_pairing_help">Jika PC host Anda menjalankan Sunshine, buka UI web Sunshine untuk memasukkan PIN.</string>
     <string name="applist_quit_app">Berhenti</string>
-    <string name="perf_overlay_renderingfps">Frekuensi gambar rendering: %1$.2f FPS</string>
-    <string name="perf_overlay_netlatency">Rata-rata latensi jaringan: %1$d ms (variasi: %2$d ms)</string>
-    <string name="perf_overlay_netdrops">Bingkai hilang oleh koneksi jaringan Anda: %1$.2f%%</string>
     <string name="applist_connect_msg">Menghubungkan ke PC…</string>
-    <string name="applist_menu_tv_channel">Tambahkan ke Saluran</string>
-    <string name="applist_refresh_error_msg">Gagal mendapatkan daftar aplikasi</string>
     <string name="applist_quit_success">Berhasil keluar</string>
     <string name="addpc_unknown_host">Tidak dapat menyelesaikan alamat PC. Pastikan Anda tidak salah ketik di alamat.</string>
     <string name="title_native_res_dialog">Peringatan Resolusi Asli</string>
