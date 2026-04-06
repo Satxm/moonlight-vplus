@@ -10,7 +10,6 @@
     <string name="title_checkbox_disable_warnings">Tiltsa le a figyelmeztető üzeneteket</string>
     <string name="summary_unlock_fps">A 90 vagy 120 FPS sebességgel történő streaming csökkentheti a csúcskategóriás eszközök késését, de késést vagy instabilitást okozhat azokon az eszközökön, amelyek ezt nem támogatják</string>
     <string name="title_unlock_fps">Oldja fel az összes lehetséges képsebességet</string>
-    <string name="category_advanced_settings">További beállítások</string>
     <string name="summary_checkbox_host_audio">Hang lejátszása a számítógépről és az eszközről</string>
     <string name="title_checkbox_host_audio">Hang lejátszása PC-n</string>
     <string name="summary_checkbox_enable_sops">Engedje meg, hogy a GFE módosítsa a játék beállításait az optimális streaming érdekében</string>
@@ -194,6 +193,7 @@
     <string name="title_native_fps_dialog">Natív FPS figyelmeztetés</string>
     <string name="pacing_balanced">Kiegyensúlyozott</string>
     <string name="summary_full_range">Ez részletvesztést okoz a világos és sötét területeken, ha a készülék nem jeleníti meg megfelelően a teljes tartományú videotartalmat.</string>
+    <string name="summary_privacy_policy">A Moonlight adatvédelmi szabályzatának megtekintése</string>
     <string name="resolution_4k">4K</string>
     <string name="pacing_smoothness">A legsimább videó előnyben részesítése (jelentősen növelheti a késleltetést)</string>
     <string name="fps_120">120 FPS</string>
@@ -222,6 +222,7 @@
     <string name="summary_seekbar_deadzone">Megjegyzés: Egyes játékok nagyobb holtteret kényszeríthetnek ki, mint amire a Moonlight be van állítva.</string>
     <string name="audioconf_stereo">Sztereó</string>
     <string name="videoformat_h264always">Inkább H.264</string>
+    <string name="title_privacy_policy">Adatvédelmi irányelvek</string>
     <string name="fps_suffix_fps">FPS</string>
     <string name="category_gamepad_settings">Gamepad beállítások</string>
     <string name="fps_30">30 FPS</string>

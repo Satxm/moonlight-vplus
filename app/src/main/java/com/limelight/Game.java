@@ -45,7 +45,7 @@ import com.limelight.utils.ShortcutHelper;
 import com.limelight.utils.FullscreenProgressOverlay;
 import com.limelight.utils.UiHelper;
 import com.limelight.utils.NetHelper;
-//import com.limelight.utils.AnalyticsManager;
+import com.limelight.utils.AnalyticsManager;
 import com.limelight.utils.AppCacheManager;
 import com.limelight.utils.AppSettingsManager;
 
@@ -74,7 +74,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.PowerManager;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 import android.util.Rational;
 import android.view.Display;
 import android.view.InputDevice;
@@ -186,7 +186,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
     private boolean autoEnterPip = false;
     private boolean surfaceCreated = false;
     private boolean attemptedConnection = false;
-    // private AnalyticsManager analyticsManager;
+    private AnalyticsManager analyticsManager;
     private long streamStartTime;           // 串流开始的时间戳
     private long accumulatedStreamTime;     // 累计的有效串流时间（排除后台暂停）
     private long lastActiveTime;            // 上次活跃的时间戳（用于计算暂停时间）
@@ -616,7 +616,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         pcName = Game.this.getIntent().getStringExtra(EXTRA_PC_NAME);
 
         // 初始化统计分析管理器
-        // analyticsManager = AnalyticsManager.getInstance(this);
+        analyticsManager = AnalyticsManager.getInstance(this);
 
         String host = Game.this.getIntent().getStringExtra(EXTRA_HOST);
         int port = Game.this.getIntent().getIntExtra(EXTRA_PORT, NvHTTP.DEFAULT_HTTP_PORT);
@@ -831,6 +831,16 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                 externalStreamView = null;
                 LimeLog.info("External display disconnected, cleared externalStreamView");
 
+                // 恢复触控上下文的目标视图为平板的 StreamView
+                for (int i = 0; i < TOUCH_CONTEXT_LENGTH; i++) {
+                    if (absoluteTouchContextMap[i] instanceof AbsoluteTouchContext) {
+                        ((AbsoluteTouchContext) absoluteTouchContextMap[i]).setTargetView(Game.this.streamView);
+                    }
+                    if (relativeTouchContextMap[i] instanceof RelativeTouchContext) {
+                        ((RelativeTouchContext) relativeTouchContextMap[i]).setTargetView(Game.this.streamView);
+                    }
+                }
+
                 // 重新初始化输入捕获提供者回到标准模式
                 if (inputCaptureProvider != null) {
                     inputCaptureProvider.disableCapture();
@@ -842,6 +852,16 @@ public class Game extends Activity implements SurfaceHolder.Callback,
             public void onStreamViewReady(StreamView streamView) {
                 // 保存外接显示器的StreamView引用
                 externalStreamView = streamView;
+
+                // 更新触控上下文的目标视图为外接显示器的 StreamView
+                for (int i = 0; i < TOUCH_CONTEXT_LENGTH; i++) {
+                    if (absoluteTouchContextMap[i] instanceof AbsoluteTouchContext) {
+                        ((AbsoluteTouchContext) absoluteTouchContextMap[i]).setTargetView(streamView);
+                    }
+                    if (relativeTouchContextMap[i] instanceof RelativeTouchContext) {
+                        ((RelativeTouchContext) relativeTouchContextMap[i]).setTargetView(streamView);
+                    }
+                }
 
                 // 外接显示器StreamView准备就绪时的处理
                 streamView.setOnGenericMotionListener(Game.this);
@@ -1311,6 +1331,16 @@ public class Game extends Activity implements SurfaceHolder.Callback,
                 externalStreamView = null;
                 LimeLog.info("External display disconnected, cleared externalStreamView");
 
+                // 恢复触控上下文的目标视图为平板的 StreamView
+                for (int i = 0; i < TOUCH_CONTEXT_LENGTH; i++) {
+                    if (absoluteTouchContextMap[i] instanceof AbsoluteTouchContext) {
+                        ((AbsoluteTouchContext) absoluteTouchContextMap[i]).setTargetView(Game.this.streamView);
+                    }
+                    if (relativeTouchContextMap[i] instanceof RelativeTouchContext) {
+                        ((RelativeTouchContext) relativeTouchContextMap[i]).setTargetView(Game.this.streamView);
+                    }
+                }
+
                 // 重新初始化输入捕获提供者回到标准模式
                 if (inputCaptureProvider != null) {
                     inputCaptureProvider.disableCapture();
@@ -1322,6 +1352,16 @@ public class Game extends Activity implements SurfaceHolder.Callback,
             public void onStreamViewReady(StreamView streamView) {
                 // 保存外接显示器的StreamView引用
                 externalStreamView = streamView;
+
+                // 更新触控上下文的目标视图为外接显示器的 StreamView
+                for (int i = 0; i < TOUCH_CONTEXT_LENGTH; i++) {
+                    if (absoluteTouchContextMap[i] instanceof AbsoluteTouchContext) {
+                        ((AbsoluteTouchContext) absoluteTouchContextMap[i]).setTargetView(streamView);
+                    }
+                    if (relativeTouchContextMap[i] instanceof RelativeTouchContext) {
+                        ((RelativeTouchContext) relativeTouchContextMap[i]).setTargetView(streamView);
+                    }
+                }
 
                 // 外接显示器StreamView准备就绪时的处理
                 streamView.setOnGenericMotionListener(Game.this);
@@ -2059,42 +2099,42 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         }
 
         // 记录游戏流媒体结束事件
-        // if (analyticsManager != null && pcName != null && streamStartTime > 0) {
+        if (analyticsManager != null && pcName != null && streamStartTime > 0) {
             // 计算精确的有效串流时长
             // = 已累计的时间 + 当前活跃段时间（如果当前是活跃状态）
-            // long effectiveStreamDuration = accumulatedStreamTime;
-            // if (isStreamingActive && lastActiveTime > 0) {
-                // effectiveStreamDuration += System.currentTimeMillis() - lastActiveTime;
-            // }
+            long effectiveStreamDuration = accumulatedStreamTime;
+            if (isStreamingActive && lastActiveTime > 0) {
+                effectiveStreamDuration += System.currentTimeMillis() - lastActiveTime;
+            }
             
             // 同时记录总耗时（包括后台暂停时间）用于对比
-            // long totalElapsedTime = System.currentTimeMillis() - streamStartTime;
+            long totalElapsedTime = System.currentTimeMillis() - streamStartTime;
 
             // 收集性能数据
-            // int resolutionWidth = 0;
-            // int resolutionHeight = 0;
-            // int averageEndToEndLatency = 0;
-            // int averageDecoderLatency = 0;
+            int resolutionWidth = 0;
+            int resolutionHeight = 0;
+            int averageEndToEndLatency = 0;
+            int averageDecoderLatency = 0;
 
-            // if (decoderRenderer != null) {
-                // resolutionWidth = prefConfig.width;
-                // resolutionHeight = prefConfig.height;
-                // averageEndToEndLatency = decoderRenderer.getAverageEndToEndLatency();
-                // averageDecoderLatency = decoderRenderer.getAverageDecoderLatency();
-            // }
+            if (decoderRenderer != null) {
+                resolutionWidth = prefConfig.width;
+                resolutionHeight = prefConfig.height;
+                averageEndToEndLatency = decoderRenderer.getAverageEndToEndLatency();
+                averageDecoderLatency = decoderRenderer.getAverageDecoderLatency();
+            }
 
             // 使用有效串流时长进行统计
-            // analyticsManager.logGameStreamEnd(pcName, appName, effectiveStreamDuration,
-                    // decoderMessage, resolutionWidth, resolutionHeight,
-                    // averageEndToEndLatency, averageDecoderLatency);
+            analyticsManager.logGameStreamEnd(pcName, appName, effectiveStreamDuration,
+                    decoderMessage, resolutionWidth, resolutionHeight,
+                    averageEndToEndLatency, averageDecoderLatency);
 
-            // LimeLog.info("串流统计 - 有效时长: " + (effectiveStreamDuration / 1000) + "秒, 总耗时: " + (totalElapsedTime / 1000) + "秒");
+            LimeLog.info("串流统计 - 有效时长: " + (effectiveStreamDuration / 1000) + "秒, 总耗时: " + (totalElapsedTime / 1000) + "秒");
 
             // 重置统计状态
-            // streamStartTime = 0;
-            // accumulatedStreamTime = 0;
-            // isStreamingActive = false;
-        // }
+            streamStartTime = 0;
+            accumulatedStreamTime = 0;
+            isStreamingActive = false;
+        }
 
         if (shouldResumeSession && isResumeEnabled) {
             showKeepAliveNotification();
@@ -2801,6 +2841,24 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         float rawX = event.getX(pointerIndex);
         float rawY = event.getY(pointerIndex);
 
+        // --- 外接显示器特殊处理 ---
+        // 触摸坐标来自平板屏幕，视频显示在外接显示器上，两者坐标空间不同
+        if (externalDisplayManager != null && externalDisplayManager.isUsingExternalDisplay()) {
+            float touchWidth, touchHeight;
+            if (view != null && view.getWidth() > 0 && view.getHeight() > 0) {
+                touchWidth = view.getWidth();
+                touchHeight = view.getHeight();
+            } else {
+                Point size = new Point();
+                getWindowManager().getDefaultDisplay().getRealSize(size);
+                touchWidth = size.x;
+                touchHeight = size.y;
+            }
+            float normalizedX = Math.max(0.0f, Math.min(1.0f, rawX / touchWidth));
+            float normalizedY = Math.max(0.0f, Math.min(1.0f, rawY / touchHeight));
+            return new float[]{normalizedX, normalizedY};
+        }
+
         // --- 第二步：进行正确的坐标逆变换（同时处理平移和缩放）---
         float scaleX = activeStreamView.getScaleX();
         float scaleY = activeStreamView.getScaleY();
@@ -2916,10 +2974,15 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         float[] contactAreaMinorCartesian = polarToCartesian(contactAreaMinor, (float) (orientation + (Math.PI / 2)));
 
         // Normalize the contact area to the stream view size
-        contactAreaMajorCartesian[0] = Math.min(Math.abs(contactAreaMajorCartesian[0]), streamView.getWidth()) / streamView.getWidth();
-        contactAreaMinorCartesian[0] = Math.min(Math.abs(contactAreaMinorCartesian[0]), streamView.getWidth()) / streamView.getWidth();
-        contactAreaMajorCartesian[1] = Math.min(Math.abs(contactAreaMajorCartesian[1]), streamView.getHeight()) / streamView.getHeight();
-        contactAreaMinorCartesian[1] = Math.min(Math.abs(contactAreaMinorCartesian[1]), streamView.getHeight()) / streamView.getHeight();
+        StreamView refView = getActiveStreamView();
+        int refWidth = (refView != null && refView.getWidth() > 0) ? refView.getWidth() : streamView.getWidth();
+        int refHeight = (refView != null && refView.getHeight() > 0) ? refView.getHeight() : streamView.getHeight();
+        if (refWidth == 0) refWidth = 1;
+        if (refHeight == 0) refHeight = 1;
+        contactAreaMajorCartesian[0] = Math.min(Math.abs(contactAreaMajorCartesian[0]), refWidth) / refWidth;
+        contactAreaMinorCartesian[0] = Math.min(Math.abs(contactAreaMinorCartesian[0]), refWidth) / refWidth;
+        contactAreaMajorCartesian[1] = Math.min(Math.abs(contactAreaMajorCartesian[1]), refHeight) / refHeight;
+        contactAreaMinorCartesian[1] = Math.min(Math.abs(contactAreaMinorCartesian[1]), refHeight) / refHeight;
 
         // Convert the normalized values back into polar coordinates
         return new float[]{cartesianToR(contactAreaMajorCartesian), cartesianToR(contactAreaMinorCartesian)};
@@ -3132,6 +3195,21 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         if (streamView == null) {
             return new float[]{rawX, rawY};
         }
+
+        // 外接显示器模式：触摸在平板，视频在外接屏
+        // 将平板触摸坐标按比例映射到外接 StreamView 的像素坐标
+        if (externalDisplayManager != null && externalDisplayManager.isUsingExternalDisplay()) {
+            StreamView active = getActiveStreamView();
+            if (active != null && active.getWidth() > 0 && active.getHeight() > 0) {
+                Point size = new Point();
+                getWindowManager().getDefaultDisplay().getRealSize(size);
+                float scaleX = (float) active.getWidth() / size.x;
+                float scaleY = (float) active.getHeight() / size.y;
+                return new float[]{rawX * scaleX, rawY * scaleY};
+            }
+            return new float[]{rawX, rawY};
+        }
+
         float scaleX = streamView.getScaleX();
         float scaleY = streamView.getScaleY();
 
@@ -3729,6 +3807,11 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         if (touchedView == activeStreamView) {
             eventX = event.getX(0);
             eventY = event.getY(0);
+        } else if (externalDisplayManager != null && externalDisplayManager.isUsingExternalDisplay()) {
+            // 外接显示器模式：触摸在平板，StreamView 在外接屏
+            // 使用平板原始触摸坐标，后续缩放映射会处理
+            eventX = event.getX(0);
+            eventY = event.getY(0);
         } else {
             // For the containing background view, we must subtract the origin
             // of the StreamView to get video-relative coordinates.
@@ -4044,7 +4127,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
             // when the spinner gets displayed. On Android Q, even now
             // is too early to capture. We will delay a second to allow
             // the spinner to dismiss before capturing.
-            Handler h = new Handler();
+            Handler h = new Handler(Looper.getMainLooper());
             h.postDelayed(() -> {
                 // 根据配置决定是否启用原生鼠标指针
                 if (prefConfig.enableNativeMousePointer) {
@@ -4123,15 +4206,15 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         }
 
         // 初始化串流时长统计
-        // streamStartTime = System.currentTimeMillis();
-        // accumulatedStreamTime = 0;
-        // lastActiveTime = streamStartTime;
-        // isStreamingActive = true;
+        streamStartTime = System.currentTimeMillis();
+        accumulatedStreamTime = 0;
+        lastActiveTime = streamStartTime;
+        isStreamingActive = true;
 
         // 记录游戏流媒体开始事件
-        // if (analyticsManager != null && pcName != null) {
-            // analyticsManager.logGameStreamStart(pcName, appName);
-        // }
+        if (analyticsManager != null && pcName != null) {
+            analyticsManager.logGameStreamStart(pcName, appName);
+        }
 
         // 1. 获取并保存 IP (存到全局变量)
         this.currentHostAddress = getIntent().getStringExtra(EXTRA_HOST);

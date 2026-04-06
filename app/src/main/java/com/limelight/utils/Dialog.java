@@ -381,46 +381,47 @@ public class Dialog implements Runnable {
                 return "🔹";
         }
     }
-        private String getTextForLabel(String label) {
-            Resources res = activity.getResources();
-            switch (label.toLowerCase()) {
-                case "name":
-                    return res.getString(R.string.details_name);
-                case "state":
-                    return res.getString(R.string.details_state);
-                case "uuid":
-                    return res.getString(R.string.details_uuid);
-                case "local address":
-                    return res.getString(R.string.details_localaddress);
-                case "remote address":
-                    return res.getString(R.string.details_remoteaddress);
-                case "ipv6 address":
-                    return res.getString(R.string.details_ipv6address);
-                case "manual address":
-                    return res.getString(R.string.details_manualaddress);
-                case "active address":
-                    return res.getString(R.string.details_activeaddress);
-                case "mac address":
-                    return res.getString(R.string.details_macaddress);
-                case "pair state":
-                    return res.getString(R.string.details_pairstate);
-                case "running game id":
-                    return res.getString(R.string.details_runninggameid);
-                case "https port":
-                    return res.getString(R.string.details_httpsport);
-                case "online":
-                    return res.getString(R.string.details_online);
-                case "offline":
-                    return res.getString(R.string.details_offline);
-                case "unknown":
-                    return res.getString(R.string.details_unknown);
-                case "paired":
-                    return res.getString(R.string.details_paired);
-                case "not_paired":
-                    return res.getString(R.string.details_not_paired);
-                default:
-                    return label;
-            }
+
+    private String getTextForLabel(String label) {
+        Resources res = activity.getResources();
+        switch (label.toLowerCase()) {
+            case "name":
+                return res.getString(R.string.details_name);
+            case "state":
+                return res.getString(R.string.details_state);
+            case "uuid":
+                return res.getString(R.string.details_uuid);
+            case "local address":
+                return res.getString(R.string.details_localaddress);
+            case "remote address":
+                return res.getString(R.string.details_remoteaddress);
+            case "ipv6 address":
+                return res.getString(R.string.details_ipv6address);
+            case "manual address":
+                return res.getString(R.string.details_manualaddress);
+            case "active address":
+                return res.getString(R.string.details_activeaddress);
+            case "mac address":
+                return res.getString(R.string.details_macaddress);
+            case "pair state":
+                return res.getString(R.string.details_pairstate);
+            case "running game id":
+                return res.getString(R.string.details_runninggameid);
+            case "https port":
+                return res.getString(R.string.details_httpsport);
+            case "online":
+                return res.getString(R.string.details_online);
+            case "offline":
+                return res.getString(R.string.details_offline);
+            case "unknown":
+                return res.getString(R.string.details_unknown);
+            case "paired":
+                return res.getString(R.string.details_paired);
+            case "not_paired":
+                return res.getString(R.string.details_not_paired);
+            default:
+                return label;
+        }
     }
 
 }

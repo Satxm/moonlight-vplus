@@ -152,7 +152,6 @@
     <string name="summary_checkbox_enable_sops">Permite GFE să modifice setările jocurilor pentru experiența optimă</string>
     <string name="title_checkbox_host_audio">Redă audio si pe PC</string>
     <string name="summary_checkbox_host_audio">Sunetul se va auzi atat pe acest dispozitiv cât și pe PC</string>
-    <string name="category_advanced_settings">Setări avansate</string>
     <string name="title_video_format">Modifica setările HEVC</string>
     <string name="summary_video_format">HEVC funcționează cu o conexiune mai slaba, dar necesită un dispozitiv recent, performant</string>
     <string name="title_enable_hdr">Activează HDR (Experimental)</string>

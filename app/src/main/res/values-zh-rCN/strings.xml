@@ -279,11 +279,6 @@
     <string name="summary_checkbox_touchscreen_trackpad">如果启用，则将触控屏作为触控板使用。如果禁用，则启用多点触控模式</string>
     <string name="title_enable_double_click_drag">启用触控板双击拖动</string>
     <string name="summary_enable_double_click_drag">双击并按住后可拖动选择</string>
-    <string name="title_enable_local_cursor_rendering">显示一个本地光标</string>
-    <string name="summary_enable_local_cursor_rendering">显示一个本地光标，可通过触摸板模式控制光标</string>
-    <string name="title_double_tap_time_threshold">双击时间阈值</string>
-    <string name="summary_double_tap_time_threshold">调整双击识别的时间间隔</string>
-    <string name="dialog_double_tap_time_threshold">调整双击识别的时间间隔，数值越大越容易触发双击</string>
     <string name="title_checkbox_sync_touch_event_with_display">触控事件与显示刷新同步</string>
     <string name="summary_checkbox_sync_touch_event_with_display">打开后触控事件上报率与显示刷新率同步，比如显示为60Hz，那么触控与之同步。不一定有用，习惯哪个用哪个。Moonlight原版相当于禁用该项。</string>
     <string name="title_checkbox_enable_keyboard_toggle_in_native_touch">多点触控模式下打开本地键盘切换</string>
@@ -364,22 +359,11 @@
     <string name="summary_float_ball_double_click_action">双击悬浮球时执行的动作</string>
     <string name="title_float_ball_long_click_action">长按动作</string>
     <string name="summary_float_ball_long_click_action">长按悬浮球时执行的动作</string>
-    <string name="title_float_ball_swipe_up_action">向上滑动动作</string>
-    <string name="summary_float_ball_swipe_up_action">向上滑动悬浮球时执行的动作</string>
-    <string name="title_float_ball_swipe_down_action">向下滑动动作</string>
-    <string name="summary_float_ball_swipe_down_action">向下滑动悬浮球时执行的动作</string>
-    <string name="title_float_ball_swipe_left_action">向左滑动动作</string>
-    <string name="summary_float_ball_swipe_left_action">向左滑动悬浮球时执行的动作</string>
-    <string name="title_float_ball_swipe_right_action">向右滑动动作</string>
-    <string name="summary_float_ball_swipe_right_action">向右滑动悬浮球时执行的动作</string>
 
     <!-- 悬浮球动作选项 -->
     <string name="float_ball_action_none">无动作</string>
     <string name="float_ball_action_open_keyboard">显示虚拟键盘</string>
     <string name="float_ball_action_open_menu">显示游戏菜单</string>
-    <string name="float_ball_action_toggle_visibility">切换悬浮球可见性</string>
-    <string name="float_ball_action_screenshot">截图</string>
-    <string name="float_ball_action_lock_screen">锁屏</string>
 
     <string name="category_host_settings">🖥️ 主机设置</string>
     <string name="title_checkbox_enable_sops">优化游戏设置</string>
@@ -409,7 +393,6 @@
     <string name="title_checkbox_resume_stream">自动恢复串流</string>
     <string name="summary_checkbox_resume_stream">当从后台切回Moonlight时，自动恢复串流会话</string>
 
-    <string name="category_advanced_settings">🔧 高级设置</string>
     <string name="title_unlock_fps">解锁所有可用帧数</string>
     <string name="summary_unlock_fps">以 90 或 120 帧串流可能会减少在高端设备上的网络延迟，但会在不支持的设备上造成卡顿或崩溃</string>
     <string name="title_checkbox_reduce_refresh_rate">允许降低刷新率</string>
@@ -443,18 +426,10 @@
     <string name="category_mic_settings">🎤 麦克风设置</string>
     <string name="category_audio_vibration_settings">📳 音频振动</string>
     <string name="category_connection_settings">🔗 连接设置</string>
-    <string name="title_setup_guide">安装向导</string>
-    <string name="summary_setup_guide">查看有关如何设置游戏电脑以进行流传输的说明</string>
-    <string name="title_troubleshooting">解决方案向导</string>
-    <string name="summary_troubleshooting">查看有关诊断和修复常见流传输问题的提示</string>
-    <string name="title_privacy_policy">隐私政策</string>
-    <string name="summary_privacy_policy">查看 Moonlight 隐私政策</string>
-    <string name="title_checkbox_enable_stun">获取公网 IP</string>
-    <string name="summary_checkbox_enable_stun">这会尝试利用 STUN 服务器获取被控端的公网访问方式，以便在离开局域网环境后继续连接。但此功能可能会导致无公网 IP 用户扫描变慢</string>
 
     <string name="category_help">📋 帮助</string>
-    <string name="title_about_mode">关于 Moonlight V+</string>
-    <string name="summary_about_mode">请前往GitHub查看，喜欢的话点个Star支持一下我们吧</string>
+    <string name="title_privacy_policy">隐私政策</string>
+    <string name="summary_privacy_policy">查看 Moonlight 隐私政策</string>
 
     <!-- About dialog strings -->
     <string name="about_dialog_description">Moonlight V+ 是专为 Foundation Sunshine 打造的增强客户端，为您带来极致的游戏串流体验。</string>
@@ -649,6 +624,9 @@
     <string name="perf_host_latency_title">🖥 主机延迟信息</string>
     <string name="perf_host_latency_info">主机延迟表示主机处理帧所需的时间。\n\n延迟范围：\n• &lt;5ms：极佳主机性能\n• 5–10ms：良好主机性能\n• 10–20ms：一般主机性能\n• &gt;20ms：较差主机性能\n\n影响因素：\n• 主机硬件性能\n• 游戏负载\n• 后台程序使用\n\nVer.V+：\n• 表示版本信息\n• 当没有主机延迟数据时显示</string>
 
+    <!-- Performance Overlay Info Dialogs - 1% Low FPS -->
+    <string name="perf_one_percent_low_title">📉 1%Low帧信息</string>
+    <string name="perf_one_percent_low_info">1%Low帧通过第99百分位帧间隔来衡量帧率平滑性。\n\n原理：\n• 记录每帧渲染间隔\n• 排序后取最慢的1%%帧时间\n• 转换为FPS：1000 / P99间隔\n\n判读：\n• 接近渲染帧率：非常平滑\n• 渲染帧率的70–90%%：轻微卡顿\n• 低于70%%：明显卡顿\n\n用于检测平均帧率无法反映的微卡顿。</string>
     <!-- Performance Overlay Info Dialogs - Battery Information -->
     <string name="perf_battery_info_title">🔋 电池信息</string>
     <string name="perf_battery_status_sufficient">电池电量充足</string>
@@ -781,7 +759,6 @@
     <!-- 修复鼠标滚轮 -->
     <string name="title_fix_mouse_wheel">修复本地鼠标滚轮</string>
     <string name="summary_fix_mouse_wheel">在一些设备上使用本地鼠标滚轮可能产生触屏滑动事件，选中尝试修复此问题。</string>
-
 
     <!-- 不断开连接 -->
     <string name="title_extreme_resume">不断开连接</string>
@@ -962,6 +939,34 @@
     <string name="layout_page_wheel_pad_text_58796">中心文字颜色</string>
     <string name="layout_page_window_text_625fb">取消</string>
 
+    <!-- Clean page section headers (auto-extracted from _clean layouts) -->
+    <string name="page_section_basic_info">🕹️ 基本信息</string>
+    <string name="page_section_basic_settings">⚙️ 基础信息</string>
+    <string name="page_section_position_size">📐 位置和尺寸</string>
+    <string name="page_section_outer_ring_style">🎨 外圈样式</string>
+    <string name="page_section_appearance">🎨 外观样式</string>
+    <string name="page_section_color_config">🎨 颜色配置</string>
+    <string name="page_section_style_settings">🎨 样式设置</string>
+    <string name="page_section_border_color">🎨 边框颜色</string>
+    <string name="page_section_appearance_settings">🎨 外观设置</string>
+    <string name="page_section_stick_style">🕹️ 摇杆样式</string>
+    <string name="page_section_operations">🔧 操作</string>
+    <string name="page_section_child_management">🔧 子元素管理</string>
+    <string name="page_section_dpad_config">🎮 方向键配置</string>
+    <string name="page_section_dpad_settings">🎮 方向键设置</string>
+    <string name="page_section_stick_config">🕹️ 摇杆配置</string>
+    <string name="page_section_group_settings">📦 组合设置</string>
+    <string name="page_section_child_settings">👥 子元素设置</string>
+    <string name="page_section_delete_operation">⚠️ 删除操作</string>
+    <string name="page_section_text_settings">✏️ 文字设置</string>
+    <string name="page_section_text_config">✏️ 文本设置</string>
+    <string name="page_section_wheel_basic">🎡 基本设置</string>
+    <string name="page_section_wheel_config">🎯 轮盘设置</string>
+    <string name="page_section_key_values">🔑 按键值设置</string>
+    <string name="page_label_combo_keys">组合按键</string>
+    <string name="page_label_coord_x">X 坐标</string>
+    <string name="page_label_coord_y">Y 坐标</string>
+    <string name="page_hint_confirm_delete">输入确认</string>
 
     <!-- app:text Chinese strings (auto-extracted) -->
     <string name="apptext_pg_analog_stick_4b26d">摇杆死区百分比</string>

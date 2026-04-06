@@ -186,7 +186,6 @@
     <string name="category_on_screen_controls_settings">Configurações de Controles de Tela</string>
     <string name="title_checkbox_flip_face_buttons">Inverter botões</string>
     <string name="title_unlock_fps">Liberar todas as taxas de quadros possíveis</string>
-    <string name="category_advanced_settings">Configurações Avançadas</string>
     <string name="title_checkbox_host_audio">Reproduzir áudio no PC</string>
     <string name="summary_checkbox_host_audio">Reproduz o áudio do computador e deste dispositivo</string>
     <string name="title_checkbox_enable_sops">Otimizar configurações de jogo</string>
@@ -210,7 +209,9 @@
     <string name="title_enable_hdr">Habilitar HDR (Experimental)</string>
     <string name="title_enable_post_stream_toast">Mostrar aviso de latência após terminar a transmissão</string>
     <string name="category_help">Ajuda</string>
+    <string name="title_privacy_policy">Política de privacidade</string>
     <string name="summary_checkbox_absolute_mouse_mode">Isso pode alterar a aceleração do mouse para se comportar mais naturalmente para uso em desktop remoto, mas é incompatível com muitos jogos.</string>
+    <string name="summary_privacy_policy">Veja a política de privacidade do Moonlight</string>
     <string name="pacing_balanced_alt">Equilibrado com limite de FPS</string>
     <string name="summary_seekbar_deadzone">Nota: Alguns jogos podem impor uma zona morta maior do que o Moonlight está configurado para usar.</string>
     <string name="title_checkbox_absolute_mouse_mode">Modo de mouse para área de trabalho remota</string>

@@ -12,19 +12,19 @@
         android:padding="28dp"
         android:gravity="center_horizontal">
 
-    <!-- 应用图标容器 -->
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp">
-        
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/vplus"
-            android:contentDescription="@string/app_label"
-            android:scaleType="fitCenter" />
-    </FrameLayout>
+        <!-- 应用图标容器 -->
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp">
+            
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/vplus"
+                android:contentDescription="@string/app_label"
+                android:scaleType="fitCenter" />
+        </FrameLayout>
 
         <!-- 应用名称 -->
         <TextView

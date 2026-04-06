@@ -45,7 +45,6 @@ import com.limelight.utils.Iperf3Tester;
 import com.limelight.utils.ServerHelper;
 import com.limelight.utils.ShortcutHelper;
 import com.limelight.utils.UiHelper;
-// import com.limelight.utils.UpdateManager;
 import com.squareup.seismic.ShakeDetector;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -82,7 +81,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
-import android.preference.PreferenceManager;
+import androidx.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.LruCache;
 import android.view.ContextMenu;
@@ -342,9 +341,8 @@ public class PcView extends Activity implements AdapterFragmentCallbacks, ShakeD
         shortcutHelper = new ShortcutHelper(this);
         UiHelper.setLocale(this);
 
-        // analyticsManager = AnalyticsManager.getInstance(this);
-        // analyticsManager.logAppLaunch();
-        // UpdateManager.checkForUpdatesOnStartup(this);
+        analyticsManager = AnalyticsManager.getInstance(this);
+        analyticsManager.logAppLaunch();
 
         bindService(new Intent(this, ComputerManagerService.class), serviceConnection, Service.BIND_AUTO_CREATE);
 
@@ -1194,47 +1192,48 @@ public class PcView extends Activity implements AdapterFragmentCallbacks, ShakeD
                 if (!added) {
                     message = getString(R.string.addpc_fail);
                 } else {
-                    // Find the added computer to get its httpsPort and serverCert
-                    ComputerDetails computer = findComputerByAddress(host);
+                    // addComputerBlocking fills addDetails in-place (uuid, httpsPort, etc.)
+                    // Use getComputer to get the latest state from pollingTuples
+                    ComputerDetails computer = managerBinder.getComputer(addDetails.uuid);
                     if (computer == null) {
-                        message = getString(R.string.addpc_fail);
-                    } else {
-                        NvHTTP httpConn = new NvHTTP(
-                            ServerHelper.getCurrentAddressFromComputer(computer),
-                            computer.httpsPort,
-                            managerBinder.getUniqueId(),
-                            clientName,
-                            computer.serverCert,
-                            PlatformBinding.getCryptoProvider(this)
-                        );
+                        computer = addDetails;
+                    }
 
-                        if (httpConn.getPairState() == PairState.PAIRED) {
-                            success = true;
-                            pairedComputer = computer;
-                        } else {
-                            PairingManager pm = httpConn.getPairingManager();
-                            PairResult result = pm.pair(httpConn.getServerInfo(true), pin);
-                            switch (result.state) {
-                                case PIN_WRONG:
-                                    message = getString(R.string.pair_incorrect_pin);
-                                    break;
-                                case FAILED:
-                                    message = getString(R.string.pair_fail);
-                                    break;
-                                case ALREADY_IN_PROGRESS:
-                                    message = getString(R.string.pair_already_in_progress);
-                                    break;
-                                case PAIRED:
-                                    success = true;
-                                    pairedComputer = computer;
-                                    managerBinder.getComputer(computer.uuid).serverCert = pm.getPairedCert();
-                                    getSharedPreferences("pair_name_map", MODE_PRIVATE)
-                                        .edit()
-                                        .putString(computer.uuid, result.pairName)
-                                        .apply();
-                                    managerBinder.invalidateStateForComputer(computer.uuid);
-                                    break;
-                            }
+                    NvHTTP httpConn = new NvHTTP(
+                        ServerHelper.getCurrentAddressFromComputer(computer),
+                        computer.httpsPort,
+                        managerBinder.getUniqueId(),
+                        clientName,
+                        computer.serverCert,
+                        PlatformBinding.getCryptoProvider(this)
+                    );
+
+                    if (httpConn.getPairState() == PairState.PAIRED) {
+                        success = true;
+                        pairedComputer = computer;
+                    } else {
+                        PairingManager pm = httpConn.getPairingManager();
+                        PairResult result = pm.pair(httpConn.getServerInfo(true), pin);
+                        switch (result.state) {
+                            case PIN_WRONG:
+                                message = getString(R.string.pair_incorrect_pin);
+                                break;
+                            case FAILED:
+                                message = getString(R.string.pair_fail);
+                                break;
+                            case ALREADY_IN_PROGRESS:
+                                message = getString(R.string.pair_already_in_progress);
+                                break;
+                            case PAIRED:
+                                success = true;
+                                pairedComputer = computer;
+                                managerBinder.getComputer(computer.uuid).serverCert = pm.getPairedCert();
+                                getSharedPreferences("pair_name_map", MODE_PRIVATE)
+                                    .edit()
+                                    .putString(computer.uuid, result.pairName)
+                                    .apply();
+                                managerBinder.invalidateStateForComputer(computer.uuid);
+                                break;
                         }
                     }
                 }
@@ -2022,9 +2021,7 @@ public class PcView extends Activity implements AdapterFragmentCallbacks, ShakeD
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == VPN_PERMISSION_REQUEST_CODE && easyTierController != null) {
             easyTierController.handleVpnPermissionResult(resultCode);
-        } // else if (requestCode == UpdateManager.INSTALL_PERMISSION_REQUEST_CODE) {
-            // UpdateManager.onInstallPermissionResult(this);
-        // }
+        }
     }
 
     // Utility

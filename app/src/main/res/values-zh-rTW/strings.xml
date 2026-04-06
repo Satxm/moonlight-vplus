@@ -152,7 +152,6 @@
     <string name="summary_checkbox_enable_sops">允許 GFE 為最佳串流效果自動更改遊戲設定</string>
     <string name="title_checkbox_host_audio">在電腦上播放音訊</string>
     <string name="summary_checkbox_host_audio">在電腦和本裝置同時輸出音訊</string>
-    <string name="category_advanced_settings">進階設定</string>
     <string name="title_video_format">變更轉碼器設定</string>
     <string name="summary_video_format">較新的轉碼器可以降低視訊頻寬需求 (若您的裝置支援)。如果主機軟體或 GPU 不支援，轉碼器選取項目可能會被忽略。</string>
     <string name="title_enable_hdr">啟用 HDR (實驗性)</string>
@@ -222,6 +221,8 @@
     <string name="pacing_latency">偏好低延遲</string>
     <string name="pacing_balanced_alt">FPS 上限平衡</string>
     <string name="category_help">說明</string>
+    <string name="title_privacy_policy">隱私權政策</string>
+    <string name="summary_privacy_policy">檢視 Moonlight 的隱私權政策</string>
     <string name="summary_seekbar_deadzone">注意：有些遊戲可以強制執行一個比 Moonlight 設定大的死區。</string>
     <string name="title_checkbox_absolute_mouse_mode">遠端桌面滑鼠模式</string>
     <string name="summary_checkbox_absolute_mouse_mode">這可以讓滑鼠在遠端桌面使用中的加速表現更加自然，但與很多遊戲不相容。</string>
@@ -270,14 +271,6 @@
     <string name="summary_float_ball_double_click_action">雙擊懸浮球時執行的動作</string>
     <string name="title_float_ball_long_click_action">長按動作</string>
     <string name="summary_float_ball_long_click_action">長按懸浮球時執行的動作</string>
-    <string name="title_float_ball_swipe_up_action">向上滑動動作</string>
-    <string name="summary_float_ball_swipe_up_action">向上滑動懸浮球時執行的動作</string>
-    <string name="title_float_ball_swipe_down_action">向下滑動動作</string>
-    <string name="summary_float_ball_swipe_down_action">向下滑動懸浮球時執行的動作</string>
-    <string name="title_float_ball_swipe_left_action">向左滑動動作</string>
-    <string name="summary_float_ball_swipe_left_action">向左滑動懸浮球時執行的動作</string>
-    <string name="title_float_ball_swipe_right_action">向右滑動動作</string>
-    <string name="summary_float_ball_swipe_right_action">向右滑動懸浮球時執行的動作</string>
 
     <!-- 懸浮球動作選項 -->
     <string name="float_ball_action_none">無動作</string>

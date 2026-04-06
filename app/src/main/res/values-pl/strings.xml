@@ -95,7 +95,6 @@
     <string name="summary_checkbox_enable_sops">Zezwalanie GFE na modyfikowanie ustawień gry w celu optymalnego streamowania</string>
     <string name="title_checkbox_host_audio">Odtwarzanie dźwięku na komputerze</string>
     <string name="summary_checkbox_host_audio">Odtwarzanie dźwięku z komputera i tego urządzenia</string>
-    <string name="category_advanced_settings">Ustawienia zaawansowane</string>
     <string name="title_unlock_fps">Odblokuj wszystkie możliwe liczby klatek na sekundę</string>
     <string name="title_checkbox_reduce_refresh_rate">Zezwalaj na zmniejszenie częstotliwości odświeżania</string>
     <string name="summary_checkbox_reduce_refresh_rate">Niższe częstotliwości odświeżania wyświetlacza mogą oszczędzać energię kosztem dodatkowych opóźnień wideo</string>
@@ -110,6 +109,8 @@
     <string name="title_enable_post_stream_toast">Wyświetlanie komunikatu o opóźnieniu po przesyłaniu strumieniowym</string>
     <string name="summary_full_range">Spowoduje to utratę szczegółów w jasnych i ciemnych obszarach, jeśli urządzenie nie wyświetla prawidłowo treści wideo w pełnym zakresie.</string>
     <string name="summary_enable_post_stream_toast">Wyświetlanie komunikatu informującego o opóźnieniu po zakończeniu strumienia</string>
+    <string name="title_privacy_policy">Polityka prywatności</string>
+    <string name="summary_privacy_policy">Zobacz politykę prywatności Moonlight</string>
     <string name="resolution_360p">360p</string>
     <string name="resolution_720p">720p</string>
     <string name="toast_controller_type_changed">Typ gamepada może zostać zmieniony z powodu emulacji czujnika ruchu</string>

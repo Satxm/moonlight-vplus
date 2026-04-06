@@ -101,7 +101,6 @@
     <string name="summary_checkbox_enable_sops">Permitir que GFE modifique la configuración del juego para una transmisión óptima</string>
     <string name="title_checkbox_host_audio">Reproducir audio en PC</string>
     <string name="summary_checkbox_host_audio">Reproducir audio en el ordenador y en este dispositivo</string>
-    <string name="category_advanced_settings">Configuración avanzada</string>
     <string name="title_video_format">Cambiar la configuración del códec</string>
     <string name="summary_video_format">Los códecs más recientes pueden reducir los requisitos del ancho de banda del vídeo si tu dispositivo los admite. Las selecciones de los códecs pueden ignorarse si no son compatibles con el software del host o la GPU.</string>
     <!-- Array strings -->
@@ -146,6 +145,7 @@
     <string name="title_fps_list">Tasa de cuadros en el video</string>
     <string name="summary_fps_list">Incrementar para una experiencia mas fluida en la transmisión. Disminuir para una mejoría en el rendimiento en dispositivos de gama de entrada.</string>
     <string name="summary_reset_osc">Reiniciar toda la configuración a las predeterminadas de tamaño y posición para los controles en pantalla</string>
+    <string name="title_privacy_policy">Política de Privacidad</string>
     <string name="resolution_360p">360p</string>
     <string name="resolution_1440p">1440p</string>
     <string name="resolution_4k">4K</string>
@@ -224,6 +224,7 @@
     <string name="summary_enable_hdr">Transmite en HDR cuando el juego y la GPU del PC lo admitan. HDR requiere una GPU compatible con la codificación HEVC Main 10.</string>
     <string name="title_enable_post_stream_toast">Mostrar mensajes sobre latencia mientras se transmite</string>
     <string name="category_help">Ayuda</string>
+    <string name="summary_privacy_policy">Mostrar la política de privacidad de Moonlight</string>
     <string name="resolution_480p">480p</string>
     <string name="fps_30">30 FPS</string>
     <string name="fps_60">60 FPS</string>
@@ -371,7 +372,6 @@
     <string name="suffix_seekbar_keyboard_toggle_fingers_native_touch"> </string>
     <string name="suffix_seekbar_mic_bitrate_kbps">kbps</string>
     <string name="summary_about_author">Crown\'s Bilibili: XiguaHub, por favor síguelos. GitHub: https://github.com/WACrown/moonlight-android</string>
-    <string name="summary_about_mode">Ver información de la aplicación y detalles del proyecto</string>
     <string name="summary_background_image_api">Ingresa una API de imagen de fondo personalizada, o una URL de imagen única. Deja vacío para ver imágenes aleatorias</string>
     <string name="summary_checkbox_enable_enhanced_touch">	</string>
     <string name="summary_checkbox_enable_esc_menu">Cuando está habilitado, presionar doble ESC abre el menú de retorno de transmisión, una sola presión de ESC se pasa al host</string>
@@ -419,7 +419,6 @@
     <string name="tip_volume_keys">💡 Consejo: Usar WiFi de 5GHz proporciona una mejor experiencia, ¡velocidades súper rápidas~</string>
     <string name="tip_wallpaper_change">💡 Consejo: La opción de API de fondo de pantalla puede establecer la API para fuentes de fondo de pantalla aleatorias, o una dirección de imagen única</string>
     <string name="title_about_author">Esto es V+ X Royal Edition</string>
-    <string name="title_about_mode">Acerca de</string>
     <string name="title_background_image_api">API de Imagen de Fondo</string>
     <string name="title_checkbox_enable_enhanced_touch">Habilitar toque mejorado</string>
     <string name="title_checkbox_enable_esc_menu">Permitir tecla ESC para abrir menú de retorno</string>

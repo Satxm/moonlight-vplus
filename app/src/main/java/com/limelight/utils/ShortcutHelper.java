@@ -107,7 +107,7 @@ public class ShortcutHelper {
                     .setIntent(ServerHelper.createPcShortcutIntent(context, computer))
                     .setShortLabel(computer.name)
                     .setLongLabel(computer.name)
-                    .setIcon(Icon.createWithResource(context, R.mipmap.ic_pc_scut))
+                    .setIcon(Icon.createWithResource(context, R.drawable.ic_computer))
                     .build();
 
             ShortcutInfo existingSinfo = getInfoForId(computer.uuid);
@@ -163,7 +163,7 @@ public class ShortcutHelper {
                 Bitmap adaptiveSquare = prepareAdaptiveSquareBitmap(iconBits);
                 appIcon = Icon.createWithAdaptiveBitmap(adaptiveSquare);
             } else {
-                appIcon = Icon.createWithResource(context, R.mipmap.ic_pc_scut);
+                appIcon = Icon.createWithResource(context, R.drawable.ic_computer);
             }
 
             ShortcutInfo sInfo = new ShortcutInfo.Builder(context, getShortcutIdForGame(computer, app))

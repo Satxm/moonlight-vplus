@@ -172,7 +172,6 @@
     <string name="summary_checkbox_enable_sops">GFE erlauben, die Spieleinstellungen für ein optimales Streaming zu ändern</string>
     <string name="title_checkbox_host_audio">Audio auf dem Host wiedergeben</string>
     <string name="summary_checkbox_host_audio">Audio auf dem Host und auf diesem Gerät wiedergeben</string>
-    <string name="category_advanced_settings">Erweiterte Einstellungen</string>
     <string name="title_unlock_fps">Alle möglichen Framerates freischalten</string>
     <string name="summary_unlock_fps">Streaming mit 90 oder 120 FPS kann die Latenz auf High-End-Geräten verringern, kann aber bei Geräten, die dies nicht unterstützen, zu stottern oder Instabilität führen</string>
     <string name="title_checkbox_disable_warnings">Warnhinweise deaktivieren</string>
@@ -225,9 +224,11 @@
     <string name="fps_90">90 FPS</string>
     <string name="pacing_balanced_alt">Ausbalanciert mit FPS-Limit</string>
     <string name="summary_checkbox_absolute_mouse_mode">Dies kann die Mausbeschleunigung für die Fernsteuerung natürlicher gestalten, ist aber mit vielen Spielen nicht kompatibel.</string>
+    <string name="title_privacy_policy">Datenschutzbestimmungen</string>
     <string name="title_checkbox_enable_audiofx">Unterstützung des System-Equalizer aktivieren</string>
     <string name="title_checkbox_absolute_mouse_mode">Modus für ferngesteuerte Maus</string>
     <string name="category_help">Hilfe</string>
+    <string name="summary_privacy_policy">Moonlight\'s Datenschutzbestimmungen anzeigen</string>
     <string name="summary_seekbar_deadzone">Hinweis: Einige Spiele können eine größere Controller-Totzone erzwingen als die, die in Moonlight konfiguriert ist.</string>
     <string name="summary_checkbox_enable_audiofx">Ermöglicht das Funktionieren von Audioeffekten beim Streaming, kann aber die Audio-Latenz erhöhen</string>
     <string name="resolution_prefix_native_portrait">(Portrait)</string>

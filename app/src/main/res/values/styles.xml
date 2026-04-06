@@ -72,13 +72,6 @@
         <item name="android:textSize">13sp</item>
     </style>
 
-    <!-- 精准权重支持 -->
-    <style name="KeyboardKeyRefined.W15"> <item name="android:layout_weight">1.5</item> </style>
-    <style name="KeyboardKeyRefined.W18"> <item name="android:layout_weight">1.8</item> </style>
-    <style name="KeyboardKeyRefined.W20"> <item name="android:layout_weight">2.0</item> </style>
-    <style name="KeyboardKeyRefined.W22"> <item name="android:layout_weight">2.2</item> </style>
-    <style name="KeyboardKeyRefined.W61"> <item name="android:layout_weight">6.1</item> </style>
-
     <!-- 组合样式：Modifier + Weights -->
     <style name="KeyboardKeyRefined.Modifier.W15" parent="KeyboardKeyRefined.Modifier"> <item name="android:layout_weight">1.5</item> </style>
     <style name="KeyboardKeyRefined.Modifier.W18" parent="KeyboardKeyRefined.Modifier"> <item name="android:layout_weight">1.8</item> </style>
@@ -128,7 +121,17 @@
         <item name="android:windowExitAnimation">@anim/background_fadeout</item>
     </style>
 
-    <style name="PreferenceThemeWithShadow" parent="AppTheme">
+    <!-- StreamSettings Activity 的 AppCompat 主题（AndroidX PreferenceFragmentCompat 需要） -->
+    <style name="SettingsThemeCompat" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/advance_setting_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    </style>
+
+    <style name="PreferenceThemeWithShadow" parent="SettingsThemeCompat">
         <item name="android:textViewStyle">@style/PreferenceTextWithShadow</item>
         <item name="android:titleTextAppearance">@style/PreferenceTitleWithShadow</item>
         <item name="android:subtitleTextAppearance">@style/PreferenceSummaryWithShadow</item>
@@ -198,8 +201,6 @@
         <item name="android:drawablePadding">4dp</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
     </style>
-
-    <!-- GameMenu 列表项样式 -->
 
     <!-- GameMenu 对话框动画 -->
     <style name="GameMenuDialogAnimation">

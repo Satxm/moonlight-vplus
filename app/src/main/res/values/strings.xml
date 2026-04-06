@@ -282,11 +282,6 @@
     <string name="summary_checkbox_touchscreen_trackpad">If enabled, the touchscreen acts like a trackpad. If disabled, multi-point touch will be enabled.</string>
     <string name="title_enable_double_click_drag">Enable touchpad double-tap drag</string>
     <string name="summary_enable_double_click_drag">Double-tap and hold to drag selection</string>
-    <string name="title_enable_local_cursor_rendering">Show a local cursor</string>
-    <string name="summary_enable_local_cursor_rendering">Displays a local cursor, which can be controlled via touchpad mode</string>
-    <string name="title_double_tap_time_threshold">Double tap time threshold</string>
-    <string name="summary_double_tap_time_threshold">Adjust the double-click recognition time threshold</string>
-    <string name="dialog_double_tap_time_threshold">Adjust the double-click recognition time threshold; a larger value makes it easier to trigger a double-click.</string>
     <string name="title_checkbox_sync_touch_event_with_display">Synchronize touch event with display refresh </string>
     <string name="summary_checkbox_sync_touch_event_with_display">If enabled, touch event will be synchronized with display refresh rate, like 60Hz.</string>
     <string name="title_checkbox_enable_keyboard_toggle_in_native_touch">Enable keyboard toggle in multi-point touch mode </string>
@@ -368,22 +363,11 @@
     <string name="summary_float_ball_double_click_action">Action performed when float ball is double-tapped</string>
     <string name="title_float_ball_long_click_action">Long Press Action</string>
     <string name="summary_float_ball_long_click_action">Action performed when float ball is long-pressed</string>
-    <string name="title_float_ball_swipe_up_action">Swipe Up Action</string>
-    <string name="summary_float_ball_swipe_up_action">Action performed when swiping float ball upward</string>
-    <string name="title_float_ball_swipe_down_action">Swipe Down Action</string>
-    <string name="summary_float_ball_swipe_down_action">Action performed when swiping float ball downward</string>
-    <string name="title_float_ball_swipe_left_action">Swipe Left Action</string>
-    <string name="summary_float_ball_swipe_left_action">Action performed when swiping float ball leftward</string>
-    <string name="title_float_ball_swipe_right_action">Swipe Right Action</string>
-    <string name="summary_float_ball_swipe_right_action">Action performed when swiping float ball rightward</string>
 
     <!-- Float Ball Action Options -->
     <string name="float_ball_action_none">No Action</string>
     <string name="float_ball_action_open_keyboard">Show Virtual Keyboard</string>
     <string name="float_ball_action_open_menu">Show Game Menu</string>
-    <string name="float_ball_action_toggle_visibility">Toggle Float Ball Visibility</string>
-    <string name="float_ball_action_screenshot">Take Screenshot</string>
-    <string name="float_ball_action_lock_screen">Lock Screen</string>
 
     <string name="category_host_settings">🖥️ Host Settings</string>
     <string name="title_checkbox_enable_sops">Optimize game settings</string>
@@ -413,7 +397,6 @@
     <string name="title_checkbox_resume_stream">Resume stream automatically</string>
     <string name="summary_checkbox_resume_stream">Automatically resume the stream when returning to Moonlight from the background</string>
 
-    <string name="category_advanced_settings">🔧 Advanced Settings</string>
     <string name="title_unlock_fps">Unlock all possible frame rates</string>
     <string name="summary_unlock_fps">Streaming at 90 or 120 FPS may reduce latency on high-end devices but can cause lag or instability on devices that can\'t support it</string>
     <string name="title_checkbox_reduce_refresh_rate">Allow refresh rate reduction</string>
@@ -447,18 +430,10 @@
     <string name="category_mic_settings">🎤 Microphone Settings</string>
     <string name="category_audio_vibration_settings">📳 Audio Vibration</string>
     <string name="category_connection_settings">Connection Settings</string>
-    <string name="title_setup_guide">🔗 Setup guide</string>
-    <string name="summary_setup_guide">View instructions on how to set up your gaming PC for streaming</string>
-    <string name="title_troubleshooting">Troubleshooting guide</string>
-    <string name="summary_troubleshooting">View tips for diagnosing and fixing common streaming issues</string>
-    <string name="title_privacy_policy">Privacy policy</string>
-    <string name="summary_privacy_policy">View Moonlight\'s privacy policy</string>
-    <string name="title_checkbox_enable_stun">Get public IP</string>
-    <string name="summary_checkbox_enable_stun">This will attempt to use a STUN server to obtain the controlled device\'s public network access method, so that it can continue to connect after leaving the local network environment. However, this feature may slow down scanning for users without a public IP.</string>
 
     <string name="category_help">📋 Help</string>
-    <string name="title_about_mode">About</string>
-    <string name="summary_about_mode">View app information and project details</string>
+    <string name="title_privacy_policy">Privacy policy</string>
+    <string name="summary_privacy_policy">View Moonlight\'s privacy policy</string>
 
     <!-- About dialog strings -->
     <string name="about_dialog_description">Moonlight V+ is an enhanced client built for Foundation Sunshine, delivering the ultimate game streaming experience.</string>
@@ -652,6 +627,10 @@
     <string name="perf_decode_latency_info">Decode latency represents the time required to decode video frames.\n\nLatency Range:\n• &lt;5ms: Excellent decoder performance\n• 5-10ms: Good decoder performance\n• 10-20ms: Fair decoder performance\n• &gt;20ms: Poor decoder performance\n\nInfluencing Factors:\n• Hardware decoder performance\n• Video encoding complexity\n• Device CPU/GPU load\n• When decode latency is less than 10ms, it is recommended to pay attention to other performance of the device (e.g. frame rate, resolution, image quality, etc.)</string>
     <string name="perf_host_latency_title">🖥️ Host Latency Information</string>
     <string name="perf_host_latency_info">Host latency represents the time for the game host to process frames.\n\nLatency Range:\n• &lt;5ms: Strong host performance\n• 5-10ms: Good host performance\n• 10-20ms: Fair host performance\n• &gt;20ms: Weak host performance\n\nInfluencing Factors:\n• Host hardware performance\n• Game load\n• Background program usage\n\nVer.V+:\n• Indicates version information\n• Displayed when no host latency data available</string>
+    <!-- Performance Overlay Info Dialogs - 1% Low FPS -->
+    <string name="perf_one_percent_low_title">📉 1% Low Frame Rate</string>
+    <string name="perf_one_percent_low_info">1%Low FPS measures frame rate smoothness using the 99th percentile frame interval.\n\nHow it works:\n• Records intervals between rendered frames\n• Sorts to find the slowest 1%% of frame times\n• Converts to FPS: 1000 / P99 interval\n\nInterpretation:\n• Close to rendered FPS: Very smooth\n• 70-90%% of rendered FPS: Minor stuttering\n• Below 70%%: Noticeable stuttering\n\nUse this to detect micro-stuttering that average FPS cannot reveal.</string>
+
 
     <!-- Performance Overlay Info Dialogs - Battery Information -->
     <string name="perf_battery_info_title">🔋 Battery Information</string>
@@ -966,6 +945,34 @@
     <string name="layout_page_wheel_pad_text_58796">Center Text Color</string>
     <string name="layout_page_window_text_625fb">Cancel</string>
 
+    <!-- Clean page section headers (auto-extracted from _clean layouts) -->
+    <string name="page_section_basic_info">🕹️ Basic Info</string>
+    <string name="page_section_basic_settings">⚙️ Basic Settings</string>
+    <string name="page_section_position_size">📐 Position &amp; Size</string>
+    <string name="page_section_outer_ring_style">🎨 Outer Ring Style</string>
+    <string name="page_section_appearance">🎨 Appearance</string>
+    <string name="page_section_color_config">🎨 Color Config</string>
+    <string name="page_section_style_settings">🎨 Style Settings</string>
+    <string name="page_section_border_color">🎨 Border Color</string>
+    <string name="page_section_appearance_settings">🎨 Appearance Settings</string>
+    <string name="page_section_stick_style">🕹️ Stick Style</string>
+    <string name="page_section_operations">🔧 Operations</string>
+    <string name="page_section_child_management">🔧 Child Management</string>
+    <string name="page_section_dpad_config">🎮 D-Pad Config</string>
+    <string name="page_section_dpad_settings">🎮 D-Pad Settings</string>
+    <string name="page_section_stick_config">🕹️ Stick Config</string>
+    <string name="page_section_group_settings">📦 Group Settings</string>
+    <string name="page_section_child_settings">👥 Child Settings</string>
+    <string name="page_section_delete_operation">⚠️ Delete Operation</string>
+    <string name="page_section_text_settings">✏️ Text Settings</string>
+    <string name="page_section_text_config">✏️ Text Config</string>
+    <string name="page_section_wheel_basic">🎡 Basic Settings</string>
+    <string name="page_section_wheel_config">🎯 Wheel Config</string>
+    <string name="page_section_key_values">🔑 Key Values</string>
+    <string name="page_label_combo_keys">Combo Keys</string>
+    <string name="page_label_coord_x">X Coord</string>
+    <string name="page_label_coord_y">Y Coord</string>
+    <string name="page_hint_confirm_delete">Type to confirm</string>
 
     <!-- app:text Chinese strings (auto-extracted) -->
     <string name="apptext_pg_analog_stick_4b26d">Stick Deadzone %</string>

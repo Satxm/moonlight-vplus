@@ -127,7 +127,6 @@
     <string name="summary_checkbox_enable_sops">Permetti a GFE di modificare le impostazioni dei giochi per uno streaming ottimale</string>
     <string name="title_checkbox_host_audio">Riproduci audio sul PC</string>
     <string name="summary_checkbox_host_audio">Riproduce l\'audio sul PC e su questo dispositivo</string>
-    <string name="category_advanced_settings">Impostazioni avanzate</string>
     <string name="title_video_format">Modifica impostazioni del codec</string>
     <string name="summary_video_format">I nuovi codec possono ridurre i requisiti di larghezza di banda video se il tuo dispositivo li supporta. La scelta del codec può essere ignorata se non è supportato dal software dell\'host o dalla GPU.</string>
     <string name="title_enable_hdr">Abilita HDR (sperimentale)</string>
@@ -228,6 +227,8 @@
     <string name="summary_seekbar_deadzone">Nota: Alcuni giochi possono imporre una deadzone più grande di quella che Moonlight è configurato per utilizzare.</string>
     <string name="title_checkbox_absolute_mouse_mode">Modalità mouse desktop remoto</string>
     <string name="summary_checkbox_absolute_mouse_mode">Questo può rendere l\'accelerazione del mouse più naturale per l\'utilizzo del desktop remoto, ma è incompatibile con molti giochi.</string>
+    <string name="title_privacy_policy">Informativa sulla privacy</string>
+    <string name="summary_privacy_policy">Visualizza l\'informativa sulla privacy di Moonlight</string>
     <string name="frame_conversion_error">Il PC host ha segnalato un errore fatale di codifica video.
 \n
 \nProva a disabilitare la modalità HDR, modificare la risoluzione dello streaming o la risoluzione del display del tuo PC host.</string>

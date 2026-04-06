@@ -106,7 +106,6 @@
     <string name="summary_checkbox_enable_sops">Разрешить GFE изменять настройки игр для оптимальной трансляции</string>
     <string name="title_checkbox_host_audio">Проигрывать звук на PC</string>
     <string name="summary_checkbox_host_audio">Проигрывать звук на компьютере и текущем устройстве</string>
-    <string name="category_advanced_settings">Расширенные Настройки</string>
     <string name="title_video_format">Изменить настройки HEVC</string>
     <string name="summary_video_format">HEVC снижает требования к пропускной способности, но требует очень нового устройства</string>
     <string name="category_on_screen_controls_settings">Настройки Экранных Кнопок</string>
@@ -216,6 +215,8 @@
 \nПопробуйте выключить HDR, изменить разрешение стрима или разрешение экрана на хост-ПК.</string>
     <string name="summary_checkbox_enable_audiofx">Позволяет работать аудио эффектам во время стрима, но может увеличить задержку звука</string>
     <string name="summary_frame_pacing">Укажите как сбалансировать задержку и плавностью видео</string>
+    <string name="summary_privacy_policy">Посмотреть политику конфиденциальности Moonlight</string>
+    <string name="title_privacy_policy">Политика конфиденциальности</string>
     <string name="resolution_360p">360p</string>
     <string name="resolution_1080p">1080p</string>
     <string name="resolution_1440p">1440p</string>

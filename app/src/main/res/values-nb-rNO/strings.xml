@@ -45,7 +45,6 @@
     <string name="title_video_format">Endre HEVC-innstillinger</string>
     <string name="title_checkbox_disable_warnings">Skru av advarselsmeldinger</string>
     <string name="title_unlock_fps">Lås opp alle mulige bilderammetakter</string>
-    <string name="category_advanced_settings">Avanserte innstillinger</string>
     <string name="title_checkbox_host_audio">Spill lyd på PC</string>
     <string name="title_checkbox_enable_sops">Optimaliser spillinnstillinger</string>
     <string name="category_host_settings">Vertsinnstillinger</string>

@@ -213,8 +213,6 @@ public class FullscreenProgressOverlay {
         this.computer = computer;
     }
 
-
-
     private void loadAppImage() {
         if (app != null) {
             // 从全局缓存获取app icon

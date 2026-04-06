@@ -185,7 +185,6 @@
     <string name="dialog_title_osc_opacity">Αλλαγή αδιαφάνειας</string>
     <string name="title_checkbox_enable_sops">Βελτιστοποίηση ρυθμίσεων παιχνιδιού</string>
     <string name="summary_checkbox_enable_sops">Επιτρέψτε στη GFE να τροποποιήσει τις ρυθμίσεις του παιχνιδιού για βέλτιστη ροή</string>
-    <string name="category_advanced_settings">Προηγμένες ρυθμίσεις</string>
     <string name="summary_unlock_fps">Η ροή στα 90 ή 120 FPS μπορεί να μειώσει τον λανθάνοντα χρόνο σε συσκευές υψηλών προδιαγραφών, αλλά μπορεί να προκαλέσει καθυστέρηση ή αστάθεια σε συσκευές που δεν μπορούν να την υποστηρίξουν</string>
     <string name="title_video_format">Αλλαγή ρυθμίσεων HEVC</string>
     <string name="title_enable_post_stream_toast">Εμφάνιση μηνύματος λανθάνοντος χρόνου μετά τη ροή</string>
