@@ -157,6 +157,7 @@
     <string name="game_menu_bitrate_current">当前: %d Mbps</string>
     <string name="game_menu_bitrate_adjustment_success">码率调整成功至 %d Mbps</string>
     <string name="game_menu_bitrate_adjustment_failed">码率调整失败</string>
+    <string name="game_menu_ok">确定</string>
     <string name="game_menu_bitrate_tip">拖动滑动条实时调整码率, 需要更高的码率请到设置菜单操作。</string>
 
     <!-- Add computer manually activity -->
@@ -600,6 +601,9 @@
     <string name="gyro_invert_y_axis">Y 轴反转</string>
     <string name="gyro_sensitivity_format">灵敏度 %.1fx</string>
     <string name="gyro_activation_always">常开</string>
+    <string name="gyro_mouse_mode_label">鼠标模式</string>
+    <string name="gyro_controller_access_failed">无法访问控制器</string>
+    <string name="gyro_no_controller_detected">未检测到手柄，陀螺仪已禁用</string>
 
     <!-- Accessibility service -->
     <string name="accessibility_service_label">Moonlight 键盘服务</string>
@@ -627,6 +631,7 @@
     <!-- Performance Overlay Info Dialogs - 1% Low FPS -->
     <string name="perf_one_percent_low_title">📉 1%Low帧信息</string>
     <string name="perf_one_percent_low_info">1%Low帧通过第99百分位帧间隔来衡量帧率平滑性。\n\n原理：\n• 记录每帧渲染间隔\n• 排序后取最慢的1%%帧时间\n• 转换为FPS：1000 / P99间隔\n\n判读：\n• 接近渲染帧率：非常平滑\n• 渲染帧率的70–90%%：轻微卡顿\n• 低于70%%：明显卡顿\n\n用于检测平均帧率无法反映的微卡顿。</string>
+
     <!-- Performance Overlay Info Dialogs - Battery Information -->
     <string name="perf_battery_info_title">🔋 电池信息</string>
     <string name="perf_battery_status_sufficient">电池电量充足</string>
@@ -670,7 +675,7 @@
     <string name="image_saved_successfully">涩图成功保存到了系统目录(Picture/setu)</string>
     <string name="image_save_failed_with_error">涩图保存失败: %1$s</string>
     <string name="config_save_failed">配置保存失败</string>
-    <string name="scene_config_applied">已应用场景%1$d配置：%2$dx%3$d@%4$dFPS %5$.2fMbps %6$s HDR %7$s</string>
+    <string name="scene_config_applied">已应用场景%1$d配置: %2$dx%3$d@%4$dFPS %5$.2fMbps %6$s HDR %7$s</string>
     <string name="scene_not_configured">场景%1$d未配置</string>
     <string name="config_apply_failed">配置应用失败</string>
     <string name="save_to_scene">保存到场景%1$d</string>
@@ -789,8 +794,6 @@
     <string name="layout_config_item_text_c8ce4">重命名</string>
     <string name="layout_config_item_text_2f4aa">删除</string>
     <string name="layout_custom_dialog_text_c9831">启用王冠菜单</string>
-    <string name="layout_custom_dialog_text_6d521">睡眠</string>
-    <string name="layout_custom_dialog_text_c3992">退出</string>
     <string name="layout_custom_dialog_text_f090a">特殊按键 Shortcuht</string>
     <string name="layout_custom_dialog_text_cf458">码率调整</string>
     <string name="layout_custom_dialog_cd_99c74">提示信息</string>
@@ -988,5 +991,66 @@
     <string name="apptext_pg_wheel_pad_a0e87">分区文字大小 (%)</string>
     <string name="apptext_pg_wheel_pad_6c613">触发器文字大小 (%)</string>
     <string name="apptext_pg_wheel_pad_ea2ce">中心预览文字大小 (%)</string>
+
+    <!-- Extracted hardcoded strings -->
+    <string name="toast_no_notification_permission">没有通知权限，后台串流可能会中断</string>
+    <string name="toast_press_again_to_open_menu">再次按 %s 键打开串流菜单</string>
+    <string name="toast_mic_button_hidden">麦克风按钮已隐藏</string>
+    <string name="toast_mic_button_shown">麦克风按钮已显示</string>
+    <string name="toast_virtual_controller_hidden">虚拟手柄已隐藏</string>
+    <string name="toast_virtual_controller_shown">虚拟手柄已显示</string>
+    <string name="toast_virtual_controller_not_enabled">虚拟手柄未启用</string>
+    <string name="toast_enable_notification_for_bg">请在设置中开启通知权限，以便在后台时保持串流连接</string>
+    <string name="perf_decoder">解码器</string>
+    <string name="perf_resolution">分辨率</string>
+    <string name="perf_fps">帧率</string>
+    <string name="perf_frame_loss">丢帧率</string>
+    <string name="perf_network_rtt">网络延时</string>
+    <string name="perf_host_latency">主机延时</string>
+    <string name="perf_decode_time">解码时间</string>
+    <string name="perf_bandwidth">带宽</string>
+    <string name="perf_render_latency">渲染延迟</string>
+    <string name="toast_disconnect_error">断开连接时发生错误: %s</string>
+    <string name="game_menu_disable_double_click_drag">关闭双击按住</string>
+    <string name="game_menu_enable_double_click_drag">开启双击按住</string>
+    <string name="toast_double_click_drag_enabled">已开启双击按住功能</string>
+    <string name="toast_double_click_drag_disabled">已关闭双击按住功能</string>
+    <string name="game_menu_on">开启</string>
+    <string name="game_menu_off">关闭</string>
+    <string name="toast_local_cursor_enabled">本地光标渲染已开启</string>
+    <string name="toast_local_cursor_disabled">本地光标渲染已关闭</string>
+    <string name="toast_crown_not_enabled">王冠功能未启用</string>
+    <string name="game_menu_toggle_touch">开启/关闭触控</string>
+    <string name="toast_touch_enabled">触控已开启</string>
+    <string name="toast_touch_disabled">触控已关闭</string>
+    <string name="toast_cannot_access_controller">无法访问控制器</string>
+    <string name="toast_vibration_test_sent">已发送本地震动测试</string>
+    <string name="toast_vibration_test_failed">震动测试失败: %s</string>
+    <string name="toast_adjusting_bitrate">正在调整码率...</string>
+    <string name="game_menu_tab_bitrate">码率调整 Bitrate</string>
+    <string name="game_menu_tab_gyro">体感助手 Gyro</string>
+    <string name="game_menu_tab_shortcuts">特殊按键 Shortcuts</string>
+    <string name="game_menu_card_config_title">卡片配置 Visible cards</string>
+    <string name="toast_enable_mic_redirect">请在设置中开启麦克风重定向</string>
+    <string name="game_menu_disable_pan_zoom">关闭平移/缩放</string>
+    <string name="game_menu_enable_pan_zoom">开启平移/缩放</string>
+    <string name="toast_pan_zoom_disabled">已关闭平移/缩放</string>
+    <string name="toast_pan_zoom_enabled">已开启平移/缩放</string>
+    <string name="toast_super_command_error">发送超级命令时发生错误: %s</string>
+    <string name="toast_external_display_disconnected">外接显示器已断开，切换到主屏幕</string>
+    <string name="toast_switched_to_external_display">串流已切换到外接显示器, 若某些外接设备不能正常横屏显示，请翻滚主机。</string>
+
+    <!-- Quick button labels -->
+    <string name="quick_btn_mic">麦克风</string>
+    <string name="quick_btn_sleep">睡眠</string>
+    <string name="quick_btn_quit">退出</string>
+    <string name="quick_btn_keyboard">键盘</string>
+    <string name="quick_btn_controller">手柄</string>
+    <string name="quick_btn_perf">性能</string>
+    <string name="quick_btn_max_reached">最多只能添加 6 个快捷按钮</string>
+
+    <!-- Quick button editor -->
+    <string name="quick_button_editor_title">快捷按钮配置</string>
+    <string name="quick_button_reset_default">恢复默认</string>
 
 </resources>

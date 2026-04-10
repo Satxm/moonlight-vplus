@@ -72,6 +72,13 @@
         <item name="android:textSize">13sp</item>
     </style>
 
+    <!-- 精准权重支持 -->
+    <style name="KeyboardKeyRefined.W15"> <item name="android:layout_weight">1.5</item> </style>
+    <style name="KeyboardKeyRefined.W18"> <item name="android:layout_weight">1.8</item> </style>
+    <style name="KeyboardKeyRefined.W20"> <item name="android:layout_weight">2.0</item> </style>
+    <style name="KeyboardKeyRefined.W22"> <item name="android:layout_weight">2.2</item> </style>
+    <style name="KeyboardKeyRefined.W61"> <item name="android:layout_weight">6.1</item> </style>
+
     <!-- 组合样式：Modifier + Weights -->
     <style name="KeyboardKeyRefined.Modifier.W15" parent="KeyboardKeyRefined.Modifier"> <item name="android:layout_weight">1.5</item> </style>
     <style name="KeyboardKeyRefined.Modifier.W18" parent="KeyboardKeyRefined.Modifier"> <item name="android:layout_weight">1.8</item> </style>
@@ -200,6 +207,16 @@
         <item name="android:focusable">true</item>
         <item name="android:drawablePadding">4dp</item>
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <!-- GameMenu 列表项样式 -->
+    <style name="GameMenuListItemStyle" parent="android:Widget.ListView">
+        <item name="android:background">@drawable/game_menu_list_item_bg</item>
+        <item name="android:textColor">@color/game_menu_text_primary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
     <!-- GameMenu 对话框动画 -->

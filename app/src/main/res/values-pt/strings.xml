@@ -241,23 +241,13 @@
     <string name="copy_content">Copiar Conteúdo</string>
     <string name="copy_success">Conteúdo copiado para a área de transferência</string>
     <string name="copy_details">Copiar Detalhes</string>
-    <string name="perf_overlay_hidden">FECHAR</string>
-    <string name="perf_overlay_floating">SUSPENSÃO</string>
-    <string name="perf_overlay_locked">Fixo</string>
     <string name="applist_menu_start_with_vdd">Iniciar com display virtual</string>
     <string name="applist_menu_start_with_last_settings">Iniciar com últimas configurações</string>
     
     <!-- Game menu -->
-    <string name="game_menu_toggle_keyboard">Alternar teclado na tela</string>
-    <string name="game_menu_toggle_performance_overlay">Alternar overlay de desempenho</string>
-    <string name="game_menu_toggle_virtual_controller">Alternar controlador virtual</string>
-    <string name="game_menu_toggle_host_keyboard">Alternar teclado do host</string>
     <string name="game_menu_toggle_mouse_on">Ativar emulação de rato pelo controlador</string>
     <string name="game_menu_toggle_mouse_off">Desativar emulação de rato pelo controlador</string>
-    <string name="game_menu_disconnect">Desconectar</string>
-    <string name="game_menu_disconnect_and_quit">Desconectar e sair</string>
     <string name="game_menu_cancel">Cancelar</string>
-    <string name="game_menu_send_keys">Enviar tecla(s) especial</string>
     <string name="game_menu_bitrate_current">Atual: %d Mbps</string>
     <string name="game_menu_bitrate_adjustment_success">Taxa de bits ajustada com sucesso para %d Mbps</string>
     <string name="game_menu_bitrate_adjustment_failed">Falha ao ajustar taxa de bits</string>
@@ -420,17 +410,11 @@
     <string name="title_about_author">Este é V+ X Royal Edition</string>
     <string name="summary_about_author">Bilibili do Crown: XiguaHub, por favor siga-os. GitHub: https://github.com/WACrown/moonlight-android</string>
     <string name="crown_switch_to_normal">Mudar para modo normal</string>
-    <string name="crown_switch_to_crown">Mudar para modo Crown</string>
-    <string name="game_menu_crown_function">Função Crown</string>
-    <string name="game_menu_toggle_elements_visibility">Mostrar/Ocultar teclas virtuais</string>
-    <string name="game_menu_configure_crown_function">Configurar função Crown</string>
     <string name="toast_elements_visible">Botão virtual exibido</string>
     <string name="toast_elements_hidden">Botão virtual oculto</string>
     <string name="toast_back_key_menu_switch_1">A configuração da função crown foi encerrada</string>
     <string name="toast_back_key_menu_switch_2">Entrou na configuração da função crown</string>
-    <string name="game_menu_edit_mode">Modo de edição do botão Crown</string>
-    <string name="game_menu_configure_settings">Modo de configuração do botão Crown</string>
-    
+
     <!-- External display -->
     <string name="title_use_external_display">Usar display externo</string>
     <string name="summary_use_external_display">Se um display externo estiver conectado, exibir o stream no display externo</string>
@@ -481,17 +465,7 @@
     <string name="tip_cards_show">💡 Dica: Você pode editar os cartões de função exibidos no menu do jogo. Cartões desnecessários podem ser ocultados~</string>
     
     <!-- Touch mode switch menu -->
-    <string name="game_menu_switch_touch_mode">Trocar modo de toque</string>
-    <string name="game_menu_touch_mode_enhanced">Toque multiponto aprimorado</string>
-    <string name="game_menu_touch_mode_classic">Modo de rato clássico</string>
-    <string name="game_menu_touch_mode_trackpad">Modo trackpad</string>
-    <string name="game_menu_local_cursor_rendering">Renderização de cursor local</string>
-    <string name="game_menu_touch_mode_native_mouse">Ponteiro de rato nativo</string>
-    <string name="toast_touch_mode_enhanced_on">Toque multiponto aprimorado ativado</string>
-    <string name="toast_touch_mode_classic_on">Modo de rato clássico ativado</string>
-    <string name="toast_touch_mode_trackpad_on">Modo trackpad ativado</string>
-    <string name="toast_touch_mode_native_mouse_on">Ponteiro de rato nativo ativado</string>
-    
+
     <!-- Mouse mode preset -->
     <string name="title_list_native_mouse_mode_preset">Predefinição de modo de rato</string>
     <string name="summary_list_native_mouse_mode_preset">Selecione uma configuração predefinida de modo de rato/toque</string>
@@ -502,32 +476,11 @@
     <string name="toast_preset_applied">Predefinição aplicada: %s</string>
     
     <!-- Custom special keys -->
-    <string name="game_menu_add_custom_key">Adicionar botão personalizado</string>
-    <string name="game_menu_delete_custom_key">Excluir botão personalizado</string>
-    <string name="dialog_title_add_custom_key">Adicionar botões personalizados</string>
-    <string name="dialog_hint_key_name">Nome da tecla (ex: Ctrl+Shift+Esc)</string>
-    <string name="dialog_hint_key_codes">Códigos de tecla (ex: 0x11, 0x10, 0x1B)</string>
     <string name="dialog_button_save">SALVAR</string>
     <string name="dialog_button_cancel">CANCELAR</string>
-    <string name="dialog_button_clear">LIMPAR</string>
-    <string name="dialog_virtual_keyboard_hint">Clique nas teclas para criar uma combinação</string>
-    <string name="dialog_title_select_keys_to_delete">Selecione o botão para excluir</string>
-    <string name="dialog_button_delete">EXCLUIR</string>
-    <string name="toast_name_and_codes_cannot_be_empty">Nome e código da tecla não podem estar vazios</string>
-    <string name="toast_key_code_format_error">Erro de formato, o código da tecla deve começar com \"0x\"</string>
-    <string name="toast_custom_key_saved">Botão personalizado \'%s\' foi salvo</string>
-    <string name="toast_save_failed">Falha ao salvar, verifique o formato</string>
-    <string name="toast_no_custom_keys_to_delete">Não há teclas personalizadas que possam ser excluídas</string>
-    <string name="toast_selected_keys_deleted">O botão selecionado foi excluído</string>
-    <string name="toast_delete_failed">Falha na exclusão</string>
-    <string name="toast_load_key_list_failed">Falha ao carregar lista de botões</string>
-    <string name="toast_load_custom_keys_corrupted">Falha ao carregar botão personalizado</string>
-    
+
     <!-- Gyro -->
     <string name="gyro_activation_method">Tecla de ativação</string>
-    <string name="gyro_invert_x_axis">Inverter X</string>
-    <string name="gyro_invert_y_axis">Inverter Y</string>
-    <string name="gyro_sensitivity_format">Sensibilidade %.1fx</string>
     <string name="gyro_activation_always">Sempre ativo</string>
     
     <!-- Accessibility service -->
@@ -613,9 +566,7 @@
     <string name="background_refreshed_with_remaining">Fundo atualizado! (%1$d restantes hoje)</string>
     <string name="refresh_failed_please_retry">Falha na atualização, tente novamente</string>
     <string name="refresh_failed_with_error">Falha na atualização: %1$s</string>
-    <string name="game_menu_toggle_remote_mouse">Mostrar/Ocultar rato remoto</string>
-    <string name="toast_remote_mouse_toast">Rato remoto exibido/oculto</string>
-    
+
     <!-- Output Buffer Queue -->
     <string name="title_seekbar_output_buffer_queue_limit">Limite da fila de buffer de saída</string>
     <string name="summary_seekbar_output_buffer_queue_limit">Controla o número máximo de quadros decodificados que podem ser enfileirados antes da renderização. Valores mais baixos reduzem a latência, mas podem causar queda de quadros.</string>
