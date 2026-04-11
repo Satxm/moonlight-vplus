@@ -25,8 +25,7 @@ public class FullscreenProgressOverlay {
     private final TextView statusText;
     private final TextView progressText;
     private final TextView randomTip;
-    private final ImageView appPosterBackgroundBlur;
-    private final ImageView appPosterBackgroundClear;
+    private final ImageView appPosterBackground;
     private final ProgressBar progressBar;
     private final ViewGroup rootView;
     private final String[] tips;
@@ -73,8 +72,7 @@ public class FullscreenProgressOverlay {
         statusText = overlayView.findViewById(R.id.statusText);
         progressText = overlayView.findViewById(R.id.progressText);
         randomTip = overlayView.findViewById(R.id.randomTip);
-        appPosterBackgroundBlur = overlayView.findViewById(R.id.appPosterBackgroundBlur);
-        appPosterBackgroundClear = overlayView.findViewById(R.id.appPosterBackgroundClear);
+        appPosterBackground = overlayView.findViewById(R.id.appPosterBackground);
         progressBar = overlayView.findViewById(R.id.progressBar);
 
         // 设置初始状态
@@ -140,11 +138,10 @@ public class FullscreenProgressOverlay {
 
         activity.runOnUiThread(() -> {
             if (poster != null) {
-                BackgroundImageManager.setBlurredBitmap(appPosterBackgroundBlur, poster, BackgroundImageManager.OVERLAY_IMAGE_ALPHA);
-                appPosterBackgroundClear.setImageBitmap(BackgroundImageManager.applyAlpha(poster, BackgroundImageManager.OVERLAY_IMAGE_ALPHA));
+                appPosterBackground.setImageBitmap(poster);
             } else {
-                appPosterBackgroundBlur.setImageResource(R.drawable.no_app_image);
-                appPosterBackgroundClear.setImageBitmap(null);
+                // 设置默认背景
+                appPosterBackground.setImageResource(R.drawable.no_app_image);
             }
         });
     }
@@ -156,20 +153,10 @@ public class FullscreenProgressOverlay {
 
         activity.runOnUiThread(() -> {
             if (poster != null) {
-                BackgroundImageManager.setBlurredDrawable(appPosterBackgroundBlur, poster, BackgroundImageManager.OVERLAY_IMAGE_ALPHA);
-                if (poster instanceof android.graphics.drawable.BitmapDrawable) {
-                    Bitmap bmp = ((android.graphics.drawable.BitmapDrawable) poster).getBitmap();
-                    if (bmp != null) {
-                        appPosterBackgroundClear.setImageBitmap(BackgroundImageManager.applyAlpha(bmp, BackgroundImageManager.OVERLAY_IMAGE_ALPHA));
-                    } else {
-                        appPosterBackgroundClear.setImageDrawable(poster);
-                    }
-                } else {
-                    appPosterBackgroundClear.setImageDrawable(poster);
-                }
+                appPosterBackground.setImageDrawable(poster);
             } else {
-                appPosterBackgroundBlur.setImageResource(R.drawable.no_app_image);
-                appPosterBackgroundClear.setImageBitmap(null);
+                // 设置默认背景
+                appPosterBackground.setImageResource(R.drawable.no_app_image);
             }
         });
     }
@@ -229,11 +216,10 @@ public class FullscreenProgressOverlay {
     private void loadAppImage() {
         if (app != null && computer != null) {
             Bitmap fullBitmap = AppIconCache.getInstance().getFullIcon(computer, app);
+            
             if (fullBitmap != null) {
-                appPosterBackgroundBlur.setVisibility(View.VISIBLE);
-                appPosterBackgroundClear.setVisibility(View.VISIBLE);
-                BackgroundImageManager.setBlurredBitmap(appPosterBackgroundBlur, fullBitmap, BackgroundImageManager.OVERLAY_IMAGE_ALPHA);
-                appPosterBackgroundClear.setImageBitmap(BackgroundImageManager.applyAlpha(fullBitmap, BackgroundImageManager.OVERLAY_IMAGE_ALPHA));
+                appPosterBackground.setVisibility(View.VISIBLE);
+                appPosterBackground.setImageBitmap(fullBitmap);
             }
         }
     }

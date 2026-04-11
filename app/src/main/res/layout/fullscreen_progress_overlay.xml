@@ -3,26 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- 背景图片容器 -->
-    <FrameLayout
+    <!-- 背景图片 - 显示要串流的app的poster -->
+    <ImageView
+        android:id="@+id/appPosterBackground"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <!-- 高斯模糊背景 -->
-        <ImageView
-            android:id="@+id/appPosterBackgroundBlur"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
-
-        <!-- 中间完整图片 -->
-        <ImageView
-            android:id="@+id/appPosterBackgroundClear"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitCenter" />
-
-    </FrameLayout>
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:alpha="0.5" />
 
     <!-- 半透明遮罩 -->
     <View

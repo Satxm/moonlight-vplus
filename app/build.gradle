@@ -112,7 +112,7 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix ".satxm.debug"
+            applicationIdSuffix ".satxm_debug"
             resValue "string", "app_label", "Moonlight V+ Debug"
             resValue "string", "app_label_root", "Moonlight V+ Debug (Root)"
 

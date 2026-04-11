@@ -15,8 +15,7 @@ class AppIconCache private constructor() {
     init {
         // 获取应用可用内存的1/8作为缓存大小
         val maxMemory = (Runtime.getRuntime().maxMemory() / 1024).toInt()
-        // 图标缓存：1/8堆内存，下限4MB，上限64MB
-        val cacheSize = (maxMemory / 8).coerceIn(4 * 1024, 64 * 1024)
+        val cacheSize = maxMemory
 
         iconCache = object : LruCache<String, Bitmap>(cacheSize) {
             override fun sizeOf(key: String, bitmap: Bitmap): Int {
@@ -25,8 +24,7 @@ class AppIconCache private constructor() {
             }
         }
 
-        // 全分辨率大图缓存：1/16堆内存，下限8MB（至少放1张），上限32MB
-        val fullCacheSize = (maxMemory / 16).coerceIn(8 * 1024, 32 * 1024)
+        val fullCacheSize = maxMemory
         fullIconCache = object : LruCache<String, Bitmap>(fullCacheSize) {
             override fun sizeOf(key: String, bitmap: Bitmap): Int {
                 return bitmap.byteCount / 1024
