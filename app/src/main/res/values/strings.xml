@@ -704,7 +704,7 @@
 
     <!-- Output Buffer Queue Limit -->
     <string name="title_seekbar_output_buffer_queue_limit">Output Buffer Queue Limit</string>
-    <string name="summary_seekbar_output_buffer_queue_limit">Controls the maximum number of decoded frames that can be queued before rendering. Lower values reduce latency but may cause frame drops. Higher values improve smoothness but increase latency. Default: 2</string>
+    <string name="summary_seekbar_output_buffer_queue_limit">Controls the maximum number of decoded frames that can be queued before rendering. Lower values reduce latency but may cause frame drops. Higher values improve smoothness but increase latency. ⚠️ Setting to 1 may cause crashes on some devices. Default: 2</string>
     <string name="suffix_seekbar_output_buffer_queue_limit">frames</string>
 
     <!-- 屏幕组合模式 -->
@@ -1057,5 +1057,10 @@
     <!-- Quick button editor -->
     <string name="quick_button_editor_title">Quick Buttons</string>
     <string name="quick_button_reset_default">Reset</string>
+
+    <!-- Layout accessibility & download -->
+    <string name="download_preparing">Preparing download…</string>
+    <string name="seekbar_decrease">Decrease</string>
+    <string name="seekbar_increase">Increase</string>
 
 </resources>
