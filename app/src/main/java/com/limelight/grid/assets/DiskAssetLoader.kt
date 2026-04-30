@@ -70,11 +70,11 @@ class DiskAssetLoader(context: Context) {
             if (bmp != null) {
                 LimeLog.info("Tuple $tuple decoded from disk cache with sample size: ${options.inSampleSize}")
 
-                // val compressedBmp = compressLargeBitmap(bmp)
-                // if (compressedBmp !== bmp) {
-                    // bmp.recycle()
-                    // bmp = compressedBmp!!
-                // }
+                val compressedBmp = compressLargeBitmap(bmp)
+                if (compressedBmp !== bmp) {
+                    bmp.recycle()
+                    bmp = compressedBmp!!
+                }
 
                 return ScaledBitmap(decodeOnlyOptions.outWidth, decodeOnlyOptions.outHeight, bmp)
             }
@@ -92,13 +92,13 @@ class DiskAssetLoader(context: Context) {
                     }
                 }
 
-                // if (scaledBitmap.bitmap != null) {
-                    // val compressedBmp = compressLargeBitmap(scaledBitmap.bitmap)
-                    // if (compressedBmp !== scaledBitmap.bitmap) {
-                        // scaledBitmap.bitmap?.recycle()
-                        // scaledBitmap.bitmap = compressedBmp
-                    // }
-                // }
+                if (scaledBitmap.bitmap != null) {
+                    val compressedBmp = compressLargeBitmap(scaledBitmap.bitmap)
+                    if (compressedBmp !== scaledBitmap.bitmap) {
+                        scaledBitmap.bitmap?.recycle()
+                        scaledBitmap.bitmap = compressedBmp
+                    }
+                }
 
                 return scaledBitmap
             } catch (e: IOException) {

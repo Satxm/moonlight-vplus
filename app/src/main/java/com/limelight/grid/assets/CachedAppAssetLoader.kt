@@ -250,13 +250,13 @@ class CachedAppAssetLoader(
             }
 
             if (bmp != null) {
-                // val compressedBitmap = compressLargeBitmap(bmp.bitmap)
-                // if (compressedBitmap !== bmp.bitmap) {
-                    // val compressedScaledBitmap = ScaledBitmap(bmp.originalWidth, bmp.originalHeight, compressedBitmap!!)
-                    // memoryLoader.populateCache(localTuple, compressedScaledBitmap)
-                // } else {
+                val compressedBitmap = compressLargeBitmap(bmp.bitmap)
+                if (compressedBitmap !== bmp.bitmap) {
+                    val compressedScaledBitmap = ScaledBitmap(bmp.originalWidth, bmp.originalHeight, compressedBitmap!!)
+                    memoryLoader.populateCache(localTuple, compressedScaledBitmap)
+                } else {
                     memoryLoader.populateCache(localTuple, bmp)
-                // }
+                }
             }
 
             return bmp

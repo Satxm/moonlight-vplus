@@ -212,7 +212,7 @@ class Dialog private constructor(
                     val icon = getIconForLabel(label)
                     val tlabel = getTextForLabel(label)
                     val tvalue = getTextForLabel(value)
-                    "$icon $tlabel: $tvalue"
+                    "$icon $tlabel$tvalue"
                 } else {
                     line
                 }
@@ -234,27 +234,29 @@ class Dialog private constructor(
         "https port" -> "🔒"
         "hdr supported" -> "🎨"
         "super cmds" -> "⚡"
-        else -> "🔹"
+        "sunshine version" -> "💠"
+        else -> "🔷"
     }
 
     private fun getTextForLabel(label: String): String = when (label.lowercase()) {
-        "name" -> activity.getString(R.string.details_name);
-        "state" -> activity.getString(R.string.details_state);
-        "uuid" -> activity.getString(R.string.details_uuid);
-        "local address" -> activity.getString(R.string.details_localaddress);
-        "remote address" -> activity.getString(R.string.details_remoteaddress);
-        "ipv6 address" -> activity.getString(R.string.details_ipv6address);
-        "manual address" -> activity.getString(R.string.details_manualaddress);
-        "active address" -> activity.getString(R.string.details_activeaddress);
-        "mac address" -> activity.getString(R.string.details_macaddress);
-        "pair state" -> activity.getString(R.string.details_pairstate);
-        "running game id" -> activity.getString(R.string.details_runninggameid);
-        "https port" -> activity.getString(R.string.details_httpsport);
-        "online" -> activity.getString(R.string.details_online);
-        "offline" -> activity.getString(R.string.details_offline);
-        "unknown" -> activity.getString(R.string.details_unknown);
-        "paired" -> activity.getString(R.string.details_paired);
-        "not_paired" -> activity.getString(R.string.details_not_paired);
+        "name" -> activity.getString(R.string.details_name)
+        "state" -> activity.getString(R.string.details_state)
+        "uuid" -> activity.getString(R.string.details_uuid)
+        "local address" -> activity.getString(R.string.details_localaddress)
+        "remote address" -> activity.getString(R.string.details_remoteaddress)
+        "ipv6 address" -> activity.getString(R.string.details_ipv6address)
+        "manual address" -> activity.getString(R.string.details_manualaddress)
+        "active address" -> activity.getString(R.string.details_activeaddress)
+        "mac address" -> activity.getString(R.string.details_macaddress)
+        "pair state" -> activity.getString(R.string.details_pairstate)
+        "running game id" -> activity.getString(R.string.details_runninggameid)
+        "https port" -> activity.getString(R.string.details_httpsport)
+        "sunshine version" -> activity.getString(R.string.details_sunshine_version)
+        "online" -> activity.getString(R.string.details_online)
+        "offline" -> activity.getString(R.string.details_offline)
+        "unknown" -> activity.getString(R.string.details_unknown)
+        "paired" -> activity.getString(R.string.details_paired)
+        "not_paired" -> activity.getString(R.string.details_not_paired)
         else -> label
     }
 

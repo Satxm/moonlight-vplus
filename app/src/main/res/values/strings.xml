@@ -471,6 +471,7 @@
     <string name="details_pairstate">Pair State: </string>
     <string name="details_runninggameid">Running Game ID: </string>
     <string name="details_httpsport">HTTPS Port: </string>
+    <string name="details_sunshine_version">Sunshine Version: </string>
     <string name="details_online">ONLINE</string>
     <string name="details_offline">OFFLINE</string>
     <string name="details_unknown">UNKNOWN</string>

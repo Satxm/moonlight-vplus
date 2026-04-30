@@ -468,6 +468,7 @@
     <string name="details_pairstate">配对状态：</string>
     <string name="details_runninggameid">正在运行的应用 ID：</string>
     <string name="details_httpsport">HTTPS 端口：</string>
+    <string name="details_sunshine_version">Sunshine 版本：</string>
     <string name="details_online">在线</string>
     <string name="details_offline">离线</string>
     <string name="details_unknown">未知</string>
