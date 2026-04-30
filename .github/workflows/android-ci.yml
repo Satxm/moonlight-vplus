@@ -114,7 +114,7 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: ./gradlew :app:assembleNonRootRelease --no-daemon --stacktrace
 
-      - name: Rename Release APK to Moonlight.V+.<version>.apk
+      - name: Rename Release APK to Moonlight-V+.<version>.apk
         if: startsWith(github.ref, 'refs/tags/')
         shell: bash
         run: |
@@ -129,7 +129,7 @@ jobs:
             echo "Using metadata version: $VERSION"
           fi
           SRC_APK=$(ls "$REL_DIR"/*.apk | head -n 1)
-          DEST="$REL_DIR/Moonlight.V+.${VERSION}.apk"
+          DEST="$REL_DIR/Moonlight-V+.${VERSION}.apk"
           mv "$SRC_APK" "$DEST"
           echo "Renamed APK to: $DEST"
           echo "REL_APK=$DEST" >> $GITHUB_ENV
