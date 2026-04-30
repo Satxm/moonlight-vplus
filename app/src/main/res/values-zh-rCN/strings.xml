@@ -179,6 +179,7 @@
 
     <!-- Preferences -->
     <string name="category_basic_settings">⚙️ 基本设置</string>
+    <string name="category_advanced_features">🔧 高级特性</string>
     <string name="title_resolution_list">视频分辨率</string>
     <string name="summary_resolution_list">高分辨率提升图像清晰度。低分辨率提升在低端设备和较慢网络中的串流体验。</string>
     <string name="resolution_prefix_native">本地</string>
@@ -186,18 +187,25 @@
     <string name="resolution_prefix_native_fullscreen">原生全屏</string>
     <string name="title_native_res_dialog">本地分辨率警告</string>
     <string name="text_native_res_dialog">流媒体服务器可能不支持原始分辨率或者 FPS。您可能需要手动为主机配置匹配的自定义显示模式。\n\n如果您选择在 NVIDIA 控制面板中创建与屏幕设置相匹配的自定义分辨率，请确保您已阅读并理解 NVIDIA 关于显示器可能损坏、电脑不稳定和其他潜在问题的警告。\n\n我们不对因在电脑上创建自定义分辨率而导致的任何问题负责。\n\n您的显示器可能不支持必要的显示配置。如果是这样，您可以尝试设置虚拟显示器。最后，如果您的设备或主机不支持以特定分辨率或刷新率进行流式传输，那就很不幸了。</string>
-    <string name="title_fps_list">视频帧数</string>
+    <string name="title_fps_list"> 视频帧数 </string>
     <string name="summary_fps_list">高帧数提升视频流流畅度。低帧数提升在低端设备中的串流体验。</string>
-    <string name="title_seekbar_bitrate">视频码率</string>
+    <string name="title_seekbar_bitrate"> 视频码率 </string>
     <string name="summary_seekbar_bitrate">高码率提升图像质量。低码率提升在较慢网络中的串流体验。</string>
     <string name="suffix_seekbar_bitrate_mbps">Mbps</string>
+    <string name="title_adaptive_bitrate">智能码率</string>
+    <string name="summary_adaptive_bitrate">根据丢包/延迟自动调节码率。优先由 Sunshine 服务端决策，不支持时回退到客户端本地控制器。</string>
+    <string name="title_abr_mode">智能码率模式</string>
+    <string name="summary_abr_mode">画质优先：偏向高码率；低延迟：丢包时降档更快。</string>
+    <string name="abr_mode_quality">画质优先</string>
+    <string name="abr_mode_balanced">均衡</string>
+    <string name="abr_mode_low_latency">低延迟</string>
     <string name="title_frame_pacing">视频帧速调节</string>
     <string name="summary_frame_pacing">指定如何平衡视频延迟和流畅度</string>
-    <string name="title_seekbar_scale">主机分辨率缩放比例</string>
-    <string name="summary_seekbar_scale">请求到主机端的分辨率相当于客户端设定的基础分辨率 * 缩放比例,此时主机端的游戏渲染材质精度将会发生变化(超分辨率串流),降低此比例也可用来减轻主机端GPU压力。 ⚠注意：应用此选项之前需检查主机端是否支持缩放后的分辨率。</string>
+    <string name="title_seekbar_scale">主机分辨率缩放</string>
+    <string name="summary_seekbar_scale">请求给主机的分辨率相当于客户端基础分辨率 * 缩放因子。这将改变主机端的游戏渲染材质精度（超分辨率串流）。降低此比例也可用于减轻主机端GPU压力。⚠注意：应用此选项前请检查主机是否支持缩放后的分辨率。</string>
     <string name="title_custom_resolutions">自定义分辨率</string>
     <string name="summary_custom_resolutions">杂鱼～那么多分辨率都不能满足你了啊！</string>
-    <string name="title_checkbox_stretch_video">将画面拉伸至全屏</string>
+    <string name="title_checkbox_stretch_video"> 将画面拉伸至全屏 </string>
     <string name="title_checkbox_reverse_resolution">反转分辨率</string>
     <string name="summary_checkbox_reverse_resolution">交换宽度和高度值，用于特殊显示需求</string>
     <string name="title_checkbox_rotable_screen">允许屏幕旋转</string>
@@ -229,7 +237,7 @@
     <string name="resolution_added_successfully">分辨率添加成功</string>
 
     <string name="category_audio_settings">🔊 音频设置</string>
-    <string name="title_audio_config_list">环绕声设置</string>
+    <string name="title_audio_config_list"> 环绕声设置 </string>
     <string name="summary_audio_config_list">为家庭影院系统启用5.1、7.1或7.1.4环绕声。7.1.4需要Android 12+</string>
     <string name="title_checkbox_enable_audiofx">启用对系统均衡器的支持</string>
     <string name="summary_checkbox_enable_audiofx">串流时允许音效工作，可能会导致音频延迟增加</string>
@@ -283,6 +291,7 @@
     <string name="title_checkbox_sync_touch_event_with_display">触控事件与显示刷新同步</string>
     <string name="summary_checkbox_sync_touch_event_with_display">打开后触控事件上报率与显示刷新率同步，比如显示为60Hz，那么触控与之同步。不一定有用，习惯哪个用哪个。Moonlight原版相当于禁用该项。</string>
     <string name="title_checkbox_enable_keyboard_toggle_in_native_touch">多点触控模式下打开本地键盘切换</string>
+    <string name="summary_checkbox_enable_keyboard_toggle_in_native_touch">\t</string>
     <string name="title_seekbar_keyboard_toggle_fingers_native_touch">轻敲手指数量</string>
     <string name="summary_seekbar_keyboard_toggle_fingers_native_touch">轻敲切换本地键盘的最少手指数量。\n仅在多点触控模式生效，触摸板模式3指即可切换本地键盘(不受此配置影响)。</string>
     <string name="suffix_seekbar_keyboard_toggle_fingers_native_touch"> </string>
@@ -306,11 +315,11 @@
     <string name="title_checkbox_enhanced_touch_on_which_side">反转增强型触控区</string>
     <string name="summary_checkbox_enhanced_touch_on_which_side">反转增强型触控区 (增强区默认在右边)</string>
     <string name="title_enhanced_touch_zone_divider">触点灵敏度分区调控</string>
-    <string name="summary_enhanced_touch_zone_divider">增强型触控与原生触控的分区位置，小于50%代表在屏幕左边的某个位置分区，大于50%代表分割线在右边</string>
-    <string name="dialog_title_enhanced_touch_zone_divider">增强型触控与原生触控的分区位置，小于50%代表在屏幕左边的某个位置分区，大于50%代表分割线在右边</string>
+    <string name="summary_enhanced_touch_zone_divider" formatted="false">增强型触控与原生触控的分区位置，小于50%代表在屏幕左边的某个位置分区，大于50%代表分割线在右边</string>
+    <string name="dialog_title_enhanced_touch_zone_divider" formatted="false">增强型触控与原生触控的分区位置，小于50%代表在屏幕左边的某个位置分区，大于50%代表分割线在右边</string>
     <string name="suffix_enhanced_touch_zone_divider">%</string>
     <string name="title_pointer_velocity_factor">触点灵敏度</string>
-    <string name="summary_pointer_velocity_factor">设置增强型触控区内的触点移速比例。100% = 禁用，小于100%为缩小，大于100%为放大</string>
+    <string name="summary_pointer_velocity_factor" formatted="false">设置增强型触控区内的触点移速比例。100% = 禁用，小于100%为缩小，大于100%为放大</string>
     <string name="dialog_title_pointer_velocity_factor">增强型触控区内的触点移速比例</string>
     <string name="suffix_pointer_velocity_factor">%</string>
 
@@ -394,12 +403,12 @@
     <string name="title_checkbox_resume_stream">自动恢复串流</string>
     <string name="summary_checkbox_resume_stream">当从后台切回Moonlight时，自动恢复串流会话</string>
 
-    <string name="title_unlock_fps">解锁所有可用帧数</string>
-    <string name="summary_unlock_fps">以 90 或 120 帧串流可能会减少在高端设备上的网络延迟，但会在不支持的设备上造成卡顿或崩溃</string>
+    <string name="title_unlock_fps"> 解锁所有可用帧数 </string>
+    <string name="summary_unlock_fps">以90或120帧串流可能会减少在高端设备上的网络延迟，但会在不支持的设备上造成卡顿或崩溃</string>
     <string name="title_checkbox_reduce_refresh_rate">允许降低刷新率</string>
     <string name="summary_checkbox_reduce_refresh_rate">较低的屏幕刷新率可以在增加一些视频延迟的情况下省电</string>
-    <string name="title_checkbox_disable_warnings">禁用错误提示</string>
-    <string name="summary_checkbox_disable_warnings">串流中禁用连接错误提示</string>
+    <string name="title_checkbox_disable_warnings"> 禁用错误提示 </string>
+    <string name="summary_checkbox_disable_warnings"> 串流中禁用连接错误提示 </string>
     <string name="title_video_format">更改编解码器设置</string>
     <string name="summary_video_format">如果您的设备支持较新的编解码器，则可以降低视频带宽要求。如果主机软件或显卡不支持编解码器选择，则可能会忽略编解码器选择。</string>
     <string name="title_enable_hdr">启用 HDR </string>
@@ -420,9 +429,11 @@
     <string name="summary_perf_overlay_position">水平时选择顶部/底部，垂直时选择四个角位置</string>
     <string name="title_perf_overlay_display_items">性能统计显示项目</string>
     <string name="summary_perf_overlay_display_items">选择要在性能覆盖层中显示的信息项目</string>
+    <string name="title_perf_overlay_bg_opacity">性能图层背景透明度</string>
+    <string name="summary_perf_overlay_bg_opacity">调整性能图层背景的不透明程度</string>
     <string name="title_enable_post_stream_toast">串流完毕显示延迟信息</string>
     <string name="summary_enable_post_stream_toast">串流结束后显示延迟信息</string>
-    <string name="mic_stats_continuity">音频连续性: %.1f%% (捕获:%d 编码:%d 发送:%d 丢弃:%d)</string>
+    <string name="mic_stats_continuity">音频连续性: %1$.1f%% (捕获:%2$d 编码:%3$d 发送:%4$d 丢弃:%5$d)</string>
 
     <string name="category_mic_settings">🎤 麦克风设置</string>
     <string name="category_audio_vibration_settings">📳 音频振动</string>
@@ -528,6 +539,26 @@
     <string name="game_menu_edit_mode">王冠按键编辑模式</string>
     <string name="game_menu_configure_settings">王冠按键配置模式</string>
 
+    <!-- Background source (issue #263) -->
+    <string name="title_background_source">背景图来源</string>
+    <string name="summary_background_source">选择桌面随机壁纸的来源</string>
+    <string name="background_source_auto">智能默认（推荐）</string>
+    <string name="background_source_picsum">摄影风景（Lorem Picsum）</string>
+    <string name="background_source_pipw">二次元（Pipw）</string>
+    <string name="background_source_api">自定义 API</string>
+    <string name="background_source_local">本地图片</string>
+    <string name="background_source_none">不显示背景</string>
+    <string name="background_source_dialog_title">选择壁纸风格</string>
+    <string name="background_source_dialog_message">选一种首页随机壁纸的风格吧，随时可以在设置里重新调整～</string>
+    <string name="background_source_dialog_later">以后再说</string>
+
+    <!-- 崩溃日志反馈弹窗 -->
+    <string name="crash_report_dialog_title">应用上次异常退出</string>
+    <string name="crash_report_dialog_message">把诊断日志发送给开发者帮忙排查吗？\n\n%1$s</string>
+    <string name="crash_report_share">发送日志</string>
+    <string name="crash_report_dismiss">忽略</string>
+    <string name="crash_report_subject">Moonlight 崩溃日志</string>
+
     <!-- Tip strings -->
     <string name="tip_esc_exit">💡 串流小课堂：使用"退出"按钮可以快速完全地退出串流，让屏幕恢复到串流前的状态哦～</string>
     <string name="tip_double_tap_mouse">💡 串流小课堂：主机列表页面长按顶部空白区域可以下载当前涩图呢～</string>
@@ -614,13 +645,13 @@
     </string>
 
     <!-- Performance Overlay Info Dialogs -->
-    <string name="perf_moon_phase_info">今日月相\n\n%s %s\n月相周期：%.1f%%\n周期天数：第%d天\n日期：%s\n\n%s</string>
+    <string name="perf_moon_phase_info">今日月相\n\n%1$s %2$s\n月相周期：%3$.1f%%\n周期天数：第%4$d天\n日期：%5$s\n\n%6$s</string>
     <string name="perf_decoder_title">🎬 解码器信息</string>
     <string name="perf_decoder_info">解码器负责将视频流解码为可显示的图像。\n\n常见解码器：\n• H.264 (AVC) - 兼容性最好\n• H.265 (HEVC) - 压缩率更高\n• AV1 - 最新标准，效率最高\n\nHDR支持：\n• 高动态范围视频\n• 更丰富的色彩表现\n• 需要硬件支持</string>
     <string name="perf_fps_title">📊 帧率信息</string>
     <string name="perf_fps_info">Rx FPS：接收帧率\n• 从主机接收的视频帧数\n• 理想情况下应该稳定\n\nRd FPS：渲染帧率\n• 实际渲染到屏幕的帧数\n• 可能因设备性能而降低\n\n性能指标：\n• 两者接近表示性能良好\n• 渲染帧率过低可能影响流畅度</string>
     <string name="perf_packet_loss_title">📶 丢包率信息</string>
-    <string name="perf_packet_loss_info">丢包率表示网络传输中丢失的数据包比例。\n\n正常范围：\n• 0–0.5%：网络质量优秀\n• 0.5–2%：网络质量良好\n• 2–5%：网络质量一般\n• &gt;5%：网络质量较差\n\n影响因素：\n• 网络稳定性\n• 路由器性能\n• 无线信号强度</string>
+    <string name="perf_packet_loss_info" formatted="false">丢包率表示网络传输中丢失的数据包比例。\n\n正常范围：\n• 0–0.5%：网络质量优秀\n• 0.5–2%：网络质量良好\n• 2–5%：网络质量一般\n• &gt;5%：网络质量较差\n\n影响因素：\n• 网络稳定性\n• 路由器性能\n• 无线信号强度</string>
     <string name="perf_network_latency_title">🌐 网络延迟信息</string>
     <string name="perf_network_latency_info">网络延迟表示数据包从主机到设备的往返时间。\n\n延迟范围：\n• &lt;20ms：极佳\n• 20–50ms：良好\n• 50–100ms：可接受\n• &gt;100ms：较差\n\n带宽：\n• 表示网络传输速度\n• 影响视频质量上限\n\n±值：\n• 表示延迟波动范围\n• 越小越稳定</string>
     <string name="perf_decode_latency_title">⏱️ 解码延迟信息</string>
@@ -728,7 +759,7 @@
     <string name="title_settings">设置</string>
 
     <string name="game_menu_change_resolution">更改分辨率</string>
-    <string name="notification_content_streaming">正在串流： %s (%s)</string>
+    <string name="notification_content_streaming">正在串流： %1$s (%2$s)</string>
 
     <!-- 音频振动设置 -->
     <string name="title_checkbox_audio_vibration">启用音频驱动振动</string>

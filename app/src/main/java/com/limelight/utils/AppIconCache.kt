@@ -98,7 +98,6 @@ class AppIconCache private constructor() {
     }
 
     companion object {
-        @JvmStatic
         val instance: AppIconCache by lazy { AppIconCache() }
     }
 }

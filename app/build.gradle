@@ -14,8 +14,8 @@ android {
         minSdk 22
         targetSdk 35
 
-        versionName "12.7.6"
-        versionCode = 371
+        versionName "12.8.2"
+        versionCode = 376
 
         // Generate native debug symbols to allow Google Play to symbolicate our native crashes
         ndk.debugSymbolLevel = 'FULL'
@@ -180,6 +180,7 @@ dependencies {
     implementation libs.jmdns
     implementation libs.shield.controller
     implementation libs.appcompat
+    implementation libs.core.splashscreen
     implementation libs.preference
     implementation libs.keyboard.header
     implementation libs.constraintlayout
@@ -194,12 +195,16 @@ dependencies {
     implementation libs.tvprovider
     implementation libs.zxing.embedded
 
-    // Firebase Analytics
+    // Firebase Analytics + Crashlytics
     // BOM 版本说明: https://firebase.google.com/support/release-notes/android
     // 注意: Firebase 33.0.0+ 需要 minSdk 23，我们使用 32.8.1 保持 API 22 兼容
+    // 没有 google-services.json 时 Crashlytics 仍能编译进 APK 但不会上报 (init 静默失败)
     implementation platform(libs.firebase.bom)
     implementation libs.firebase.analytics
+    implementation libs.firebase.crashlytics
 
     // Kotlin
     implementation libs.kotlin.stdlib
+    implementation libs.kotlinx.coroutines.android
+    implementation libs.androidx.lifecycle.runtime.ktx
 }
