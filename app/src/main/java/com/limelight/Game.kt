@@ -31,6 +31,7 @@ import com.limelight.nvstream.http.AdaptiveBitrateService
 import com.limelight.nvstream.NvConnectionListener
 import com.limelight.nvstream.http.NvApp
 import com.limelight.nvstream.http.NvHTTP
+import com.limelight.nvstream.input.ClipboardSyncManager
 import com.limelight.nvstream.input.MouseButtonPacket
 import com.limelight.nvstream.jni.MoonBridge
 import com.limelight.preferences.GlPreferences
@@ -137,6 +138,9 @@ class Game : Activity(), SurfaceHolder.Callback,
     var adaptiveBitrateService: AdaptiveBitrateService? = null
     @Volatile private var latestPerfInfo: PerformanceInfo? = null
 
+    // Sunshine clipboard sync — null until pref toggles enable it.
+    private var clipboardSyncManager: ClipboardSyncManager? = null
+
     var displayedFailureDialog = false
     var connecting = false
     var connected = false
@@ -182,7 +186,7 @@ class Game : Activity(), SurfaceHolder.Callback,
     private var shouldResumeSession = false
     private var isExtremeResumeEnabled = false
     private var isChangingResolution = false
-    private var audioRenderer: AndroidAudioRenderer? = null
+    private var audioRenderer: com.limelight.binding.audio.SmartAudioRenderer? = null
 
     enum class BackKeyMenuMode {
         GAME_MENU, CROWN_MODE, NO_MENU
@@ -794,6 +798,11 @@ class Game : Activity(), SurfaceHolder.Callback,
             .setAttachedGamepadMask(gamepadMask)
             .setClientRefreshRateX100(clientRefreshRateX100)
             .setAudioConfiguration(prefConfig.audioConfiguration)
+            // When the user has disabled audio passthrough, force-negotiate Opus
+            // so the host sends a decoded stream that AndroidAudioRenderer can play
+            // — bypasses both PcmPassthroughRenderer and Ac3PassthroughRenderer.
+            .setAudioCodec(if (prefConfig.enableAudioPassthrough) prefConfig.audioCodec else MoonBridge.AUDIO_CODEC_OPUS)
+            .setAudioBitrate(prefConfig.audioCodecBitrate)
             .setColorSpace(decoderRenderer?.getPreferredColorSpace() ?: 0)
             .setColorRange(
                 if (willStreamHdr && prefConfig.hdrMode == MoonBridge.HDR_MODE_HLG)
@@ -1145,6 +1154,8 @@ class Game : Activity(), SurfaceHolder.Callback,
         }
         externalDisplayManager?.cleanup()
         microphoneManager?.stopMicrophoneStream()
+        clipboardSyncManager?.stop()
+        clipboardSyncManager = null
     }
 
     override fun onPause() {
@@ -1421,6 +1432,26 @@ class Game : Activity(), SurfaceHolder.Callback,
 
     override fun connectionStarted() {
         connectionCallbackHandler.connectionStarted()
+        startClipboardSyncIfEnabled()
+    }
+
+    private fun startClipboardSyncIfEnabled() {
+        if (clipboardSyncManager != null) return
+        // moonlight-common-c PR #5 does not advertise a feature flag; we rely on the
+        // user opting in. If the host doesn't speak 0x5508 the native send returns
+        // -2 and inbound packets simply never arrive — no observable harm.
+        val wantText = prefConfig.enableClipboardSyncText
+        val wantImage = prefConfig.enableClipboardSyncImage
+        if (!wantText && !wantImage) return
+        val mgr = ClipboardSyncManager(
+            context = applicationContext,
+            syncText = wantText,
+            syncImage = wantImage,
+            fileProviderAuthority = "$packageName.clipboard_fileprovider",
+        )
+        runCatching { mgr.start() }
+            .onFailure { LimeLog.warning("Clipboard sync start failed: ${it.message}") }
+            .onSuccess { clipboardSyncManager = mgr }
     }
 
     /** 启动智能码率（如设置已开启）。在连接建立后调用。*/
@@ -1638,7 +1669,7 @@ class Game : Activity(), SurfaceHolder.Callback,
             attemptedConnection = true
             UiHelper.notifyStreamConnecting(this)
 
-            this.audioRenderer = AndroidAudioRenderer(this, prefConfig.enableAudioFx, prefConfig.enableSpatializer)
+            this.audioRenderer = com.limelight.binding.audio.SmartAudioRenderer(this, prefConfig.enableAudioFx, prefConfig.enableSpatializer, prefConfig.audioPassthroughBufferBytes)
             conn?.start(this.audioRenderer!!, decoderRenderer!!, this)
 
             streamView.post { cursorServiceManager.syncCursorWithStream() }

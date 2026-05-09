@@ -217,6 +217,27 @@
             android:title="@string/title_checkbox_enable_spatializer"
             android:summary="@string/summary_checkbox_enable_spatializer"
             android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="checkbox_enable_audio_passthrough"
+            android:title="@string/title_checkbox_enable_audio_passthrough"
+            android:summary="@string/summary_checkbox_enable_audio_passthrough"
+            android:defaultValue="false" />
+        <ListPreference
+            android:key="list_audio_codec"
+            android:dependency="checkbox_enable_audio_passthrough"
+            android:title="@string/title_list_audio_codec"
+            android:summary="@string/summary_list_audio_codec"
+            android:entries="@array/audio_codec_names"
+            android:entryValues="@array/audio_codec_values"
+            android:defaultValue="auto" />
+        <ListPreference
+            android:key="list_audio_passthrough_buffer"
+            android:dependency="checkbox_enable_audio_passthrough"
+            android:title="@string/title_list_audio_passthrough_buffer"
+            android:summary="@string/summary_list_audio_passthrough_buffer"
+            android:entries="@array/audio_passthrough_buffer_names"
+            android:entryValues="@array/audio_passthrough_buffer_values"
+            android:defaultValue="normal" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/category_mic_settings"
         android:key="category_mic_settings"
@@ -458,6 +479,16 @@
             android:entries="@array/esc_menu_key_names"
             android:entryValues="@array/esc_menu_key_values"
             android:defaultValue="111" />
+        <CheckBoxPreference
+            android:key="checkbox_clipboard_sync_text"
+            android:title="@string/title_checkbox_clipboard_sync_text"
+            android:summary="@string/summary_checkbox_clipboard_sync_text"
+            android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="checkbox_clipboard_sync_image"
+            android:title="@string/title_checkbox_clipboard_sync_image"
+            android:summary="@string/summary_checkbox_clipboard_sync_image"
+            android:defaultValue="false" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/category_enhanced_touch_settings"
         android:key="category_enhanced_touch"

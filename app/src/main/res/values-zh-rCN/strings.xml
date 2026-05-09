@@ -437,6 +437,24 @@
 
     <string name="category_mic_settings">🎤 麦克风设置</string>
     <string name="category_audio_vibration_settings">📳 音频振动</string>
+    <string name="title_checkbox_clipboard_sync_text">同步剪贴板文本（仅限Sunshine）</string>
+    <string name="summary_checkbox_clipboard_sync_text">在此处镜像复制到/从主机（仅限 Sunshine）的文本</string>
+    <string name="title_checkbox_clipboard_sync_image">同步剪贴板图片（仅限Sunshine）</string>
+    <string name="summary_checkbox_clipboard_sync_image">将复制到此处的PNG图像镜像到主机（仅限Sunshine）</string>
+    <string name="title_checkbox_enable_audio_passthrough">启用音频直通</string>
+    <string name="summary_checkbox_enable_audio_passthrough">在支持的情况下，将PCM/AC3/E-AC3音频以位精确的方式转发到AVR。禁用此选项则始终在本地解码。</string>
+    <string name="title_list_audio_codec">直通编解码器</string>
+    <string name="summary_list_audio_codec">发送到主机的编解码器。自动模式对立体声使用PCM，对环绕声使用AC3。不支持的7.1+输出会逐步降级。</string>
+    <string name="audio_codec_auto">自动</string>
+    <string name="audio_codec_opus">Opus（无直通）</string>
+    <string name="audio_codec_ac3">AC3</string>
+    <string name="audio_codec_eac3">E-AC3</string>
+    <string name="audio_codec_pcm">PCM (S16 LE)</string>
+    <string name="title_list_audio_passthrough_buffer">直通缓冲区大小</string>
+    <string name="summary_list_audio_passthrough_buffer">较大的缓冲区可以容忍延迟成本下的抖动。正常值（约160毫秒）适用于大多数设置。</string>
+    <string name="audio_passthrough_buffer_low">低（约96毫秒）</string>
+    <string name="audio_passthrough_buffer_normal">正常（约160毫秒）</string>
+    <string name="audio_passthrough_buffer_high">高（约320毫秒）</string>
     <string name="category_connection_settings">🔗 连接设置</string>
 
     <string name="category_help">📋 帮助</string>

@@ -4,6 +4,8 @@ package com.limelight.preferences
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Point
+import android.media.AudioFormat
+import android.media.AudioTrack
 import android.os.Build
 import android.view.Display
 import android.view.KeyEvent
@@ -131,13 +133,27 @@ class PreferenceConfiguration {
     var audioVibrationStrength = 0
     var audioVibrationMode: String = ""
     var audioVibrationScene = 0
+
+    /** Sync local clipboard text changes with the host (Sunshine clipboard sync). */
+    var enableClipboardSyncText = false
+
+    /** Sync local clipboard images (PNG) with the host. */
+    var enableClipboardSyncImage = false
     var touchscreenTrackpad = false
     var audioConfiguration: MoonBridge.AudioConfiguration = MoonBridge.AUDIO_CONFIGURATION_STEREO
+    /** Negotiated audio codec preference — see [MoonBridge.AUDIO_CODEC_OPUS] etc. */
+    var audioCodec: Int = MoonBridge.AUDIO_CODEC_OPUS
+    /** Bitrate hint for AC3/E-AC3 in bps; 0 lets the server pick. */
+    var audioCodecBitrate: Int = 0
+    /** AC3 passthrough AudioTrack buffer size in bytes — trade jitter resilience for latency. */
+    var audioPassthroughBufferBytes: Int = 16 * 1024
     var framePacing = 0
     var absoluteMouseMode = false
     var enableNativeMousePointer = false
     var enableAudioFx = false
     var enableSpatializer = false
+    /** When false, SmartAudioRenderer skips PCM/AC3 passthrough and always uses the software renderer. */
+    var enableAudioPassthrough = false
     var reduceRefreshRate = false
     var fullRange = false
     var gamepadMotionSensors = false
@@ -368,6 +384,8 @@ class PreferenceConfiguration {
         private const val VIBRATE_FALLBACK_PREF_STRING = "checkbox_vibrate_fallback"
         private const val VIBRATE_FALLBACK_STRENGTH_PREF_STRING = "seekbar_vibrate_fallback_strength"
         private const val AUDIO_VIBRATION_ENABLE_PREF_STRING = "checkbox_audio_vibration"
+        private const val CLIPBOARD_SYNC_TEXT_PREF_STRING = "checkbox_clipboard_sync_text"
+        private const val CLIPBOARD_SYNC_IMAGE_PREF_STRING = "checkbox_clipboard_sync_image"
         private const val AUDIO_VIBRATION_STRENGTH_PREF_STRING = "seekbar_audio_vibration_strength"
         private const val AUDIO_VIBRATION_MODE_PREF_STRING = "list_audio_vibration_mode"
         private const val AUDIO_VIBRATION_SCENE_PREF_STRING = "list_audio_vibration_scene"
@@ -391,6 +409,8 @@ class PreferenceConfiguration {
 
         private const val ENABLE_AUDIO_FX_PREF_STRING = "checkbox_enable_audiofx"
         private const val ENABLE_SPATIALIZER_PREF_STRING = "checkbox_enable_spatializer"
+        private const val ENABLE_AUDIO_PASSTHROUGH_PREF_STRING = "checkbox_enable_audio_passthrough"
+        private const val DEFAULT_ENABLE_AUDIO_PASSTHROUGH = false
         private const val REDUCE_REFRESH_RATE_PREF_STRING = "checkbox_reduce_refresh_rate"
         private const val FULL_RANGE_PREF_STRING = "checkbox_full_range"
         private const val GAMEPAD_TOUCHPAD_AS_MOUSE_PREF_STRING = "checkbox_gamepad_touchpad_as_mouse"
@@ -458,6 +478,12 @@ class PreferenceConfiguration {
         const val ENABLE_KEYBOARD_TOGGLE_IN_NATIVE_TOUCH = "checkbox_enable_keyboard_toggle_in_native_touch"
         const val NATIVE_TOUCH_FINGERS_TO_TOGGLE_KEYBOARD_PREF_STRING = "seekbar_keyboard_toggle_fingers_native_touch"
         const val AUDIO_CONFIG_PREF_STRING = "list_audio_config"
+        /** Audio codec preference: "auto" | "opus" | "ac3" | "eac3" */
+        const val AUDIO_CODEC_PREF_STRING = "list_audio_codec"
+        const val DEFAULT_AUDIO_CODEC = "auto"
+        /** "low" (8KB ~96ms) | "normal" (16KB ~160ms) | "high" (32KB ~320ms) */
+        const val AUDIO_PASSTHROUGH_BUFFER_PREF_STRING = "list_audio_passthrough_buffer"
+        const val DEFAULT_AUDIO_PASSTHROUGH_BUFFER = "normal"
         const val UNLOCK_FPS_STRING = "checkbox_unlock_fps"
         const val IMPORT_CONFIG_STRING = "import_super_config"
         const val EXPORT_CONFIG_STRING = "export_super_config"
@@ -478,6 +504,54 @@ class PreferenceConfiguration {
         const val DEFAULT_LANGUAGE = "default"
         private const val DEFAULT_MULTI_CONTROLLER = true
         private const val DEFAULT_USB_DRIVER = true
+
+        private fun isPcmOutputSupported(channelMask: Int): Boolean {
+            return try {
+                AudioTrack.getMinBufferSize(48000, channelMask, AudioFormat.ENCODING_PCM_16BIT) > 0
+            } catch (_: Throwable) {
+                false
+            }
+        }
+
+        private fun isAudioConfigurationSupported(audioConfiguration: MoonBridge.AudioConfiguration): Boolean {
+            val androidChannelMask = when (audioConfiguration.channelCount) {
+                2 -> AudioFormat.CHANNEL_OUT_STEREO
+                6 -> AudioFormat.CHANNEL_OUT_5POINT1
+                8 -> 0x000018fc // AudioFormat.CHANNEL_OUT_7POINT1_SURROUND
+                12 -> 0x0003d8fc // 7.1.4 surround
+                else -> return false
+            }
+            return isPcmOutputSupported(androidChannelMask)
+        }
+
+        private fun coerceSupportedAudioConfiguration(audioConfiguration: MoonBridge.AudioConfiguration): MoonBridge.AudioConfiguration {
+            // Many Android TV firmwares expose 7.1 / 7.1.4 in UI-friendly settings,
+            // but their AudioTrack sink may only accept 7.1, 5.1, or stereo PCM.
+            // If we keep an unsupported channel count, Opus output fails with
+            // renderer error -2. Degrade one step at a time to preserve the best
+            // channel layout the device can actually open.
+            val candidates = when (audioConfiguration.channelCount) {
+                12 -> arrayOf(
+                    MoonBridge.AUDIO_CONFIGURATION_714_SURROUND,
+                    MoonBridge.AUDIO_CONFIGURATION_71_SURROUND,
+                    MoonBridge.AUDIO_CONFIGURATION_51_SURROUND,
+                    MoonBridge.AUDIO_CONFIGURATION_STEREO
+                )
+                8 -> arrayOf(
+                    MoonBridge.AUDIO_CONFIGURATION_71_SURROUND,
+                    MoonBridge.AUDIO_CONFIGURATION_51_SURROUND,
+                    MoonBridge.AUDIO_CONFIGURATION_STEREO
+                )
+                6 -> arrayOf(
+                    MoonBridge.AUDIO_CONFIGURATION_51_SURROUND,
+                    MoonBridge.AUDIO_CONFIGURATION_STEREO
+                )
+                else -> arrayOf(MoonBridge.AUDIO_CONFIGURATION_STEREO)
+            }
+
+            return candidates.firstOrNull { isAudioConfigurationSupported(it) }
+                ?: MoonBridge.AUDIO_CONFIGURATION_STEREO
+        }
 
         private const val ONSCREEN_CONTROLLER_DEFAULT = false
         private const val ONSCREEN_KEYBOARD_DEFAULT = false
@@ -503,6 +577,8 @@ class PreferenceConfiguration {
         private const val DEFAULT_VIBRATE_FALLBACK = false
         private const val DEFAULT_VIBRATE_FALLBACK_STRENGTH = 100
         private const val DEFAULT_AUDIO_VIBRATION = false
+        private const val DEFAULT_CLIPBOARD_SYNC_TEXT = false
+        private const val DEFAULT_CLIPBOARD_SYNC_IMAGE = false
         private const val DEFAULT_AUDIO_VIBRATION_STRENGTH = 80
         private const val DEFAULT_AUDIO_VIBRATION_MODE = "auto"
         private const val DEFAULT_AUDIO_VIBRATION_SCENE = 0 // Game/Movie
@@ -930,12 +1006,47 @@ class PreferenceConfiguration {
             config.enhanceTouchZoneDivider = prefs.getInt(ENHANCED_TOUCH_ZONE_DIVIDER_PREF_STRING, 50) // decides where to divide native touch zone & enhance touch zone
             config.pointerVelocityFactor = prefs.getInt(POINTER_VELOCITY_FACTOR_PREF_STRING, 100).toFloat() // set pointer velocity faster or slower
 
+            val enableAudioPassthrough = prefs.getBoolean(ENABLE_AUDIO_PASSTHROUGH_PREF_STRING, DEFAULT_ENABLE_AUDIO_PASSTHROUGH)
+            config.enableAudioPassthrough = enableAudioPassthrough
+
             val audioConfig = prefs.getString(AUDIO_CONFIG_PREF_STRING, DEFAULT_AUDIO_CONFIG) ?: DEFAULT_AUDIO_CONFIG
             config.audioConfiguration = when (audioConfig) {
                 "714" -> MoonBridge.AUDIO_CONFIGURATION_714_SURROUND
                 "71" -> MoonBridge.AUDIO_CONFIGURATION_71_SURROUND
                 "51" -> MoonBridge.AUDIO_CONFIGURATION_51_SURROUND
                 else -> MoonBridge.AUDIO_CONFIGURATION_STEREO
+            }
+            config.audioConfiguration = coerceSupportedAudioConfiguration(config.audioConfiguration)
+
+            // Audio codec preference.
+            //
+            // Auto policy:
+            //   * 2ch  -> PCM_S16: lowest latency and universally supported by Android's mixer.
+            //             Several Android TV firmwares (notably Sony BRAVIA) accept AC3/E-AC3
+            //             AudioTrack creation for stereo but silently render no sound.
+            //   * 5.1  -> AC3: widest AVR / TV passthrough compatibility.
+            //   * 7.1+ -> clamp to 5.1 first: AC3/E-AC3 passthrough is capped at 5.1 in
+            //             our pipeline and the PCM renderer currently supports up to 5.1.
+            val audioCodec = prefs.getString(AUDIO_CODEC_PREF_STRING, DEFAULT_AUDIO_CODEC) ?: DEFAULT_AUDIO_CODEC
+            if (enableAudioPassthrough && audioCodec != "opus" && config.audioConfiguration.channelCount > 6) {
+                config.audioConfiguration = MoonBridge.AUDIO_CONFIGURATION_51_SURROUND
+            }
+            config.audioCodec = when (audioCodec) {
+                "ac3" -> MoonBridge.AUDIO_CODEC_AC3
+                "eac3" -> MoonBridge.AUDIO_CODEC_EAC3
+                "pcm" -> MoonBridge.AUDIO_CODEC_PCM_S16
+                "opus" -> MoonBridge.AUDIO_CODEC_OPUS
+                else -> when (config.audioConfiguration.channelCount) {
+                    2 -> MoonBridge.AUDIO_CODEC_PCM_S16
+                    6 -> MoonBridge.AUDIO_CODEC_AC3
+                    else -> MoonBridge.AUDIO_CODEC_AC3
+                }
+            }
+            val audioPassthroughBuffer = prefs.getString(AUDIO_PASSTHROUGH_BUFFER_PREF_STRING, DEFAULT_AUDIO_PASSTHROUGH_BUFFER) ?: DEFAULT_AUDIO_PASSTHROUGH_BUFFER
+            config.audioPassthroughBufferBytes = when (audioPassthroughBuffer) {
+                "low" -> 8 * 1024
+                "high" -> 32 * 1024
+                else -> 16 * 1024
             }
 
             config.videoFormat = getVideoFormatValue(context)
@@ -1008,6 +1119,8 @@ class PreferenceConfiguration {
             config.vibrateFallbackToDeviceStrength = prefs.getInt(VIBRATE_FALLBACK_STRENGTH_PREF_STRING, DEFAULT_VIBRATE_FALLBACK_STRENGTH)
             config.enableAudioVibration = prefs.getBoolean(AUDIO_VIBRATION_ENABLE_PREF_STRING, DEFAULT_AUDIO_VIBRATION)
             config.audioVibrationStrength = prefs.getInt(AUDIO_VIBRATION_STRENGTH_PREF_STRING, DEFAULT_AUDIO_VIBRATION_STRENGTH)
+            config.enableClipboardSyncText = prefs.getBoolean(CLIPBOARD_SYNC_TEXT_PREF_STRING, DEFAULT_CLIPBOARD_SYNC_TEXT)
+            config.enableClipboardSyncImage = prefs.getBoolean(CLIPBOARD_SYNC_IMAGE_PREF_STRING, DEFAULT_CLIPBOARD_SYNC_IMAGE)
             config.audioVibrationMode = prefs.getString(AUDIO_VIBRATION_MODE_PREF_STRING, DEFAULT_AUDIO_VIBRATION_MODE) ?: DEFAULT_AUDIO_VIBRATION_MODE
             config.audioVibrationScene = (prefs.getString(AUDIO_VIBRATION_SCENE_PREF_STRING, DEFAULT_AUDIO_VIBRATION_SCENE.toString()) ?: DEFAULT_AUDIO_VIBRATION_SCENE.toString()).toInt()
             config.flipFaceButtons = prefs.getBoolean(FLIP_FACE_BUTTONS_PREF_STRING, DEFAULT_FLIP_FACE_BUTTONS)
@@ -1043,6 +1156,7 @@ class PreferenceConfiguration {
             }
             config.enableAudioFx = prefs.getBoolean(ENABLE_AUDIO_FX_PREF_STRING, DEFAULT_ENABLE_AUDIO_FX)
             config.enableSpatializer = prefs.getBoolean(ENABLE_SPATIALIZER_PREF_STRING, DEFAULT_ENABLE_SPATIALIZER)
+            config.enableAudioPassthrough = enableAudioPassthrough
             config.reduceRefreshRate = prefs.getBoolean(REDUCE_REFRESH_RATE_PREF_STRING, DEFAULT_REDUCE_REFRESH_RATE)
             config.fullRange = prefs.getBoolean(FULL_RANGE_PREF_STRING, DEFAULT_FULL_RANGE)
             config.gamepadTouchpadAsMouse = prefs.getBoolean(GAMEPAD_TOUCHPAD_AS_MOUSE_PREF_STRING, DEFAULT_GAMEPAD_TOUCHPAD_AS_MOUSE)

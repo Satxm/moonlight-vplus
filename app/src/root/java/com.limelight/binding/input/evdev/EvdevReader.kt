@@ -24,6 +24,7 @@ object EvdevReader {
     // Takes a byte buffer to use to read the output into.
     // This buffer MUST be in native byte order and at least
     // EVDEV_MAX_EVENT_SIZE bytes long.
+    @JvmStatic
     @Throws(IOException::class)
     fun read(input: InputStream): EvdevEvent? {
         // Read the packet length
