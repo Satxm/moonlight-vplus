@@ -34,6 +34,16 @@
     <string name="pcview_menu_sleep_fail">主机睡眠失败</string>
     <string name="pcview_menu_disable_ipv6">禁用 IPv6</string>
     <string name="pcview_menu_enable_ipv6">启用 IPv6</string>
+    <string name="pcview_menu_open_webui">打开 Web 管理（Sunshine）</string>
+    <string name="pcview_open_webui_unavailable">未找到可用主机地址，无法打开 Web 管理</string>
+    <string name="pcview_open_webui_no_browser">未找到可用浏览器</string>
+    <string name="sunshine_webui_ssl_warning_title">证书不可信</string>
+    <string name="sunshine_webui_ssl_warning_msg">主机证书与 Moonlight 配对时存储的不一致，页面可能已被篡改。是否仍然继续？\n\nURL：%1$s</string>
+    <string name="sunshine_webui_ssl_proceed">继续</string>
+    <string name="sunshine_webui_auth_title">登录 %1$s（%2$s）</string>
+    <string name="sunshine_webui_auth_user_hint">用户名</string>
+    <string name="sunshine_webui_auth_pass_hint">密码</string>
+    <string name="about_dialog_official_site">🌐 访问官方网站</string>
     <string name="pcview_ipv6_disabled">已禁用此电脑的 IPv6 连接</string>
     <string name="pcview_ipv6_enabled">已启用此电脑的 IPv6 连接</string>
 
@@ -469,6 +479,7 @@
     <string name="about_dialog_star">Star 项目</string>
     <string name="about_dialog_qq">加入QQ群</string>
     <string name="about_dialog_close">关闭</string>
+    <string name="settings_nav_back">返回</string>
 
     <!-- Toasts -->
     <string name="toast_controller_type_changed">游戏手柄类型可能会因运动传感器模拟而改变</string>
@@ -564,7 +575,7 @@
     <string name="background_source_auto">智能默认（推荐）</string>
     <string name="background_source_picsum">摄影风景（Lorem Picsum）</string>
     <string name="background_source_pipw">二次元（Pipw）</string>
-    <string name="background_source_api">自定义 API</string>
+    <string name="background_source_api">自定义 API 地址</string>
     <string name="background_source_local">本地图片</string>
     <string name="background_source_none">不显示背景</string>
     <string name="background_source_dialog_title">选择壁纸风格</string>
