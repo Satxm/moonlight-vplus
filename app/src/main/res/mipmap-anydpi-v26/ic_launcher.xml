@@ -3,7 +3,7 @@
     xmlns:aapt="http://schemas.android.com/aapt">
     <background>
         <aapt:attr name="android:drawable">
-            <color android:color="#FFFFFF" />
+            <color android:color="#34749E" />
         </aapt:attr>
     </background>
     <foreground>

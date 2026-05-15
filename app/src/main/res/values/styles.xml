@@ -23,8 +23,10 @@
         <item name="android:windowBackground">@color/advance_setting_background</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+        <!-- 用现代 edge-to-edge（WindowCompat）控制沉浸式，避免旧 windowTranslucent* 产生火色蒙层 -->
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
     <!--
@@ -126,8 +128,10 @@
         <item name="android:windowSoftInputMode">adjustPan|stateHidden</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+        <!-- 与 AppTheme/SettingsThemeCompat 一致：不使用旧 windowTranslucent* 避免火色蒙层 -->
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:textColorPrimary">@color/theme_pink_primary</item>
         <item name="android:textColorSecondary">@color/game_menu_text_secondary</item>
         <item name="android:colorAccent">@color/theme_pink_primary</item>
@@ -146,9 +150,42 @@
         <item name="android:windowBackground">@color/advance_setting_background</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <!-- 沉浸式顶栏：内容延伸到状态栏后方，由 Activity 通过 WindowCompat.setDecorFitsSystemWindows(false) 控制；
+             禁用旧 windowTranslucent* 标志以避免系统自动添加灰色 scrim 蒙层 -->
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="preferenceTheme">@style/MyPreferenceThemeOverlay</item>
+    </style>
+
+    <!-- 自定义 Preference 主题：紧凑左缩进 (无 icon 不预留空间) -->
+    <style name="MyPreferenceThemeOverlay" parent="@style/PreferenceThemeOverlay">
+        <item name="preferenceStyle">@style/MyPreferenceCompact</item>
+        <item name="checkBoxPreferenceStyle">@style/MyCheckBoxPreferenceCompact</item>
+        <item name="switchPreferenceStyle">@style/MySwitchPreferenceCompact</item>
+        <item name="switchPreferenceCompatStyle">@style/MySwitchPreferenceCompact</item>
+        <item name="dialogPreferenceStyle">@style/MyDialogPreferenceCompact</item>
+        <item name="editTextPreferenceStyle">@style/MyEditTextPreferenceCompact</item>
+        <item name="dropdownPreferenceStyle">@style/MyDropDownPreferenceCompact</item>
+    </style>
+
+    <style name="MyPreferenceCompact" parent="@style/Preference.Material">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+    <style name="MyCheckBoxPreferenceCompact" parent="@style/Preference.CheckBoxPreference.Material">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+    <style name="MySwitchPreferenceCompact" parent="@style/Preference.SwitchPreferenceCompat.Material">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+    <style name="MyDialogPreferenceCompact" parent="@style/Preference.DialogPreference.Material">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+    <style name="MyEditTextPreferenceCompact" parent="@style/Preference.DialogPreference.EditTextPreference.Material">
+        <item name="iconSpaceReserved">false</item>
+    </style>
+    <style name="MyDropDownPreferenceCompact" parent="@style/Preference.DropDown.Material">
+        <item name="iconSpaceReserved">false</item>
     </style>
 
     <style name="PreferenceThemeWithShadow" parent="SettingsThemeCompat">

@@ -117,7 +117,8 @@ class FullscreenProgressOverlay(
         activity.runOnUiThread {
             if (poster != null) {
                 BackgroundImageManager.setBlurredBitmap(appPosterBackgroundBlur, poster, BackgroundImageManager.OVERLAY_IMAGE_ALPHA)
-                appPosterBackgroundClear.setImageBitmap(BackgroundImageManager.applyAlpha(poster, BackgroundImageManager.OVERLAY_IMAGE_ALPHA))
+                appPosterBackgroundClear.setImageBitmap(poster)
+                appPosterBackgroundClear.imageAlpha = BackgroundImageManager.OVERLAY_IMAGE_ALPHA
             } else {
                 appPosterBackgroundBlur.setImageResource(R.drawable.no_app_image)
                 appPosterBackgroundClear.setImageBitmap(null)
@@ -134,7 +135,8 @@ class FullscreenProgressOverlay(
                 if (poster is BitmapDrawable) {
                     val bmp = poster.bitmap
                     if (bmp != null) {
-                        appPosterBackgroundClear.setImageBitmap(BackgroundImageManager.applyAlpha(bmp, BackgroundImageManager.OVERLAY_IMAGE_ALPHA))
+                        appPosterBackgroundClear.setImageBitmap(bmp)
+                        appPosterBackgroundClear.imageAlpha = BackgroundImageManager.OVERLAY_IMAGE_ALPHA
                     } else {
                         appPosterBackgroundClear.setImageDrawable(poster)
                     }
@@ -174,11 +176,22 @@ class FullscreenProgressOverlay(
 
         activity.runOnUiThread {
             if (isShowing) {
-                overlayView.visibility = View.GONE
-                if (overlayView.parent != null) {
-                    rootView.removeView(overlayView)
-                }
                 isShowing = false
+                // 这一刻视频首帧已合成上屏（由 decoderRenderer.firstFrameCallback 保证）。
+                // 短暂淡出让 scrim 暗度过渡到正常画面亮度，避免亮度跳变带来的"闪一下"。
+                overlayView.animate().cancel()
+                overlayView.animate()
+                    .alpha(0f)
+                    .setDuration(220)
+                    .setInterpolator(android.view.animation.AccelerateInterpolator())
+                    .withEndAction {
+                        overlayView.visibility = View.GONE
+                        overlayView.alpha = 1f
+                        if (overlayView.parent != null) {
+                            rootView.removeView(overlayView)
+                        }
+                    }
+                    .start()
             }
         }
     }
@@ -186,14 +199,35 @@ class FullscreenProgressOverlay(
     fun isShowing(): Boolean = isShowing
 
     private fun loadAppImage() {
-        if (app != null && computer != null) {
-            val fullBitmap = AppIconCache.instance.getFullIcon(computer!!, app!!)
-            if (fullBitmap != null) {
-                appPosterBackgroundBlur.visibility = View.VISIBLE
-                appPosterBackgroundClear.visibility = View.VISIBLE
-                BackgroundImageManager.setBlurredBitmap(appPosterBackgroundBlur, fullBitmap, BackgroundImageManager.OVERLAY_IMAGE_ALPHA)
-                appPosterBackgroundClear.setImageBitmap(BackgroundImageManager.applyAlpha(fullBitmap, BackgroundImageManager.OVERLAY_IMAGE_ALPHA))
-            }
+        val curApp = app ?: return
+        val curComputer = computer ?: return
+        val cached = AppIconCache.instance.getFullIcon(curComputer, curApp)
+        if (cached != null) {
+            applyPoster(cached)
+            return
         }
+        // 内存 cache miss（冷启动 / 快捷方式 / Trampoline 入口）：fallback 到磁盘缓存
+        val uuid = curComputer.uuid ?: return
+        val appId = curApp.appId
+        val appCtx = activity.applicationContext
+        val dm = appCtx.resources.displayMetrics
+        val maxDim = kotlin.math.max(dm.widthPixels, dm.heightPixels).coerceAtMost(1920)
+        Thread({
+            val bitmap = try {
+                com.limelight.grid.assets.DiskAssetLoader(appCtx).loadFullBitmapFromCache(uuid, appId, maxDim)
+            } catch (t: Throwable) { null } ?: return@Thread
+            AppIconCache.instance.putFullIcon(curComputer, curApp, bitmap)
+            activity.runOnUiThread {
+                if (isShowing) applyPoster(bitmap)
+            }
+        }, "OverlayPosterLoader").start()
+    }
+
+    private fun applyPoster(bitmap: Bitmap) {
+        appPosterBackgroundBlur.visibility = View.VISIBLE
+        appPosterBackgroundClear.visibility = View.VISIBLE
+        BackgroundImageManager.setBlurredBitmap(appPosterBackgroundBlur, bitmap, BackgroundImageManager.OVERLAY_IMAGE_ALPHA)
+        appPosterBackgroundClear.setImageBitmap(bitmap)
+        appPosterBackgroundClear.imageAlpha = BackgroundImageManager.OVERLAY_IMAGE_ALPHA
     }
 }

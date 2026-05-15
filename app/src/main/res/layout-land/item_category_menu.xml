@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:baselineAligned="false"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:paddingTop="10dp"
@@ -33,6 +34,15 @@
             android:background="@drawable/category_indicator_shape"
             android:visibility="invisible" />
 
+        <!-- 分类图标（Phosphor SVG 矢量图） -->
+        <ImageView
+            android:id="@+id/category_icon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="8dp"
+            android:scaleType="fitCenter"
+            android:contentDescription="@null" />
+
         <!-- 分类标题 -->
         <TextView
             android:id="@+id/category_title"
@@ -44,6 +54,7 @@
             android:textColor="#BBBBBB"
             android:singleLine="true"
             android:ellipsize="end"
+            android:includeFontPadding="false"
             android:letterSpacing="0.02"
             android:fontFamily="sans-serif-medium" />
 

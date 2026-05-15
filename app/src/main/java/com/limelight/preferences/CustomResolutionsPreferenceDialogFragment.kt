@@ -29,7 +29,14 @@ class CustomResolutionsPreferenceDialogFragment : PreferenceDialogFragmentCompat
         val inputRow = createInputRow(context, pref)
         body.addView(list)
         body.addView(inputRow)
-        sbody.addView(body)
+        body.gravity = Gravity.CENTER
+
+        sbody.addView(body, LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        ).apply {
+            gravity = Gravity.CENTER
+        })
         return sbody
     }
 
@@ -62,6 +69,7 @@ class CustomResolutionsPreferenceDialogFragment : PreferenceDialogFragmentCompat
         list.dividerHeight = dpToPx(context, 1)
         @Suppress("DEPRECATION")
         list.divider = context.resources.getDrawable(android.R.color.darker_gray)
+        list.layoutParams.height = 300
         return list
     }
 
