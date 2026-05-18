@@ -330,7 +330,8 @@ class PerformanceOverlayManager(
 
     private fun buildDecoderInfo(performanceInfo: PerformanceInfo): String {
         val decoderTypeInfo = getDecoderTypeInfo(performanceInfo.decoder)
-        return if (performanceInfo.isHdrActive) "${decoderTypeInfo.shortName} HDR"
+        // NBSP (\u00A0) 防止 TextView 在 "H265 HDR" 的空格处断行
+        return if (performanceInfo.isHdrActive) "${decoderTypeInfo.shortName}\u00A0HDR"
                else decoderTypeInfo.shortName
     }
 
@@ -385,19 +386,19 @@ class PerformanceOverlayManager(
                 drawable.setBounds(0, 0, sizePx, sizePx)
                 drawable.setTint(valueColor ?: Color.WHITE)
                 val placeholder = builder.length
-                builder.append(" ")
+                builder.append("\u00A0")
                 builder.setSpan(
                     CenterAlignedImageSpan(drawable),
                     placeholder, builder.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
-                builder.append(" ")
+                builder.append("\u00A0")
             }
         } else if (!iconEmoji.isNullOrEmpty()) {
             val iconStart = builder.length
             builder.append(iconEmoji)
             builder.setSpan(StyleSpan(Typeface.BOLD), iconStart, builder.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             builder.setSpan(RelativeSizeSpan(1.1f), iconStart, builder.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            builder.append(" ")
+            builder.append("\u00A0")
         }
 
         if (!value.isNullOrEmpty()) {
@@ -411,7 +412,7 @@ class PerformanceOverlayManager(
         }
 
         if (!unit.isNullOrEmpty()) {
-            builder.append(" ")
+            builder.append("\u00A0")
             val unitStart = builder.length
             builder.append(unit)
             builder.setSpan(TypefaceSpan("sans-serif-light"), unitStart, builder.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -463,7 +464,8 @@ class PerformanceOverlayManager(
 
     @SuppressLint("DefaultLocale")
     private fun updateRenderFpsText(view: TextView, performanceInfo: PerformanceInfo) {
-        val fpsValue = String.format("Rx %.0f / Rd %.0f",
+        // NBSP + Word Joiner 围绕 / 防止 TextView 在 "Rx 60 / Rd 60" 任意空格或斜杠处断行
+        val fpsValue = String.format("Rx\u00A0%.0f\u00A0\u2060/\u2060\u00A0Rd\u00A0%.0f",
             performanceInfo.receivedFps, performanceInfo.renderedFps)
         // 原版本本行无图标
         view.text = createStyledText(null, fpsValue, "FPS", 0xFF0DDAF4.toInt(), textSizePx = view.textSize)
@@ -480,7 +482,7 @@ class PerformanceOverlayManager(
     private fun updateNetworkLatencyText(view: TextView, performanceInfo: PerformanceInfo) {
         // 带宽用 gauge 仪表盘图标更直观，始终显示
         val iconRes: Int = R.drawable.phc_perf_gauge
-        val bandwidthAndLatency = String.format("%s   %d ± %d",
+        val bandwidthAndLatency = String.format("%s\u00A0\u00A0\u00A0%d\u00A0\u00B1\u00A0%d",
             performanceInfo.bandWidth,
             (performanceInfo.rttInfo shr 32).toInt(),
             performanceInfo.rttInfo.toInt())
@@ -531,10 +533,10 @@ class PerformanceOverlayManager(
     private fun updateOnePercentLowText(view: TextView, performanceInfo: PerformanceInfo) {
         val lowFps = performanceInfo.onePercentLowFps
         if (lowFps <= 0) {
-            view.text = createStyledText(null, "1%Low —", "FPS", 0xFFFF7043.toInt(), textSizePx = view.textSize)
+            view.text = createStyledText(null, "1%Low\u00A0—", "FPS", 0xFFFF7043.toInt(), textSizePx = view.textSize)
             return
         }
-        val value = String.format("1%%Low %.1f", lowFps)
+        val value = String.format("1%%Low\u00A0%.1f", lowFps)
         val color = when {
             lowFps >= performanceInfo.renderedFps * 0.9f -> 0xFF90EE90.toInt()
             lowFps >= performanceInfo.renderedFps * 0.7f -> 0xFFFFD740.toInt()
