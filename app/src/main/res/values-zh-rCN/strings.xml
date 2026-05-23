@@ -247,6 +247,8 @@
     <string name="title_seekbar_output_buffer_queue_limit">输出缓冲区队列大小</string>
     <string name="summary_seekbar_output_buffer_queue_limit">控制渲染前可排队的解码帧数上限。较小值可降低延迟但可能导致丢帧，较大值可提升流畅度但会增加延迟。⚠️ 设为1帧可能在部分设备上导致崩溃。默认值：2。</string>
     <string name="suffix_seekbar_output_buffer_queue_limit">帧</string>
+    <string name="title_force_mtk_max_operating_rate">强制MTK最大运行速率（实验性）</string>
+    <string name="summary_force_mtk_max_operating_rate">启用 MediaTek 解码器覆盖设置 `KEY_OPERATING_RATE = Short.MAX_VALUE`。这可以改善某些新型 Dimensity / MTK SoC 的延迟，但可能会导致其他 SoC 上出现严重的延迟增加。例如，问题 #299 报告称，启用此功能后，Hisense U7Q（`c2.mtk.hevc.decoder`）的显示延迟增加了 3-5 秒。默认情况下关闭。仅影响 MTK 解码器。</string>
 
     <string name="category_host_settings">主机设置</string>
     <string name="title_checkbox_enable_sops">自动优化主机设置</string>
@@ -630,9 +632,21 @@
     <string name="crash_report_dialog_message">把诊断日志发送给开发者帮忙排查吗？\n\n%1$s</string>
     <string name="crash_report_share">发送日志</string>
     <string name="crash_report_copy">复制</string>
+    <string name="crash_report_photo">拍照摘要</string>
     <string name="crash_report_copied">崩溃日志已复制到剪贴板</string>
     <string name="crash_report_dismiss">忽略</string>
     <string name="crash_report_subject">Moonlight 崩溃日志</string>
+    <string name="crash_report_photo_title">适合拍照发送的崩溃摘要</string>
+    <string name="crash_report_photo_hint">请拍下此页面并发送给开发者，方便快速定位问题。</string>
+    <string name="crash_report_photo_id">报告 ID</string>
+    <string name="crash_report_photo_time">时间</string>
+    <string name="crash_report_photo_version">版本</string>
+    <string name="crash_report_photo_device">设备</string>
+    <string name="crash_report_photo_android">系统</string>
+    <string name="crash_report_photo_thread">线程</string>
+    <string name="crash_report_photo_error">异常</string>
+    <string name="crash_report_photo_frames">关键堆栈</string>
+    <string name="crash_report_unknown">未知</string>
 
     <!-- Tip strings -->
     <string name="tip_esc_exit">💡 串流小课堂：使用"退出"按钮可以快速完全地退出串流，让屏幕恢复到串流前的状态哦～</string>
