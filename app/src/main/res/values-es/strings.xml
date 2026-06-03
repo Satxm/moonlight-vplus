@@ -277,7 +277,6 @@
     <string name="accessibility_service_description">Para proporcionar una experiencia completa de juegos de PC con tu teclado externo, este servicio necesita capturar todas las teclas del teclado.\n\nUna vez habilitado, podrás usar todos los atajos del sistema como las teclas Win/Command, Alt+Tab, etc., igual que en tu computadora.\n\nTen la seguridad de que este servicio solo se usa para enviar operaciones de teclas directamente a tu computadora, y no grabaremos ni subiremos ningún contenido de tu entrada.</string>
     <string name="add_resolution">Agregar Resolución</string>
     <string name="applist_menu_start_with_vdd"> Iniciar Con Pantalla Virtual </string>
-    <string name="author_web">https://space.bilibili.com/393593468</string>
     <string name="category_crown_features">Área de Características Crown</string>
     <string name="category_enhanced_touch_settings">👆 Toque Multi-Punto Mejorado</string>
     <string name="category_screen_position_settings">Configuración de Pantalla</string>
@@ -341,7 +340,6 @@
     <string name="suffix_seekbar_flat_region_pixels">píxeles</string>
     <string name="suffix_seekbar_keyboard_toggle_fingers_native_touch"> </string>
     <string name="suffix_seekbar_mic_bitrate_kbps">kbps</string>
-    <string name="summary_about_author">Crown\'s Bilibili: XiguaHub, por favor síguelos. GitHub: https://github.com/WACrown/moonlight-android</string>
     <string name="summary_background_image_api">Ingresa una API de imagen de fondo personalizada, o una URL de imagen única. Deja vacío para ver imágenes aleatorias</string>
     <string name="summary_checkbox_enable_enhanced_touch">	</string>
     <string name="summary_checkbox_enable_esc_menu">Cuando está habilitado, presionar doble ESC abre el menú de retorno de transmisión, una sola presión de ESC se pasa al host</string>
@@ -355,9 +353,6 @@
     <string name="summary_enable_analytics">Ayudar a mejorar la aplicación compartiendo estadísticas de uso anónimas</string>
     <string name="summary_enable_perf_overlay">Mostrar información de rendimiento de transmisión en tiempo real mientras transmites</string>
     <string name="summary_enhanced_touch_zone_divider" formatted="false">Define dónde dividir zonas de toque nativo y toque mejorado, menos del 50% significa dividir desde un punto a la izquierda, más del 50% significa derecha</string>
-    <string name="summary_export_super_config">Exportar archivo de configuración de botones personalizados y configuraciones de transmisión</string>
-    <string name="summary_import_super_config">Importar archivo de configuración de botones personalizados y configuraciones de transmisión</string>
-    <string name="summary_merge_super_config">Fusionar botones de configuración nuevos en configuración existente</string>
     <string name="summary_perf_overlay_display_items">Seleccionar elementos de información para mostrar en la superposición de rendimiento</string>
     <string name="summary_perf_overlay_orientation">Elegir la orientación de visualización para estadísticas de rendimiento</string>
     <string name="summary_perf_overlay_position">Elegir arriba/abajo para orientación horizontal, o cuatro posiciones de esquina para orientación vertical</string>
@@ -388,7 +383,6 @@
     <string name="tip_virtual_display">💡 Consejo: La función de pantalla virtual puede crear espacios de pantalla independientes, especialmente adecuada para escenarios de multi-tarea, haciendo la transmisión más flexible~</string>
     <string name="tip_volume_keys">💡 Consejo: Usar WiFi de 5GHz proporciona una mejor experiencia, ¡velocidades súper rápidas~</string>
     <string name="tip_wallpaper_change">💡 Consejo: La opción de API de fondo de pantalla puede establecer la API para fuentes de fondo de pantalla aleatorias, o una dirección de imagen única</string>
-    <string name="title_about_author">Esto es V+ X Royal Edition</string>
     <string name="title_background_image_api">API de Imagen de Fondo</string>
     <string name="title_checkbox_enable_enhanced_touch">Habilitar toque mejorado</string>
     <string name="title_checkbox_enable_esc_menu">Permitir tecla ESC para abrir menú de retorno</string>
@@ -402,9 +396,6 @@
     <string name="title_enable_analytics">Habilitar Análisis</string>
     <string name="title_enable_perf_overlay">Mostrar estadísticas de rendimiento mientras transmites</string>
     <string name="title_enhanced_touch_zone_divider">Divisor de zona de toque mejorada</string>
-    <string name="title_export_super_config">Exportar Configuración</string>
-    <string name="title_import_super_config">Importar Configuración</string>
-    <string name="title_merge_super_config">Fusionar Configuración</string>
     <string name="title_perf_overlay_display_items">Elementos de Visualización de Superposición de Rendimiento</string>
     <string name="title_perf_overlay_orientation">Orientación de Superposición de Rendimiento</string>
     <string name="title_perf_overlay_position">Posición de Superposición de Rendimiento</string>

@@ -233,7 +233,6 @@
     <string name="summary_analog_scrolling">Selecciona um stick analógico para fazer scroll quando a emulação de rato está ativada</string>
 
     <!-- Missing translations added -->
-    <string name="author_web">https://space.bilibili.com/393593468</string>
     <string name="no_app_found_for_streaming">Nenhuma app encontrada para streaming</string>
     <string name="error_interrupted">A operação foi interrompida</string>
     <string name="error_code_prefix">Código de erro:</string>
@@ -401,14 +400,6 @@
     <string name="category_crown_features">Área de recursos Crown</string>
     <string name="title_crown_super_features">Super recursos Crown</string>
     <string name="summary_crown_super_features">Botões personalizados e configurações durante streaming, salvos em configurações personalizadas para troca rápida</string>
-    <string name="title_export_super_config">Exportar configuração</string>
-    <string name="summary_export_super_config">Exportar arquivo de configuração de botões personalizados e configurações de streaming</string>
-    <string name="title_import_super_config">Importar configuração</string>
-    <string name="summary_import_super_config">Importar arquivo de configuração de botões personalizados e configurações de streaming</string>
-    <string name="title_merge_super_config">Mesclar configuração</string>
-    <string name="summary_merge_super_config">Mesclar novos botões de configuração na configuração existente</string>
-    <string name="title_about_author">Este é V+ X Royal Edition</string>
-    <string name="summary_about_author">Bilibili do Crown: XiguaHub, por favor siga-os. GitHub: https://github.com/WACrown/moonlight-android</string>
     <string name="crown_switch_to_normal">Mudar para modo normal</string>
     <string name="toast_elements_visible">Botão virtual exibido</string>
     <string name="toast_elements_hidden">Botão virtual oculto</string>
@@ -550,10 +541,8 @@
     <string name="image_save_failed_with_error">Falha ao salvar imagem: %1$s</string>
     <string name="config_save_failed">Falha ao salvar configuração</string>
     <string name="scene_config_applied">Configuração da cena %1$d aplicada: %2$dx%3$d@%4$dFPS %5$.2fMbps %6$s HDR %7$s</string>
-    <string name="scene_not_configured">Cena %1$d não configurada</string>
     <string name="config_apply_failed">Falha ao aplicar configuração</string>
     <string name="save_to_scene">Salvar na cena %1$d</string>
-    <string name="overwrite_current_config">Sobrescrever configuração atual?</string>
     <string name="scene_saved_successfully">Cena %1$d salva com sucesso</string>
     <string name="unable_to_get_pc_address">Não foi possível obter o endereço do PC: %1$s</string>
     <string name="send_sleep_command">Enviar comando de suspensão</string>

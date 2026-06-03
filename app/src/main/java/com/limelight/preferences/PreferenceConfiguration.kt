@@ -102,6 +102,7 @@ class PreferenceConfiguration {
     @JvmField var flipFaceButtons = false
     var onscreenController = false
     var onscreenKeyboard = false
+    var enableCrownFeatures = false
     @JvmField var onlyL3R3 = false
     @JvmField var showGuideButton = false
     @JvmField var halfHeightOscPortrait = false
@@ -294,13 +295,58 @@ class PreferenceConfiguration {
         }
     }
 
+    /**
+     * Persist only the quality/display settings that PcView scene presets own.
+     * This keeps scene switching from rewriting unrelated input, audio, or UI prefs.
+     */
+    fun writeScenePreferences(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context) ?: return false
+
+        return try {
+            prefs.edit()
+                .putString(RESOLUTION_PREF_STRING, "${width}x${height}")
+                .putString(FPS_PREF_STRING, fps.toString())
+                .putInt(BITRATE_PREF_STRING, bitrate)
+                .putBoolean(ADAPTIVE_BITRATE_PREF_STRING, enableAdaptiveBitrate)
+                .putString(ABR_MODE_PREF_STRING, abrMode)
+                .putString(VIDEO_FORMAT_PREF_STRING, getVideoFormatPreferenceString(videoFormat))
+                .putString(FRAME_PACING_PREF_STRING, getFramePacingPreferenceString(framePacing))
+                .putBoolean(STRETCH_PREF_STRING, stretchVideo)
+                .putBoolean(SOPS_PREF_STRING, enableSops)
+                .putBoolean(UNLOCK_FPS_STRING, unlockFps)
+                .putBoolean(REDUCE_REFRESH_RATE_PREF_STRING, reduceRefreshRate)
+                .putBoolean(FULL_RANGE_PREF_STRING, fullRange)
+                .putBoolean(ENABLE_HDR_PREF_STRING, enableHdr)
+                .putBoolean(ENABLE_HDR_HIGH_BRIGHTNESS_PREF_STRING, enableHdrHighBrightness)
+                .putString(HDR_MODE_PREF_STRING, hdrMode.toString())
+                .putBoolean(ENABLE_PERF_OVERLAY_STRING, enablePerfOverlay)
+                .putBoolean(PERF_OVERLAY_LOCKED_STRING, perfOverlayLocked)
+                .putInt(PERF_OVERLAY_BG_OPACITY_STRING, perfOverlayBgOpacity)
+                .putString(PERF_OVERLAY_ORIENTATION_STRING, getPerfOverlayOrientationPreferenceString(perfOverlayOrientation))
+                .putString(PERF_OVERLAY_POSITION_STRING, getPerfOverlayPositionPreferenceString(perfOverlayPosition))
+                .apply()
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
     fun copy(): PreferenceConfiguration {
         val copy = PreferenceConfiguration()
         copy.width = this.width
         copy.height = this.height
         copy.fps = this.fps
         copy.bitrate = this.bitrate
+        copy.enableAdaptiveBitrate = this.enableAdaptiveBitrate
+        copy.abrMode = this.abrMode
         copy.videoFormat = this.videoFormat
+        copy.framePacing = this.framePacing
+        copy.stretchVideo = this.stretchVideo
+        copy.enableSops = this.enableSops
+        copy.unlockFps = this.unlockFps
+        copy.reduceRefreshRate = this.reduceRefreshRate
+        copy.fullRange = this.fullRange
         copy.enableHdr = this.enableHdr
         copy.enableHdrHighBrightness = this.enableHdrHighBrightness
         copy.hdrMode = this.hdrMode
@@ -490,10 +536,7 @@ class PreferenceConfiguration {
         const val AUDIO_PASSTHROUGH_BUFFER_PREF_STRING = "list_audio_passthrough_buffer"
         const val DEFAULT_AUDIO_PASSTHROUGH_BUFFER = "normal"
         const val UNLOCK_FPS_STRING = "checkbox_unlock_fps"
-        const val IMPORT_CONFIG_STRING = "import_super_config"
-        const val EXPORT_CONFIG_STRING = "export_super_config"
-        const val MERGE_CONFIG_STRING = "merge_super_config"
-        const val ABOUT_AUTHOR = "about_author"
+        const val CROWN_CONFIG_MANAGEMENT_STRING = "crown_config_management"
 
         // ---- Default values (package-private promoted to public) ----
         const val DEFAULT_RESOLUTION = "1920x1080"
@@ -880,6 +923,35 @@ class PreferenceConfiguration {
             }
         }
 
+        private fun getFramePacingPreferenceString(framePacing: Int): String {
+            return when (framePacing) {
+                FRAME_PACING_BALANCED -> "balanced"
+                FRAME_PACING_CAP_FPS -> "cap-fps"
+                FRAME_PACING_MAX_SMOOTHNESS -> "smoothness"
+                FRAME_PACING_EXPERIMENTAL_LOW_LATENCY -> "experimental-low-latency"
+                FRAME_PACING_PRECISE_SYNC -> "precise-sync"
+                else -> "latency"
+            }
+        }
+
+        private fun getPerfOverlayOrientationPreferenceString(orientation: PerfOverlayOrientation): String {
+            return when (orientation) {
+                PerfOverlayOrientation.VERTICAL -> "vertical"
+                else -> "horizontal"
+            }
+        }
+
+        private fun getPerfOverlayPositionPreferenceString(position: PerfOverlayPosition): String {
+            return when (position) {
+                PerfOverlayPosition.BOTTOM -> "bottom"
+                PerfOverlayPosition.TOP_LEFT -> "top_left"
+                PerfOverlayPosition.TOP_RIGHT -> "top_right"
+                PerfOverlayPosition.BOTTOM_LEFT -> "bottom_left"
+                PerfOverlayPosition.BOTTOM_RIGHT -> "bottom_right"
+                else -> "top"
+            }
+        }
+
         private fun getAnalogStickForScrollingValue(context: Context): AnalogStickForScrolling {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -1080,7 +1152,8 @@ class PreferenceConfiguration {
             config.multiController = prefs.getBoolean(MULTI_CONTROLLER_PREF_STRING, DEFAULT_MULTI_CONTROLLER)
             config.usbDriver = prefs.getBoolean(USB_DRIVER_PREF_SRING, DEFAULT_USB_DRIVER)
             config.onscreenController = prefs.getBoolean(ONSCREEN_CONTROLLER_PREF_STRING, ONSCREEN_CONTROLLER_DEFAULT)
-            config.onscreenKeyboard = prefs.getBoolean(ONSCREEN_KEYBOARD_PREF_STRING, ONSCREEN_KEYBOARD_DEFAULT)
+            config.enableCrownFeatures = prefs.getBoolean(ONSCREEN_KEYBOARD_PREF_STRING, ONSCREEN_KEYBOARD_DEFAULT)
+            config.onscreenKeyboard = config.enableCrownFeatures
             config.onlyL3R3 = prefs.getBoolean(ONLY_L3_R3_PREF_STRING, ONLY_L3_R3_DEFAULT)
             config.showGuideButton = prefs.getBoolean(SHOW_GUIDE_BUTTON_PREF_STRING, SHOW_GUIDE_BUTTON_DEFAULT)
             config.halfHeightOscPortrait = prefs.getBoolean(HALF_HEIGHT_OSC_PORTRAIT_PREF_STRING, HALF_HEIGHT_OSC_PORTRAIT_DEFAULT)

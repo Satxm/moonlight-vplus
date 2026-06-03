@@ -378,6 +378,7 @@
     <string name="summary_checkbox_audio_vibration">根据游戏内低音和音频事件振动设备。</string>
     <string name="title_seekbar_audio_vibration_strength">振动强度</string>
     <string name="summary_seekbar_audio_vibration_strength">调整音频驱动振动的强度。</string>
+    <string name="suffix_seekbar_audio_vibration_strength">%</string>
     <string name="title_list_audio_vibration_mode">振动路由</string>
     <string name="summary_list_audio_vibration_mode">选择振动的传递方式。</string>
     <string name="title_list_audio_vibration_scene">场景模式</string>
@@ -515,17 +516,15 @@
     <string name="title_enable_stun">获取公网 IP</string>
     <string name="summary_enable_stun">这会尝试利用 STUN 服务器获取被控端的公网访问方式，以便在离开局域网环境后继续连接。但此功能可能会导致无公网 IP 用户扫描变慢。</string>
 
-    <string name="category_crown_features">王冠的功能区</string>
-    <string name="title_crown_super_features">王冠的超级功能</string>
-    <string name="summary_crown_super_features">串流中自定义按键和一些设置，并将这些保存到自定义可快速切换的配置中。</string>
-    <string name="title_export_super_config">导出配置文件</string>
-    <string name="summary_export_super_config">导出自定义按钮的和串流内设置的配置文件。</string>
-    <string name="title_import_super_config">导入配置文件</string>
-    <string name="summary_import_super_config">导入自定义按钮的和串流内设置的配置文件。</string>
-    <string name="title_merge_super_config">合并配置</string>
-    <string name="summary_merge_super_config">将新的配置的按键合并到现有配置中。</string>
-    <string name="title_about_author">这是 威力加强 × 王冠 版</string>
-    <string name="summary_about_author">威力加强版：作者：Qiin2333，Github：https://github.com//moonlight-android \n王冠版：作者：ACrown，请关注他的B站：西瓜hub，Github：https://github.com/WACrown/moonlight-android</string>
+    <string name="category_crown_features">王冠</string>
+    <string name="title_crown_super_features">启用王冠</string>
+    <string name="summary_crown_super_features">将屏幕按键、快捷动作、触控模式和反馈设置保存为可切换的王冠配置档案。</string>
+    <string name="title_crown_config_management">王冠配置管理</string>
+    <string name="summary_crown_config_management">导入、导出或合并王冠配置档案。</string>
+    <string name="crown_config_action_import">导入配置</string>
+    <string name="crown_config_action_export">导出配置</string>
+    <string name="crown_config_action_merge">合并配置</string>
+    <string name="crown_config_no_profiles">暂无可用的王冠配置档案</string>
 
     <string name="category_help">帮助</string>
     <string name="title_privacy_policy">隐私政策</string>
@@ -540,7 +539,7 @@
     <string name="fps_suffix_fps">FPS</string>
     <string name="title_native_fps_dialog">原生 FPS 警告</string>
 
-    <!--鼠标模式-->
+    <!-- 本地鼠标模式预设 -->
     <string name="native_mouse_mode_preset_enhanced">增强式多点触控</string>
     <string name="native_mouse_mode_preset_classic">经典鼠标模式</string>
     <string name="native_mouse_mode_preset_trackpad">触控板模式</string>
@@ -614,18 +613,25 @@
     <string name="mic_disabled">麦克风已禁用</string>
     <string name="mic_permission_required">需要麦克风权限</string>
 
-    <!-- Crown feature toggle -->
-    <string name="crown_switch_to_normal">退出王冠配置</string>
-    <string name="crown_switch_to_crown">启用王冠模式</string>
-    <string name="game_menu_crown_function">王冠功能</string>
-    <string name="game_menu_toggle_elements_visibility">显示/隐藏虚拟按键</string>
-    <string name="game_menu_configure_crown_function">配置王冠功能</string>
-    <string name="toast_elements_visible">虚拟按键已显示</string>
-    <string name="toast_elements_hidden">虚拟按键已隐藏</string>
-    <string name="toast_back_key_menu_switch_1">已退出王冠功能配置</string>
-    <string name="toast_back_key_menu_switch_2">已进入王冠功能配置</string>
-    <string name="game_menu_edit_mode">王冠按键编辑模式</string>
-    <string name="game_menu_configure_settings">王冠按键配置模式</string>
+    <!-- 王冠功能切换 -->
+    <string name="crown_switch_to_normal">关闭王冠</string>
+    <string name="crown_switch_to_crown">启用王冠</string>
+    <string name="game_menu_crown_function">王冠</string>
+    <string name="game_menu_crown_function_title">♛ 王冠</string>
+    <string name="game_menu_toggle_elements_visibility">显示/隐藏按键</string>
+    <string name="game_menu_configure_crown_function">返回键打开王冠</string>
+    <string name="crown_control_enable_subtitle">启用王冠档案和控制入口</string>
+    <string name="crown_control_visibility_subtitle">临时收起或显示屏幕按键</string>
+    <string name="crown_control_touch_subtitle">暂停或恢复当前档案的触控输入</string>
+    <string name="crown_control_profiles_subtitle">切换已保存的按键、触控和反馈档案</string>
+    <string name="crown_control_layout_subtitle">移动和调整屏幕按键</string>
+    <string name="crown_control_back_key_subtitle">用返回键快速打开王冠面板</string>
+    <string name="toast_elements_visible">按键已显示</string>
+    <string name="toast_elements_hidden">按键已隐藏</string>
+    <string name="toast_back_key_menu_switch_1">已退出王冠配置</string>
+    <string name="toast_back_key_menu_switch_2">已进入王冠配置</string>
+    <string name="game_menu_edit_mode">按键布局</string>
+    <string name="game_menu_configure_settings">配置档案</string>
 
     <!-- 崩溃日志反馈弹窗 -->
     <string name="crash_report_dialog_title">应用上次异常退出</string>
@@ -788,10 +794,14 @@
     <string name="image_save_failed_with_error">涩图保存失败: %1$s</string>
     <string name="config_save_failed">配置保存失败</string>
     <string name="scene_config_applied">已应用场景%1$d配置: %2$dx%3$d@%4$dFPS %5$.2fMbps %6$s HDR %7$s</string>
-    <string name="scene_not_configured">场景%1$d未配置</string>
+    <string name="scene_empty_title">场景%1$d还没有保存配置</string>
+    <string name="scene_empty_message">是否将当前画质与显示配置保存到场景%1$d？保存后下次可直接点按使用。</string>
+    <string name="scene_configured_content_description">场景%1$d已保存。点按应用，长按覆盖。</string>
+    <string name="scene_empty_content_description">场景%1$d为空。点按保存当前设置。</string>
     <string name="config_apply_failed">配置应用失败</string>
     <string name="save_to_scene">保存到场景%1$d</string>
-    <string name="overwrite_current_config">是否覆盖当前配置？</string>
+    <string name="overwrite_scene_config">是否将当前画质与显示配置保存到场景%1$d？这会覆盖已保存的场景。</string>
+    <string name="save_current_config_to_scene">保存当前配置</string>
     <string name="scene_saved_successfully">场景%1$d保存成功</string>
     <string name="unable_to_get_pc_address">无法获取PC地址: %1$s</string>
     <string name="send_sleep_command">发送睡眠指令</string>
@@ -834,6 +844,9 @@
     <string name="notification_content_streaming">正在串流： %1$s (%2$s)</string>
 
     <!-- AppView Top Panel -->
+    <string name="appview_background_mode_title">背景</string>
+    <string name="appview_background_mode_artwork">应用封面</string>
+    <string name="appview_background_mode_soft_color">柔和纯色</string>
     <string name="appview_display_selection_title">显示器选择</string>
 
     <!-- Layout hardcoded Chinese strings (auto-extracted) -->
@@ -849,7 +862,7 @@
     <string name="layout_address_list_item_cd_30f7d">连接</string>
     <string name="layout_config_item_text_c8ce4">重命名</string>
     <string name="layout_config_item_text_2f4aa">删除</string>
-    <string name="layout_custom_dialog_text_c9831">启用王冠菜单</string>
+    <string name="layout_custom_dialog_text_c9831">启用王冠</string>
     <string name="layout_custom_dialog_text_f090a">特殊按键 Shortcuht</string>
     <string name="layout_custom_dialog_text_cf458">码率调整</string>
     <string name="layout_custom_dialog_cd_99c74">提示信息</string>
@@ -918,14 +931,19 @@
     <string name="layout_page_analog_stick_text_4573a">背景颜色</string>
     <string name="layout_page_analog_stick_text_69066">字体颜色</string>
     <string name="layout_page_analog_stick_text_4b292">字体按下颜色</string>
-    <string name="layout_page_config_text_9eba2">当前配置</string>
-    <string name="layout_page_config_text_83a23">开启触摸</string>
-    <string name="layout_page_config_text_f4b7c">触控板模式</string>
-    <string name="layout_page_config_text_8ea81">多点触控模式</string>
-    <string name="layout_page_config_text_cd2c1">游戏震动</string>
-    <string name="layout_page_config_text_f4651">按键震动</string>
-    <string name="layout_page_config_text_66ab5">新增</string>
-    <string name="layout_page_config_text_df603">退出王冠配置</string>
+    <string name="page_config_section_profile">档案</string>
+    <string name="page_config_section_touch">触控</string>
+    <string name="page_config_section_feedback">反馈</string>
+    <string name="crown_profile_name_title">档案名称</string>
+    <string name="crown_profile_name_error">档案名称需为 1-10 个字符</string>
+    <string name="layout_page_config_text_9eba2">当前档案</string>
+    <string name="layout_page_config_text_83a23">触控输入</string>
+    <string name="layout_page_config_text_f4b7c">触控板</string>
+    <string name="layout_page_config_text_8ea81">多点触控</string>
+    <string name="layout_page_config_text_cd2c1">游戏反馈</string>
+    <string name="layout_page_config_text_f4651">按键反馈</string>
+    <string name="layout_page_config_text_66ab5">新建</string>
+    <string name="layout_page_config_text_df603">完成</string>
     <string name="layout_page_device_text_5f411">返回</string>
     <string name="layout_page_device_text_d81bb">无</string>
     <string name="layout_page_device_text_01e77">触控模式</string>
@@ -995,7 +1013,19 @@
     <string name="layout_page_wheel_pad_text_cfb46">键值(从上顺时针开始)</string>
     <string name="layout_page_wheel_pad_text_97f5a">按下颜色</string>
     <string name="layout_page_wheel_pad_text_3ed82">分区文字颜色</string>
+    <string name="layout_page_wheel_pad_text_pressed_text_color">按下文字颜色</string>
     <string name="layout_page_wheel_pad_text_58796">中心文字颜色</string>
+    <string name="crown_auto_color_action">根据当前画面自动配色</string>
+    <string name="crown_auto_color_done">已根据当前画面自动配色</string>
+    <string name="crown_auto_color_all_action">一键全局自动配色</string>
+    <string name="crown_auto_color_all_done">已为 %1$d 个按键自动配色</string>
+    <string name="crown_auto_color_failed">无法采样当前画面</string>
+    <string name="crown_auto_color_no_frame">当前没有可用于配色的串流画面</string>
+    <string name="crown_auto_color_no_supported_elements">当前没有支持自动配色的按键</string>
+    <string name="crown_auto_color_unsupported">自动配色需要 Android 8.0 或更高版本</string>
+    <string name="crown_alignment_snap_switch">对齐吸附</string>
+    <string name="crown_alignment_snap_enabled">已开启对齐吸附</string>
+    <string name="crown_alignment_snap_disabled">已关闭对齐吸附</string>
     <string name="layout_page_window_text_625fb">取消</string>
 
     <!-- Clean page section headers (auto-extracted from _clean layouts) -->
@@ -1075,8 +1105,7 @@
     <string name="game_menu_off">关闭</string>
     <string name="toast_local_cursor_enabled">本地光标渲染已开启</string>
     <string name="toast_local_cursor_disabled">本地光标渲染已关闭</string>
-    <string name="toast_crown_not_enabled">王冠功能未启用</string>
-    <string name="game_menu_toggle_touch">开启/关闭触控</string>
+    <string name="game_menu_toggle_touch">触控输入</string>
     <string name="toast_touch_enabled">触控已开启</string>
     <string name="toast_touch_disabled">触控已关闭</string>
     <string name="toast_vibration_test_sent">已发送本地震动测试</string>

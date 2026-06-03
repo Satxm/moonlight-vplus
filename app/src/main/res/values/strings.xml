@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="author_web">https://space.bilibili.com/393593468</string>
     <string name="github_url">https://github.com/satxm/moonlight-vplus</string>
 
     <!-- Shortcut strings -->
@@ -519,17 +518,15 @@
     <string name="title_enable_stun">Obtain public IP</string>
     <string name="summary_enable_stun">Attempt to obtain the host\'s public IP via STUN servers for connecting outside the local network. This may slow down scanning for users without a public IP.</string>
 
-    <string name="category_crown_features">Crown Feature Area</string>
-    <string name="title_crown_super_features">Crown Super Features</string>
-    <string name="summary_crown_super_features">Custom buttons and settings during streaming, saved to custom configurations for quick switching</string>
-    <string name="title_export_super_config">Export super config</string>
-    <string name="summary_export_super_config">Export the configuration files of custom buttons and stream settings</string>
-    <string name="title_import_super_config">Import super config</string>
-    <string name="summary_import_super_config">Import custom button and stream settings configuration files</string>
-    <string name="title_merge_super_config">Merge super config</string>
-    <string name="summary_merge_super_config">Merge super config to local configs.</string>
-    <string name="title_about_author">This is V+ × WACrown\'s Edition</string>
-    <string name="summary_about_author">V+ Edition: Author: Qiin2333，Github: https://github.com//moonlight-android \nWACrown\'s Edition: Author: WACrown, Please follow him\'s bilibili: 西瓜hub, Github: https://github.com/WACrown/moonlight-android</string>
+    <string name="category_crown_features">Crown</string>
+    <string name="title_crown_super_features">Enable Crown</string>
+    <string name="summary_crown_super_features">Save on-screen buttons, quick actions, touch mode, and feedback settings as switchable Crown profiles</string>
+    <string name="title_crown_config_management">Crown Configuration Management</string>
+    <string name="summary_crown_config_management">Import, export, or merge Crown profiles</string>
+    <string name="crown_config_action_import">Import Configuration</string>
+    <string name="crown_config_action_export">Export Configuration</string>
+    <string name="crown_config_action_merge">Merge Configuration</string>
+    <string name="crown_config_no_profiles">No Crown profiles available</string>
 
     <string name="category_help">Help</string>
     <string name="title_privacy_policy">Privacy policy</string>
@@ -619,17 +616,24 @@
     <string name="mic_permission_required">Microphone permission required</string>
 
     <!-- Crown feature toggle -->
-    <string name="crown_switch_to_normal">Switch to Normal Mode</string>
-    <string name="crown_switch_to_crown">Switch to Crown Mode</string>
-    <string name="game_menu_crown_function">Crown Function</string>
-    <string name="game_menu_toggle_elements_visibility">Show/Hide Virtual Keys</string>
-    <string name="game_menu_configure_crown_function">Configure Crown Function</string>
-    <string name="toast_elements_visible">Virtual button displayed</string>
-    <string name="toast_elements_hidden">Virtual button hidden</string>
-    <string name="toast_back_key_menu_switch_1">The crown function configuration has been exited</string>
-    <string name="toast_back_key_menu_switch_2">Entered the crown function configuration</string>
-    <string name="game_menu_edit_mode">Crown button editing mode</string>
-    <string name="game_menu_configure_settings">Crown button configuration mode</string>
+    <string name="crown_switch_to_normal">Disable Crown</string>
+    <string name="crown_switch_to_crown">Enable Crown</string>
+    <string name="game_menu_crown_function">Crown</string>
+    <string name="game_menu_crown_function_title">♛ Crown</string>
+    <string name="game_menu_toggle_elements_visibility">Show/Hide Buttons</string>
+    <string name="game_menu_configure_crown_function">Back Key Opens Crown</string>
+    <string name="crown_control_enable_subtitle">Turn on Crown profiles and controls</string>
+    <string name="crown_control_visibility_subtitle">Keep the on-screen buttons out of the way</string>
+    <string name="crown_control_touch_subtitle">Pause or resume touch input</string>
+    <string name="crown_control_profiles_subtitle">Switch saved button and touch profiles</string>
+    <string name="crown_control_layout_subtitle">Move and resize the on-screen buttons</string>
+    <string name="crown_control_back_key_subtitle">Use Back to reopen this Crown panel</string>
+    <string name="toast_elements_visible">Buttons shown</string>
+    <string name="toast_elements_hidden">Buttons hidden</string>
+    <string name="toast_back_key_menu_switch_1">Exited Crown configuration</string>
+    <string name="toast_back_key_menu_switch_2">Entered Crown configuration</string>
+    <string name="game_menu_edit_mode">Button Layout</string>
+    <string name="game_menu_configure_settings">Configuration Profiles</string>
 
     <!-- Crash report prompt -->
     <string name="crash_report_dialog_title">Moonlight closed unexpectedly last time</string>
@@ -792,10 +796,14 @@
     <string name="image_save_failed_with_error">Image save failed: %1$s</string>
     <string name="config_save_failed">Configuration save failed</string>
     <string name="scene_config_applied">Applied scene %1$d configuration: %2$dx%3$d@%4$dFPS %5$.2fMbps %6$s HDR %7$s</string>
-    <string name="scene_not_configured">Scene %1$d not configured</string>
+    <string name="scene_empty_title">Scene %1$d is empty</string>
+    <string name="scene_empty_message">Save the current quality and display settings to Scene %1$d so this shortcut can be used next time?</string>
+    <string name="scene_configured_content_description">Scene %1$d saved. Tap to apply, long press to overwrite.</string>
+    <string name="scene_empty_content_description">Scene %1$d empty. Tap to save current settings.</string>
     <string name="config_apply_failed">Configuration apply failed</string>
     <string name="save_to_scene">Save to Scene %1$d</string>
-    <string name="overwrite_current_config">Overwrite current configuration?</string>
+    <string name="overwrite_scene_config">Save the current quality and display settings to Scene %1$d? This will overwrite the saved scene.</string>
+    <string name="save_current_config_to_scene">SAVE CURRENT</string>
     <string name="scene_saved_successfully">Scene %1$d saved successfully</string>
     <string name="unable_to_get_pc_address">Unable to get PC address: %1$s</string>
     <string name="send_sleep_command">Send Sleep Command</string>
@@ -838,6 +846,9 @@
     <string name="notification_content_streaming">Streaming in progress: %1$s (%2$s)</string>
 
     <!-- AppView Top Panel -->
+    <string name="appview_background_mode_title">Background</string>
+    <string name="appview_background_mode_artwork">App artwork</string>
+    <string name="appview_background_mode_soft_color">Soft color</string>
     <string name="appview_display_selection_title">Display Selection</string>
 
     <!-- Layout hardcoded Chinese strings (auto-extracted) -->
@@ -853,7 +864,7 @@
     <string name="layout_address_list_item_cd_30f7d">Connect</string>
     <string name="layout_config_item_text_c8ce4">Rename</string>
     <string name="layout_config_item_text_2f4aa">Delete</string>
-    <string name="layout_custom_dialog_text_c9831">Enable Crown Menu</string>
+    <string name="layout_custom_dialog_text_c9831">Enable Crown</string>
     <string name="layout_custom_dialog_text_f090a">Special Keys Shortcut</string>
     <string name="layout_custom_dialog_text_cf458">Bitrate Adjustment</string>
     <string name="layout_custom_dialog_cd_99c74">Tooltip</string>
@@ -922,14 +933,19 @@
     <string name="layout_page_analog_stick_text_4573a">Background Color</string>
     <string name="layout_page_analog_stick_text_69066">Font Color</string>
     <string name="layout_page_analog_stick_text_4b292">Font Pressed Color</string>
-    <string name="layout_page_config_text_9eba2">Current Configuration</string>
-    <string name="layout_page_config_text_83a23">Enable Touch</string>
-    <string name="layout_page_config_text_f4b7c">Touchpad Mode</string>
-    <string name="layout_page_config_text_8ea81">Multi-Touch Mode</string>
-    <string name="layout_page_config_text_cd2c1">Game Vibration</string>
-    <string name="layout_page_config_text_f4651">Button Vibration</string>
-    <string name="layout_page_config_text_66ab5">Add</string>
-    <string name="layout_page_config_text_df603">Exit Crown Configuration</string>
+    <string name="page_config_section_profile">Profile</string>
+    <string name="page_config_section_touch">Touch</string>
+    <string name="page_config_section_feedback">Feedback</string>
+    <string name="crown_profile_name_title">Profile Name</string>
+    <string name="crown_profile_name_error">Profile name must be 1-10 characters</string>
+    <string name="layout_page_config_text_9eba2">Current Profile</string>
+    <string name="layout_page_config_text_83a23">Touch Input</string>
+    <string name="layout_page_config_text_f4b7c">Touchpad</string>
+    <string name="layout_page_config_text_8ea81">Multi-Touch</string>
+    <string name="layout_page_config_text_cd2c1">Game Rumble</string>
+    <string name="layout_page_config_text_f4651">Button Feedback</string>
+    <string name="layout_page_config_text_66ab5">New</string>
+    <string name="layout_page_config_text_df603">Done</string>
     <string name="layout_page_device_text_5f411">Back</string>
     <string name="layout_page_device_text_d81bb">None</string>
     <string name="layout_page_device_text_01e77">Touch Mode</string>
@@ -999,7 +1015,19 @@
     <string name="layout_page_wheel_pad_text_cfb46">Key values (clockwise from top)</string>
     <string name="layout_page_wheel_pad_text_97f5a">Pressed Color</string>
     <string name="layout_page_wheel_pad_text_3ed82">Section Text Color</string>
+    <string name="layout_page_wheel_pad_text_pressed_text_color">Pressed Text Color</string>
     <string name="layout_page_wheel_pad_text_58796">Center Text Color</string>
+    <string name="crown_auto_color_action">Auto color from screen</string>
+    <string name="crown_auto_color_done">Auto colors applied</string>
+    <string name="crown_auto_color_all_action">Auto color all controls</string>
+    <string name="crown_auto_color_all_done">Auto colors applied to %1$d controls</string>
+    <string name="crown_auto_color_failed">Could not sample the current screen</string>
+    <string name="crown_auto_color_no_frame">No stream frame available for auto color</string>
+    <string name="crown_auto_color_no_supported_elements">No controls support auto color</string>
+    <string name="crown_auto_color_unsupported">Auto color requires Android 8.0 or later</string>
+    <string name="crown_alignment_snap_switch">Alignment snapping</string>
+    <string name="crown_alignment_snap_enabled">Alignment snapping enabled</string>
+    <string name="crown_alignment_snap_disabled">Alignment snapping disabled</string>
     <string name="layout_page_window_text_625fb">Cancel</string>
 
     <!-- Clean page section headers (auto-extracted from _clean layouts) -->
@@ -1037,8 +1065,8 @@
     <string name="apptext_pg_analog_stick_ae177">Border Thickness</string>
     <string name="apptext_pg_analog_stick_6896d">Z-Order</string>
     <string name="apptext_pg_analog_stick_5f15e">Font Size</string>
-    <string name="apptext_pg_config_835d4">Touchpad Sensitivity</string>
-    <string name="apptext_pg_config_3f729">Virtual Mouse Scroll Speed</string>
+    <string name="apptext_pg_config_835d4">Pointer Sensitivity</string>
+    <string name="apptext_pg_config_3f729">Scroll Speed</string>
     <string name="apptext_pg_digital_combine_button_ea5a1">Width</string>
     <string name="apptext_pg_digital_combine_button_4296d">Height</string>
     <string name="apptext_pg_digital_combine_button_3ebb3">Border Radius</string>
@@ -1079,8 +1107,7 @@
     <string name="game_menu_off">Off</string>
     <string name="toast_local_cursor_enabled">Local cursor rendering enabled</string>
     <string name="toast_local_cursor_disabled">Local cursor rendering disabled</string>
-    <string name="toast_crown_not_enabled">Crown feature not enabled</string>
-    <string name="game_menu_toggle_touch">Toggle Touch</string>
+    <string name="game_menu_toggle_touch">Touch Input</string>
     <string name="toast_touch_enabled">Touch enabled</string>
     <string name="toast_touch_disabled">Touch disabled</string>
     <string name="toast_vibration_test_sent">Local vibration test sent</string>
