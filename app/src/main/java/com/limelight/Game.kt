@@ -21,6 +21,12 @@ import com.limelight.binding.input.driver.UsbDriverService
 import com.limelight.binding.input.evdev.EvdevListener
 import com.limelight.binding.input.virtual_controller.VirtualController
 import com.limelight.binding.video.MediaCodecDecoderRenderer
+import com.limelight.framegen.FramegenCapture
+import com.limelight.framegen.FramegenAdaptiveController
+import com.limelight.framegen.FramegenInterceptor
+import com.limelight.framegen.FramegenPerformanceEnricher
+import com.limelight.framegen.FramegenRuntimeConfig
+import com.limelight.framegen.FramegenRuntimePlanner
 import com.limelight.binding.video.MediaCodecHelper
 import com.limelight.binding.video.PerfOverlayListener
 import com.limelight.binding.video.PerformanceInfo
@@ -69,6 +75,7 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
+import android.os.SystemClock
 import androidx.preference.PreferenceManager
 import android.util.Rational
 import android.view.Display
@@ -98,6 +105,7 @@ import java.security.cert.CertificateException
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
 import java.util.Locale
+import kotlin.concurrent.thread
 import kotlin.math.roundToInt
 import androidx.core.content.edit
 import androidx.core.net.toUri
@@ -178,6 +186,10 @@ class Game : Activity(), SurfaceHolder.Callback,
     lateinit var keyboardInputHandler: KeyboardInputHandler
 
     private var decoderRenderer: MediaCodecDecoderRenderer? = null
+    private var framegenCapture: FramegenCapture? = null
+    private val framegenAdaptiveController = FramegenAdaptiveController()
+    private var framegenInputHdrEnabled = false
+    private var framegenEnabledToastShown = false
     private var reportedCrash = false
 
     private var highPerfWifiLock: WifiManager.WifiLock? = null
@@ -595,11 +607,21 @@ class Game : Activity(), SurfaceHolder.Callback,
         get() = PreferenceManager.getDefaultSharedPreferences(this)
             .getBoolean("checkbox_resume_stream", false)
 
+    private fun shouldUseFramegen(prefs: SharedPreferences = defaultPreferences()): Boolean =
+        FramegenRuntimePlanner.shouldUse(prefs, prefConfig.width, prefConfig.height, prefConfig.fps)
+
+    private fun framegenPresentationFps(prefs: SharedPreferences = defaultPreferences()): Int =
+        FramegenRuntimePlanner.presentationFps(prefs, prefConfig.fps)
+
+    private fun defaultPreferences(): SharedPreferences =
+        PreferenceManager.getDefaultSharedPreferences(this)
+
     /**
      * Parse intent extras, build stream config, create NvConnection + ControllerHandler.
      * Shared by [onCreate] (first launch) and [prepareConnection] (resume reconnect).
      */
     private fun createConnectionAndHandler() {
+        framegenEnabledToastShown = false
         val host = intent.getStringExtra(EXTRA_HOST) ?: ""
         val port = intent.getIntExtra(EXTRA_PORT, NvHTTP.DEFAULT_HTTP_PORT)
         val httpsPort = intent.getIntExtra(EXTRA_HTTPS_PORT, 0)
@@ -760,6 +782,8 @@ class Game : Activity(), SurfaceHolder.Callback,
                 }
             }
         }
+
+        framegenInputHdrEnabled = willStreamHdr && prefConfig.hdrMode != MoonBridge.HDR_MODE_SDR
 
         val config = StreamConfiguration.Builder()
             .setResolution(prefConfig.width, prefConfig.height)
@@ -1045,7 +1069,19 @@ class Game : Activity(), SurfaceHolder.Callback,
     private fun prepareDisplayForRendering(): Float {
         val display = currentTargetDisplay
 
-        val result = DisplayModeManager.selectBestDisplayMode(display, prefConfig)
+        val presentationFps = framegenPresentationFps()
+        val displayConfig = if (presentationFps != prefConfig.fps) {
+            prefConfig.copy().apply {
+                fps = presentationFps
+            }
+        } else {
+            prefConfig
+        }
+        if (displayConfig.fps != prefConfig.fps) {
+            LimeLog.info("Framegen display target FPS: ${prefConfig.fps} -> ${displayConfig.fps}")
+        }
+
+        val result = DisplayModeManager.selectBestDisplayMode(display, displayConfig)
 
         val windowLayoutParams = window.attributes
         if (result.preferredModeId >= 0) {
@@ -1540,6 +1576,8 @@ class Game : Activity(), SurfaceHolder.Callback,
 
     override fun setHdrMode(enabled: Boolean, hdrMetadata: ByteArray?) {
         LimeLog.info("Display HDR mode: ${if (enabled) "enabled" else "disabled"}")
+        framegenInputHdrEnabled = enabled
+        FramegenInterceptor.configureHdrMode(if (enabled) prefConfig.hdrMode else MoonBridge.HDR_MODE_SDR)
         decoderRenderer?.setHdrMode(enabled, hdrMetadata)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -1550,12 +1588,18 @@ class Game : Activity(), SurfaceHolder.Callback,
     private fun notifySystemHdrStatus(hdrEnabled: Boolean) {
         runOnUiThread {
             try {
+                val framegenSdrOutput = willFramegenOutputSdr()
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    window.colorMode = if (hdrEnabled) ActivityInfo.COLOR_MODE_HDR else ActivityInfo.COLOR_MODE_DEFAULT
+                    window.colorMode =
+                        if (hdrEnabled && !framegenSdrOutput) {
+                            ActivityInfo.COLOR_MODE_HDR
+                        } else {
+                            ActivityInfo.COLOR_MODE_DEFAULT
+                        }
                 }
 
                 val params = window.attributes
-                if (hdrEnabled) {
+                if (hdrEnabled && !framegenSdrOutput) {
                     if (prefConfig.enableHdrHighBrightness) {
                         params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL
                     }
@@ -1567,12 +1611,18 @@ class Game : Activity(), SurfaceHolder.Callback,
                 }
                 window.attributes = params
 
-                LimeLog.info("ColorOS HDR notification: Window color mode and brightness updated for HDR ${if (hdrEnabled) "enabled" else "disabled"}")
+                LimeLog.info(
+                    "ColorOS HDR notification: hdr=${if (hdrEnabled) "enabled" else "disabled"} " +
+                        "framegenSdr=$framegenSdrOutput"
+                )
             } catch (e: Exception) {
                 LimeLog.warning("Failed to notify ColorOS system HDR status: ${e.message}")
             }
         }
     }
+
+    private fun willFramegenOutputSdr(): Boolean =
+        (framegenCapture != null || shouldUseFramegen()) && !framegenInputHdrEnabled
 
     override fun setMotionEventState(controllerNumber: Short, motionType: Byte, reportRateHz: Short) {
         controllerHandler.handleSetMotionEventState(controllerNumber, motionType, reportRateHz)
@@ -1646,9 +1696,97 @@ class Game : Activity(), SurfaceHolder.Callback,
         controllerHandler.handleSetControllerLED(controllerNumber, r, g, b)
     }
 
+    private fun prepareFramegenSurface(outputSurface: Surface, showEnabledToast: Boolean) {
+        releaseFramegenCapture()
+
+        val config = FramegenRuntimePlanner.configForStream(
+            defaultPreferences(),
+            prefConfig.width,
+            prefConfig.height,
+            prefConfig.fps,
+            framegenInputHdrEnabled,
+            prefConfig.hdrMode
+        ) ?: return
+        applyFramegenConfig(config)
+
+        val capture = FramegenCapture.create(prefConfig.width, prefConfig.height)
+        if (capture == null) {
+            LimeLog.warning("Framegen capture unavailable; using direct decoder output")
+            return
+        }
+
+        framegenCapture = capture
+        decoderRenderer?.framegenSurface = capture.surface
+        FramegenInterceptor.configureOutputSurface(outputSurface)
+        prewarmFramegen()
+
+        LimeLog.info(
+            "Framegen capture armed ${prefConfig.width}x${prefConfig.height} " +
+                "fps=${config.presentationFps} hdrIn=${config.inputHdrEnabled}"
+        )
+        if (showEnabledToast && !framegenEnabledToastShown) {
+            framegenEnabledToastShown = true
+            runOnUiThread {
+                Toast.makeText(this, R.string.toast_framegen_stream_enabled, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun applyFramegenConfig(config: FramegenRuntimeConfig) {
+        FramegenInterceptor.configureLosslessDllPath(config.losslessDllPath)
+        FramegenInterceptor.configureHdrMode(config.inputHdrMode)
+        FramegenInterceptor.configureOutputFrameRate(config.presentationFps)
+        FramegenInterceptor.configureTuning(
+            config.internalWidth,
+            config.presentMode,
+            config.slowFrameThresholdMs,
+            config.presentQueueMax,
+            config.allowAdaptiveWithoutDoubling
+        )
+        framegenAdaptiveController.configure(
+            FramegenAdaptiveController.Config(
+                inputFps = config.inputFps,
+                presentationFps = config.presentationFps,
+                adaptiveEnabled = config.adaptiveEnabled,
+                allowAdaptiveWithoutDoubling = config.allowAdaptiveWithoutDoubling,
+                internalWidth = config.internalWidth,
+                presentMode = config.presentMode,
+                slowFrameThresholdMs = config.slowFrameThresholdMs,
+                presentQueueMax = config.presentQueueMax
+            )
+        )
+    }
+
+    private fun prewarmFramegen() {
+        thread(name = "FramegenPrewarm", isDaemon = true) {
+            val startedAtMs = SystemClock.uptimeMillis()
+            val ok = FramegenInterceptor.prewarmContext(prefConfig.width, prefConfig.height)
+            LimeLog.info(
+                "Framegen prewarm ok=$ok elapsed=${SystemClock.uptimeMillis() - startedAtMs}ms"
+            )
+        }
+    }
+
+    private fun releaseFramegenCapture() {
+        framegenCapture?.release()
+        framegenCapture = null
+        framegenAdaptiveController.reset()
+        decoderRenderer?.framegenSurface = null
+        FramegenInterceptor.configureOutputSurface(null)
+    }
+
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
         if (!surfaceCreated) {
             throw IllegalStateException("Surface changed before creation!")
+        }
+
+        val shouldPrepareFramegen =
+            !attemptedConnection || (connected && framegenCapture == null && shouldUseFramegen())
+        if (shouldPrepareFramegen) {
+            // setRenderTarget() may start the decoder, which reads framegenSurface.
+            prepareFramegenSurface(holder.surface, !attemptedConnection)
+        } else if (framegenCapture != null) {
+            FramegenInterceptor.configureOutputSurface(holder.surface)
         }
 
         decoderRenderer?.setRenderTarget(holder)
@@ -1673,8 +1811,9 @@ class Game : Activity(), SurfaceHolder.Callback,
     override fun surfaceCreated(holder: SurfaceHolder) {
         surfaceCreated = true
 
-        val desiredFrameRate: Float = if (DisplayModeManager.mayReduceRefreshRate(prefConfig) || desiredRefreshRate < prefConfig.fps) {
-            prefConfig.fps.toFloat()
+        val outputFps = framegenPresentationFps()
+        val desiredFrameRate: Float = if (DisplayModeManager.mayReduceRefreshRate(prefConfig) || desiredRefreshRate < outputFps) {
+            outputFps.toFloat()
         } else {
             desiredRefreshRate
         }
@@ -1708,13 +1847,17 @@ class Game : Activity(), SurfaceHolder.Callback,
                     LimeLog.info("Extreme Resume: Audio muted for background.")
                 }
                 decoderRenderer?.pauseProcessing()
+                releaseFramegenCapture()
                 return
             } else {
                 decoderRenderer?.prepareForStop()
+                releaseFramegenCapture()
                 if (connected) {
                     connectionCallbackHandler.stopConnection()
                 }
             }
+        } else {
+            releaseFramegenCapture()
         }
     }
 
@@ -1819,6 +1962,10 @@ class Game : Activity(), SurfaceHolder.Callback,
     }
 
     override fun onPerfUpdateV(performanceInfo: PerformanceInfo) {
+        if (framegenCapture != null) {
+            framegenAdaptiveController.onPerformanceInfo(performanceInfo)
+        }
+        enrichFramegenPerformanceInfo(performanceInfo)
         performanceOverlayManager?.updatePerformanceInfo(performanceInfo)
     }
 
@@ -1827,6 +1974,7 @@ class Game : Activity(), SurfaceHolder.Callback,
     }
 
     override fun onPerfUpdateWG(performanceInfo: PerformanceInfo) {
+        enrichFramegenPerformanceInfo(performanceInfo)
         // 缓存最新性能数据，供 ABR 服务使用
         latestPerfInfo = performanceInfo
 
@@ -1847,6 +1995,13 @@ class Game : Activity(), SurfaceHolder.Callback,
                 perfAttrs[getString(R.string.perf_decoder)] = performanceInfo.decoder ?: ""
                 perfAttrs[getString(R.string.perf_resolution)] = "${performanceInfo.initialWidth}x${performanceInfo.initialHeight}"
                 perfAttrs[getString(R.string.perf_fps)] = String.format("%.0f", performanceInfo.totalFps)
+                perfAttrs[getString(R.string.perf_rx_fps)] = String.format("%.0f", performanceInfo.receivedFps)
+                perfAttrs[getString(R.string.perf_rd_fps)] = String.format("%.0f", performanceInfo.renderedFps)
+                perfAttrs[getString(R.string.perf_fg_fps)] = if (performanceInfo.framegenFps > 0.5f) {
+                    String.format("%.0f", performanceInfo.framegenFps)
+                } else {
+                    "0"
+                }
                 perfAttrs[getString(R.string.perf_frame_loss)] = String.format("%.1f", performanceInfo.lostFrameRate)
                 perfAttrs[getString(R.string.perf_network_rtt)] = String.format("%d", (performanceInfo.rttInfo shr 32).toInt())
                 perfAttrs[getString(R.string.perf_host_latency)] = String.format("%.2f", performanceInfo.aveHostProcessingLatency)
@@ -1859,6 +2014,22 @@ class Game : Activity(), SurfaceHolder.Callback,
             }
         }
     }
+
+    override fun onVideoFrameLoss(framesLost: Int, frameNumber: Int) {
+        if (framegenCapture != null) {
+            framegenAdaptiveController.onFrameLossEvent(framesLost, frameNumber)
+        }
+    }
+
+    private fun enrichFramegenPerformanceInfo(performanceInfo: PerformanceInfo) =
+        FramegenPerformanceEnricher.update(
+            performanceInfo,
+            framegenActive = framegenCapture != null,
+            baseFps = prefConfig.fps,
+            outputFps = framegenAdaptiveController.activePresentationFps
+                .takeIf { it > 0 }
+                ?: framegenPresentationFps()
+        )
 
     fun removePerformanceInfoDisplay(display: PerformanceInfoDisplay) {
         performanceInfoDisplays.remove(display)

@@ -4,6 +4,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Build
+import android.os.SystemClock
 import android.provider.Settings
 
 import com.limelight.utils.NetHelper
@@ -34,6 +35,7 @@ import com.limelight.nvstream.http.LimelightCryptoProvider
 import com.limelight.nvstream.http.NvApp
 import com.limelight.nvstream.http.NvHTTP
 import com.limelight.nvstream.http.PairingManager
+import com.limelight.nvstream.http.PairStateTrust
 import com.limelight.nvstream.input.MouseButtonPacket
 import com.limelight.nvstream.jni.MoonBridge
 
@@ -190,25 +192,39 @@ open class NvConnection(
         return StreamConfiguration.STREAM_CFG_AUTO
     }
 
+    private inline fun <T> timeConnectionStep(name: String, block: () -> T): T {
+        val startTime = SystemClock.elapsedRealtime()
+        return try {
+            block()
+        } finally {
+            LimeLog.info("Connection step '$name' completed in ${SystemClock.elapsedRealtime() - startTime}ms")
+        }
+    }
+
     @Throws(XmlPullParserException::class, IOException::class, InterruptedException::class)
     private fun startApp(): Boolean {
         val h = NvHTTP(context.serverAddress, context.httpsPort, uniqueId, clientName, context.serverCert, cryptoProvider)
         val connListener = context.connListener
         val streamConfig = context.streamConfig
 
-        val serverInfo = h.getServerInfo(true)
+        val serverInfo = timeConnectionStep("serverinfo") { h.getServerInfo(true) }
 
         context.serverAppVersion = h.getServerVersion(serverInfo)
 
         val details = h.getComputerDetails(serverInfo)
+        details.serverCert = context.serverCert
         context.isNvidiaServerSoftware = details.nvidiaServer
         context.supportsDesktopSpecialApp = details.supportsDesktopSpecialApp
 
         context.serverGfeVersion = h.getGfeVersion(serverInfo)
 
-        if (h.getPairState(serverInfo) != PairingManager.PairState.PAIRED) {
-            connListener.displayMessage("Device not paired with computer")
-            return false
+        if (details.pairState != PairingManager.PairState.PAIRED) {
+            if (PairStateTrust.shouldPreserveLocalPairing(details, details)) {
+                LimeLog.warning("Ignoring untrusted NOT_PAIRED serverinfo while starting stream")
+            } else {
+                connListener.displayMessage("Device not paired with computer")
+                return false
+            }
         }
 
         context.serverCodecModeSupport = h.getServerCodecModeSupport(serverInfo).toInt()
@@ -239,7 +255,9 @@ open class NvConnection(
         }
 
         if (streamConfig.remote == StreamConfiguration.STREAM_CFG_AUTO) {
-            context.negotiatedRemoteStreaming = detectServerConnectionType()
+            context.negotiatedRemoteStreaming = timeConnectionStep("connection type detection") {
+                detectServerConnectionType()
+            }
             context.negotiatedPacketSize =
                 if (context.negotiatedRemoteStreaming == StreamConfiguration.STREAM_CFG_REMOTE)
                     1024 else streamConfig.maxPacketSize
@@ -262,18 +280,18 @@ open class NvConnection(
 
         if (context.forceResumeCurrentSession) {
             val resumeAppId = if (currentGameId != 0) currentGameId else app.appId
-            return resumeExistingSession(h, context, resumeAppId)
+            return timeConnectionStep("resume app") { resumeExistingSession(h, context, resumeAppId) }
         }
 
         if (currentGameId != 0) {
             return if (currentGameId == app.appId) {
-                resumeExistingSession(h, context, app.appId)
+                timeConnectionStep("resume app") { resumeExistingSession(h, context, app.appId) }
             } else {
-                quitAndLaunch(h, context)
+                timeConnectionStep("quit and launch app") { quitAndLaunch(h, context) }
             }
         }
 
-        return launchNotRunningApp(h, context)
+        return timeConnectionStep("launch app") { launchNotRunningApp(h, context) }
     }
 
     @Throws(IOException::class, XmlPullParserException::class, InterruptedException::class)
@@ -377,7 +395,7 @@ open class NvConnection(
             context.connListener.stageStarting(appName)
 
             try {
-                if (!startApp()) {
+                if (!timeConnectionStep("app negotiation") { startApp() }) {
                     context.connListener.stageFailed(appName, 0, 0)
                     return@Thread
                 }
@@ -407,7 +425,12 @@ open class NvConnection(
             ib.putInt(context.riKeyId)
 
             try {
+                val waitStartTime = SystemClock.elapsedRealtime()
                 connectionAllowed.acquire()
+                val waitMs = SystemClock.elapsedRealtime() - waitStartTime
+                if (waitMs > 10) {
+                    LimeLog.info("Connection step 'connection slot wait' completed in ${waitMs}ms")
+                }
             } catch (e: InterruptedException) {
                 context.connListener.displayMessage(e.message ?: "")
                 context.connListener.stageFailed(appName, 0, 0)
@@ -416,26 +439,28 @@ open class NvConnection(
 
             synchronized(MoonBridge::class.java) {
                 MoonBridge.setupBridge(videoDecoderRenderer, audioRenderer, connectionListener)
-                val ret = MoonBridge.startConnection(
-                    context.serverAddress.address,
-                    context.serverAppVersion, context.serverGfeVersion, context.rtspSessionUrl,
-                    context.serverCodecModeSupport,
-                    context.negotiatedWidth, context.negotiatedHeight,
-                    context.streamConfig.refreshRate, context.streamConfig.bitrate,
-                    context.negotiatedPacketSize, context.negotiatedRemoteStreaming,
-                    context.streamConfig.audioConfiguration.toInt(),
-                    context.streamConfig.supportedVideoFormats,
-                    context.streamConfig.clientRefreshRateX100,
-                    context.riKey.encoded, ib.array(),
-                    context.videoCapabilities,
-                    context.streamConfig.colorSpace,
-                    context.streamConfig.colorRange,
-                    context.streamConfig.hdrMode,
-                    context.streamConfig.getEnableMic(),
-                    context.streamConfig.getControlOnly(),
-                    context.streamConfig.audioCodec,
-                    context.streamConfig.audioBitrate
-                )
+                val ret = timeConnectionStep("native connection") {
+                    MoonBridge.startConnection(
+                        context.serverAddress.address,
+                        context.serverAppVersion, context.serverGfeVersion, context.rtspSessionUrl,
+                        context.serverCodecModeSupport,
+                        context.negotiatedWidth, context.negotiatedHeight,
+                        context.streamConfig.refreshRate, context.streamConfig.bitrate,
+                        context.negotiatedPacketSize, context.negotiatedRemoteStreaming,
+                        context.streamConfig.audioConfiguration.toInt(),
+                        context.streamConfig.supportedVideoFormats,
+                        context.streamConfig.clientRefreshRateX100,
+                        context.riKey.encoded, ib.array(),
+                        context.videoCapabilities,
+                        context.streamConfig.colorSpace,
+                        context.streamConfig.colorRange,
+                        context.streamConfig.hdrMode,
+                        context.streamConfig.getEnableMic(),
+                        context.streamConfig.getControlOnly(),
+                        context.streamConfig.audioCodec,
+                        context.streamConfig.audioBitrate
+                    )
+                }
                 if (ret != 0) {
                     connectionAllowed.release()
                     return@synchronized

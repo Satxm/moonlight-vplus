@@ -1831,7 +1831,6 @@ class PcView : Activity(), AdapterFragmentCallbacks, ShakeDetector.Listener, Eas
             return
         }
 
-        computer.useVdd = true
         quickStartStreamWithScreenMode(computer, null, true, 2)
     }
 
@@ -1872,6 +1871,7 @@ class PcView : Activity(), AdapterFragmentCallbacks, ShakeDetector.Listener, Eas
                 showToast(getString(R.string.error_pc_offline))
                 return@launch
             }
+            targetComputer.useVdd = false
 
             if (targetComputer.hasMultipleLanAddresses()) {
                 showAddressSelectionDialog(targetComputer)
@@ -1918,6 +1918,7 @@ class PcView : Activity(), AdapterFragmentCallbacks, ShakeDetector.Listener, Eas
                 showToast(getString(R.string.error_pc_offline))
                 return@launch
             }
+            targetComputer.useVdd = isSecondaryScreen
 
             if (targetComputer.hasMultipleLanAddresses()) {
                 showAddressSelectionDialog(targetComputer)
