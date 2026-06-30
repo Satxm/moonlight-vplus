@@ -1,23 +1,55 @@
 package com.limelight.utils
 
 import android.app.Activity
-import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
-import android.graphics.Color
-import android.graphics.Typeface
 import android.text.TextUtils
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ScrollView
-import android.widget.Switch
-import android.widget.TextView
 import android.widget.Toast
-
+import androidx.activity.ComponentDialog
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button as ComposeButton
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.easytier.jni.EasyTierManager
 import com.limelight.LimeLog
 import com.limelight.R
@@ -34,8 +66,44 @@ class EasyTierController(
         private val vpnCallback: VpnPermissionCallback
 ) {
     private var easyTierManager: EasyTierManager? = null
-    private var currentDialog: AlertDialog? = null
+    private var currentDialog: Dialog? = null
     private val instanceName = "Default"
+
+    private enum class EasyTierTab {
+        STATUS,
+        CONFIG
+    }
+
+    private data class EasyTierConfigUiState(
+            val networkName: String = "",
+            val networkSecret: String = "",
+            val ipv4: String = "",
+            val listeners: String = "",
+            val peers: String = "",
+            val useSmoltcp: Boolean = false,
+            val latencyFirst: Boolean = false,
+            val disableP2p: Boolean = false,
+            val privateMode: Boolean = false,
+            val disableIpv6: Boolean = false,
+            val enableKcpProxy: Boolean = false,
+            val disableKcpInput: Boolean = false,
+            val enableQuicProxy: Boolean = false,
+            val disableQuicInput: Boolean = false,
+            val proxyForwardBySystem: Boolean = false,
+            val disableEncryption: Boolean = false,
+            val disableUdpHolePunching: Boolean = false,
+            val disableSymHolePunching: Boolean = false
+    )
+
+    private data class EasyTierDialogUiState(
+            val selectedTab: EasyTierTab = EasyTierTab.STATUS,
+            val config: EasyTierConfigUiState = EasyTierConfigUiState(),
+            val statusJson: String? = null,
+            val advancedExpanded: Boolean = false
+    ) {
+        val isRunning: Boolean
+            get() = !statusJson.isNullOrEmpty()
+    }
 
     interface VpnPermissionCallback {
         fun requestVpnPermission()
@@ -69,7 +137,7 @@ class EasyTierController(
 
     fun showControlDialog() {
         if (easyTierManager == null) {
-            Toast.makeText(activity, "EasyTier Manager尚未初始化", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, R.string.easytier_manager_uninitialized, Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -80,98 +148,516 @@ class EasyTierController(
         if (resultCode == Activity.RESULT_OK) {
             LimeLog.info("$TAG: VPN权限已获取，启动EasyTier Manager。")
             easyTierManager?.start()
-            Toast.makeText(activity, "EasyTier服务正在启动...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, R.string.easytier_starting, Toast.LENGTH_SHORT).show()
         } else {
             LimeLog.warning("$TAG: VPN权限被拒绝。")
-            Toast.makeText(activity, "需要VPN权限才能启动服务。", Toast.LENGTH_LONG).show()
+            Toast.makeText(activity, R.string.easytier_vpn_permission_required, Toast.LENGTH_LONG).show()
         }
     }
 
     // ==================== 对话框管理 ====================
 
     private fun createAndShowDialog() {
-        val builder = AlertDialog.Builder(activity)
-        val inflater = LayoutInflater.from(activity)
-        val dialogView = inflater.inflate(R.layout.dialog_easytier_panel, null)
-        builder.setView(dialogView)
-        builder.setTitle("EasyTier 控制面板")
+        val uiState = mutableStateOf(
+                EasyTierDialogUiState(
+                        config = loadConfigurationState(),
+                        statusJson = easyTierManager?.latestNetworkInfoJson
+                )
+        )
 
-        builder.setPositiveButton("启动/停止", null)
-        builder.setNeutralButton("保存配置", null)
-        builder.setNegativeButton("关闭", null)
-
-        currentDialog = builder.create()
-        currentDialog?.setOnShowListener {
-            setupDialogButtons(dialogView)
-            initializeTabs(dialogView)
-            loadConfigurationToUi(dialogView)
-            setupAdvancedFlags(dialogView)
-            refreshStatus(dialogView)
-        }
-
-        currentDialog?.show()
-    }
-
-    private fun setupDialogButtons(dialogView: View) {
-        val positiveButton = currentDialog?.getButton(AlertDialog.BUTTON_POSITIVE)
-        val neutralButton = currentDialog?.getButton(AlertDialog.BUTTON_NEUTRAL)
-
-        // 刷新按钮
-        dialogView.findViewById<View>(R.id.button_refresh_status).setOnClickListener {
-            refreshStatus(dialogView)
-            Toast.makeText(activity, "状态已刷新", Toast.LENGTH_SHORT).show()
-        }
-
-        // 启动/停止按钮
-        positiveButton?.setOnClickListener {
-            if (easyTierManager?.latestNetworkInfoJson != null) {
-                Toast.makeText(activity, "Easytier服务已停止", Toast.LENGTH_SHORT).show()
-                easyTierManager?.stop()
-                currentDialog?.dismiss()
-            } else {
-                saveConfigurationFromUi(dialogView, false)
-                vpnCallback.requestVpnPermission()
-                currentDialog?.dismiss()
+        val composeView = ComposeView(activity).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
+            setContent {
+                EasyTierPanel(
+                        state = uiState.value,
+                        onTabSelected = { tab ->
+                            uiState.value = uiState.value.copy(selectedTab = tab)
+                        },
+                        onConfigChange = { config ->
+                            uiState.value = uiState.value.copy(config = config)
+                        },
+                        onAdvancedExpandedChange = { expanded ->
+                            uiState.value = uiState.value.copy(advancedExpanded = expanded)
+                        },
+                        onRefresh = {
+                            uiState.value = uiState.value.copy(statusJson = easyTierManager?.latestNetworkInfoJson)
+                            Toast.makeText(activity, R.string.easytier_status_refreshed, Toast.LENGTH_SHORT).show()
+                        },
+                        onToggleService = {
+                            if (uiState.value.isRunning) {
+                                Toast.makeText(activity, R.string.easytier_stopped, Toast.LENGTH_SHORT).show()
+                                easyTierManager?.stop()
+                                uiState.value = uiState.value.copy(statusJson = null)
+                                currentDialog?.dismiss()
+                            } else {
+                                saveConfiguration(uiState.value.config, showToast = false)
+                                vpnCallback.requestVpnPermission()
+                                currentDialog?.dismiss()
+                            }
+                        },
+                        onSaveConfig = {
+                            saveConfiguration(uiState.value.config, showToast = true)
+                            uiState.value = uiState.value.copy(statusJson = easyTierManager?.latestNetworkInfoJson)
+                        },
+                        onClose = {
+                            currentDialog?.dismiss()
+                        }
+                )
             }
         }
 
-        // 保存配置按钮
-        neutralButton?.setOnClickListener {
-            saveConfigurationFromUi(dialogView, true)
+        currentDialog = ComponentDialog(activity, R.style.AppDialogStyle).apply {
+            setContentView(composeView)
+        }
+        currentDialog?.show()
+        currentDialog?.let { AppDialogStyler.applyCustomContent(it, activity) }
+    }
+
+    @Composable
+    private fun EasyTierPanel(
+            state: EasyTierDialogUiState,
+            onTabSelected: (EasyTierTab) -> Unit,
+            onConfigChange: (EasyTierConfigUiState) -> Unit,
+            onAdvancedExpandedChange: (Boolean) -> Unit,
+            onRefresh: () -> Unit,
+            onToggleService: () -> Unit,
+            onSaveConfig: () -> Unit,
+            onClose: () -> Unit
+    ) {
+        val accent = colorResource(R.color.crown_accent)
+        val panel = colorResource(R.color.crown_panel_background)
+        val card = colorResource(R.color.crown_section_background)
+        val input = colorResource(R.color.crown_input_background)
+        val textPrimary = colorResource(R.color.crown_text_primary)
+        val textSecondary = colorResource(R.color.crown_text_secondary)
+        MaterialTheme(
+                colorScheme = darkColorScheme(
+                        primary = accent,
+                        surface = panel,
+                        onSurface = textPrimary,
+                        surfaceVariant = input,
+                        onSurfaceVariant = textSecondary
+                )
+        ) {
+            Box(modifier = Modifier.padding(10.dp)) {
+                Surface(
+                        modifier = Modifier
+                                .widthIn(max = 560.dp)
+                                .heightIn(max = 560.dp),
+                        shape = RoundedCornerShape(10.dp),
+                        color = panel,
+                        tonalElevation = 0.dp,
+                        shadowElevation = 12.dp
+                ) {
+                    Column(
+                            modifier = Modifier.padding(18.dp)
+                    ) {
+                        Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                        text = stringResource(R.string.easytier_panel_title),
+                                        color = textPrimary,
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold
+                                )
+                                Text(
+                                        text = stringResource(
+                                                if (state.isRunning) R.string.easytier_status_running
+                                                else R.string.easytier_status_stopped
+                                        ),
+                                        color = textSecondary,
+                                        fontSize = 12.5.sp
+                                )
+                            }
+                            EasyTierStatusPill(state.isRunning)
+                        }
+
+                        Spacer(modifier = Modifier.height(14.dp))
+
+                        TabRow(
+                                selectedTabIndex = if (state.selectedTab == EasyTierTab.STATUS) 0 else 1,
+                                containerColor = Color.Transparent,
+                                contentColor = accent
+                        ) {
+                            Tab(
+                                    selected = state.selectedTab == EasyTierTab.STATUS,
+                                    onClick = { onTabSelected(EasyTierTab.STATUS) },
+                                    text = { Text(stringResource(R.string.easytier_tab_status)) }
+                            )
+                            Tab(
+                                    selected = state.selectedTab == EasyTierTab.CONFIG,
+                                    onClick = { onTabSelected(EasyTierTab.CONFIG) },
+                                    text = { Text(stringResource(R.string.easytier_tab_config)) }
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        Box(
+                                modifier = Modifier
+                                        .fillMaxWidth()
+                                        .weight(1f, fill = false)
+                                        .heightIn(max = 360.dp)
+                        ) {
+                            when (state.selectedTab) {
+                                EasyTierTab.STATUS -> EasyTierStatusTab(state.statusJson, onRefresh)
+                                EasyTierTab.CONFIG -> EasyTierConfigTab(
+                                        config = state.config,
+                                        advancedExpanded = state.advancedExpanded,
+                                        onConfigChange = onConfigChange,
+                                        onAdvancedExpandedChange = onAdvancedExpandedChange
+                                )
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(14.dp))
+
+                        Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            TextButton(
+                                    onClick = onClose,
+                                    modifier = Modifier.weight(1f)
+                            ) {
+                                Text(stringResource(R.string.dialog_button_close))
+                            }
+                            ComposeButton(
+                                    onClick = onSaveConfig,
+                                    modifier = Modifier.weight(1.25f),
+                                    colors = ButtonDefaults.buttonColors(
+                                            containerColor = input,
+                                            contentColor = textPrimary
+                                    ),
+                                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp)
+                            ) {
+                                Text(stringResource(R.string.config_sync_action_export), maxLines = 1, overflow = TextOverflow.Ellipsis)
+                            }
+                            ComposeButton(
+                                    onClick = onToggleService,
+                                    modifier = Modifier.weight(1.25f),
+                                    colors = ButtonDefaults.buttonColors(
+                                            containerColor = accent,
+                                            contentColor = colorResource(R.color.app_dialog_text_primary)
+                                    ),
+                                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp)
+                            ) {
+                                Text(
+                                        stringResource(if (state.isRunning) R.string.dialog_button_stop else R.string.dialog_button_start),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                )
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
-    private fun initializeTabs(dialogView: View) {
-        val tabStatusButton = dialogView.findViewById<Button>(R.id.tab_button_status)
-        val tabConfigButton = dialogView.findViewById<Button>(R.id.tab_button_config)
-        val statusContent = dialogView.findViewById<ScrollView>(R.id.tab_content_status)
-        val configContent = dialogView.findViewById<ScrollView>(R.id.tab_content_config)
-
-        tabStatusButton.setOnClickListener {
-            statusContent.visibility = View.VISIBLE
-            configContent.visibility = View.GONE
-            tabStatusButton.isEnabled = false
-            tabConfigButton.isEnabled = true
+    @Composable
+    private fun EasyTierStatusPill(isRunning: Boolean) {
+        val accent = colorResource(if (isRunning) R.color.crown_accent else R.color.crown_text_secondary)
+        val textColor = colorResource(R.color.crown_text_primary)
+        Box(
+                modifier = Modifier
+                        .background(accent.copy(alpha = if (isRunning) 0.28f else 0.16f), RoundedCornerShape(999.dp))
+                        .padding(horizontal = 10.dp, vertical = 5.dp)
+        ) {
+            Text(
+                    text = stringResource(if (isRunning) R.string.easytier_pill_running else R.string.easytier_pill_idle),
+                    color = textColor,
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold
+            )
         }
-
-        tabConfigButton.setOnClickListener {
-            statusContent.visibility = View.GONE
-            configContent.visibility = View.VISIBLE
-            tabStatusButton.isEnabled = true
-            tabConfigButton.isEnabled = false
-        }
-
-        // 默认选中状态页
-        tabStatusButton.performClick()
     }
 
-    private fun setupAdvancedFlags(dialogView: View) {
-        val flagsContainer = dialogView.findViewById<LinearLayout>(R.id.advanced_flags_container)
-        val flagsArrow = dialogView.findViewById<ImageView>(R.id.advanced_flags_arrow)
-        dialogView.findViewById<View>(R.id.advanced_flags_header).setOnClickListener {
-            val isVisible = flagsContainer.visibility == View.VISIBLE
-            flagsContainer.visibility = if (isVisible) View.GONE else View.VISIBLE
-            flagsArrow.rotation = if (isVisible) 0f else 180f
+    @Composable
+    private fun EasyTierStatusTab(statusJson: String?, onRefresh: () -> Unit) {
+        Column(
+                modifier = Modifier
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            ComposeButton(
+                    onClick = onRefresh,
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                            containerColor = colorResource(R.color.crown_input_background),
+                            contentColor = colorResource(R.color.crown_text_primary)
+                    ),
+                    contentPadding = PaddingValues(horizontal = 10.dp, vertical = 8.dp)
+            ) {
+                Text(stringResource(R.string.easytier_refresh_status))
+            }
+
+            if (statusJson.isNullOrEmpty()) {
+                EasyTierInfoCard {
+                    Text(
+                            text = stringResource(R.string.easytier_service_not_running),
+                            color = colorResource(R.color.crown_text_primary),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp
+                    )
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
+                            text = stringResource(R.string.easytier_refresh_hint),
+                            color = colorResource(R.color.crown_text_secondary),
+                            fontSize = 13.sp
+                    )
+                }
+                return@Column
+            }
+
+            val displayInfo = remember(statusJson) {
+                parseNetworkInfoForDialog(statusJson, instanceName)
+            }
+
+            EasyTierSectionTitle(stringResource(R.string.easytier_local_info))
+            EasyTierInfoCard {
+                EasyTierInfoRow(stringResource(R.string.easytier_hostname), displayInfo.hostname)
+                EasyTierInfoRow(stringResource(R.string.easytier_virtual_ip), displayInfo.virtualIp)
+                EasyTierInfoRow(stringResource(R.string.easytier_public_ip), displayInfo.publicIp)
+                EasyTierInfoRow(stringResource(R.string.easytier_nat_type), displayInfo.natType)
+            }
+
+            EasyTierSectionTitle(stringResource(R.string.easytier_peers_count, displayInfo.finalPeerList.size))
+            if (displayInfo.finalPeerList.isEmpty()) {
+                EasyTierInfoCard {
+                    Text(
+                            text = stringResource(R.string.easytier_no_peers),
+                            color = colorResource(R.color.crown_text_secondary),
+                            fontSize = 13.sp
+                    )
+                }
+            } else {
+                displayInfo.finalPeerList.forEach { peer ->
+                    EasyTierPeerCard(peer)
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun EasyTierConfigTab(
+            config: EasyTierConfigUiState,
+            advancedExpanded: Boolean,
+            onConfigChange: (EasyTierConfigUiState) -> Unit,
+            onAdvancedExpandedChange: (Boolean) -> Unit
+    ) {
+        Column(
+                modifier = Modifier
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            EasyTierTextField(
+                    label = "Network Name",
+                    value = config.networkName,
+                    onValueChange = { onConfigChange(config.copy(networkName = it)) },
+                    placeholder = "e.g. easytier"
+            )
+            EasyTierTextField(
+                    label = "Network Secret",
+                    value = config.networkSecret,
+                    onValueChange = { onConfigChange(config.copy(networkSecret = it)) }
+            )
+            EasyTierTextField(
+                    label = "Virtual IPv4",
+                    value = config.ipv4,
+                    onValueChange = { onConfigChange(config.copy(ipv4 = it)) },
+                    placeholder = "e.g. 10.0.0.6, default mask /24"
+            )
+            EasyTierTextField(
+                    label = "Listeners (one per line)",
+                    value = config.listeners,
+                    onValueChange = { onConfigChange(config.copy(listeners = it)) },
+                    placeholder = "e.g. udp://0.0.0.0:11010",
+                    minLines = 2
+            )
+            EasyTierTextField(
+                    label = "Peers (one per line)",
+                    value = config.peers,
+                    onValueChange = { onConfigChange(config.copy(peers = it)) },
+                    placeholder = "e.g. tcp://1.2.3.4:11010",
+                    minLines = 2
+            )
+
+            TextButton(
+                    onClick = { onAdvancedExpandedChange(!advancedExpanded) },
+                    modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(if (advancedExpanded) "Hide Advanced Feature Flags" else "Show Advanced Feature Flags")
+            }
+
+            if (advancedExpanded) {
+                EasyTierSwitchSection("Core Network Behavior")
+                EasyTierSwitchRow("Use Smoltcp", config.useSmoltcp) { onConfigChange(config.copy(useSmoltcp = it)) }
+                EasyTierSwitchRow("Latency Priority", config.latencyFirst) { onConfigChange(config.copy(latencyFirst = it)) }
+                EasyTierSwitchRow("Disable P2P (Force Relay)", config.disableP2p) { onConfigChange(config.copy(disableP2p = it)) }
+                EasyTierSwitchRow("Private Mode", config.privateMode) { onConfigChange(config.copy(privateMode = it)) }
+                EasyTierSwitchRow("Disable IPv6", config.disableIpv6) { onConfigChange(config.copy(disableIpv6 = it)) }
+
+                EasyTierSwitchSection("Proxy & Protocol")
+                EasyTierSwitchRow("Enable KCP Proxy", config.enableKcpProxy) { onConfigChange(config.copy(enableKcpProxy = it)) }
+                EasyTierSwitchRow("Disable KCP Input", config.disableKcpInput) { onConfigChange(config.copy(disableKcpInput = it)) }
+                EasyTierSwitchRow("Enable QUIC Proxy", config.enableQuicProxy) { onConfigChange(config.copy(enableQuicProxy = it)) }
+                EasyTierSwitchRow("Disable QUIC Input", config.disableQuicInput) { onConfigChange(config.copy(disableQuicInput = it)) }
+                EasyTierSwitchRow("Use System Proxy Forwarding", config.proxyForwardBySystem) { onConfigChange(config.copy(proxyForwardBySystem = it)) }
+
+                EasyTierSwitchSection("Security & Connection")
+                EasyTierSwitchRow("Disable Encryption", config.disableEncryption) { onConfigChange(config.copy(disableEncryption = it)) }
+                EasyTierSwitchRow("Disable UDP Hole Punching", config.disableUdpHolePunching) { onConfigChange(config.copy(disableUdpHolePunching = it)) }
+                EasyTierSwitchRow("Disable Symmetric NAT Hole Punching", config.disableSymHolePunching) { onConfigChange(config.copy(disableSymHolePunching = it)) }
+            }
+        }
+    }
+
+    @Composable
+    private fun EasyTierInfoCard(content: @Composable () -> Unit) {
+        Card(
+                colors = CardDefaults.cardColors(containerColor = colorResource(R.color.crown_section_background)),
+                shape = RoundedCornerShape(8.dp),
+                modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(
+                    modifier = Modifier.padding(12.dp),
+                    content = { content() }
+            )
+        }
+    }
+
+    @Composable
+    private fun EasyTierPeerCard(peer: FinalPeerInfo) {
+        val titleColor = if (!peer.isInSameSubnet) {
+            Color(0xFFFF7777)
+        } else {
+            colorResource(R.color.crown_text_primary)
+        }
+        EasyTierInfoCard {
+            Text(
+                    text = peerTitle(peer),
+                    color = titleColor,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            EasyTierInfoRow(stringResource(R.string.easytier_virtual_ip), peer.virtualIp)
+            EasyTierInfoRow(stringResource(R.string.easytier_nat_type), peer.natType)
+            EasyTierInfoRow(
+                    stringResource(if (peer.isDirectConnection) R.string.easytier_physical_address else R.string.easytier_next_hop),
+                    peer.connectionDetails
+            )
+            EasyTierInfoRow(stringResource(R.string.easytier_latency), peer.latency)
+            EasyTierInfoRow(stringResource(R.string.easytier_traffic), peer.traffic)
+        }
+    }
+
+    private fun peerTitle(peer: FinalPeerInfo): String {
+        return when {
+            !peer.isInSameSubnet -> "${peer.hostname} (${activity.getString(R.string.easytier_subnet_mismatch)}!)"
+            !peer.isDirectConnection -> "${peer.hostname} (${activity.getString(R.string.easytier_relayed)})"
+            else -> peer.hostname
+        }
+    }
+
+    @Composable
+    private fun EasyTierInfoRow(label: String, value: String?) {
+        Row(
+                modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 3.dp)
+        ) {
+            Text(
+                    text = label,
+                    color = colorResource(R.color.crown_text_primary),
+                    fontSize = 12.5.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.width(104.dp)
+            )
+            Text(
+                    text = value ?: "N/A",
+                    color = colorResource(R.color.crown_text_secondary),
+                    fontSize = 12.5.sp,
+                    modifier = Modifier.weight(1f)
+            )
+        }
+    }
+
+    @Composable
+    private fun EasyTierSectionTitle(title: String) {
+        Text(
+                text = title,
+                color = colorResource(R.color.crown_text_primary),
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(top = 6.dp)
+        )
+    }
+
+    @Composable
+    private fun EasyTierTextField(
+            label: String,
+            value: String,
+            onValueChange: (String) -> Unit,
+            placeholder: String = "",
+            minLines: Int = 1
+    ) {
+        OutlinedTextField(
+                value = value,
+                onValueChange = onValueChange,
+                label = { Text(label) },
+                placeholder = {
+                    if (placeholder.isNotBlank()) {
+                        Text(placeholder)
+                    }
+                },
+                minLines = minLines,
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(8.dp)
+        )
+    }
+
+    @Composable
+    private fun EasyTierSwitchSection(title: String) {
+        Text(
+                text = title,
+                color = colorResource(R.color.crown_text_secondary),
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(top = 8.dp, bottom = 2.dp)
+        )
+    }
+
+    @Composable
+    private fun EasyTierSwitchRow(label: String, checked: Boolean, onCheckedChange: (Boolean) -> Unit) {
+        Row(
+                modifier = Modifier
+                        .fillMaxWidth()
+                        .background(colorResource(R.color.crown_section_background), RoundedCornerShape(8.dp))
+                        .padding(horizontal = 12.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                    text = label,
+                    color = colorResource(R.color.crown_text_primary),
+                    fontSize = 13.sp,
+                    modifier = Modifier.weight(1f)
+            )
+            Spacer(modifier = Modifier.width(10.dp))
+            Switch(
+                    checked = checked,
+                    onCheckedChange = onCheckedChange,
+                    modifier = Modifier.size(width = 48.dp, height = 32.dp)
+            )
         }
     }
 
@@ -197,141 +683,65 @@ class EasyTierController(
         return prefs.getString(KEY_TOML_CONFIG, defaultConfig)!!
     }
 
-    private fun loadConfigurationToUi(dialogView: View) {
+    private fun loadConfigurationState(): EasyTierConfigUiState {
         val currentTomlConfig = getEasyTierConfig()
 
-        val editNetworkName = dialogView.findViewById<EditText>(R.id.edit_network_name)
-        val editNetworkSecret = dialogView.findViewById<EditText>(R.id.edit_network_secret)
-        val editIpv4 = dialogView.findViewById<EditText>(R.id.edit_ipv4)
-        val editListeners = dialogView.findViewById<EditText>(R.id.edit_listeners)
-        val editPeers = dialogView.findViewById<EditText>(R.id.edit_peers)
-
-        val flagUseSmoltcp = dialogView.findViewById<Switch>(R.id.flag_use_smoltcp)
-        val flagLatencyFirst = dialogView.findViewById<Switch>(R.id.flag_latency_first)
-        val flagDisableP2p = dialogView.findViewById<Switch>(R.id.flag_disable_p2p)
-        val flagPrivateMode = dialogView.findViewById<Switch>(R.id.flag_private_mode)
-        val flagEnableIpv6 = dialogView.findViewById<Switch>(R.id.flag_enable_ipv6)
-        val flagEnableKcpProxy = dialogView.findViewById<Switch>(R.id.flag_enable_kcp_proxy)
-        val flagDisableKcpInput = dialogView.findViewById<Switch>(R.id.flag_disable_kcp_input)
-        val flagEnableQuicProxy = dialogView.findViewById<Switch>(R.id.flag_enable_quic_proxy)
-        val flagDisableQuicInput = dialogView.findViewById<Switch>(R.id.flag_disable_quic_input)
-        val flagProxyForwardBySystem = dialogView.findViewById<Switch>(R.id.flag_proxy_forward_by_system)
-        val flagEnableEncryption = dialogView.findViewById<Switch>(R.id.flag_enable_encryption)
-        val flagDisableUdpHolePunching = dialogView.findViewById<Switch>(R.id.flag_disable_udp_hole_punching)
-        val flagDisableSymHolePunching = dialogView.findViewById<Switch>(R.id.flag_disable_sym_hole_punching)
-
-        // 加载基本配置
-        editNetworkName.setText(extractValue(currentTomlConfig, "network_name", ""))
-        editNetworkSecret.setText(extractValue(currentTomlConfig, "network_secret", ""))
-
         val ipv4Full = extractValue(currentTomlConfig, "ipv4", "")
-        if (ipv4Full.contains("/")) {
-            editIpv4.setText(ipv4Full.split("/")[0])
+        val ipv4 = if (ipv4Full.contains("/")) {
+            ipv4Full.split("/")[0]
         } else {
-            editIpv4.setText(ipv4Full)
+            ipv4Full
         }
-
-        editListeners.setText(extractListAsString(currentTomlConfig, "listeners"))
-        editPeers.setText(extractListAsString(currentTomlConfig, "uri"))
-
-        // 加载Flags
-        flagUseSmoltcp.isChecked = extractValue(currentTomlConfig, "use_smoltcp", "false").toBoolean()
-        flagLatencyFirst.isChecked = extractValue(currentTomlConfig, "latency_first", "false").toBoolean()
-        flagDisableP2p.isChecked = extractValue(currentTomlConfig, "disable_p2p", "false").toBoolean()
-        flagPrivateMode.isChecked = extractValue(currentTomlConfig, "private_mode", "false").toBoolean()
-
         val isIpv6Enabled = extractValue(currentTomlConfig, "enable_ipv6", "true").toBoolean()
-        flagEnableIpv6.isChecked = !isIpv6Enabled
-
-        flagEnableKcpProxy.isChecked = extractValue(currentTomlConfig, "enable_kcp_proxy", "false").toBoolean()
-        flagDisableKcpInput.isChecked = extractValue(currentTomlConfig, "disable_kcp_input", "false").toBoolean()
-        flagEnableQuicProxy.isChecked = extractValue(currentTomlConfig, "enable_quic_proxy", "false").toBoolean()
-        flagDisableQuicInput.isChecked = extractValue(currentTomlConfig, "disable_quic_input", "false").toBoolean()
-        flagProxyForwardBySystem.isChecked = extractValue(currentTomlConfig, "proxy_forward_by_system", "false").toBoolean()
-
         val isEncryptionEnabled = extractValue(currentTomlConfig, "enable_encryption", "true").toBoolean()
-        flagEnableEncryption.isChecked = !isEncryptionEnabled
 
-        flagDisableUdpHolePunching.isChecked = extractValue(currentTomlConfig, "disable_udp_hole_punching", "false").toBoolean()
-        flagDisableSymHolePunching.isChecked = extractValue(currentTomlConfig, "disable_sym_hole_punching", "false").toBoolean()
+        return EasyTierConfigUiState(
+                networkName = extractValue(currentTomlConfig, "network_name", ""),
+                networkSecret = extractValue(currentTomlConfig, "network_secret", ""),
+                ipv4 = ipv4,
+                listeners = extractListAsString(currentTomlConfig, "listeners"),
+                peers = extractListAsString(currentTomlConfig, "uri"),
+                useSmoltcp = extractValue(currentTomlConfig, "use_smoltcp", "false").toBoolean(),
+                latencyFirst = extractValue(currentTomlConfig, "latency_first", "false").toBoolean(),
+                disableP2p = extractValue(currentTomlConfig, "disable_p2p", "false").toBoolean(),
+                privateMode = extractValue(currentTomlConfig, "private_mode", "false").toBoolean(),
+                disableIpv6 = !isIpv6Enabled,
+                enableKcpProxy = extractValue(currentTomlConfig, "enable_kcp_proxy", "false").toBoolean(),
+                disableKcpInput = extractValue(currentTomlConfig, "disable_kcp_input", "false").toBoolean(),
+                enableQuicProxy = extractValue(currentTomlConfig, "enable_quic_proxy", "false").toBoolean(),
+                disableQuicInput = extractValue(currentTomlConfig, "disable_quic_input", "false").toBoolean(),
+                proxyForwardBySystem = extractValue(currentTomlConfig, "proxy_forward_by_system", "false").toBoolean(),
+                disableEncryption = !isEncryptionEnabled,
+                disableUdpHolePunching = extractValue(currentTomlConfig, "disable_udp_hole_punching", "false").toBoolean(),
+                disableSymHolePunching = extractValue(currentTomlConfig, "disable_sym_hole_punching", "false").toBoolean()
+        )
     }
 
-    private fun saveConfigurationFromUi(dialogView: View, showToast: Boolean) {
-        // 获取UI控件
-        val editNetworkName = dialogView.findViewById<EditText>(R.id.edit_network_name)
-        val editNetworkSecret = dialogView.findViewById<EditText>(R.id.edit_network_secret)
-        val editIpv4 = dialogView.findViewById<EditText>(R.id.edit_ipv4)
-        val editListeners = dialogView.findViewById<EditText>(R.id.edit_listeners)
-        val editPeers = dialogView.findViewById<EditText>(R.id.edit_peers)
-
-        val flagUseSmoltcp = dialogView.findViewById<Switch>(R.id.flag_use_smoltcp)
-        val flagLatencyFirst = dialogView.findViewById<Switch>(R.id.flag_latency_first)
-        val flagDisableP2p = dialogView.findViewById<Switch>(R.id.flag_disable_p2p)
-        val flagPrivateMode = dialogView.findViewById<Switch>(R.id.flag_private_mode)
-        val flagEnableIpv6 = dialogView.findViewById<Switch>(R.id.flag_enable_ipv6)
-        val flagEnableKcpProxy = dialogView.findViewById<Switch>(R.id.flag_enable_kcp_proxy)
-        val flagDisableKcpInput = dialogView.findViewById<Switch>(R.id.flag_disable_kcp_input)
-        val flagEnableQuicProxy = dialogView.findViewById<Switch>(R.id.flag_enable_quic_proxy)
-        val flagDisableQuicInput = dialogView.findViewById<Switch>(R.id.flag_disable_quic_input)
-        val flagProxyForwardBySystem = dialogView.findViewById<Switch>(R.id.flag_proxy_forward_by_system)
-        val flagEnableEncryption = dialogView.findViewById<Switch>(R.id.flag_enable_encryption)
-        val flagDisableUdpHolePunching = dialogView.findViewById<Switch>(R.id.flag_disable_udp_hole_punching)
-        val flagDisableSymHolePunching = dialogView.findViewById<Switch>(R.id.flag_disable_sym_hole_punching)
-
-        // 构建新的TOML配置
-        val newToml = buildTomlFromUi(
-                editNetworkName.text.toString(),
-                editNetworkSecret.text.toString(),
-                editIpv4.text.toString(),
-                editListeners.text.toString(),
-                editPeers.text.toString(),
-                flagUseSmoltcp.isChecked,
-                flagLatencyFirst.isChecked,
-                flagDisableP2p.isChecked,
-                flagPrivateMode.isChecked,
-                flagEnableIpv6.isChecked,
-                flagEnableKcpProxy.isChecked,
-                flagDisableKcpInput.isChecked,
-                flagEnableQuicProxy.isChecked,
-                flagDisableQuicInput.isChecked,
-                flagProxyForwardBySystem.isChecked,
-                flagEnableEncryption.isChecked,
-                flagDisableUdpHolePunching.isChecked,
-                flagDisableSymHolePunching.isChecked
-        )
-
+    private fun saveConfiguration(config: EasyTierConfigUiState, showToast: Boolean) {
         // 保存配置
         activity.getSharedPreferences(EASYTIER_PREFS, Context.MODE_PRIVATE)
                 .edit()
-                .putString(KEY_TOML_CONFIG, newToml)
+                .putString(KEY_TOML_CONFIG, buildTomlFromConfig(config))
                 .apply()
 
         // 重新初始化
         initEasyTierManager()
 
-        // 刷新状态
-        refreshStatus(dialogView)
-
         if (showToast) {
-            Toast.makeText(activity, "配置已保存，服务已根据新配置重新初始化。", Toast.LENGTH_LONG).show()
+            Toast.makeText(activity, R.string.easytier_config_saved, Toast.LENGTH_LONG).show()
         }
     }
 
-    private fun buildTomlFromUi(
-            networkName: String, networkSecret: String, ipv4: String, listeners: String, peers: String,
-            useSmoltcp: Boolean, latencyFirst: Boolean, disableP2p: Boolean, privateMode: Boolean, enableIpv6: Boolean,
-            enableKcpProxy: Boolean, disableKcpInput: Boolean, enableQuicProxy: Boolean, disableQuicInput: Boolean,
-            proxyForwardBySystem: Boolean, enableEncryption: Boolean, disableUdpHolePunching: Boolean, disableSymHolePunching: Boolean
-    ): String {
+    private fun buildTomlFromConfig(config: EasyTierConfigUiState): String {
         val sb = StringBuilder()
         sb.append("hostname = \"moonlight-V+\"\n")
         sb.append("instance_name = \"Default\"\n")
         sb.append("dhcp = false\n")
-        sb.append("ipv4 = \"").append(ipv4).append("/24\"\n")
+        sb.append("ipv4 = \"").append(config.ipv4).append("/24\"\n")
 
         // 构建listeners
-        if (!TextUtils.isEmpty(listeners)) {
-            val items = listeners.split("\n")
+        if (!TextUtils.isEmpty(config.listeners)) {
+            val items = config.listeners.split("\n")
             val quotedItems = ArrayList<String>()
             for (item in items) {
                 if (item.trim().isNotEmpty()) quotedItems.add("\"" + item.trim() + "\"")
@@ -344,15 +754,15 @@ class EasyTierController(
         sb.append("rpc_portal = \"0.0.0.0:0\"\n")
         sb.append("\n[network_identity]\n")
 
-        if (!TextUtils.isEmpty(networkName)) {
-            sb.append("network_name = \"").append(networkName).append("\"\n")
+        if (!TextUtils.isEmpty(config.networkName)) {
+            sb.append("network_name = \"").append(config.networkName).append("\"\n")
         }
-        if (!TextUtils.isEmpty(networkSecret)) {
-            sb.append("network_secret = \"").append(networkSecret).append("\"\n")
+        if (!TextUtils.isEmpty(config.networkSecret)) {
+            sb.append("network_secret = \"").append(config.networkSecret).append("\"\n")
         }
 
         // 构建peers
-        val peerItems = peers.split("\n")
+        val peerItems = config.peers.split("\n")
         for (peer in peerItems) {
             if (peer.trim().isNotEmpty()) {
                 sb.append("\n[[peer]]\n")
@@ -362,103 +772,24 @@ class EasyTierController(
 
         // 构建[flags]部分
         sb.append("\n[flags]\n")
-        appendFlagIfNotDefault(sb, "use_smoltcp", useSmoltcp, false)
-        appendFlagIfNotDefault(sb, "latency_first", latencyFirst, false)
-        appendFlagIfNotDefault(sb, "disable_p2p", disableP2p, false)
-        appendFlagIfNotDefault(sb, "private_mode", privateMode, false)
-        appendFlagIfNotDefault(sb, "enable_ipv6", !enableIpv6, true)
-        appendFlagIfNotDefault(sb, "enable_kcp_proxy", enableKcpProxy, false)
-        appendFlagIfNotDefault(sb, "disable_kcp_input", disableKcpInput, false)
-        appendFlagIfNotDefault(sb, "enable_quic_proxy", enableQuicProxy, false)
-        appendFlagIfNotDefault(sb, "disable_quic_input", disableQuicInput, false)
-        appendFlagIfNotDefault(sb, "proxy_forward_by_system", proxyForwardBySystem, false)
-        appendFlagIfNotDefault(sb, "enable_encryption", !enableEncryption, true)
-        appendFlagIfNotDefault(sb, "disable_udp_hole_punching", disableUdpHolePunching, false)
-        appendFlagIfNotDefault(sb, "disable_sym_hole_punching", disableSymHolePunching, false)
+        appendFlagIfNotDefault(sb, "use_smoltcp", config.useSmoltcp, false)
+        appendFlagIfNotDefault(sb, "latency_first", config.latencyFirst, false)
+        appendFlagIfNotDefault(sb, "disable_p2p", config.disableP2p, false)
+        appendFlagIfNotDefault(sb, "private_mode", config.privateMode, false)
+        appendFlagIfNotDefault(sb, "enable_ipv6", !config.disableIpv6, true)
+        appendFlagIfNotDefault(sb, "enable_kcp_proxy", config.enableKcpProxy, false)
+        appendFlagIfNotDefault(sb, "disable_kcp_input", config.disableKcpInput, false)
+        appendFlagIfNotDefault(sb, "enable_quic_proxy", config.enableQuicProxy, false)
+        appendFlagIfNotDefault(sb, "disable_quic_input", config.disableQuicInput, false)
+        appendFlagIfNotDefault(sb, "proxy_forward_by_system", config.proxyForwardBySystem, false)
+        appendFlagIfNotDefault(sb, "enable_encryption", !config.disableEncryption, true)
+        appendFlagIfNotDefault(sb, "disable_udp_hole_punching", config.disableUdpHolePunching, false)
+        appendFlagIfNotDefault(sb, "disable_sym_hole_punching", config.disableSymHolePunching, false)
 
         return sb.toString()
     }
 
     // ==================== 状态管理 ====================
-
-    private fun refreshStatus(dialogView: View) {
-        val json = easyTierManager?.latestNetworkInfoJson
-        val statusContainer = dialogView.findViewById<LinearLayout>(R.id.panel_status_container)
-        updateStatusUi(statusContainer, json)
-
-        val positiveButton = currentDialog?.getButton(AlertDialog.BUTTON_POSITIVE)
-        val isRunningNow = json != null && json.isNotEmpty()
-        positiveButton?.text = if (isRunningNow) "停止服务" else "启动服务"
-    }
-
-    private fun updateStatusUi(container: LinearLayout, json: String?) {
-        container.removeAllViews()
-
-        if (json == null || json.isEmpty()) {
-            val placeholder = TextView(activity)
-            placeholder.text = "服务未运行或正在连接...\n请点击刷新按钮获取最新状态。"
-            placeholder.gravity = Gravity.CENTER
-            val padding = (40 * activity.resources.displayMetrics.density).toInt()
-            placeholder.setPadding(0, padding, 0, padding)
-            container.addView(placeholder)
-            return
-        }
-
-        val displayInfo = parseNetworkInfoForDialog(json, instanceName)
-
-        // 添加本机信息
-        addSectionTitle(container, "本机信息")
-        addStatusRow(container, "主机名:", displayInfo.hostname)
-        addStatusRow(container, "虚拟 IP:", displayInfo.virtualIp)
-        addStatusRow(container, "公网 IP:", displayInfo.publicIp)
-        addStatusRow(container, "NAT 类型:", displayInfo.natType)
-
-        // 添加对等节点信息
-        addSectionTitle(container, "对等节点 (${displayInfo.finalPeerList.size})")
-
-        if (displayInfo.finalPeerList.isEmpty()) {
-            val noPeersText = TextView(activity)
-            noPeersText.text = "暂无其他节点"
-            val padding = (20 * activity.resources.displayMetrics.density).toInt()
-            noPeersText.setPadding(padding, padding / 2, 0, padding / 2)
-            container.addView(noPeersText)
-        } else {
-            val inflater = LayoutInflater.from(activity)
-            for (peer in displayInfo.finalPeerList) {
-                val peerView = inflater.inflate(R.layout.dialog_peer_info_item, container, false)
-
-                val hostname = peerView.findViewById<TextView>(R.id.peer_hostname)
-                val virtualIp = peerView.findViewById<TextView>(R.id.peer_value_virtual_ip)
-                val natType = peerView.findViewById<TextView>(R.id.peer_value_nat_type)
-                val connectionLabel = peerView.findViewById<TextView>(R.id.peer_label_connection)
-                val connectionValue = peerView.findViewById<TextView>(R.id.peer_value_connection)
-                val latency = peerView.findViewById<TextView>(R.id.peer_value_latency)
-                val traffic = peerView.findViewById<TextView>(R.id.peer_value_traffic)
-
-                // 填充主机名和警告
-                var title = peer.hostname
-                if (!peer.isInSameSubnet) {
-                    title += " (网段不匹配!)"
-                    hostname.setTextColor(Color.RED)
-                } else if (!peer.isDirectConnection) {
-                    title += " (中转)"
-                }
-                hostname.text = title
-
-                // 填充详细信息
-                virtualIp.text = peer.virtualIp ?: "N/A"
-                natType.text = peer.natType ?: "N/A"
-                latency.text = peer.latency ?: "N/A"
-                traffic.text = peer.traffic ?: "N/A"
-
-                val connLabelText = if (peer.isDirectConnection) "物理地址:" else "下一跳节点:"
-                connectionLabel.text = connLabelText
-                connectionValue.text = peer.connectionDetails ?: "N/A"
-
-                container.addView(peerView)
-            }
-        }
-    }
 
     private fun parseNetworkInfoForDialog(jsonString: String, instanceName: String): EasyTierDisplayInfo {
         val displayInfo = EasyTierDisplayInfo()
@@ -480,7 +811,7 @@ class EasyTierController(
                 myIp = ipFromInt(virtualIpv4.getJSONObject("address").getInt("addr"))
                 displayInfo.virtualIp = "$myIp/$myPrefix"
             } else {
-                displayInfo.virtualIp = "获取中..."
+                displayInfo.virtualIp = activity.getString(R.string.easytier_loading)
             }
 
             val stunInfo = myNode.getJSONObject("stun_info")
@@ -505,7 +836,7 @@ class EasyTierController(
             val finalPeerList = ArrayList<FinalPeerInfo>()
             for (route in routesMap.values) {
                 var inSameSubnet = true
-                if (myIp != null && myPrefix > 0 && route.virtualIp != "无") {
+                if (myIp != null && myPrefix > 0 && route.virtualIp != activity.getString(R.string.easytier_none)) {
                     inSameSubnet = isInSameSubnet(myIp, route.virtualIp, myPrefix)
                 }
 
@@ -531,14 +862,14 @@ class EasyTierController(
                 } else {
                     // 中继路由
                     val nextHop = routesMap[route.nextHopPeerId]
-                    val nextHopHostname = nextHop?.hostname ?: "未知"
+                    val nextHopHostname = nextHop?.hostname ?: activity.getString(R.string.easytier_unknown)
                     finalPeerList.add(FinalPeerInfo(
                             route.hostname,
                             route.virtualIp,
                             false,
                             inSameSubnet,
-                            "通过 $nextHopHostname",
-                            "${route.pathLatency} ms (路径)",
+                            activity.getString(R.string.easytier_via_peer, nextHopHostname),
+                            activity.getString(R.string.easytier_path_latency, route.pathLatency),
                             "N/A",
                             route.version,
                             route.natType,
@@ -555,56 +886,10 @@ class EasyTierController(
 
         } catch (e: Exception) {
             LimeLog.warning("解析JSON失败:$e")
-            displayInfo.hostname = "解析错误"
+            displayInfo.hostname = activity.getString(R.string.easytier_parse_error)
             displayInfo.version = e.message
         }
         return displayInfo
-    }
-
-    // ==================== UI辅助方法 ====================
-
-    private fun addStatusRow(parent: LinearLayout, label: String, value: String?) {
-        val rowLayout = LinearLayout(activity)
-        rowLayout.orientation = LinearLayout.HORIZONTAL
-
-        val padding = (8 * activity.resources.displayMetrics.density).toInt()
-        rowLayout.setPadding(0, padding, 0, padding)
-
-        val labelView = TextView(activity)
-        labelView.text = label
-        labelView.setTypeface(null, Typeface.BOLD)
-
-        val labelParams = LinearLayout.LayoutParams(
-                (120 * activity.resources.displayMetrics.density).toInt(), // 120dp
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        )
-        labelView.layoutParams = labelParams
-
-        val valueView = TextView(activity)
-        valueView.text = value ?: "N/A"
-        valueView.setTextIsSelectable(true)
-
-        rowLayout.addView(labelView)
-        rowLayout.addView(valueView)
-        parent.addView(rowLayout)
-    }
-
-    private fun addSectionTitle(parent: LinearLayout, title: String) {
-        val titleView = TextView(activity)
-        titleView.text = title
-        titleView.textSize = 16f
-        titleView.setTypeface(null, Typeface.BOLD)
-
-        val params = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        )
-
-        val density = activity.resources.displayMetrics.density
-        params.setMargins(0, (16 * density).toInt(), 0, (8 * density).toInt())
-        titleView.layoutParams = params
-
-        parent.addView(titleView)
     }
 
     // ==================== 工具方法 ====================
@@ -681,16 +966,16 @@ class EasyTierController(
 
     private fun parseNatType(typeCode: Int): String {
         return when (typeCode) {
-            0 -> "Unknown (未知类型)"
-            1 -> "Open Internet (开放互联网)"
-            2 -> "No PAT (无端口转换)"
-            3 -> "Full Cone (完全锥形)"
-            4 -> "Restricted Cone (限制锥形)"
-            5 -> "Port Restricted (端口限制锥形)"
-            6 -> "Symmetric (对称型)"
-            7 -> "Symmetric UDP Firewall (对称UDP防火墙)"
-            8 -> "Symmetric Easy Inc (对称型-端口递增)"
-            9 -> "Symmetric Easy Dec (对称型-端口递减)"
+            0 -> activity.getString(R.string.easytier_nat_unknown)
+            1 -> activity.getString(R.string.easytier_nat_open_internet)
+            2 -> activity.getString(R.string.easytier_nat_no_pat)
+            3 -> activity.getString(R.string.easytier_nat_full_cone)
+            4 -> activity.getString(R.string.easytier_nat_restricted_cone)
+            5 -> activity.getString(R.string.easytier_nat_port_restricted)
+            6 -> activity.getString(R.string.easytier_nat_symmetric)
+            7 -> activity.getString(R.string.easytier_nat_symmetric_udp_firewall)
+            8 -> activity.getString(R.string.easytier_nat_symmetric_easy_inc)
+            9 -> activity.getString(R.string.easytier_nat_symmetric_easy_dec)
             else -> "Other Type ($typeCode)"
         }
     }
@@ -723,7 +1008,7 @@ class EasyTierController(
             val route = routesJson.getJSONObject(i)
             val peerId = route.getLong("peer_id")
             val ipv4AddrJson = route.optJSONObject("ipv4_addr")
-            val virtualIp = if (ipv4AddrJson != null) ipFromInt(ipv4AddrJson.getJSONObject("address").getInt("addr")) else "无"
+            val virtualIp = if (ipv4AddrJson != null) ipFromInt(ipv4AddrJson.getJSONObject("address").getInt("addr")) else activity.getString(R.string.easytier_none)
 
             map[peerId] = RouteData(
                     peerId,

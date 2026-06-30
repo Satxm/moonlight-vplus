@@ -35,9 +35,9 @@ import com.limelight.nvstream.http.LimelightCryptoProvider
 import com.limelight.nvstream.http.NvApp
 import com.limelight.nvstream.http.NvHTTP
 import com.limelight.nvstream.http.PairingManager
-import com.limelight.nvstream.http.PairStateTrust
 import com.limelight.nvstream.input.MouseButtonPacket
 import com.limelight.nvstream.jni.MoonBridge
+import com.limelight.utils.HdrCapabilityHelper
 
 open class NvConnection(
     private val appContext: Context,
@@ -72,10 +72,23 @@ open class NvConnection(
         context.riKey = generateRiAesKey()
         context.riKeyId = generateRiKeyId()
 
-        val brightnessRange = com.limelight.utils.HdrCapabilityHelper.getBrightnessRangeAsInts(appContext)
+        val brightnessRange = HdrCapabilityHelper.getBrightnessRangeAsInts(appContext).let {
+            if (config.hdrBrightnessOverride) {
+                HdrCapabilityHelper.applyBrightnessOverride(it, config.hdrPeakBrightnessNits)
+            } else {
+                it
+            }
+        }
         context.minBrightness = brightnessRange[0]
         context.maxBrightness = brightnessRange[1]
         context.maxAverageBrightness = brightnessRange[2]
+
+        if (config.hdrBrightnessOverride) {
+            LimeLog.info(
+                "HDR brightness override: min=${context.minBrightness}, " +
+                    "max=${context.maxBrightness}, avg=${context.maxAverageBrightness} nits"
+            )
+        }
     }
 
     fun stop() {
@@ -219,12 +232,9 @@ open class NvConnection(
         context.serverGfeVersion = h.getGfeVersion(serverInfo)
 
         if (details.pairState != PairingManager.PairState.PAIRED) {
-            if (PairStateTrust.shouldPreserveLocalPairing(details, details)) {
-                LimeLog.warning("Ignoring untrusted NOT_PAIRED serverinfo while starting stream")
-            } else {
-                connListener.displayMessage("Device not paired with computer")
-                return false
-            }
+            LimeLog.warning("Rejecting NOT_PAIRED serverinfo while starting stream; trusted=${details.serverInfoTrustedByCert}")
+            connListener.displayMessage("Device not paired with computer")
+            return false
         }
 
         context.serverCodecModeSupport = h.getServerCodecModeSupport(serverInfo).toInt()
@@ -549,6 +559,38 @@ open class NvConnection(
     ): Int {
         return if (!isMonkey) {
             MoonBridge.sendTouchEvent(eventType, pointerId, x, y, pressureOrDistance, contactAreaMajor, contactAreaMinor, rotation)
+        } else {
+            MoonBridge.LI_ERR_UNSUPPORTED
+        }
+    }
+
+    fun sendTouchpadEvent(
+        eventType: Byte, pointerId: Int, x: Float, y: Float, pressure: Float,
+        contactAreaMajor: Float, contactAreaMinor: Float, rotation: Short,
+        deviceWidthMm: Short, deviceHeightMm: Short, buttonState: Byte
+    ): Int {
+        return if (!isMonkey) {
+            MoonBridge.sendTouchpadEvent(
+                eventType, pointerId, x, y, pressure,
+                contactAreaMajor, contactAreaMinor, rotation,
+                deviceWidthMm, deviceHeightMm, buttonState
+            )
+        } else {
+            MoonBridge.LI_ERR_UNSUPPORTED
+        }
+    }
+
+    fun sendTouchpadFrameEvent(
+        contactCount: Byte, eventTypes: ByteArray, pointerIds: IntArray,
+        x: FloatArray, y: FloatArray, pressure: FloatArray, rotation: Short,
+        deviceWidthMm: Short, deviceHeightMm: Short, buttonState: Byte
+    ): Int {
+        return if (!isMonkey) {
+            MoonBridge.sendTouchpadFrameEvent(
+                contactCount, eventTypes, pointerIds,
+                x, y, pressure, rotation,
+                deviceWidthMm, deviceHeightMm, buttonState
+            )
         } else {
             MoonBridge.LI_ERR_UNSUPPORTED
         }

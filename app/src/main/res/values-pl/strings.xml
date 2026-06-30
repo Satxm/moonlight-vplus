@@ -8,9 +8,7 @@
     <string name="conn_establishing_title">Nawiązywanie połączenia</string>
     <string name="conn_establishing_msg">Uruchamianie połączenia</string>
     <string name="title_details">Szczegóły</string>
-    <string name="searching_pc">Wyszukiwanie komputerów-hostów w sieci lokalnej...
-\n
-\nUpewnij się, że aplikacja Sunshine jest uruchomiona na komputerze-hoście lub funkcja GameStream jest włączona w ustawieniach aplikacji GeForce Experience SHIELD.</string>
+    <string name="searching_pc">Wyszukiwanie komputerów-hostów w sieci lokalnej...\n\nUpewnij się, że aplikacja Sunshine jest uruchomiona na komputerze-hoście lub funkcja GameStream jest włączona w ustawieniach aplikacji GeForce Experience SHIELD.</string>
     <string name="yes">Tak</string>
     <string name="title_audio_config_list">Konfiguracja dźwięku przestrzennego</string>
     <string name="summary_audio_config_list">Włączenie dźwięku przestrzennego 5.1 lub 7.1 dla systemów kina domowego</string>
@@ -18,8 +16,7 @@
     <string name="error_code_prefix">Kod błędu:</string>
     <string name="help">Pomoc</string>
     <string name="delete_pc_msg">Czy na pewno chcesz usunąć ten komputer?</string>
-    <string name="slow_connection_msg">Wolne połączenie z komputerem
-\nZmniejsz szybkość transmisji</string>
+    <string name="slow_connection_msg">Wolne połączenie z komputerem\nZmniejsz szybkość transmisji</string>
     <string name="poor_connection_msg">Słabe połączenie z komputerem</string>
     <string name="applist_menu_quit_and_start">Zakończ bieżącą grę i uruchom</string>
     <string name="applist_menu_scut">Utwórz skrót</string>
@@ -133,10 +130,7 @@
     <string name="pcview_menu_test_network">Test połączenia sieciowego</string>
     <string name="pcview_menu_details">Wyświetl szczegóły</string>
     <string name="nettest_title_done">Test sieci zakończony</string>
-    <string name="nettest_text_failure">Bieżące połączenie sieciowe urządzenia wydaje się blokować Moonlight. Przesyłanie strumieniowe przez Internet może nie działać podczas połączenia z tą siecią.
-\n
-\nNastępujące porty sieciowe zostały zablokowane:
-\n</string>
+    <string name="nettest_text_failure">Bieżące połączenie sieciowe urządzenia wydaje się blokować Moonlight. Przesyłanie strumieniowe przez Internet może nie działać podczas połączenia z tą siecią.\n\nNastępujące porty sieciowe zostały zablokowane:\n</string>
     <string name="nettest_text_blocked">Bieżące połączenie sieciowe urządzenia blokuje Moonlight. Przesyłanie strumieniowe przez Internet może nie działać podczas połączenia z tą siecią.</string>
     <string name="pair_pairing_title">Parowanie</string>
     <string name="pair_pc_offline">Komputer jest offline</string>
@@ -155,9 +149,7 @@
     <string name="title_decoding_reset">Reset ustawień wideo</string>
     <string name="error_usb_prohibited">Dostęp USB jest zabroniony przez administratora urządzenia. Sprawdź ustawienia Knox lub MDM.</string>
     <string name="video_decoder_init_failed">Nie udało się zainicjować dekodera wideo. Urządzenie może nie obsługiwać wybranej rozdzielczości lub liczby klatek na sekundę.</string>
-    <string name="early_termination_error">Coś poszło nie tak na komputerze hosta podczas uruchamiania transmisji.
-\n
-\nUpewnij się, że na komputerze hosta nie masz otwartej żadnej zawartości zabezpieczonej DRM. Możesz także spróbować ponownie uruchomić komputer hosta.</string>
+    <string name="early_termination_error">Coś poszło nie tak na komputerze hosta podczas uruchamiania transmisji.\n\nUpewnij się, że na komputerze hosta nie masz otwartej żadnej zawartości zabezpieczonej DRM. Możesz także spróbować ponownie uruchomić komputer hosta.</string>
     <string name="conn_error_msg">Nie udało się uruchomić</string>
     <string name="conn_terminated_msg">Połączenie zostało przerwane.</string>
     <string name="applist_refresh_msg">Odświeżanie aplikacji…</string>
@@ -206,14 +198,10 @@
     <string name="help_loading_title">Przeglądarka pomocy</string>
     <string name="pcview_menu_pair_pc">Sparuj z PC</string>
     <string name="pcview_menu_send_wol">Wyślij żądanie Wake-On-LAN</string>
-    <string name="nettest_text_waiting">Moonlight testuje połączenie sieciowe w celu ustalenia, czy wymagane porty są zablokowane.
-\n
-\nMoże to potrwać kilka sekund…</string>
+    <string name="nettest_text_waiting">Moonlight testuje połączenie sieciowe w celu ustalenia, czy wymagane porty są zablokowane.\n\nMoże to potrwać kilka sekund…</string>
     <string name="pairing">Parowanie…</string>
     <string name="pair_pc_ingame">Komputer jest obecnie w trakcie gry. Przed sparowaniem należy zamknąć grę.</string>
-    <string name="nettest_text_success">Wygląda na to, że sieć nie blokuje Moonlight. Jeśli nadal masz problemy z połączeniem, sprawdź ustawienia zapory sieciowej na swoim komputerze.
-\n
-\nJeśli próbujesz przesyłać strumieniowo przez Internet, zainstaluj narzędzie Moonlight Internet Hosting Tool na swoim komputerze i uruchom dołączony tester przesyłania strumieniowego przez Internet, aby sprawdzić połączenie internetowe komputera.</string>
+    <string name="nettest_text_success">Wygląda na to, że sieć nie blokuje Moonlight. Jeśli nadal masz problemy z połączeniem, sprawdź ustawienia zapory sieciowej na swoim komputerze.\n\nJeśli próbujesz przesyłać strumieniowo przez Internet, zainstaluj narzędzie Moonlight Internet Hosting Tool na swoim komputerze i uruchom dołączony tester przesyłania strumieniowego przez Internet, aby sprawdzić połączenie internetowe komputera.</string>
     <string name="pcview_menu_eol">Zakończenie usług NVIDIA GameStream</string>
     <string name="nettest_text_inconclusive">Nie można było wykonać testu sieci ponieważ żaden z serwerów testujących połączenie Moonlight nie był osiągalny. Sprawdź połączenie internetowe lub spróbuj ponownie później.</string>
     <string name="nettest_title_waiting">Testowanie połączenia sieciowego</string>
@@ -223,9 +211,7 @@
     <string name="message_decoding_reset">Dekoder wideo urządzenia nadal ulega awarii przy wybranych ustawieniach przesyłania strumieniowego. Ustawienia przesyłania strumieniowego zostały zresetowane do wartości domyślnych.</string>
     <string name="no_video_received_error">Brak sygnału wideo od hosta.</string>
     <string name="no_frame_received_error">Połączenie sieciowe nie działa prawidłowo. Zmniejsz ustawienie szybkości transmisji wideo lub wypróbuj szybsze połączenie.</string>
-    <string name="frame_conversion_error">Komputer host zgłosił krytyczny błąd kodowania wideo.
-\n
-\nSpróbuj wyłączyć tryb HDR, zmienić rozdzielczość przesyłania strumieniowego lub rozdzielczość wyświetlacza komputera hosta.</string>
+    <string name="frame_conversion_error">Komputer host zgłosił krytyczny błąd kodowania wideo.\n\nSpróbuj wyłączyć tryb HDR, zmienić rozdzielczość przesyłania strumieniowego lub rozdzielczość wyświetlacza komputera hosta.</string>
     <string name="conn_terminated_title">Połączenie zakończone</string>
     <string name="ip_hint">Adres IP komputera hosta</string>
     <string name="applist_menu_cancel">Anuluj</string>
@@ -233,19 +219,29 @@
     <string name="applist_menu_details">Wyświetl szczegóły</string>
     <string name="addpc_fail">Nie można połączyć się z określonym komputerem. Upewnij się, że wymagane porty są dozwolone przez zaporę sieciową.</string>
     <string name="category_basic_settings">Ustawienia podstawowe</string>
-    <string name="text_native_res_dialog">Natywna rozdzielczość i/lub liczba klatek na sekundę mogą nie być obsługiwane przez serwer streamingu. Prawdopodobnie konieczne będzie ręczne skonfigurowanie odpowiedniego niestandardowego trybu wyświetlania dla komputera hosta.
-\n
-\nJeśli zdecydujesz się utworzyć niestandardową rozdzielczość w panelu sterowania NVIDIA aby dopasować ustawienia ekranu, upewnij się, że przeczytałeś i zrozumiałeś ostrzeżenie firmy NVIDIA dotyczące możliwego uszkodzenia monitora, niestabilności komputera i innych potencjalnych problemów.
-\n
-\nNie ponosimy odpowiedzialności za jakiekolwiek problemy wynikające z utworzenia niestandardowej rozdzielczości na komputerze.
-\n
-\nMoże się zdarzyć, że monitor nie obsługuje wymaganej konfiguracji wyświetlania. W takim przypadku można spróbować skonfigurować monitor wirtualny. Jeśli urządzenie lub komputer hosta nie obsługuje przesyłania strumieniowego w określonej rozdzielczości lub częstotliwości odświeżania, niestety nie masz szczęścia.</string>
+    <string name="text_native_res_dialog">Natywna rozdzielczość i/lub liczba klatek na sekundę mogą nie być obsługiwane przez serwer streamingu. Prawdopodobnie konieczne będzie ręczne skonfigurowanie odpowiedniego niestandardowego trybu wyświetlania dla komputera hosta.\n\nJeśli zdecydujesz się utworzyć niestandardową rozdzielczość w panelu sterowania NVIDIA aby dopasować ustawienia ekranu, upewnij się, że przeczytałeś i zrozumiałeś ostrzeżenie firmy NVIDIA dotyczące możliwego uszkodzenia monitora, niestabilności komputera i innych potencjalnych problemów.\n\nNie ponosimy odpowiedzialności za jakiekolwiek problemy wynikające z utworzenia niestandardowej rozdzielczości na komputerze.\n\nMoże się zdarzyć, że monitor nie obsługuje wymaganej konfiguracji wyświetlania. W takim przypadku można spróbować skonfigurować monitor wirtualny. Jeśli urządzenie lub komputer hosta nie obsługuje przesyłania strumieniowego w określonej rozdzielczości lub częstotliwości odświeżania, niestety nie masz szczęścia.</string>
     <string name="fps_suffix_fps">FPS</string>
-    <string name="summary_checkbox_gamepad_motion_fallback">Używa wbudowanych czujników ruchu urządzenia, jeśli czujniki gamepada nie są obsługiwane przez podłączony gamepad lub wersję systemu Android.
-\nUwaga: Włączenie tej opcji może spowodować, że gamepad będzie wyświetlany na hoście jako kontroler PlayStation.</string>
+    <string name="summary_checkbox_gamepad_motion_fallback">Używa wbudowanych czujników ruchu urządzenia, jeśli czujniki gamepada nie są obsługiwane przez podłączony gamepad lub wersję systemu Android.\nUwaga: Włączenie tej opcji może spowodować, że gamepad będzie wyświetlany na hoście jako kontroler PlayStation.</string>
     <string name="summary_checkbox_absolute_mouse_mode">Może to sprawić, że akceleracja myszy będzie zachowywać się bardziej naturalnie podczas korzystania ze zdalnego pulpitu, ale jest niekompatybilna z wieloma grami.</string>
     <string name="resolution_1440p">1440p</string>
     <string name="audioconf_stereo">Stereo</string>
     <string name="videoformat_auto">Automatycznie (zalecane)</string>
     <string name="videoformat_av1always">Preferowany AV1 (eksperymentalny)</string>
+    <string name="title_screen_combination_mode">Ustawienia kombinacji ekranów</string>
+    <string name="summary_screen_combination_mode">Sterowanie ekranami Sunshine Foundation</string>
+    <string name="screen_combination_mode_dialog_subtitle">Dotyczy sterowania ekranami Sunshine Foundation</string>
+    <string name="screen_mode_host_default">Zgodnie z hostem</string>
+    <string name="screen_mode_no_operation">Tryb bez operacji</string>
+    <string name="screen_mode_auto_activate">Tryb aktywacji</string>
+    <string name="screen_mode_primary_streaming">Tryb strumieniowania z ekranu głównego</string>
+    <string name="screen_mode_secondary_streaming">Tryb strumieniowania z ekranu dodatkowego</string>
+    <string name="screen_mode_exclusive_streaming">Tryb strumieniowania z wyłącznego ekranu</string>
+    <string name="screen_mode_host_default_desc">Używa ustawienia hosta Sunshine bez jego zastępowania.</string>
+    <string name="screen_mode_no_operation_desc">Zachowuje bieżący układ ekranów.</string>
+    <string name="screen_mode_auto_activate_desc">Aktywuje wybrany ekran do strumieniowania.</string>
+    <string name="screen_mode_primary_streaming_desc">Aktywuje wybrany ekran i ustawia go jako główny.</string>
+    <string name="screen_mode_secondary_streaming_desc">Pozostawia fizyczny ekran jako główny i używa ekranu Foundation jako dodatkowego.</string>
+    <string name="screen_mode_exclusive_streaming_desc">Używa tylko wybranego ekranu i wyłącza pozostałe ekrany.</string>
+    <string name="screen_combination_mode_label">Tryb: %1$s</string>
+    <string name="title_config_sync_backup_password">Hasło szyfrowania kopii zapasowej</string>
 </resources>

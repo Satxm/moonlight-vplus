@@ -285,11 +285,6 @@ class Game : Activity(), SurfaceHolder.Callback,
         if (customScreenMode != -1) {
             prefConfig.screenCombinationMode = customScreenMode
         }
-        val customVddScreenMode = intent.getIntExtra(EXTRA_VDD_SCREEN_COMBINATION_MODE, -1)
-        if (customVddScreenMode != -1) {
-            prefConfig.vddScreenCombinationMode = customVddScreenMode
-        }
-
         NativeTouchContext.INTIAL_ZONE_PIXELS = prefConfig.longPressflatRegionPixels.toFloat()
         NativeTouchContext.ENABLE_ENHANCED_TOUCH = prefConfig.enableEnhancedTouch
         NativeTouchContext.ENHANCED_TOUCH_ON_RIGHT = if (prefConfig.enhancedTouchOnWhichSide) -1 else 1
@@ -345,7 +340,7 @@ class Game : Activity(), SurfaceHolder.Callback,
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             streamView.setOnCapturedPointerListener { _, event ->
-                touchInputHandler.handleMotionEvent(null, event)
+                touchInputHandler.handleMotionEvent(getMotionEventTargetView(), event)
             }
         }
 
@@ -511,6 +506,9 @@ class Game : Activity(), SurfaceHolder.Callback,
     val currentTargetDisplay: Display
         get() = externalDisplayManager?.getTargetDisplay() ?: windowManager.defaultDisplay
 
+    /** Resolve the StreamView coordinate space for motion callbacks that don't pass a view. */
+    private fun getMotionEventTargetView(): StreamView = activeStreamView ?: streamView
+
     /** Re-point all absolute/relative touch contexts at [view]. */
     private fun retargetTouchContexts(view: StreamView?) {
         for (i in 0 until TouchInputHandler.TOUCH_CONTEXT_LENGTH) {
@@ -634,7 +632,11 @@ class Game : Activity(), SurfaceHolder.Callback,
         val httpsPort = intent.getIntExtra(EXTRA_HTTPS_PORT, 0)
         val uniqueId = intent.getStringExtra(EXTRA_UNIQUEID) ?: ""
         val pairName = intent.getStringExtra(EXTRA_PAIR_NAME) ?: ""
-        val pcUseVdd = intent.getBooleanExtra(EXTRA_PC_USEVDD, false)
+        val pcUseVdd = if (intent.hasExtra(EXTRA_PC_USEVDD)) {
+            intent.getBooleanExtra(EXTRA_PC_USEVDD, false)
+        } else {
+            null
+        }
         val displayName = intent.getStringExtra(EXTRA_DISPLAY_NAME)
         val forceResumeCurrentSession = intent.getBooleanExtra(EXTRA_FORCE_RESUME_CURRENT_SESSION, false)
         val serverCert = parseServerCert()
@@ -674,7 +676,7 @@ class Game : Activity(), SurfaceHolder.Callback,
     private fun buildStreamConfiguration(
         host: String?, port: Int, httpsPort: Int,
         uniqueId: String?, pairName: String?,
-        pcUseVdd: Boolean, serverCert: X509Certificate?,
+        pcUseVdd: Boolean?, serverCert: X509Certificate?,
         displayName: String?
     ): StreamConfigResult {
         val glPrefs = GlPreferences.readPreferences(this)
@@ -819,12 +821,15 @@ class Game : Activity(), SurfaceHolder.Callback,
                 else decoderRenderer?.getPreferredColorRange() ?: 0
             )
             .setHdrMode(if (willStreamHdr) prefConfig.hdrMode else MoonBridge.HDR_MODE_SDR)
+            .setHdrBrightnessOverride(
+                willStreamHdr && prefConfig.hdrBrightnessOverride,
+                prefConfig.hdrPeakBrightnessNits
+            )
             .setPersistGamepadsAfterDisconnect(!prefConfig.multiController)
             .setUseVdd(pcUseVdd)
             .setEnableMic(prefConfig.enableMic)
             .setControlOnly(prefConfig.controlOnly)
             .setCustomScreenMode(prefConfig.screenCombinationMode)
-            .setCustomVddScreenMode(prefConfig.vddScreenCombinationMode)
             .build()
 
         LimeLog.info("Stream config: hdr=$willStreamHdr hdrMode=${prefConfig.hdrMode} fullRange=${prefConfig.fullRange}")
@@ -1358,6 +1363,9 @@ class Game : Activity(), SurfaceHolder.Callback,
                 inputCaptureProvider.showCursor()
             }
         } else {
+            if (::touchInputHandler.isInitialized) {
+                touchInputHandler.cancelNonRootTouchpad()
+            }
             inputCaptureProvider.disableCapture()
         }
         setMetaKeyCaptureState(grab)
@@ -1407,6 +1415,9 @@ class Game : Activity(), SurfaceHolder.Callback,
         prefConfig.enableNativeMousePointer = enable
 
         if (enable) {
+            if (::touchInputHandler.isInitialized) {
+                touchInputHandler.cancelNonRootTouchpad()
+            }
             inputCaptureProvider.disableCapture()
             cursorVisible = true
             inputCaptureProvider.showCursor()
@@ -1422,7 +1433,7 @@ class Game : Activity(), SurfaceHolder.Callback,
     }
 
     override fun onGenericMotionEvent(event: MotionEvent): Boolean {
-        return touchInputHandler.handleMotionEvent(null, event) || super.onGenericMotionEvent(event)
+        return touchInputHandler.handleMotionEvent(getMotionEventTargetView(), event) || super.onGenericMotionEvent(event)
     }
 
     override fun onGenericMotion(view: View, event: MotionEvent): Boolean {
@@ -1695,7 +1706,7 @@ class Game : Activity(), SurfaceHolder.Callback,
         currentTargetDisplay.getRealSize(screenSize)
 
         val exceedsScreenSize = width > screenSize.x || height > screenSize.y
-        val useFixedSize = (prefConfig.stretchVideo && !exceedsScreenSize) || forceFixedSize
+        val useFixedSize = prefConfig.stretchVideo || (forceFixedSize && !exceedsScreenSize)
 
         if (useFixedSize) {
             streamView.setDesiredAspectRatio(0.0)
@@ -2004,6 +2015,45 @@ class Game : Activity(), SurfaceHolder.Callback,
         keyboardInputHandler.keyboardEvent(buttonDown, keyCode)
     }
 
+    override fun touchpadEvent(
+        eventType: Byte,
+        pointerId: Int,
+        x: Float,
+        y: Float,
+        pressure: Float,
+        contactAreaMajor: Float,
+        contactAreaMinor: Float,
+        rotation: Short,
+        deviceWidthMm: Short,
+        deviceHeightMm: Short,
+        buttonState: Byte
+    ) {
+        conn?.sendTouchpadEvent(
+            eventType, pointerId, x, y, pressure,
+            contactAreaMajor, contactAreaMinor, rotation,
+            deviceWidthMm, deviceHeightMm, buttonState
+        )
+    }
+
+    override fun touchpadFrameEvent(
+        contactCount: Byte,
+        eventTypes: ByteArray,
+        pointerIds: IntArray,
+        x: FloatArray,
+        y: FloatArray,
+        pressure: FloatArray,
+        rotation: Short,
+        deviceWidthMm: Short,
+        deviceHeightMm: Short,
+        buttonState: Byte
+    ): Int {
+        return conn?.sendTouchpadFrameEvent(
+            contactCount, eventTypes, pointerIds,
+            x, y, pressure, rotation,
+            deviceWidthMm, deviceHeightMm, buttonState
+        ) ?: MoonBridge.LI_ERR_UNSUPPORTED
+    }
+
     @Deprecated("Deprecated in Java")
     override fun onSystemUiVisibilityChange(visibility: Int) {
         if (!connected) return
@@ -2261,7 +2311,6 @@ class Game : Activity(), SurfaceHolder.Callback,
         val EXTRA_APP_CMD = "CmdList"
         val EXTRA_DISPLAY_NAME = "DisplayName"
         val EXTRA_SCREEN_COMBINATION_MODE = "Screen combination mode"
-        val EXTRA_VDD_SCREEN_COMBINATION_MODE = "VDD screen combination mode"
         val EXTRA_FORCE_RESUME_CURRENT_SESSION = "ForceResumeCurrentSession"
 
         private const val KEEP_ALIVE_NOTIFICATION_ID = 1001

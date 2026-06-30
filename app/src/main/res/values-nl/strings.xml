@@ -46,9 +46,7 @@
     <string name="conn_terminated_msg">De verbinding is beëindigd</string>
     <!-- General strings -->
     <string name="ip_hint">IP adres van GeForce PC</string>
-    <string name="searching_pc">Zoeken naar PCs met GeForce Experience actief…
-\n
-\n Controleer dat GameStream is ingeschakeld in de GeForce Experience SHIELD instellingen.</string>
+    <string name="searching_pc">Zoeken naar PCs met GeForce Experience actief…\n\n Controleer dat GameStream is ingeschakeld in de GeForce Experience SHIELD instellingen.</string>
     <string name="yes">Ja</string>
     <string name="no">Nee</string>
     <string name="lost_connection">Verbinding met PC verloren</string>
@@ -115,18 +113,11 @@
     <string name="pcview_menu_test_network">Netwerkconnectie testen</string>
     <string name="pcview_menu_details">Details Bekijken</string>
     <string name="nettest_title_waiting">Netwerkconnectie Testen</string>
-    <string name="nettest_text_waiting">Moonlight is uw netwerkverbinding aan het testen om te bepalen of NVIDIA GameStream geblokkeerd is.
-\n
-\nDit kan enkele seconden duren…</string>
+    <string name="nettest_text_waiting">Moonlight is uw netwerkverbinding aan het testen om te bepalen of NVIDIA GameStream geblokkeerd is.\n\nDit kan enkele seconden duren…</string>
     <string name="nettest_title_done">Netwerktest Compleet</string>
-    <string name="nettest_text_success">Uw netwerk lijkt Moonlight niet te blokkeren. Als u nog steeds problemen ondervindt met verbinden, controleer de firewall instellingen van uw PC.
-\n
-\nAls u probeert te streamen over het internet, installeer de Moonlight Internet Hosting Tool op uw PC en voer de inbegrepen Internet Streaming Tester uit om uw PC\'s internetverbinding te controleren.</string>
+    <string name="nettest_text_success">Uw netwerk lijkt Moonlight niet te blokkeren. Als u nog steeds problemen ondervindt met verbinden, controleer de firewall instellingen van uw PC.\n\nAls u probeert te streamen over het internet, installeer de Moonlight Internet Hosting Tool op uw PC en voer de inbegrepen Internet Streaming Tester uit om uw PC\'s internetverbinding te controleren.</string>
     <string name="nettest_text_inconclusive">De netwerktest kon niet worden uitgevoerd omdat geen Moonlight netwerktesting servers bereikbaar zijn. Controleer uw internetverbinding of probeer later opnieuw.</string>
-    <string name="nettest_text_failure">De internetverbinding van dit toestel lijkt Moonlight te blokkeren. Streamen over het internet werkt mogelijks niet wanneer u verbonden bent met dit netwerk.
-\n
-\nDe volgende netwerkpoorten zijn geblokkeerd:
-\n</string>
+    <string name="nettest_text_failure">De internetverbinding van dit toestel lijkt Moonlight te blokkeren. Streamen over het internet werkt mogelijks niet wanneer u verbonden bent met dit netwerk.\n\nDe volgende netwerkpoorten zijn geblokkeerd:\n</string>
     <string name="nettest_text_blocked">De internetverbinding van dit toestel blokkeert Moonlight. Streamen over het internet werkt mogelijks niet wanneer u verbonden bent met dit netwerk.</string>
     <string name="pair_already_in_progress">Koppelen al bezig</string>
     <string name="title_decoding_error">Video Decoder Gecrasht</string>
@@ -138,8 +129,7 @@
     <string name="no_video_received_error">Geen video ontvangen van de host.</string>
     <string name="no_frame_received_error">De kwaliteit van uw netwerkverbinding is niet goed. Verlaag de bitrate of gebruik een snellere verbinding.</string>
     <string name="check_ports_msg">Controleer uw firewall en port forwarding regels voor de poort(en):</string>
-    <string name="slow_connection_msg">Trage verbinding met PC
-\nVerlaag uw bitrate</string>
+    <string name="slow_connection_msg">Trage verbinding met PC\nVerlaag uw bitrate</string>
     <string name="poor_connection_msg">Slechte verbinding met PC</string>
     <string name="applist_connect_msg">Verbinden met PC…</string>
     <string name="applist_menu_details">Details Bekijken</string>
@@ -169,20 +159,10 @@
     <string name="delete_pc_msg">Bent u zeker dat u deze PC wilt verwijderen\?</string>
     <string name="resolution_prefix_native_fullscreen">Oorspronkelijk Volledig Scherm</string>
     <string name="help">Help</string>
-    <string name="early_termination_error">Er is iets misgegaan op de host PC bij het starten van de stream.
-\n
-\nControleer of u geen DRM-beschermde inhoud heeft geopend op uw host PC. U kan ook de host PC proberen opnieuw op te starten.
-\n
-\nAls het probleem blijft duren, probeer uw GPU drivers en GeForce Experience opnieuw te installeren.</string>
+    <string name="early_termination_error">Er is iets misgegaan op de host PC bij het starten van de stream.\n\nControleer of u geen DRM-beschermde inhoud heeft geopend op uw host PC. U kan ook de host PC proberen opnieuw op te starten.\n\nAls het probleem blijft duren, probeer uw GPU drivers en GeForce Experience opnieuw te installeren.</string>
     <string name="addpc_wrong_sitelocal">Dat adres lijkt niet te kloppen. U moet het publieke IP-adres van uw router gebruiken om te kunnen streamen over het Internet.</string>
     <string name="title_native_res_dialog">Oorspronkelijke Resolutie Waarschuwing</string>
-    <string name="text_native_res_dialog">Oorspronkelijke resolutiemodes zijn niet officieel ondersteund door GeForce Experience, hierdoor zal de resolutie van uw host display niet automatisch ingesteld worden. U zal het manueel moeten instellen in het spel.
-\n
-\nAls u kiest om een aangepaste resolutie in het NVIDIA Controle Paneel in te stellen dat overeenkomt met uw de resolutie van uw apparaat, controleer a.u.b. of u NVIDIA\'s waarschuwingen in verband met mogelijke schade aan uw monitor, PC instabiliteit, en andere mogelijke problemen heeft gelezen en deze begrijpt.
-\n
-\nWij zijn niet verantwoordelijk voor problemen veroorzaakt door het instellen van een aangepaste resolutie op uw PC.
-\n
-\nTot slot, uw apparaat of host PC ondersteunt mogelijk streamen met oorspronkelijke resoluties niet. Als het niet werkt op uw toestel heeft u spijtig genoeg gewoon pech.</string>
+    <string name="text_native_res_dialog">Oorspronkelijke resolutiemodes zijn niet officieel ondersteund door GeForce Experience, hierdoor zal de resolutie van uw host display niet automatisch ingesteld worden. U zal het manueel moeten instellen in het spel.\n\nAls u kiest om een aangepaste resolutie in het NVIDIA Controle Paneel in te stellen dat overeenkomt met uw de resolutie van uw apparaat, controleer a.u.b. of u NVIDIA\'s waarschuwingen in verband met mogelijke schade aan uw monitor, PC instabiliteit, en andere mogelijke problemen heeft gelezen en deze begrijpt.\n\nWij zijn niet verantwoordelijk voor problemen veroorzaakt door het instellen van een aangepaste resolutie op uw PC.\n\nTot slot, uw apparaat of host PC ondersteunt mogelijk streamen met oorspronkelijke resoluties niet. Als het niet werkt op uw toestel heeft u spijtig genoeg gewoon pech.</string>
     <string name="summary_fps_list">Verhogen voor een vloeiendere video stream. Verlagen voor betere prestaties op minder krachtige apparaten.</string>
     <string name="summary_audio_config_list">5.1 of 7.1 surround sound inschakelen voor home-cinema systemen</string>
     <string name="summary_checkbox_touchscreen_trackpad">Wanneer ingeschakeld functioneert het touchscreen als een trackpad. Wanneer uitgeschakeld bedient het touchscreen rechtstreeks de muiscursor.</string>
@@ -204,4 +184,5 @@
     <string name="help_loading_title">Hulpwijzer</string>
     <!-- Array strings -->
     <string name="videoformat_hevcalways">Gebruik HEVC altijd (mogelijkheid tot crashes)</string>
+    <string name="title_config_sync_backup_password">Wachtwoord voor back-upversleuteling</string>
 </resources>

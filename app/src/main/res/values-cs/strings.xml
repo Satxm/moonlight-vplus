@@ -7,18 +7,10 @@
     <string name="conn_terminated_title">Spojení ukončeno</string>
     <string name="resolution_prefix_native_fullscreen">Nativní celá obrazovka</string>
     <string name="summary_checkbox_enable_audiofx">Umožňuje fungování zvukových efektů během streamování, ale může zvýšit zpoždění zvuku</string>
-    <string name="early_termination_error">Na hostitelském PC se něco pokazilo při spouštění streamu.
-\n
-\nUjistěte se, že na hostitelském počítači neběží žádný obsah chráněný DRM. Můžete také zkusit restartovat hostitelský PC.
-\n
-\nPokud problém přetrvává, zkuste přeinstalovat ovladače GPU a GeForce Experience.</string>
-    <string name="nettest_text_success">Vypadá to, že vaše síť Moonlight neblokuje. Pokud máte i tak potíže s připojením, zkontrolujte nastavení firewallu vašeho PC.
-\n
-\nPokud se pokoušíte streamovat po internetu, nainstalujte si na svůj počítač Moonlight Internet Hosting Tool a spusťte přiložený program Internet Streaming Tester pro kontrolu vašeho připojení k Internetu.</string>
+    <string name="early_termination_error">Na hostitelském PC se něco pokazilo při spouštění streamu.\n\nUjistěte se, že na hostitelském počítači neběží žádný obsah chráněný DRM. Můžete také zkusit restartovat hostitelský PC.\n\nPokud problém přetrvává, zkuste přeinstalovat ovladače GPU a GeForce Experience.</string>
+    <string name="nettest_text_success">Vypadá to, že vaše síť Moonlight neblokuje. Pokud máte i tak potíže s připojením, zkontrolujte nastavení firewallu vašeho PC.\n\nPokud se pokoušíte streamovat po internetu, nainstalujte si na svůj počítač Moonlight Internet Hosting Tool a spusťte přiložený program Internet Streaming Tester pro kontrolu vašeho připojení k Internetu.</string>
     <string name="error_unknown_host">Nezdařilo se zjistit hostitele</string>
-    <string name="nettest_text_waiting">Moonlight testuje vaše síťové připojení, aby zjistil, jestli je NVIDIA GameStream zablokován.
-\n
-\nTo může chvilku zabrat…</string>
+    <string name="nettest_text_waiting">Moonlight testuje vaše síťové připojení, aby zjistil, jestli je NVIDIA GameStream zablokován.\n\nTo může chvilku zabrat…</string>
     <string name="nettest_title_waiting">Testování připojení k síti</string>
     <string name="pairing">Párování…</string>
     <string name="pair_pc_offline">Počítač je offline</string>
@@ -39,9 +31,7 @@
     <string name="applist_menu_hide_app">Skrýt aplikaci</string>
     <string name="title_add_pc">Přidat PC ručně</string>
     <string name="title_audio_config_list">Konfigurace prostorového zvuku</string>
-    <string name="searching_pc">Hledání PC, na kterých běží GameStream...
-\n
-\nUjistěte se, že je GameStream povolen v záložce SHIELD v nastavení GeForce Experience.</string>
+    <string name="searching_pc">Hledání PC, na kterých běží GameStream...\n\nUjistěte se, že je GameStream povolen v záložce SHIELD v nastavení GeForce Experience.</string>
     <string name="applist_menu_quit">Ukončit</string>
     <string name="applist_menu_quit_and_start">Ukončit současnou hru a spustit</string>
     <string name="applist_menu_cancel">Zrušit</string>
@@ -115,10 +105,7 @@
     <string name="pcview_menu_details">Zobrazit detaily</string>
     <string name="nettest_title_done">Test sítě dokončen</string>
     <string name="nettest_text_inconclusive">Test sítě nemohl být proveden, protože se nezdařilo připoojení k žádným z testovacíh serverů Moonlight. Zkontrolujte své připojení k Internetu, nebo to zkuste znovu později.</string>
-    <string name="nettest_text_failure">Současná síť vašeho počítače nejspíš blokuje Moonlight. Streamování přes Internet nemusí během připojení k této síti fungovat.
-\n
-\nNásledující porty byly zablokovány:
-\n</string>
+    <string name="nettest_text_failure">Současná síť vašeho počítače nejspíš blokuje Moonlight. Streamování přes Internet nemusí během připojení k této síti fungovat.\n\nNásledující porty byly zablokovány:\n</string>
     <string name="nettest_text_blocked">Vaše současné připojení k síti blokuje Moonlight. Streamování přes Internet nemusí fungovat, dokud jste připojeni k této síti.</string>
     <string name="pair_pc_ingame">Na počítači momentálně běží hra. Před párováním musíte hru zavřít.</string>
     <string name="pair_pairing_title">Párování</string>
@@ -133,9 +120,7 @@
     <string name="conn_establishing_msg">Připojování</string>
     <string name="conn_starting">Spouštění</string>
     <string name="conn_error_title">Chyba připojení</string>
-    <string name="frame_conversion_error">Hostitelský počítač hlásí fatální chybu enkódování videa.
-\n
-\nZkuste vypnout HDR, změňte rozlišení streamu nebo rozlišení displeje hostitelského PC.</string>
+    <string name="frame_conversion_error">Hostitelský počítač hlásí fatální chybu enkódování videa.\n\nZkuste vypnout HDR, změňte rozlišení streamu nebo rozlišení displeje hostitelského PC.</string>
     <string name="yes">Ano</string>
     <string name="no">Ne</string>
     <string name="lost_connection">Připojení k PC bylo ztraceno</string>
@@ -186,16 +171,9 @@
     <string name="wol_fail">Nezdařilo se odeslat Wake-On-LAN pakety</string>
     <string name="help">Nápověda</string>
     <string name="delete_pc_msg">Určitě chcete smazat tento PC\?</string>
-    <string name="slow_connection_msg">Pomalé připojení k PC
-\nSnižte datový tok</string>
+    <string name="slow_connection_msg">Pomalé připojení k PC\nSnižte datový tok</string>
     <string name="poor_connection_msg">Špatné připojení k PC</string>
-    <string name="text_native_res_dialog">GeForce Experience oficiálně nepodporuje nativní rozlišení a proto nenastaví rozlišení displeje vašeho hostitelského PC. Musíte jej nastavit ručně ve hře.
-\n
-\nPokud v NVIDIA Control Panelu vytvoříte vlastní rozlišení pro vaše zařízení, prosím ujistěte se, že jste si přečetli a že chápete varování od NVIDIE ohledně možného poškození monitoru, nestability PC a dalších možných problémů.
-\n
-\nNejsme zodpovědni za žádné problémy, které vzniknou používáním vlastního rozlišení na vašem PC.
-\n
-\nA nakonec, vaše zařízení nebo hostitelský počítač nemusí podporovat streamování v nativním rozlišení. Pokud vám to nefunguje, bohužel se s tím nedá nic dělat.</string>
+    <string name="text_native_res_dialog">GeForce Experience oficiálně nepodporuje nativní rozlišení a proto nenastaví rozlišení displeje vašeho hostitelského PC. Musíte jej nastavit ručně ve hře.\n\nPokud v NVIDIA Control Panelu vytvoříte vlastní rozlišení pro vaše zařízení, prosím ujistěte se, že jste si přečetli a že chápete varování od NVIDIE ohledně možného poškození monitoru, nestability PC a dalších možných problémů.\n\nNejsme zodpovědni za žádné problémy, které vzniknou používáním vlastního rozlišení na vašem PC.\n\nA nakonec, vaše zařízení nebo hostitelský počítač nemusí podporovat streamování v nativním rozlišení. Pokud vám to nefunguje, bohužel se s tím nedá nic dělat.</string>
     <string name="title_fps_list">Snímková frekvence videa</string>
     <string name="summary_fps_list">Zvyšte pro plynulejší video stream. Snižte pro lepší výkon na levnějších zařízeních.</string>
     <string name="title_seekbar_bitrate">Datový tok videa</string>
@@ -224,4 +202,21 @@
     <string name="title_frame_pacing">Frame pacing videa</string>
     <string name="summary_frame_pacing">Zvolte, jak vyvážit zpoždění videa a jeho plynulost</string>
     <string name="pacing_latency">Preferovat nejnižší zpoždění</string>
+    <string name="title_screen_combination_mode">Nastavení kombinace obrazovek</string>
+    <string name="summary_screen_combination_mode">Ovládání displejů Sunshine Foundation</string>
+    <string name="screen_combination_mode_dialog_subtitle">Platí pro ovládání displejů Sunshine Foundation</string>
+    <string name="screen_mode_host_default">Řídit se hostitelem</string>
+    <string name="screen_mode_no_operation">Režim bez zásahu</string>
+    <string name="screen_mode_auto_activate">Režim aktivace</string>
+    <string name="screen_mode_primary_streaming">Režim streamování z hlavního displeje</string>
+    <string name="screen_mode_secondary_streaming">Režim streamování ze sekundárního displeje</string>
+    <string name="screen_mode_exclusive_streaming">Režim exkluzivního streamování displeje</string>
+    <string name="screen_mode_host_default_desc">Použije nastavení hostitele Sunshine bez jeho přepsání.</string>
+    <string name="screen_mode_no_operation_desc">Zachová aktuální rozložení displejů.</string>
+    <string name="screen_mode_auto_activate_desc">Aktivuje vybraný displej pro streamování.</string>
+    <string name="screen_mode_primary_streaming_desc">Aktivuje vybraný displej a nastaví jej jako hlavní.</string>
+    <string name="screen_mode_secondary_streaming_desc">Ponechá fyzický displej jako hlavní a použije displej Foundation jako sekundární.</string>
+    <string name="screen_mode_exclusive_streaming_desc">Použije pouze vybraný displej a vypne ostatní displeje.</string>
+    <string name="screen_combination_mode_label">Režim: %1$s</string>
+    <string name="title_config_sync_backup_password">Heslo pro šifrování zálohy</string>
 </resources>

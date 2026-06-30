@@ -175,22 +175,12 @@
     <string name="pcview_menu_header_offline">Оффлайн</string>
     <string name="pcview_menu_header_online">Онлайн</string>
     <string name="check_ports_msg">Проверьте свой брандмауэр и правила переадресации портов для порта(ов):</string>
-    <string name="early_termination_error">Что-то пошло не так на вашем хост-компьютере при запуске трансляции.
-\n
-\nУбедитесь, что на вашем компьютере нет содержимого, защищенного DRM. Вы также можете попробовать перезагрузить компьютер.
-\n
-\nЕсли проблема сохраняется, попробуйте переустановить драйверы для GPU и GeForce Experience.</string>
+    <string name="early_termination_error">Что-то пошло не так на вашем хост-компьютере при запуске трансляции.\n\nУбедитесь, что на вашем компьютере нет содержимого, защищенного DRM. Вы также можете попробовать перезагрузить компьютер.\n\nЕсли проблема сохраняется, попробуйте переустановить драйверы для GPU и GeForce Experience.</string>
     <string name="no_frame_received_error">Ваше сетевое подключение не справляется с заданными настройками. Попробуйте изменить битрейт или использовать более быстрое подключение.</string>
     <string name="no_video_received_error">Видео от хоста не получено.</string>
     <string name="nettest_text_blocked">Текущее сетевое соединение вашего устройства блокирует Moonlight. Потоковая передача через Интернет может не работать при подключении к этой сети.</string>
     <string name="resolution_prefix_native">Родное</string>
-    <string name="text_native_res_dialog">Режимы родного разрешения официально не поддерживаются GeForce Experience, поэтому он не будет устанавливать разрешение экрана вашего хоста самостоятельно. Вам нужно будет установить его вручную во время игры.
-\n
-\nЕсли вы решите создать пользовательское разрешение в Панели управления NVIDIA в соответствии с разрешением вашего устройства, убедитесь, что вы прочитали и поняли предупреждение NVIDIA относительно возможного повреждения монитора, нестабильности ПК и других потенциальных проблем.
-\n
-\nМы не несем ответственности за какие-либо проблемы, возникающие в результате создания пользовательского разрешения на вашем ПК.
-\n
-\nНаконец, ваше устройство или хост-компьютер может не поддерживать потоковую передачу в родном разрешении. Если это не работает на вашем устройстве, к сожалению, вам просто не повезло.</string>
+    <string name="text_native_res_dialog">Режимы родного разрешения официально не поддерживаются GeForce Experience, поэтому он не будет устанавливать разрешение экрана вашего хоста самостоятельно. Вам нужно будет установить его вручную во время игры.\n\nЕсли вы решите создать пользовательское разрешение в Панели управления NVIDIA в соответствии с разрешением вашего устройства, убедитесь, что вы прочитали и поняли предупреждение NVIDIA относительно возможного повреждения монитора, нестабильности ПК и других потенциальных проблем.\n\nМы не несем ответственности за какие-либо проблемы, возникающие в результате создания пользовательского разрешения на вашем ПК.\n\nНаконец, ваше устройство или хост-компьютер может не поддерживать потоковую передачу в родном разрешении. Если это не работает на вашем устройстве, к сожалению, вам просто не повезло.</string>
     <string name="title_native_res_dialog">Предупреждение о родном разрешении</string>
     <string name="video_decoder_init_failed">Видеодекодер не инициализирован. Ваше устройство может не поддерживать выбранное разрешение или частоту кадров.</string>
     <string name="resolution_prefix_native_fullscreen">Родной полноэкранный режим</string>
@@ -210,9 +200,7 @@
     <string name="fps_60">60 FPS</string>
     <string name="fps_90">90 FPS</string>
     <string name="fps_120">120 FPS</string>
-    <string name="frame_conversion_error">Хост-ПК сообщил о критической ошибке кодирования видео.
-\n
-\nПопробуйте выключить HDR, изменить разрешение стрима или разрешение экрана на хост-ПК.</string>
+    <string name="frame_conversion_error">Хост-ПК сообщил о критической ошибке кодирования видео.\n\nПопробуйте выключить HDR, изменить разрешение стрима или разрешение экрана на хост-ПК.</string>
     <string name="summary_checkbox_enable_audiofx">Позволяет работать аудио эффектам во время стрима, но может увеличить задержку звука</string>
     <string name="summary_frame_pacing">Укажите как сбалансировать задержку и плавностью видео</string>
     <string name="summary_privacy_policy">Посмотреть политику конфиденциальности Moonlight</string>
@@ -231,4 +219,21 @@
     <string name="title_frame_pacing">Скорость вывода/отрисовки кадра</string>
     <string name="pacing_balanced_alt">Сбалансированно с лимитом FPS</string>
     <string name="resolution_480p">480p</string>
+    <string name="title_screen_combination_mode">Настройки комбинации экранов</string>
+    <string name="summary_screen_combination_mode">Управление дисплеями Sunshine Foundation</string>
+    <string name="screen_combination_mode_dialog_subtitle">Применяется к управлению дисплеями Sunshine Foundation</string>
+    <string name="screen_mode_host_default">Следовать хосту</string>
+    <string name="screen_mode_no_operation">Режим без операции</string>
+    <string name="screen_mode_auto_activate">Режим активации</string>
+    <string name="screen_mode_primary_streaming">Режим стриминга с основного дисплея</string>
+    <string name="screen_mode_secondary_streaming">Режим стриминга со вторичного дисплея</string>
+    <string name="screen_mode_exclusive_streaming">Режим эксклюзивного стриминга дисплея</string>
+    <string name="screen_mode_host_default_desc">Использует настройку хоста Sunshine без ее переопределения.</string>
+    <string name="screen_mode_no_operation_desc">Сохраняет текущую конфигурацию дисплеев.</string>
+    <string name="screen_mode_auto_activate_desc">Активирует выбранный дисплей для стриминга.</string>
+    <string name="screen_mode_primary_streaming_desc">Активирует выбранный дисплей и делает его основным.</string>
+    <string name="screen_mode_secondary_streaming_desc">Оставляет физический дисплей основным и использует дисплей Foundation как вторичный.</string>
+    <string name="screen_mode_exclusive_streaming_desc">Использует только выбранный дисплей и отключает остальные дисплеи.</string>
+    <string name="screen_combination_mode_label">Режим: %1$s</string>
+    <string name="title_config_sync_backup_password">Пароль шифрования резервной копии</string>
 </resources>

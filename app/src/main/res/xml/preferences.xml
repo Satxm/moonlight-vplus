@@ -226,6 +226,25 @@
             android:title="@string/title_enable_hdr_high_brightness"
             android:summary="@string/summary_enable_hdr_high_brightness"
             android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="checkbox_hdr_brightness_override"
+            android:dependency="checkbox_enable_hdr"
+            android:title="@string/title_hdr_brightness_override"
+            android:summary="@string/summary_hdr_brightness_override"
+            android:defaultValue="false" />
+        <com.limelight.preferences.SeekBarPreference
+            android:key="seekbar_hdr_peak_brightness_nits"
+            android:dependency="checkbox_hdr_brightness_override"
+            android:dialogMessage="@string/summary_hdr_peak_brightness_nits"
+            seekbar:min="300"
+            android:max="4000"
+            android:defaultValue="1000"
+            seekbar:step="50"
+            seekbar:keyStep="100"
+            seekbar:divisor="1"
+            android:summary="@string/summary_hdr_peak_brightness_nits"
+            android:text="@string/suffix_hdr_peak_brightness_nits"
+            android:title="@string/title_hdr_peak_brightness_nits" />
         <ListPreference
             android:key="list_hdr_mode"
             android:dependency="checkbox_enable_hdr"
@@ -309,7 +328,8 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/category_ui_settings"
         android:key="category_ui_settings"
-        android:layout="@layout/preference_category_material">
+        android:layout="@layout/preference_category_material"
+        app:initialExpandedChildrenCount="6">
         <com.limelight.preferences.LanguagePreference
             android:key="list_languages"
             android:title="@string/title_language_list"
@@ -396,60 +416,10 @@
             android:summary="@string/summary_enable_post_stream_toast"
             android:defaultValue="false"/>
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/category_backup_restore"
-        android:key="category_backup_restore"
-        android:layout="@layout/preference_category_material">
-        <Preference
-            android:key="config_sync_export"
-            android:title="@string/title_config_sync_export"
-            android:summary="@string/summary_config_sync_export" />
-        <Preference
-            android:key="config_sync_import"
-            android:title="@string/title_config_sync_import"
-            android:summary="@string/summary_config_sync_import" />
-        <CheckBoxPreference
-            android:key="checkbox_config_sync_auto_snapshot"
-            android:title="@string/title_config_sync_auto_snapshot"
-            android:summary="@string/summary_config_sync_auto_snapshot"
-            android:defaultValue="false" />
-        <Preference
-            android:key="config_sync_snapshot_now"
-            android:title="@string/title_config_sync_snapshot_now"
-            android:summary="@string/summary_config_sync_snapshot_never" />
-        <Preference
-            android:key="config_sync_select_directory"
-            android:title="@string/title_config_sync_select_directory"
-            android:summary="@string/summary_config_sync_select_directory_none" />
-        <Preference
-            android:key="config_sync_backup_password"
-            android:title="@string/title_config_sync_backup_password"
-            android:summary="@string/summary_config_sync_backup_password_missing" />
-        <CheckBoxPreference
-            android:key="checkbox_config_sync_external_snapshot"
-            android:title="@string/title_config_sync_external_snapshot"
-            android:summary="@string/summary_config_sync_external_snapshot"
-            android:defaultValue="false"
-            android:enabled="false" />
-        <CheckBoxPreference
-            android:key="checkbox_config_sync_background_sync"
-            android:title="@string/title_config_sync_background_sync"
-            android:summary="@string/summary_config_sync_background_sync"
-            android:defaultValue="false"
-            android:enabled="false" />
-        <Preference
-            android:key="config_sync_status"
-            android:title="@string/title_config_sync_status"
-            android:summary="@string/summary_config_sync_status_disabled"
-            android:selectable="false" />
-        <Preference
-            android:key="config_sync_import_external_snapshot"
-            android:title="@string/title_config_sync_import_external_snapshot"
-            android:summary="@string/summary_config_sync_import_external_snapshot"
-            android:enabled="false" />
-    </PreferenceCategory>
     <PreferenceCategory android:title="@string/category_audio_settings"
         android:key="category_audio_settings"
-        android:layout="@layout/preference_category_material">
+        android:layout="@layout/preference_category_material"
+        app:initialExpandedChildrenCount="4">
         <ListPreference
             android:key="list_audio_config"
             android:title="@string/title_audio_config_list"
@@ -733,6 +703,11 @@
             android:entries="@array/esc_menu_key_names"
             android:entryValues="@array/esc_menu_key_values"
             android:defaultValue="111" />
+        <CheckBoxPreference
+            android:key="checkbox_optimize_hardware_touchpad"
+            android:title="@string/title_optimize_hardware_touchpad"
+            android:summary="@string/summary_optimize_hardware_touchpad"
+            android:defaultValue="false" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/category_on_screen_controls_settings"
         android:key="category_onscreen_controls"
@@ -780,6 +755,7 @@
             android:text="@string/suffix_osc_opacity"
             android:title="@string/dialog_title_osc_opacity" />
         <com.limelight.preferences.ConfirmDeleteOscPreference
+            android:key="reset_osc"
             android:title="@string/title_reset_osc"
             android:summary="@string/summary_reset_osc"
             android:dialogTitle="@string/dialog_title_reset_osc"
@@ -926,6 +902,34 @@
             android:title="@string/title_crown_config_management"
             android:summary="@string/summary_crown_config_management" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/category_backup_restore"
+        android:key="category_backup_restore"
+        android:layout="@layout/preference_category_material"
+        app:initialExpandedChildrenCount="5">
+        <Preference
+            android:key="config_sync_export"
+            android:title="@string/title_config_sync_export"
+            android:summary="@string/summary_config_sync_export" />
+        <Preference
+            android:key="config_sync_import"
+            android:title="@string/title_config_sync_import"
+            android:summary="@string/summary_config_sync_import" />
+        <Preference
+            android:key="config_sync_select_directory"
+            android:title="@string/title_config_sync_select_directory"
+            android:summary="@string/summary_config_sync_select_directory_none" />
+        <CheckBoxPreference
+            android:key="checkbox_config_sync_background_sync"
+            android:title="@string/title_config_sync_background_sync"
+            android:summary="@string/summary_config_sync_background_sync"
+            android:defaultValue="false"
+            android:enabled="false" />
+        <Preference
+            android:key="config_sync_import_external_snapshot"
+            android:title="@string/title_config_sync_import_external_snapshot"
+            android:summary="@string/summary_config_sync_import_external_snapshot"
+            android:enabled="false" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/category_help"
         android:key="category_help"
         android:layout="@layout/preference_category_material">
@@ -937,5 +941,7 @@
             android:key="pref_developer_unlock"
             android:title="@string/title_developer_unlock"
             android:summary="@string/summary_developer_unlock_locked" />
+        <com.limelight.preferences.SponsorPreference
+            android:key="sponsor_panel" />
     </PreferenceCategory>
 </PreferenceScreen>

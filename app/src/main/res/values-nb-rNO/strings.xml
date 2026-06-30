@@ -8,19 +8,13 @@
     <string name="applist_quit_confirmation">Er du sikker på at du vil avslutte det kjørende programmet\? All ulagret data vil gå tapt.</string>
     <string name="applist_refresh_msg">Gjenoppfrisker programmer …</string>
     <string name="lost_connection">Mistet tilknytning til PC</string>
-    <string name="searching_pc">Søker etter PC-er med GameStream kjørende …
-\n
-\nForsikre deg om at GameStream er påslått i GeForce Experience SHEILD-innstillingene.</string>
+    <string name="searching_pc">Søker etter PC-er med GameStream kjørende …\n\nForsikre deg om at GameStream er påslått i GeForce Experience SHEILD-innstillingene.</string>
     <string name="conn_starting">Starter</string>
     <string name="conn_hardware_latency">Gjennomsnittlig latens for maskinvarerammedekoding:</string>
     <string name="conn_client_latency_hw">maskinvaredekoderlatens:</string>
     <string name="conn_client_latency">Gjennomsnittlig latens for bilderammedekoding:</string>
     <string name="check_ports_msg">Sjekk om din brannmur og portvideresendingsreglene for port(ene):</string>
-    <string name="early_termination_error">Noe gikk galt på din verts-PC under oppstart av strømmen.
-\n
-\nForsikre deg om at du ikke har noe DRM-beskyttet innhold åpent på din PC. Du kan også prøve å starte din verts-PC på ny.
-\n
-\nHvis problemet vedvarer, kan du prøve å reinstallere skjermkortsdriverne og GeForce Experience.</string>
+    <string name="early_termination_error">Noe gikk galt på din verts-PC under oppstart av strømmen.\n\nForsikre deg om at du ikke har noe DRM-beskyttet innhold åpent på din PC. Du kan også prøve å starte din verts-PC på ny.\n\nHvis problemet vedvarer, kan du prøve å reinstallere skjermkortsdriverne og GeForce Experience.</string>
     <string name="no_frame_received_error">Din nettverkstilkobling fungerer ikke så godt. Reduser videobitraten fra dens innstilling, eller prøv en raskere tilknytning.</string>
     <string name="no_video_received_error">Fikk ingen video fra verten.</string>
     <string name="unable_to_pin_shortcut">Din nåværende oppstarter tillater ikke opprettelse av festede snarveier.</string>
@@ -81,8 +75,7 @@
     <string name="applist_menu_resume">Fortsett økt</string>
     <string name="applist_connect_msg">Kobler til PC …</string>
     <string name="poor_connection_msg">Dårlig tilknytning til PC</string>
-    <string name="slow_connection_msg">Vis tilkobling til PC
-\nReduser bitraten din</string>
+    <string name="slow_connection_msg">Vis tilkobling til PC\nReduser bitraten din</string>
     <string name="delete_pc_msg">Er du sikker på at du vil slette denne PC-en\?</string>
     <string name="help">Hjelp</string>
     <string name="title_details">Detaljer</string>
@@ -126,10 +119,7 @@
     <string name="error_404">GFE returnerte en HTTP-404-feil. Forsikre deg om at PC-en kjører et støttet skjermkort. Bruk av fjernskrivebordsprogramvare kan også forårsake denne feilen. Prøv å starte maskinen på ny, eller å reinstallere GFE.</string>
     <string name="error_manager_not_running">ComputerManager-tjenesten kjører ikke. Vent noen sekunder eller start programmet på ny.</string>
     <string name="nettest_text_blocked">Nettverkstilkoblingen på din enhet ser ut til å blokkere Moonlight. Strømming over Internett vil muligens ikke fungere tilkoblet gjennom dette nettverket.</string>
-    <string name="nettest_text_failure">Nettverkstilkoblingen på din enhet ser ut til å blokkere Moonlight. Strømming over Internett vil muligens ikke fungere når tilkoblet gjennom dette nettverket.
-\n
-\nFølgende nettverksporter ble blokkert:
-\n</string>
+    <string name="nettest_text_failure">Nettverkstilkoblingen på din enhet ser ut til å blokkere Moonlight. Strømming over Internett vil muligens ikke fungere når tilkoblet gjennom dette nettverket.\n\nFølgende nettverksporter ble blokkert:\n</string>
     <string name="nettest_text_inconclusive">Nettverkstesten kunne ikke utføres fordi ingen av Moonlight sine tilkoblingstesttjenere kunne nås. Sjekk din tilkobling til Internett og prøv igjen senere.</string>
     <string name="summary_enable_hdr">Strøm HDR når spillet og PC-ens skjermkort støtter det. HDR krever GTX 1000-eller nyere.</string>
     <string name="summary_checkbox_enable_pip">Tillater strømmen å vises (men ikke kontrolleres) under fleroppgaveløsning</string>
@@ -167,25 +157,16 @@
     <string name="summary_checkbox_mouse_nav_buttons">Å skru på dette ødelegger for høyreklikking på noen enheter</string>
     <string name="title_checkbox_mouse_nav_buttons">Skru på museknapper for forover og tilbake</string>
     <string name="suffix_seekbar_bitrate_mbps">Mbps</string>
-    <string name="nettest_text_success">Det ser ikke ut til at nettverket ditt blokkerer Moonlight. Hvis du fremdeles har problemer bør du sjekke PC-ens brannmursinnstillinger.
-\n
-\nHvis du prøver å strømme over Internett, kan du installere Moonlight Internett-vertstjeningsverktøyet på din PC og kjøre den inkluderte Internett-strømmingstesteren for å sjekke PC-ens tilkobling til Internett.</string>
-    <string name="nettest_text_waiting">Moonlight tester din nettverksforbindelse for å fastsette hvorvidt NVIDIA GameStream er blokkert.
-\n
-\nDette kan ta noen sekunder …</string>
+    <string name="nettest_text_success">Det ser ikke ut til at nettverket ditt blokkerer Moonlight. Hvis du fremdeles har problemer bør du sjekke PC-ens brannmursinnstillinger.\n\nHvis du prøver å strømme over Internett, kan du installere Moonlight Internett-vertstjeningsverktøyet på din PC og kjøre den inkluderte Internett-strømmingstesteren for å sjekke PC-ens tilkobling til Internett.</string>
+    <string name="nettest_text_waiting">Moonlight tester din nettverksforbindelse for å fastsette hvorvidt NVIDIA GameStream er blokkert.\n\nDette kan ta noen sekunder …</string>
     <string name="pcview_menu_pair_pc">Parr med PC</string>
     <string name="scut_not_paired">PC ikke parret</string>
     <string name="summary_checkbox_flip_face_buttons">Veksler A/B og X/Y-knapper for spillkontrollere, og innstillingskontroller som vises på skjermen</string>
-    <string name="text_native_res_dialog">Innebygd oppløsningsmodus støttes ikke offisielt av GeForce Experience, så det vil ikke sette skjermoppløsning for verten på egenhånd. Du vil måtte sette det manuelt inne i spillet.
-\n
-\nHvis du velger å opprette en egendefinert oppløsning i NVIDIA-kontrollpanelet for å samsvare med enhetsoppløsningen må du forsikre deg om at du har lest og forstått NVIDIA sin advarsel om mulig skjermskade, PC-instabilitet, og andre potensielle problemer.
-\n
-\nVi er ikke ansvarlige for noen problemer som oppstår ved å lage en egendefinert oppløsning på din PC.
-\n
-\nDet kan hende din enhet eller verts-PC ikke støtter strømming i egentlig oppløsning. Hvis det ikke fungerer på din enhet er det dessverre ingenting du kan gjøre.</string>
+    <string name="text_native_res_dialog">Innebygd oppløsningsmodus støttes ikke offisielt av GeForce Experience, så det vil ikke sette skjermoppløsning for verten på egenhånd. Du vil måtte sette det manuelt inne i spillet.\n\nHvis du velger å opprette en egendefinert oppløsning i NVIDIA-kontrollpanelet for å samsvare med enhetsoppløsningen må du forsikre deg om at du har lest og forstått NVIDIA sin advarsel om mulig skjermskade, PC-instabilitet, og andre potensielle problemer.\n\nVi er ikke ansvarlige for noen problemer som oppstår ved å lage en egendefinert oppløsning på din PC.\n\nDet kan hende din enhet eller verts-PC ikke støtter strømming i egentlig oppløsning. Hvis det ikke fungerer på din enhet er det dessverre ingenting du kan gjøre.</string>
     <string name="summary_checkbox_multi_controller">Å fjerne dette valget påtvinger tilkoblet spillkontroller</string>
     <string name="resolution_prefix_native">Innebygd</string>
     <string name="title_native_res_dialog">Advarsel om innebygd oppløsning</string>
     <string name="title_checkbox_flip_face_buttons">Veksle diamantknapper</string>
     <string name="resolution_prefix_native_fullscreen">Systemspesifikk fullskjerm</string>
+    <string name="title_config_sync_backup_password">Passord for sikkerhetskopikryptering</string>
 </resources>

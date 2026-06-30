@@ -21,12 +21,8 @@
     <string name="addpc_fail">Não foi possível conectar ao computador especificado. Certifique-se de que as portas necessárias sejam permitidas pelo firewall.</string>
     <string name="conn_error_msg">Falha ao iniciar</string>
     <string name="ip_hint">Endereço de IP do PC GeForce</string>
-    <string name="searching_pc">Procurando por PCs rodando o GameStream...
-\n
-\nCertifique-se de que o GameStream esteja ativado nas configurações do SHIELD do GeForce Experience.</string>
-    <string name="nettest_text_success">Sua rede não parece estar bloqueando o Moonlight. Se você ainda tiver problemas para se conectar, verifique as configurações de firewall do seu PC.
-\n
-\nSe você estiver tentando transmitir pela Internet, instale o Moonlight Internet Hosting Tool em seu PC e execute o Internet Streaming Tester para verificar a conexão com a Internet do seu PC.</string>
+    <string name="searching_pc">Procurando por PCs rodando o GameStream...\n\nCertifique-se de que o GameStream esteja ativado nas configurações do SHIELD do GeForce Experience.</string>
+    <string name="nettest_text_success">Sua rede não parece estar bloqueando o Moonlight. Se você ainda tiver problemas para se conectar, verifique as configurações de firewall do seu PC.\n\nSe você estiver tentando transmitir pela Internet, instale o Moonlight Internet Hosting Tool em seu PC e execute o Internet Streaming Tester para verificar a conexão com a Internet do seu PC.</string>
     <string name="check_ports_msg">Verifique o firewall e permita a(s) seguinte(s) para porta(s):</string>
     <string name="wol_no_mac">Não foi possível acordar o PC porque o GFE não enviou um endereço MAC</string>
     <string name="wol_waking_msg">Pode levar alguns segundos para o seu PC acordar. Se isso não acontecer, verifique se ele está configurado corretamente para Wake-On-LAN.</string>
@@ -38,11 +34,7 @@
     <string name="video_decoder_init_failed">Falha ao iniciar o decodificador de vídeo. Seu dispositivo pode não suportar a resolução ou taxa de quadros selecionada.</string>
     <string name="no_video_received_error">Nenhum vídeo recebido do host.</string>
     <string name="no_frame_received_error">Sua conexão de rede não está funcionando bem. Reduza a configuração da taxa de bits do vídeo ou tente uma conexão mais rápida.</string>
-    <string name="early_termination_error">Algo deu errado no seu PC ao iniciar a transmissão.
-\n
-\nCertifique-se de não ter nenhum conteúdo protegido por DRM aberto em seu PC. Você também pode tentar reiniciar ele.
-\n
-\nSe o problema persistir, tente reinstalar os drivers da GPU e o GeForce Experience.</string>
+    <string name="early_termination_error">Algo deu errado no seu PC ao iniciar a transmissão.\n\nCertifique-se de não ter nenhum conteúdo protegido por DRM aberto em seu PC. Você também pode tentar reiniciar ele.\n\nSe o problema persistir, tente reinstalar os drivers da GPU e o GeForce Experience.</string>
     <string name="conn_establishing_msg">Iniciando a conexão</string>
     <string name="conn_establishing_title">Estabelecendo Conexão</string>
     <string name="resolution_360p">360p</string>
@@ -76,14 +68,9 @@
     <string name="nettest_title_done">Teste de Internet Completo</string>
     <string name="pcview_menu_pair_pc">Parear com o PC</string>
     <string name="pcview_menu_send_wol">Enviar Wake-On-LAN</string>
-    <string name="nettest_text_waiting">O Moonlight está testando a sua internet para determinar se o NVIDIA GameStream está bloqueado.
-\n
-\nIsso pode levar alguns segundos…</string>
+    <string name="nettest_text_waiting">O Moonlight está testando a sua internet para determinar se o NVIDIA GameStream está bloqueado.\n\nIsso pode levar alguns segundos…</string>
     <string name="nettest_text_inconclusive">O teste de rede não pôde ser executado porque nenhum dos servidores de teste de conexão do Moonlight estava acessível. Verifique sua conexão com a Internet ou tente novamente mais tarde.</string>
-    <string name="nettest_text_failure">A conexão de rede atual do seu dispositivo parece estar bloqueando o Moonlight. A transmissão pela Internet pode não funcionar enquanto estiver conectado a esta rede.
-\n
-\nAs seguintes portas de rede estão bloqueadas:
-\n</string>
+    <string name="nettest_text_failure">A conexão de rede atual do seu dispositivo parece estar bloqueando o Moonlight. A transmissão pela Internet pode não funcionar enquanto estiver conectado a esta rede.\n\nAs seguintes portas de rede estão bloqueadas:\n</string>
     <string name="nettest_text_blocked">A conexão de rede atual do seu dispositivo está bloqueando o Moonlight. A transmissão pela Internet pode não funcionar enquanto estiver conectado a esta rede.</string>
     <string name="pairing">Pareando…</string>
     <string name="pair_pc_offline">Esse computador está indisponível</string>
@@ -109,8 +96,7 @@
     <string name="title_details">Detalhes</string>
     <string name="help">Ajuda</string>
     <string name="delete_pc_msg">Tem certeza de que deseja excluir este PC\?</string>
-    <string name="slow_connection_msg">Conexão lenta com o PC
-\nReduza sua taxa de bits</string>
+    <string name="slow_connection_msg">Conexão lenta com o PC\nReduza sua taxa de bits</string>
     <string name="poor_connection_msg">Conexão ruim com o PC</string>
     <string name="conn_terminated_title">Conexão Encerrada</string>
     <string name="title_decoding_error">Decodificador de Vídeo Crashou</string>
@@ -145,13 +131,7 @@
     <string name="title_resolution_list">Resolução</string>
     <string name="summary_resolution_list">Aumente para melhorar a clareza da imagem. Diminua para melhor desempenho em dispositivos de baixo custo e redes mais lentas.</string>
     <string name="title_native_res_dialog">Alerta de Resolução Nativa</string>
-    <string name="text_native_res_dialog">Os modos de resolução nativa não são oficialmente suportados pelo GeForce Experience, portanto, ele não definirá a resolução da tela do host. Você precisará configurá-lo manualmente durante o jogo.
-\n
-\nSe você optar por criar uma resolução personalizada no Painel de controle da NVIDIA para corresponder à resolução do seu dispositivo, certifique-se de ter lido e entendido o aviso da NVIDIA sobre possíveis danos ao monitor, instabilidade do PC e outros problemas potenciais.
-\n
-\nNão nos responsabilizamos por quaisquer problemas resultantes da criação de uma resolução personalizada em seu PC.
-\n
-\nPor fim, seu dispositivo ou PC host pode não suportar transmissões na resolução nativa. Se não funcionar no seu dispositivo, você está sem sorte, infelizmente.</string>
+    <string name="text_native_res_dialog">Os modos de resolução nativa não são oficialmente suportados pelo GeForce Experience, portanto, ele não definirá a resolução da tela do host. Você precisará configurá-lo manualmente durante o jogo.\n\nSe você optar por criar uma resolução personalizada no Painel de controle da NVIDIA para corresponder à resolução do seu dispositivo, certifique-se de ter lido e entendido o aviso da NVIDIA sobre possíveis danos ao monitor, instabilidade do PC e outros problemas potenciais.\n\nNão nos responsabilizamos por quaisquer problemas resultantes da criação de uma resolução personalizada em seu PC.\n\nPor fim, seu dispositivo ou PC host pode não suportar transmissões na resolução nativa. Se não funcionar no seu dispositivo, você está sem sorte, infelizmente.</string>
     <string name="title_fps_list">Taxa de quadros por segundo</string>
     <string name="summary_fps_list">Aumente para uma transmissão de vídeo mais suave. Diminua para melhor desempenho em dispositivos de baixo custo.</string>
     <string name="title_seekbar_bitrate">Taxa de bits</string>
@@ -222,13 +202,28 @@
     <string name="title_checkbox_enable_audiofx">Habilitar sistema de suporte à equalização</string>
     <string name="summary_checkbox_enable_audiofx">Permitir que efeitos de audio funcionem durante o streaming, pode acrescentar latência de audio</string>
     <string name="title_full_range">Forçar vídeo de gama completa de cores (Experimental)</string>
-    <string name="frame_conversion_error">O PC host relatou um erro fatal de codificação de vídeo.
-\n
-\nTente desativar o modo HDR, alterar a resolução de streaming ou alterar a resolução do PC host.</string>
+    <string name="frame_conversion_error">O PC host relatou um erro fatal de codificação de vídeo.\n\nTente desativar o modo HDR, alterar a resolução de streaming ou alterar a resolução do PC host.</string>
     <string name="summary_full_range">Isso causará perda de detalhes em áreas claras e escuras se o seu dispositivo não exibir corretamente todo o conteúdo de vídeo em cores.</string>
     <string name="analogscroll_none">Nenhum (ambos os sticks movem o rato)</string>
     <string name="analogscroll_right">Stick analógico direito</string>
     <string name="analogscroll_left">Stick analógico esquerdo</string>
     <string name="title_analog_scrolling">Usar um stick analógico para fazer scroll</string>
     <string name="summary_analog_scrolling">Selecciona um stick analógico para fazer scroll quando a emulação de rato está ativada</string>
+    <string name="title_screen_combination_mode">Configurações de combinação de telas</string>
+    <string name="summary_screen_combination_mode">Controle de telas do Sunshine Foundation</string>
+    <string name="screen_combination_mode_dialog_subtitle">Aplica-se ao controle de telas do Sunshine Foundation</string>
+    <string name="screen_mode_host_default">Seguir host</string>
+    <string name="screen_mode_no_operation">Modo sem operação</string>
+    <string name="screen_mode_auto_activate">Modo de ativação</string>
+    <string name="screen_mode_primary_streaming">Modo de streaming na tela principal</string>
+    <string name="screen_mode_secondary_streaming">Modo de streaming na tela secundária</string>
+    <string name="screen_mode_exclusive_streaming">Modo de streaming em tela exclusiva</string>
+    <string name="screen_mode_host_default_desc">Usa a configuração do host Sunshine sem substituí-la.</string>
+    <string name="screen_mode_no_operation_desc">Mantém a organização atual das telas.</string>
+    <string name="screen_mode_auto_activate_desc">Ativa a tela selecionada para streaming.</string>
+    <string name="screen_mode_primary_streaming_desc">Ativa a tela selecionada e a define como principal.</string>
+    <string name="screen_mode_secondary_streaming_desc">Mantém a tela física como principal e usa a tela Foundation como secundária.</string>
+    <string name="screen_mode_exclusive_streaming_desc">Usa somente a tela selecionada e desativa as outras telas.</string>
+    <string name="screen_combination_mode_label">Modo: %1$s</string>
+    <string name="title_config_sync_backup_password">Senha de criptografia do backup</string>
 </resources>

@@ -18,18 +18,11 @@
     <string name="pcview_menu_details">Details anzeigen</string>
     <!-- Network test strings -->
     <string name="nettest_title_waiting">Netzwerkverbindung wird getestet</string>
-    <string name="nettest_text_waiting">Moonlight testet Ihre Netzwerkverbindung, um festzustellen, ob NVIDIA GameStream blockiert ist.
-\n
-\nDies kann einige Sekunden dauern…</string>
+    <string name="nettest_text_waiting">Moonlight testet Ihre Netzwerkverbindung, um festzustellen, ob NVIDIA GameStream blockiert ist.\n\nDies kann einige Sekunden dauern…</string>
     <string name="nettest_title_done">Netzwerktest abgeschlossen</string>
-    <string name="nettest_text_success">Dein Netzwerk scheint Moonlight nicht zu blockieren. Wenn du weiterhin Probleme mit der Verbindung hast, überprüfe die Firewall-Einstellungen deines Hosts
-\n
-\nWenn du versuchst, über das Internet zu streamen, installiere das Moonlight Internet Hosting Tool auf deinem Host und führe den mitgelieferten Internet-Streaming-Tester aus, um die Internetverbindung des Hosts zu überprüfen.</string>
+    <string name="nettest_text_success">Dein Netzwerk scheint Moonlight nicht zu blockieren. Wenn du weiterhin Probleme mit der Verbindung hast, überprüfe die Firewall-Einstellungen deines Hosts\n\nWenn du versuchst, über das Internet zu streamen, installiere das Moonlight Internet Hosting Tool auf deinem Host und führe den mitgelieferten Internet-Streaming-Tester aus, um die Internetverbindung des Hosts zu überprüfen.</string>
     <string name="nettest_text_inconclusive">Der Netzwerktest konnte nicht durchgeführt werden, da keiner der Verbindungstestserver von Moonlight erreichbar war. Überprüfe deine Internetverbindung oder versuche es später noch einmal.</string>
-    <string name="nettest_text_failure">Die aktuelle Netzwerkverbindung deines Geräts scheint Moonlight zu blockieren. Das Streaming über das Internet funktioniert möglicherweise nicht, während du mit diesem Netzwerk verbunden bist.
-\n
-\nFolgende Netzwerkports wurden blockiert:
-\n</string>
+    <string name="nettest_text_failure">Die aktuelle Netzwerkverbindung deines Geräts scheint Moonlight zu blockieren. Das Streaming über das Internet funktioniert möglicherweise nicht, während du mit diesem Netzwerk verbunden bist.\n\nFolgende Netzwerkports wurden blockiert:\n</string>
     <string name="nettest_text_blocked">Die aktuelle Netzwerkverbindung deines Geräts blockiert Moonlight. Das Streaming über das Internet funktioniert möglicherweise nicht, während du mit diesem Netzwerk verbunden bist.</string>
     <!-- Pair messages -->
     <string name="pairing">Koppeln…</string>
@@ -78,17 +71,14 @@
     <string name="conn_terminated_msg">Die Verbindung wurde beendet</string>
     <!-- General strings -->
     <string name="ip_hint">IP-Adresse des GeForce Hosts</string>
-    <string name="searching_pc">Suche nach Hosts auf denen GeForce Experience aktiv ist…
-\n
-\nStelle sicher, dass GameStream in den GeForce Experience SHIELD-Einstellungen aktiviert ist.</string>
+    <string name="searching_pc">Suche nach Hosts auf denen GeForce Experience aktiv ist…\n\nStelle sicher, dass GameStream in den GeForce Experience SHIELD-Einstellungen aktiviert ist.</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
     <string name="lost_connection">Verbindung zum Host verloren</string>
     <string name="title_details">Details</string>
     <string name="help">Hilfe</string>
     <string name="delete_pc_msg">Bist du sicher, dass du diesen Host löschen möchtest\?</string>
-    <string name="slow_connection_msg">Langsame Verbindung zum Host
-\nReduziere die Bitrate</string>
+    <string name="slow_connection_msg">Langsame Verbindung zum Host\nReduziere die Bitrate</string>
     <string name="poor_connection_msg">Sehr langsame Verbindung zum Host</string>
     <!-- AppList activity -->
     <string name="applist_connect_msg">Verbinde mit Host…</string>
@@ -183,20 +173,10 @@
     <string name="title_enable_post_stream_toast">Zeige Latenz-Informationen nach dem Streaming</string>
     <string name="summary_enable_post_stream_toast">Anzeige einer Informationsmeldung über die Latenz nach dem Ende des Streams</string>
     <string name="resolution_prefix_native">Nativ</string>
-    <string name="text_native_res_dialog">Native Auflösungsmodi werden von GeForce Experience nicht offiziell unterstützt, daher wird es die Auflösung deines Host-Displays nicht selbst einstellen. Du musst sie manuell im Spiel setzen.
-\n
-\nWenn du eine benutzerdefinierte Auflösung in der NVIDIA Systemsteuerung erstellst, um die Auflösung deines Geräts anzupassen, stelle bitte sicher, dass du die Warnung von NVIDIA bezüglich möglicher Monitorschäden, PC-Instabilität und anderer potenzieller Probleme gelesen und verstanden hast.
-\n
-\nWir sind nicht verantwortlich für Probleme, die aus der Erstellung einer angepassten Auflösung auf deinem PC resultieren.
-\n
-\nSchließlich kann es sein, dass dein Gerät oder dein Host das Streaming in nativer Auflösung nicht unterstützt. Wenn es auf deinem Gerät nicht funktioniert, hast du leider Pech gehabt.</string>
+    <string name="text_native_res_dialog">Native Auflösungsmodi werden von GeForce Experience nicht offiziell unterstützt, daher wird es die Auflösung deines Host-Displays nicht selbst einstellen. Du musst sie manuell im Spiel setzen.\n\nWenn du eine benutzerdefinierte Auflösung in der NVIDIA Systemsteuerung erstellst, um die Auflösung deines Geräts anzupassen, stelle bitte sicher, dass du die Warnung von NVIDIA bezüglich möglicher Monitorschäden, PC-Instabilität und anderer potenzieller Probleme gelesen und verstanden hast.\n\nWir sind nicht verantwortlich für Probleme, die aus der Erstellung einer angepassten Auflösung auf deinem PC resultieren.\n\nSchließlich kann es sein, dass dein Gerät oder dein Host das Streaming in nativer Auflösung nicht unterstützt. Wenn es auf deinem Gerät nicht funktioniert, hast du leider Pech gehabt.</string>
     <string name="title_native_res_dialog">Native Auflösungswarnung</string>
     <string name="check_ports_msg">Überprüfe deine Firewall und Portweiterleitungsregeln für folgende(n) Port(s):</string>
-    <string name="early_termination_error">Beim Starten des Streams auf deinem Host ist etwas schief gelaufen.
-\n
-\nStelle sicher, dass du keine DRM-geschützten Inhalte auf deinem Host geöffnet hast. Du kannst auch versuchen, deinen Host neu zu starten.
-\n
-\nWenn das Problem weiterhin besteht, versuche deinen GPU-Treiber und GeForce Experience neu zu installieren.</string>
+    <string name="early_termination_error">Beim Starten des Streams auf deinem Host ist etwas schief gelaufen.\n\nStelle sicher, dass du keine DRM-geschützten Inhalte auf deinem Host geöffnet hast. Du kannst auch versuchen, deinen Host neu zu starten.\n\nWenn das Problem weiterhin besteht, versuche deinen GPU-Treiber und GeForce Experience neu zu installieren.</string>
     <string name="pcview_menu_header_unknown">Aktualisiere</string>
     <string name="pcview_menu_header_offline">Offline</string>
     <string name="pcview_menu_header_online">Online</string>
@@ -235,9 +215,7 @@
     <string name="title_checkbox_reduce_refresh_rate">Aktualisierungsrate verringern erlauben</string>
     <string name="summary_checkbox_reduce_refresh_rate">Durch das Verringern der Display Aktualisierungsrate, kann, auf Kosten der Video-Latenz, der Akkuverbrauch reduziert werden</string>
     <string name="resolution_prefix_native_landscape">(Landscape)</string>
-    <string name="frame_conversion_error">Der Host-PC hat einen schwerwiegenden Videocodierungsfehler gemeldet.
-\n
-\nVersuchen Sie, den HDR-Modus zu deaktivieren, die Streaming-Auflösung zu ändern oder die Bildschirmauflösung des Host-PCs zu ändern.</string>
+    <string name="frame_conversion_error">Der Host-PC hat einen schwerwiegenden Videocodierungsfehler gemeldet.\n\nVersuchen Sie, den HDR-Modus zu deaktivieren, die Streaming-Auflösung zu ändern oder die Bildschirmauflösung des Host-PCs zu ändern.</string>
     <string name="title_native_fps_dialog">Native FPS Warnung</string>
     <string name="videoformat_av1always">Immer AV1 verwenden (Experimentell)</string>
     <string name="title_checkbox_gamepad_motion_sensors">Erlaube Benutzen von Gamepad Bewegungssensoren</string>
@@ -251,4 +229,21 @@
     <string name="analogscroll_none">Keine (beide Sticks bewegen die Maus)</string>
     <string name="analogscroll_right">Rechter Analogstick</string>
     <string name="analogscroll_left">Linker Analogstick</string>
+    <string name="title_screen_combination_mode">Einstellungen für Displaykombination</string>
+    <string name="summary_screen_combination_mode">Displaysteuerung für Sunshine Foundation</string>
+    <string name="screen_combination_mode_dialog_subtitle">Gilt für die Displaysteuerung von Sunshine Foundation</string>
+    <string name="screen_mode_host_default">Host folgen</string>
+    <string name="screen_mode_no_operation">Modus ohne Aktion</string>
+    <string name="screen_mode_auto_activate">Aktivierungsmodus</string>
+    <string name="screen_mode_primary_streaming">Primärer Streaming-Modus</string>
+    <string name="screen_mode_secondary_streaming">Sekundärer Streaming-Modus</string>
+    <string name="screen_mode_exclusive_streaming">Exklusiver Display-Streaming-Modus</string>
+    <string name="screen_mode_host_default_desc">Verwendet die Sunshine-Hosteinstellung, ohne sie zu überschreiben.</string>
+    <string name="screen_mode_no_operation_desc">Behält das aktuelle Displaylayout bei.</string>
+    <string name="screen_mode_auto_activate_desc">Aktiviert das ausgewählte Display für Streaming.</string>
+    <string name="screen_mode_primary_streaming_desc">Aktiviert das ausgewählte Display und legt es als primär fest.</string>
+    <string name="screen_mode_secondary_streaming_desc">Behält das physische Display als primär bei und verwendet das Foundation-Display als sekundär.</string>
+    <string name="screen_mode_exclusive_streaming_desc">Verwendet nur das ausgewählte Display und deaktiviert andere Displays.</string>
+    <string name="screen_combination_mode_label">Modus: %1$s</string>
+    <string name="title_config_sync_backup_password">Passwort für Backup-Verschlüsselung</string>
 </resources>

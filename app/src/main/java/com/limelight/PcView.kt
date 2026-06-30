@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.limelight.binding.PlatformBinding
 import com.limelight.binding.crypto.AndroidCryptoProvider
 import com.limelight.computers.ComputerManagerService
+import com.limelight.computers.PairStatePreflight
 import com.limelight.dialogs.AddressSelectionDialog
 import com.limelight.grid.PcGridAdapter
 import com.limelight.grid.assets.DiskAssetLoader
@@ -36,6 +37,7 @@ import com.limelight.services.KeyboardAccessibilityService
 import com.limelight.ui.AdapterFragment
 import com.limelight.ui.AdapterFragmentCallbacks
 import com.limelight.utils.AnalyticsManager
+import com.limelight.utils.AppDialogStyler
 import com.limelight.utils.AppCacheManager
 import com.limelight.utils.CacheHelper
 import com.limelight.utils.ConfigurationSyncScheduler
@@ -46,6 +48,7 @@ import com.limelight.utils.Iperf3Tester
 import com.limelight.utils.NetHelper
 import com.limelight.utils.ServerHelper
 import com.limelight.utils.ShortcutHelper
+import com.limelight.utils.SpinnerDialog
 import com.limelight.utils.UiHelper
 import com.squareup.seismic.ShakeDetector
 
@@ -82,6 +85,7 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.Typeface
 import android.hardware.SensorManager
 import android.net.Uri
 import android.net.VpnService
@@ -104,6 +108,7 @@ import android.util.LruCache
 import android.view.ContextMenu
 import android.view.ContextMenu.ContextMenuInfo
 import android.view.GestureDetector
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -117,6 +122,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo
 import android.widget.GridView
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Space
 import android.widget.TextView
@@ -128,6 +134,7 @@ import javax.microedition.khronos.opengles.GL10
 
 import jp.wasabeef.glide.transformations.BlurTransformation
 import jp.wasabeef.glide.transformations.ColorFilterTransformation
+import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.content.pm.PackageInfoCompat
 import androidx.core.net.toUri
@@ -139,6 +146,8 @@ class PcView : Activity(), AdapterFragmentCallbacks, ShakeDetector.Listener, Eas
     // Constants
     companion object {
         private const val REFRESH_DEBOUNCE_DELAY = 150L
+        private const val STARTUP_UPDATE_CHECK_DELAY = 5000L
+        private const val STARTUP_DIALOG_GAP_DELAY = 250L
         private const val SHAKE_DEBOUNCE_INTERVAL = 3000L
         private const val MAX_DAILY_REFRESH = 7
         private const val VPN_PERMISSION_REQUEST_CODE = 101
@@ -184,6 +193,9 @@ class PcView : Activity(), AdapterFragmentCallbacks, ShakeDetector.Listener, Eas
     private var inForeground = false
     private var completeOnCreateCalled = false
     private var pendingSplashFadeIn = true
+    private var backgroundSourceDialogShowing = false
+    private var startupUpdateCheckPending = false
+    private var startupUpdateCheckRan = false
     private var lastShakeTime = 0L
     private var activeSceneNumber: Int? = null
 
@@ -419,6 +431,8 @@ class PcView : Activity(), AdapterFragmentCallbacks, ShakeDetector.Listener, Eas
 
         analyticsManager = AnalyticsManager.getInstance(this)
         analyticsManager?.logAppLaunch()
+        // 延后 5 秒再做更新检查，避免一打开 PcView 就被对话框打断浏览
+        scheduleStartupUpdateCheck()
 
         bindService(Intent(this, ComputerManagerService::class.java), serviceConnection,
             BIND_AUTO_CREATE
@@ -626,6 +640,30 @@ class PcView : Activity(), AdapterFragmentCallbacks, ShakeDetector.Listener, Eas
         }
     }
 
+    private fun scheduleStartupUpdateCheck(delayMs: Long = STARTUP_UPDATE_CHECK_DELAY) {
+        refreshHandler.postDelayed({ runStartupUpdateCheckWhenIdle() }, delayMs)
+    }
+
+    private fun runStartupUpdateCheckWhenIdle() {
+        if (startupUpdateCheckRan || isFinishing || isDestroyed) {
+            return
+        }
+        if (backgroundSourceDialogShowing) {
+            startupUpdateCheckPending = true
+            return
+        }
+
+        startupUpdateCheckPending = false
+        startupUpdateCheckRan = true
+    }
+
+    private fun resumePendingStartupUpdateCheck() {
+        if (!startupUpdateCheckPending || backgroundSourceDialogShowing) {
+            return
+        }
+        scheduleStartupUpdateCheck(STARTUP_DIALOG_GAP_DELAY)
+    }
+
     /**
      * First-launch background source picker (issue #263).
      *
@@ -659,14 +697,9 @@ class PcView : Activity(), AdapterFragmentCallbacks, ShakeDetector.Listener, Eas
             BackgroundSource.Pipw   to R.string.background_source_pipw,
             BackgroundSource.None   to R.string.background_source_none,
         )
-        // NOTE: AlertDialog drops items if setMessage is also set (they fight for
-        // the same content slot). Inline the explanation into the title and keep
-        // the dialog cancellable so users can always back out.
-        val title = getString(R.string.background_source_dialog_title) + "\n\n" +
-                getString(R.string.background_source_dialog_message)
 
-        AlertDialog.Builder(this)
-            .setTitle(title)
+        val dialog = AlertDialog.Builder(this, R.style.AppDialogStyle)
+            .setCustomTitle(createBackgroundSourceDialogHeader())
             .setItems(choices.map { getString(it.second) }.toTypedArray()) { _, which ->
                 BackgroundSource.setActive(this, choices[which].first)
             }
@@ -677,7 +710,47 @@ class PcView : Activity(), AdapterFragmentCallbacks, ShakeDetector.Listener, Eas
             .setOnCancelListener {
                 BackgroundSource.setActive(this, BackgroundSource.Auto)
             }
-            .show()
+            .create()
+
+        dialog.setOnDismissListener {
+            backgroundSourceDialogShowing = false
+            resumePendingStartupUpdateCheck()
+        }
+        backgroundSourceDialogShowing = true
+        dialog.show()
+        AppDialogStyler.applySystemChoiceList(dialog, this)
+    }
+
+    private fun createBackgroundSourceDialogHeader(): View {
+        val density = resources.displayMetrics.density
+        fun dp(value: Int) = (value * density + 0.5f).toInt()
+        fun matchWrapParams() = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+
+        return LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            gravity = Gravity.CENTER_HORIZONTAL
+            setPadding(dp(28), dp(22), dp(28), dp(8))
+            addView(TextView(this@PcView).apply {
+                text = getString(R.string.background_source_dialog_title)
+                gravity = Gravity.CENTER
+                setTypeface(typeface, Typeface.BOLD)
+                textSize = 20f
+                setTextColor(ContextCompat.getColor(this@PcView, R.color.app_dialog_title_color))
+                setShadowLayer(0f, 0f, 0f, Color.TRANSPARENT)
+            }, matchWrapParams())
+            addView(TextView(this@PcView).apply {
+                text = getString(R.string.background_source_dialog_message)
+                gravity = Gravity.CENTER
+                textSize = 14f
+                setLineSpacing(dp(2).toFloat(), 1f)
+                setPadding(0, dp(8), 0, 0)
+                setTextColor(ContextCompat.getColor(this@PcView, R.color.app_dialog_subtitle_color))
+                setShadowLayer(0f, 0f, 0f, Color.TRANSPARENT)
+            }, matchWrapParams())
+        }
     }
 
     private fun refreshBackgroundImage(isFromShake: Boolean) {
@@ -1580,7 +1653,7 @@ class PcView : Activity(), AdapterFragmentCallbacks, ShakeDetector.Listener, Eas
             getString(R.string.addpc_manual),
             getString(R.string.addpc_qr_scan)
         )
-        AlertDialog.Builder(this)
+        val dialog = AlertDialog.Builder(this, R.style.AppDialogStyle)
             .setTitle(getString(R.string.title_add_pc_choose))
             .setItems(items) { _, which ->
                 if (which == 0) {
@@ -1589,7 +1662,9 @@ class PcView : Activity(), AdapterFragmentCallbacks, ShakeDetector.Listener, Eas
                     startQrScan()
                 }
             }
-            .show()
+            .create()
+        dialog.show()
+        AppDialogStyler.applySystemChoiceList(dialog, this)
     }
 
     private fun startQrScan() {
@@ -1776,10 +1851,12 @@ class PcView : Activity(), AdapterFragmentCallbacks, ShakeDetector.Listener, Eas
 
                     if (httpConn.getPairState() == PairState.PAIRED) {
                         httpConn.unpair()
-                        if (httpConn.getPairState() == PairState.NOT_PAIRED)
+                        if (httpConn.getPairState() == PairState.NOT_PAIRED) {
+                            binder.markComputerNotPaired(computer, "Local unpair")
                             getString(R.string.unpair_success)
-                        else
+                        } else {
                             getString(R.string.unpair_fail)
+                        }
                     } else {
                         getString(R.string.unpair_error)
                     }
@@ -1804,11 +1881,45 @@ class PcView : Activity(), AdapterFragmentCallbacks, ShakeDetector.Listener, Eas
             showToast(getString(R.string.error_pc_offline))
             return
         }
-        if (managerBinder == null) {
+        val binder = managerBinder
+        if (binder == null) {
             showToast(getString(R.string.error_manager_not_running))
             return
         }
 
+        val target = prepareComputerWithAddress(computer)
+        if (target == null || target.activeAddress == null) {
+            showToast(getString(R.string.error_pc_offline))
+            return
+        }
+
+        if (PairStatePreflight.hasTrustedPairState(target)) {
+            openAppList(target, newlyPaired, showHiddenGames)
+            return
+        }
+
+        val spinner = SpinnerDialog.displayDialog(this,
+                resources.getString(R.string.applist_refresh_title),
+                resources.getString(R.string.applist_refresh_msg),
+                false)
+
+        uiScope.launch {
+            val isNotPaired = PairStatePreflight.isConfirmedNotPaired(target, binder, "Opening app list")
+
+            spinner.dismiss()
+            if (isFinishing || isDestroyed) {
+                return@launch
+            }
+
+            if (isNotPaired) {
+                showToast(getString(R.string.scut_not_paired))
+            } else {
+                openAppList(target, newlyPaired, showHiddenGames)
+            }
+        }
+    }
+
+    private fun openAppList(computer: ComputerDetails, newlyPaired: Boolean, showHiddenGames: Boolean) {
         val i = Intent(this, AppView::class.java)
         i.putExtra(AppView.NAME_EXTRA, computer.name)
         i.putExtra(AppView.UUID_EXTRA, computer.uuid)
@@ -1833,7 +1944,7 @@ class PcView : Activity(), AdapterFragmentCallbacks, ShakeDetector.Listener, Eas
             return
         }
 
-        quickStartStreamWithScreenMode(computer, null, true, 2)
+        quickStartStreamWithScreenMode(computer, null, true, 4)
     }
 
     // Quick Start Stream Methods
@@ -1873,10 +1984,12 @@ class PcView : Activity(), AdapterFragmentCallbacks, ShakeDetector.Listener, Eas
                 showToast(getString(R.string.error_pc_offline))
                 return@launch
             }
-            targetComputer.useVdd = false
-
             if (targetComputer.hasMultipleLanAddresses()) {
                 showAddressSelectionDialog(targetComputer)
+                return@launch
+            }
+            if (PairStatePreflight.isConfirmedNotPaired(targetComputer, managerBinder!!, "Quick start")) {
+                showToast(getString(R.string.scut_not_paired))
                 return@launch
             }
 
@@ -1920,10 +2033,12 @@ class PcView : Activity(), AdapterFragmentCallbacks, ShakeDetector.Listener, Eas
                 showToast(getString(R.string.error_pc_offline))
                 return@launch
             }
-            targetComputer.useVdd = isSecondaryScreen
-
             if (targetComputer.hasMultipleLanAddresses()) {
                 showAddressSelectionDialog(targetComputer)
+                return@launch
+            }
+            if (PairStatePreflight.isConfirmedNotPaired(targetComputer, managerBinder!!, "Secondary screen start")) {
+                showToast(getString(R.string.scut_not_paired))
                 return@launch
             }
 
@@ -1932,14 +2047,11 @@ class PcView : Activity(), AdapterFragmentCallbacks, ShakeDetector.Listener, Eas
                 targetApp,
                 targetComputer,
                 managerBinder!!,
-                lastSettings = null
+                lastSettings = null,
+                useVdd = if (isSecondaryScreen) true else null
             )
             if (screenMode != -1) {
-                if (targetComputer.useVdd) {
-                    intent.putExtra(Game.EXTRA_VDD_SCREEN_COMBINATION_MODE, screenMode)
-                } else {
-                    intent.putExtra(Game.EXTRA_SCREEN_COMBINATION_MODE, screenMode)
-                }
+                intent.putExtra(Game.EXTRA_SCREEN_COMBINATION_MODE, screenMode)
             }
             startActivity(intent)
         }
@@ -2028,7 +2140,13 @@ class PcView : Activity(), AdapterFragmentCallbacks, ShakeDetector.Listener, Eas
         }
 
         showToast(getString(R.string.restoring_session, target.name))
-        ServerHelper.doStart(this, app, target, managerBinder!!, forceResumeCurrentSession = true)
+        uiScope.launch {
+            if (PairStatePreflight.isConfirmedNotPaired(target, managerBinder!!, "Restore session")) {
+                showToast(getString(R.string.scut_not_paired))
+                return@launch
+            }
+            ServerHelper.doStart(this@PcView, app, target, managerBinder!!, forceResumeCurrentSession = true)
+        }
     }
 
     private fun showAddressSelectionDialog(computer: ComputerDetails) {
@@ -2280,7 +2398,14 @@ class PcView : Activity(), AdapterFragmentCallbacks, ShakeDetector.Listener, Eas
         if (app == null) {
             app = NvApp("app", details.runningGameId, false)
         }
-        ServerHelper.doStart(this, app, details, managerBinder!!, forceResumeCurrentSession = true)
+        val binder = managerBinder!!
+        uiScope.launch {
+            if (PairStatePreflight.isConfirmedNotPaired(details, binder, "Resume session")) {
+                showToast(getString(R.string.scut_not_paired))
+                return@launch
+            }
+            ServerHelper.doStart(this@PcView, app, details, binder, forceResumeCurrentSession = true)
+        }
     }
 
     private fun handleQuit(details: ComputerDetails) {
@@ -2506,10 +2631,17 @@ class PcView : Activity(), AdapterFragmentCallbacks, ShakeDetector.Listener, Eas
                 .setNeutralButton(R.string.about_dialog_github) { _, _ -> openUrl("https://github.com/qiin2333/moonlight-vplus") }
                 .setNegativeButton(R.string.about_dialog_qq) { _, _ -> joinQQGroup("LlbLDIF_YolaM4HZyLx0xAXXo04ZmoBM") }
                 .create()
-        if (dialog.window != null) {
-            dialog.window?.setBackgroundDrawableResource(R.drawable.app_dialog_bg_cute)
-        }
         dialog.show()
+        dialog.window?.setBackgroundDrawableResource(R.drawable.dialog_about_window_bg)
+        tintAboutDialogButtons(dialog)
+    }
+
+    private fun tintAboutDialogButtons(dialog: AlertDialog) {
+        val accentColor = androidx.core.content.ContextCompat.getColor(this, R.color.app_dialog_accent_color)
+        listOf(AlertDialog.BUTTON_POSITIVE, AlertDialog.BUTTON_NEGATIVE, AlertDialog.BUTTON_NEUTRAL)
+                .forEach { buttonId ->
+                    dialog.getButton(buttonId)?.setTextColor(accentColor)
+                }
     }
 
     @SuppressLint("DefaultLocale")

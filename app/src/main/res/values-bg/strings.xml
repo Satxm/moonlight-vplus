@@ -44,17 +44,10 @@
     <string name="pcview_menu_pair_pc">Сдвояване с компютър</string>
     <string name="pcview_menu_header_offline">Извън линия</string>
     <string name="pcview_menu_app_list">Вижте Всички Приложения</string>
-    <string name="nettest_text_waiting">Moonlight тества вашата мрежова връзка, за да определи дали NVIDIA GameStream е блокиран.
-\n
-\nТова може да отнеме няколко секунди…</string>
-    <string name="nettest_text_success">Вашата мрежа изглежда не блокира Moonlight. Ако все още имате проблеми със свързването, проверете настройките на защитната стена на вашия компютър.
-\n
-\nАко се опитвате да стриймвате през интернет, инсталирайте Moonlight Internet Hosting Tool на вашия компютър и стартирайте включения тестер за интернет стрийминг, за да проверите интернет връзката на вашия компютър.</string>
+    <string name="nettest_text_waiting">Moonlight тества вашата мрежова връзка, за да определи дали NVIDIA GameStream е блокиран.\n\nТова може да отнеме няколко секунди…</string>
+    <string name="nettest_text_success">Вашата мрежа изглежда не блокира Moonlight. Ако все още имате проблеми със свързването, проверете настройките на защитната стена на вашия компютър.\n\nАко се опитвате да стриймвате през интернет, инсталирайте Moonlight Internet Hosting Tool на вашия компютър и стартирайте включения тестер за интернет стрийминг, за да проверите интернет връзката на вашия компютър.</string>
     <string name="nettest_text_inconclusive">Мрежовият тест не можа да бъде извършен, защото нито един от сървърите за тестване на връзката на Moonlight не е достъпен. Проверете връзката си с интернет или опитайте отново по-късно.</string>
-    <string name="nettest_text_failure">Текущата мрежова връзка на вашето устройство изглежда блокира Moonlight. Стриймването през интернет може да не работи, докато сте свързани към тази мрежа.
-\n
-\nСледните мрежови портове са блокирани:
-\n</string>
+    <string name="nettest_text_failure">Текущата мрежова връзка на вашето устройство изглежда блокира Moonlight. Стриймването през интернет може да не работи, докато сте свързани към тази мрежа.\n\nСледните мрежови портове са блокирани:\n</string>
     <string name="nettest_text_blocked">Текущата мрежова връзка на вашето устройство блокира Moonlight. Стриймването през интернет може да не работи, докато сте свързани към тази мрежа.</string>
     <string name="pair_pairing_msg">Моля, въведете следния ПИН на избрания компютър:</string>
     <string name="pair_fail">Неуспешно сдвояване</string>
@@ -127,4 +120,21 @@
     <string name="title_checkbox_touchscreen_trackpad">Използване на сензорния екран като тракпад</string>
     <string name="title_checkbox_multi_controller">Автоматично откриване на наличен контролер</string>
     <string name="summary_checkbox_multi_controller">Премахването на отметката от тази опция принуждава контролер винаги да присъства</string>
+    <string name="title_screen_combination_mode">Настройки за комбинация на екрани</string>
+    <string name="summary_screen_combination_mode">Управление на дисплеите на Sunshine Foundation</string>
+    <string name="screen_combination_mode_dialog_subtitle">Отнася се за управлението на дисплеите на Sunshine Foundation</string>
+    <string name="screen_mode_host_default">Следване на хоста</string>
+    <string name="screen_mode_no_operation">Режим без действие</string>
+    <string name="screen_mode_auto_activate">Режим на активиране</string>
+    <string name="screen_mode_primary_streaming">Режим на стрийминг от основен дисплей</string>
+    <string name="screen_mode_secondary_streaming">Режим на стрийминг от вторичен дисплей</string>
+    <string name="screen_mode_exclusive_streaming">Режим на стрийминг с ексклузивен дисплей</string>
+    <string name="screen_mode_host_default_desc">Използва настройката на Sunshine хоста, без да я презаписва.</string>
+    <string name="screen_mode_no_operation_desc">Запазва текущото оформление на дисплеите.</string>
+    <string name="screen_mode_auto_activate_desc">Активира избрания дисплей за стрийминг.</string>
+    <string name="screen_mode_primary_streaming_desc">Активира избрания дисплей и го задава като основен.</string>
+    <string name="screen_mode_secondary_streaming_desc">Запазва физическия дисплей като основен и използва Foundation дисплея като вторичен.</string>
+    <string name="screen_mode_exclusive_streaming_desc">Използва само избрания дисплей и изключва другите дисплеи.</string>
+    <string name="screen_combination_mode_label">Режим: %1$s</string>
+    <string name="title_config_sync_backup_password">Парола за шифроване на резервно копие</string>
 </resources>

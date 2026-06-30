@@ -59,17 +59,14 @@
     <string name="conn_terminated_msg">連線已終止</string>
     <!-- General strings -->
     <string name="ip_hint">主機電腦的 IP 位址</string>
-    <string name="searching_pc">正在您的區域網路中搜尋主機電腦…
-\n
-\n 請確保 Sunshine 正在您的主機電腦中執行，或在 GFE SHIELD 設定中啟用 GAMESTREAM。</string>
+    <string name="searching_pc">正在您的區域網路中搜尋主機電腦…\n\n 請確保 Sunshine 正在您的主機電腦中執行，或在 GFE SHIELD 設定中啟用 GAMESTREAM。</string>
     <string name="yes"> 確定 </string>
     <string name="no"> 取消 </string>
     <string name="lost_connection">與電腦失去連線</string>
     <string name="title_details">詳細資料</string>
     <string name="help">說明</string>
     <string name="delete_pc_msg"> 你確定要刪除這台電腦？ </string>
-    <string name="slow_connection_msg">與電腦連線過慢
-\n 請降低位元速率</string>
+    <string name="slow_connection_msg">與電腦連線過慢\n 請降低位元速率</string>
     <string name="poor_connection_msg">與電腦連線不良</string>
     <!-- AppList activity -->
     <string name="applist_connect_msg">正在連線電腦…</string>
@@ -167,35 +164,20 @@
     <string name="summary_osc_opacity">使螢幕控制按钮變得更透明/更不透明</string>
     <string name="suffix_seekbar_bitrate_mbps">Mbps</string>
     <string name="resolution_prefix_native">原生</string>
-    <string name="text_native_res_dialog">原生解析度或 FPS 可能不受串流伺服器支援，您可能需要為主機手動設定相符的自訂顯示模式。
-\n
-\n如果您選擇在 NVIDIA 控制面板中建立自訂解析度以符合您的螢幕設定，請確保您已閱讀並理解 NVIDIA 關於可能導致監視器損毀和電腦不穩定以及其他潛在問題的警告。
-\n
-\n對於您在您的電腦上建立自訂解析度而導致的任何問題，我們概不負責。
-\n
-\n您的顯示器可能不支援必要的顯示組態。如果是這樣，您可以嘗試設定虛擬監視器。最后，如果您的裝置或主機不支援以特定解析度或重新整理速率串流，只能說您運氣欠佳了。</string>
+    <string name="text_native_res_dialog">原生解析度或 FPS 可能不受串流伺服器支援，您可能需要為主機手動設定相符的自訂顯示模式。\n\n如果您選擇在 NVIDIA 控制面板中建立自訂解析度以符合您的螢幕設定，請確保您已閱讀並理解 NVIDIA 關於可能導致監視器損毀和電腦不穩定以及其他潛在問題的警告。\n\n對於您在您的電腦上建立自訂解析度而導致的任何問題，我們概不負責。\n\n您的顯示器可能不支援必要的顯示組態。如果是這樣，您可以嘗試設定虛擬監視器。最后，如果您的裝置或主機不支援以特定解析度或重新整理速率串流，只能說您運氣欠佳了。</string>
     <string name="title_native_res_dialog">原生解析度警告</string>
     <string name="applist_menu_hide_app">隱藏遊戲</string>
     <string name="check_ports_msg">檢查您的防火牆和通訊埠轉送規則中的通訊埠：</string>
-    <string name="early_termination_error">您的主機電腦在開始串流時出了點問題。
-\n
-\n請確保沒有在主機電腦上開啟任何受 DRM 保護的內容。您也可以嘗試重新開機主機電腦。</string>
+    <string name="early_termination_error">您的主機電腦在開始串流時出了點問題。\n\n請確保沒有在主機電腦上開啟任何受 DRM 保護的內容。您也可以嘗試重新開機主機電腦。</string>
     <string name="no_frame_received_error">您的網路連線品質不佳。降低視訊位元速率設定或更換更快的連線。</string>
     <string name="no_video_received_error">沒有接收到來自主機的視訊。</string>
     <string name="video_decoder_init_failed">無法初始化視訊解碼器，您的裝置可能不支援選取的解析度或影格速率。</string>
     <string name="nettest_text_blocked">您裝置目前的網路連線封鎖了 Moonlight。連線到該網路時可能無法透過網際網路串流。</string>
-    <string name="nettest_text_failure">您裝置目前的網路連線似乎封鎖了 Moonlight。連線到該網路時可能無法透過網際網路串流。
-\n
-\n以下網路通訊埠被封鎖：
-\n</string>
+    <string name="nettest_text_failure">您裝置目前的網路連線似乎封鎖了 Moonlight。連線到該網路時可能無法透過網際網路串流。\n\n以下網路通訊埠被封鎖：\n</string>
     <string name="nettest_text_inconclusive">由於沒有 Moonlight 連線測試伺服器可供訪問，因此無法執行網路測試。請檢查您的 Internet 連線或稍後再試。</string>
-    <string name="nettest_text_success">您的網路似乎沒有封鎖 Moonlight。如果仍然無法連線，請檢查您電腦的防火牆設定。
-\n
-\n如果您是嘗試透過網際網路串流，請在您的電腦上安裝 Moonlight Internet Hosting Tool，然後執行裡面的 Internet Streaming Tester 來檢查電腦的網際網路連線。</string>
+    <string name="nettest_text_success">您的網路似乎沒有封鎖 Moonlight。如果仍然無法連線，請檢查您電腦的防火牆設定。\n\n如果您是嘗試透過網際網路串流，請在您的電腦上安裝 Moonlight Internet Hosting Tool，然後執行裡面的 Internet Streaming Tester 來檢查電腦的網際網路連線。</string>
     <string name="nettest_title_done">網路檢測完畢</string>
-    <string name="nettest_text_waiting">Moonlight 正在測試您的網路連線以確認必要連接埠是否被封鎖。
-\n
-\n可能需要等待一些時間…</string>
+    <string name="nettest_text_waiting">Moonlight 正在測試您的網路連線以確認必要連接埠是否被封鎖。\n\n可能需要等待一些時間…</string>
     <string name="nettest_title_waiting">正在測試網路連線</string>
     <string name="pcview_menu_test_network">測試網路連線</string>
     <string name="pcview_menu_header_unknown">正在重新整理</string>
@@ -236,9 +218,7 @@
     <string name="resolution_prefix_native_portrait">(直向)</string>
     <string name="title_checkbox_reduce_refresh_rate">允許減小重新整理率</string>
     <string name="summary_checkbox_reduce_refresh_rate">更低的顯示器重新整理速率可在犧牲一些額外視訊延遲的狀況下節省電力</string>
-    <string name="frame_conversion_error">主機電腦回報了一個嚴重的視訊編碼錯誤。
-\n
-\n嘗試停用 HDR 模式，變更串流解析度，或變更您的主機電腦的顯示器解析度。</string>
+    <string name="frame_conversion_error">主機電腦回報了一個嚴重的視訊編碼錯誤。\n\n嘗試停用 HDR 模式，變更串流解析度，或變更您的主機電腦的顯示器解析度。</string>
     <string name="title_full_range">強制全範圍視訊 (實驗性)</string>
     <string name="summary_full_range">若您的裝置無法正確地顯示全範圍視訊內容，將會導致淺色區域和深色區域的細節遺失。</string>
     <string name="pair_pairing_help">若您的主機電腦正在執行 Sunshine，請導覽至 Sunshine 網頁 UI 並輸入 PIN 碼。</string>
@@ -253,8 +233,7 @@
     <string name="title_checkbox_gamepad_motion_sensors">一律使用手把動態感測器</string>
     <string name="videoformat_av1always">偏好 AV1 (實驗性)</string>
     <string name="toast_controller_type_changed">手把類型可能會因動態感測器模擬而變更</string>
-    <string name="summary_checkbox_gamepad_motion_fallback">如果您連線的手把或 Android 版本不支援手把感測器，請使用裝置內建的動態感測器。
-\n注意：啟用此選項可能會導致您的手把在主機被辨識為 PlayStation 控制器。</string>
+    <string name="summary_checkbox_gamepad_motion_fallback">如果您連線的手把或 Android 版本不支援手把感測器，請使用裝置內建的動態感測器。\n注意：啟用此選項可能會導致您的手把在主機被辨識為 PlayStation 控制器。</string>
     <string name="title_checkbox_gamepad_motion_fallback">模擬手把動態感測器支援</string>
 
     <!-- 音訊振動設定 -->
@@ -337,4 +316,30 @@
     <string name="summary_framegen_slow_threshold_ms">僅自訂模式顯示。插幀變慢時會自動回退直通渲染，預設：18 ms。</string>
     <string name="title_framegen_present_real_first">運動節奏修正</string>
     <string name="summary_framegen_present_real_first">僅在畫面節奏不穩時嘗試，預設關閉。</string>
+    <string name="title_screen_combination_mode">螢幕組合設定</string>
+    <string name="summary_screen_combination_mode">Sunshine 基地適用</string>
+    <string name="screen_combination_mode_dialog_subtitle">Sunshine 基地適用</string>
+    <string name="screen_mode_host_default">跟隨主機</string>
+    <string name="screen_mode_no_operation">無操作模式</string>
+    <string name="screen_mode_auto_activate">啟用模式</string>
+    <string name="screen_mode_primary_streaming">主螢幕串流模式</string>
+    <string name="screen_mode_secondary_streaming">副螢幕串流模式</string>
+    <string name="screen_mode_exclusive_streaming">僅啟用指定顯示器模式</string>
+    <string name="screen_mode_host_default_desc">使用 Sunshine 主機端設定，不覆寫螢幕組合設定。</string>
+    <string name="screen_mode_no_operation_desc">保持目前螢幕配置，不調整顯示器拓撲。</string>
+    <string name="screen_mode_auto_activate_desc">自動啟用指定顯示器用於串流。</string>
+    <string name="screen_mode_primary_streaming_desc">自動啟用指定顯示器並設為主顯示器。</string>
+    <string name="screen_mode_secondary_streaming_desc">實體螢幕為主螢幕，基地顯示器作為副螢幕延伸。</string>
+    <string name="screen_mode_exclusive_streaming_desc">僅保留指定顯示器輸出，關閉其他顯示器。</string>
+    <string name="screen_combination_mode_label">組合模式: %1$s</string>
+    <string name="title_config_sync_backup_password">備份密碼</string>
+
+    <!-- 贊助 -->
+    <string name="sponsor_github_title">投餵 Moonlight V+</string>
+    <string name="sponsor_github_summary">雜魚維護組還在努力修 bug 呢，投餵一點點就能變成設備、咖啡和 token 補給。掃描 QR code 或開啟 GitHub Sponsors 即可。</string>
+    <string name="sponsor_github_action">開啟 GitHub Sponsors</string>
+    <string name="sponsor_wechat_title">投餵 Moonlight V+</string>
+    <string name="sponsor_wechat_summary">雜魚維護組還在努力修 bug 呢，掃碼投餵一點點，就能變成設備、咖啡和 token 補給。</string>
+    <string name="sponsor_wechat_action">使用微信支付掃碼</string>
+    <string name="sponsor_qr_content_description">贊助 QR code</string>
 </resources>

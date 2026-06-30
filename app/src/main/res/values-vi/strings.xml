@@ -63,13 +63,7 @@
     <string name="title_seekbar_bitrate">Tốc độ bit video</string>
     <string name="summary_fps_list">Tăng để stream video mượt mà hơn. Giảm để có hiệu năng tốt hơn trên các thiết bị tầm thấp hơn.</string>
     <string name="title_fps_list">Tốc độ khung hình video</string>
-    <string name="text_native_res_dialog">Các chế độ độ phân giải gốc không được GeForce Experience hỗ trợ chính thức, nên nó sẽ không tự đặt độ phân giải hiển thị của máy chủ. Bạn sẽ cần phải đặt nó theo cách thủ công trong khi đang trong trò chơi.
-\n
-\nNếu bạn chọn việc tạo một độ phân giải tuỳ chỉnh trong Bảng điều khiển NVIDIA để khớp với độ phân giải thiết bị, vui lòng chắc chắn là bạn đã đọc và hiểu cảnh báo của NVIDIA về hư hại màn hình có thể có, sự bất ổn của PC, và các vấn đề tiềm năng khác.
-\n
-\nChúng tôi không chịu trách nhiệm cho bất kỳ vấn đề nào gây ra từ việc tạo độ phân giải tuỳ chỉnh trên PC.
-\n
-\nCuối cùng, thiết bị hoặc PC chủ có thể không hỗ trợ việc stream tại độ phân giải gốc. Nếu việc này không hoạt động trên thiết bị, không may mắn là bạn không thể làm gì được.</string>
+    <string name="text_native_res_dialog">Các chế độ độ phân giải gốc không được GeForce Experience hỗ trợ chính thức, nên nó sẽ không tự đặt độ phân giải hiển thị của máy chủ. Bạn sẽ cần phải đặt nó theo cách thủ công trong khi đang trong trò chơi.\n\nNếu bạn chọn việc tạo một độ phân giải tuỳ chỉnh trong Bảng điều khiển NVIDIA để khớp với độ phân giải thiết bị, vui lòng chắc chắn là bạn đã đọc và hiểu cảnh báo của NVIDIA về hư hại màn hình có thể có, sự bất ổn của PC, và các vấn đề tiềm năng khác.\n\nChúng tôi không chịu trách nhiệm cho bất kỳ vấn đề nào gây ra từ việc tạo độ phân giải tuỳ chỉnh trên PC.\n\nCuối cùng, thiết bị hoặc PC chủ có thể không hỗ trợ việc stream tại độ phân giải gốc. Nếu việc này không hoạt động trên thiết bị, không may mắn là bạn không thể làm gì được.</string>
     <string name="title_native_res_dialog">Cảnh báo độ phân giải gốc</string>
     <string name="summary_resolution_list">Tăng để cải thiện độ rõ của hình ảnh. Giảm để có hiệu năng tốt hơn trên các thiết bị tầm thấp hơn và các mạng chậm hơn.</string>
     <string name="title_resolution_list">Độ phân giải video</string>
@@ -96,13 +90,10 @@
     <string name="applist_menu_resume">Tiếp tục phiên làm việc</string>
     <string name="applist_connect_msg">Đang kết nối đến PC…</string>
     <string name="poor_connection_msg">Kết nối đến PC bị kém</string>
-    <string name="slow_connection_msg">Kết nối đến PC bị chậm.
-\nHãy giảm tốc độ bit</string>
+    <string name="slow_connection_msg">Kết nối đến PC bị chậm.\nHãy giảm tốc độ bit</string>
     <string name="delete_pc_msg">Bạn có chắc bạn muốn xoá PC này không\?</string>
     <string name="yes">Có</string>
-    <string name="searching_pc">Đang tìm các PC có GameStream đang chạy…
-\n
-\nHãy chắc chắn là GameStream được bật trong cài đặt GeForce Experience SHIELD.</string>
+    <string name="searching_pc">Đang tìm các PC có GameStream đang chạy…\n\nHãy chắc chắn là GameStream được bật trong cài đặt GeForce Experience SHIELD.</string>
     <string name="ip_hint">Địa chỉ IP của PC GeForce</string>
     <string name="conn_terminated_msg">Kết nối đã bị chấm dứt</string>
     <string name="conn_terminated_title">Kết nối bị chấm dứt</string>
@@ -115,11 +106,7 @@
     <string name="conn_metered">Cảnh báo: Kết nối mạng đang hoạt động là có trả phí!</string>
     <string name="conn_establishing_title">Đang lập kết nối</string>
     <string name="check_ports_msg">Hãy kiểm tra tường lửa và các quy tắc chuyển tiếp cổng để tìm (các) cổng:</string>
-    <string name="early_termination_error">Có gì đó sai đã xảy ra trên PC chủ của bạn khi bắt đầu stream.
-\n
-\nHãy chắc chắn là bạn không mở bất kỳ nội dung được DRM bảo vệ nào trên PC chủ. Bạn cũng có thể thử khởi động lại PC chủ.
-\n
-\nNếu vấn đề vẫn tiếp diễn, hãy thử cài đặt lại driver GPU và GeForce Experience.</string>
+    <string name="early_termination_error">Có gì đó sai đã xảy ra trên PC chủ của bạn khi bắt đầu stream.\n\nHãy chắc chắn là bạn không mở bất kỳ nội dung được DRM bảo vệ nào trên PC chủ. Bạn cũng có thể thử khởi động lại PC chủ.\n\nNếu vấn đề vẫn tiếp diễn, hãy thử cài đặt lại driver GPU và GeForce Experience.</string>
     <string name="no_frame_received_error">Kết nối mạng của bạn đang không hoạt động tốt. Hãy giảm cài đặt tốc độ bit hoặc thử một kết nối nhanh hơn.</string>
     <string name="no_video_received_error">Không nhận được video từ chủ.</string>
     <string name="video_decoder_init_failed">Khởi tạo trình giải mã video thất bại. Thiết bị có thể không hỗ trợ độ phân giải hoặc tốc độ khung hình đã chọn.</string>
@@ -158,18 +145,11 @@
     <string name="pair_pc_offline">Máy tính đang ngoại tuyến</string>
     <string name="pairing">Đang ghép đôi…</string>
     <string name="nettest_text_blocked">Kết nối mạng hiện tại của thiết bị đang chặn Moonlight. Việc stream qua Internet có thể sẽ không được khi đang kết nối đến mạng này.</string>
-    <string name="nettest_text_failure">Kết nối mạng hiện tại của thiết bị có vẻ là đang chặn Moonlight. Việc stream qua Internet có thể sẽ không được khi đang kết nối đến mạng này.
-\n
-\nCác cổng mạng sau bị chặn:
-\n</string>
+    <string name="nettest_text_failure">Kết nối mạng hiện tại của thiết bị có vẻ là đang chặn Moonlight. Việc stream qua Internet có thể sẽ không được khi đang kết nối đến mạng này.\n\nCác cổng mạng sau bị chặn:\n</string>
     <string name="nettest_text_inconclusive">Việc thử nghiệm mạng không thể được thực hiện vì không có máy chủ thử nghiệm kết nối nào của Moonlight có thể được kết nối đến. Hãy kiểm tra kết nối Internet của bạn hoặc thử lại sau.</string>
-    <string name="nettest_text_success">Mạng của bạn có vẻ là không chặn Moonlight. Nếu bạn vẫn gặp rắc rối trong việc kết nối, hãy kiểm tra cài đặt tường lửa của PC.
-\n
-\nNếu bạn đang cố stream qua Internet, hãy cài đặt Moonlight Internet Hosting Tool trên PC và chạy Internet Streaming Tester được bao gồm trong đó để kiểm tra kết nối Internet của PC.</string>
+    <string name="nettest_text_success">Mạng của bạn có vẻ là không chặn Moonlight. Nếu bạn vẫn gặp rắc rối trong việc kết nối, hãy kiểm tra cài đặt tường lửa của PC.\n\nNếu bạn đang cố stream qua Internet, hãy cài đặt Moonlight Internet Hosting Tool trên PC và chạy Internet Streaming Tester được bao gồm trong đó để kiểm tra kết nối Internet của PC.</string>
     <string name="nettest_title_done">Thử nghiệm mạng hoàn tất</string>
-    <string name="nettest_text_waiting">Moonlight đang thử nghiệm kết nối mạng của bạn để xác định xem NVIDIA GameStream có bị chặn không.
-\n
-\nViệc này có thể sẽ mất một vài giây…</string>
+    <string name="nettest_text_waiting">Moonlight đang thử nghiệm kết nối mạng của bạn để xác định xem NVIDIA GameStream có bị chặn không.\n\nViệc này có thể sẽ mất một vài giây…</string>
     <string name="nettest_title_waiting">Đang thử nghiệm kết nối mạng</string>
     <string name="pcview_menu_details">Xem chi tiết</string>
     <string name="pcview_menu_test_network">Thử nghiệm kết nối mạng</string>
@@ -208,10 +188,9 @@
     <string name="audioconf_71surround">Âm thanh vòm 7.1</string>
     <string name="videoformat_hevcalways">Luôn sử dụng HEVC (có thể gây crash)</string>
     <string name="resolution_prefix_native_landscape">(Ngang)</string>
-    <string name="frame_conversion_error">PC chủ đã gặp lỗi mã hoá video nghiêm trọng.
-\n
-\nHãy thử tắt chế độ HDR, đổi độ phân giải stream, hoặc đổi độ phân giải màn hình PC chủ.</string>
+    <string name="frame_conversion_error">PC chủ đã gặp lỗi mã hoá video nghiêm trọng.\n\nHãy thử tắt chế độ HDR, đổi độ phân giải stream, hoặc đổi độ phân giải màn hình PC chủ.</string>
     <string name="title_checkbox_enable_audiofx">Hỗ trợ bộ cân bằng của hệ thống</string>
     <string name="summary_checkbox_enable_audiofx">Cho phép hiệu ứng âm thanh hoạt động khi stream, nhưng có thể tăng độ trễ âm thanh</string>
     <string name="resolution_prefix_native_portrait">(Dọc)</string>
+    <string name="title_config_sync_backup_password">Mật khẩu mã hóa bản sao lưu</string>
 </resources>

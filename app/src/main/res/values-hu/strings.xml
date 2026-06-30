@@ -66,13 +66,7 @@
     <string name="title_seekbar_bitrate">Videó bitráta</string>
     <string name="summary_fps_list">Növelje a gördülékenyebb videofolyamot. Csökkenjen a jobb teljesítmény érdekében az alsó kategóriás eszközökön.</string>
     <string name="title_fps_list">Videó képkockasebessége</string>
-    <string name="text_native_res_dialog">Előfordulhat, hogy a streaming szerver nem támogatja a natív felbontást és/vagy FPS-t. Valószínűleg kézzel kell beállítania egy megfelelő egyéni megjelenítési módot a fogadó számítógépen.
-\n
-\nHa úgy dönt, hogy egyéni felbontást hoz létre az NVIDIA Vezérlőpultban a képernyő beállításainak megfelelően, kérjük, győződjön meg róla, hogy elolvasta és megértette az NVIDIA figyelmeztetését a monitor lehetséges károsodására, a számítógép instabilitására és más lehetséges problémákra vonatkozóan.
-\n
-\nNem vállalunk felelősséget a számítógépén egyéni felbontás létrehozásából eredő problémákért.
-\n
-\nElőfordulhat, hogy az Ön monitora nem támogatja a szükséges kijelzőkonfigurációt. Ebben az esetben megpróbálhat egy virtuális monitort beállítani. Végül, ha a készülék vagy a gazdaszámítógép nem támogatja a streaminget egy adott felbontáson vagy frissítési frekvencián, akkor sajnos nincs szerencséje.</string>
+    <string name="text_native_res_dialog">Előfordulhat, hogy a streaming szerver nem támogatja a natív felbontást és/vagy FPS-t. Valószínűleg kézzel kell beállítania egy megfelelő egyéni megjelenítési módot a fogadó számítógépen.\n\nHa úgy dönt, hogy egyéni felbontást hoz létre az NVIDIA Vezérlőpultban a képernyő beállításainak megfelelően, kérjük, győződjön meg róla, hogy elolvasta és megértette az NVIDIA figyelmeztetését a monitor lehetséges károsodására, a számítógép instabilitására és más lehetséges problémákra vonatkozóan.\n\nNem vállalunk felelősséget a számítógépén egyéni felbontás létrehozásából eredő problémákért.\n\nElőfordulhat, hogy az Ön monitora nem támogatja a szükséges kijelzőkonfigurációt. Ebben az esetben megpróbálhat egy virtuális monitort beállítani. Végül, ha a készülék vagy a gazdaszámítógép nem támogatja a streaminget egy adott felbontáson vagy frissítési frekvencián, akkor sajnos nincs szerencséje.</string>
     <string name="title_native_res_dialog">Natív felbontás figyelmeztetés</string>
     <string name="summary_resolution_list">Növelje a kép tisztaságának növelése érdekében. Csökkenjen a jobb teljesítmény érdekében az alsó kategóriás eszközökön és a lassabb hálózatokon.</string>
     <string name="title_resolution_list">Videó felbontás</string>
@@ -99,17 +93,14 @@
     <string name="applist_menu_quit_and_start">Lépjen ki az aktuális játékból és indítsa el</string>
     <string name="applist_connect_msg">Csatlakozás a számítógéphez…</string>
     <string name="poor_connection_msg">Gyenge kapcsolat a PC-vel</string>
-    <string name="slow_connection_msg">Lassú kapcsolat a PC-vel
-\nCsökkentse a bitrátát</string>
+    <string name="slow_connection_msg">Lassú kapcsolat a PC-vel\nCsökkentse a bitrátát</string>
     <string name="delete_pc_msg">Biztosan törli ezt a számítógépet\?</string>
     <string name="help">Segítség</string>
     <string name="title_details">Részletek</string>
     <string name="lost_connection">Megszakadt a kapcsolat a PC-vel</string>
     <string name="no">Nem</string>
     <string name="yes">Igen</string>
-    <string name="searching_pc">A helyi hálózaton lévő PC-k keresése...
-\n
-\nGyőződj meg róla, hogy a Sunshine fut a gazdaszámítógépen, vagy a GameStream engedélyezve van a GeForce Experience SHIELD beállításaiban.</string>
+    <string name="searching_pc">A helyi hálózaton lévő PC-k keresése...\n\nGyőződj meg róla, hogy a Sunshine fut a gazdaszámítógépen, vagy a GameStream engedélyezve van a GeForce Experience SHIELD beállításaiban.</string>
     <string name="ip_hint">A számítógép IP-címe</string>
     <string name="conn_terminated_msg">A kapcsolat megszakadt</string>
     <string name="conn_terminated_title">A kapcsolat megszűnt</string>
@@ -120,9 +111,7 @@
     <string name="conn_establishing_msg">Kapcsolódás</string>
     <string name="conn_establishing_title">Kapcsolat létesítése</string>
     <string name="check_ports_msg">Ellenőrizze a tűzfal és a port-továbbítási szabályokat a port(ok)ra vonatkozóan:</string>
-    <string name="early_termination_error">Valami nem sikerült a fogadó PC-n az adatfolyam indításakor.
-\n
-\nGyőződjön meg arról, hogy a fogadó PC-n nincs megnyitva DRM-védett tartalom. Megpróbálhatja újraindítani a gazdagépet is.</string>
+    <string name="early_termination_error">Valami nem sikerült a fogadó PC-n az adatfolyam indításakor.\n\nGyőződjön meg arról, hogy a fogadó PC-n nincs megnyitva DRM-védett tartalom. Megpróbálhatja újraindítani a gazdagépet is.</string>
     <string name="no_frame_received_error">A hálózati kapcsolat nem működik megfelelően. Csökkentse a videó bitráta beállítását, vagy próbálkozzon gyorsabb kapcsolattal.</string>
     <string name="no_video_received_error">Nem kapott videót a gazdagéptől.</string>
     <string name="video_decoder_init_failed">A videó dekóder inicializálása nem sikerült. Előfordulhat, hogy készüléke nem támogatja a kiválasztott felbontást vagy képkockasebességet.</string>
@@ -156,18 +145,11 @@
     <string name="pair_pc_ingame">A számítógép jelenleg játékban van. A párosítás előtt be kell zárni a játékot.</string>
     <string name="pair_pc_offline">A számítógép nem elérhető</string>
     <string name="nettest_text_blocked">Az eszköz jelenlegi hálózati kapcsolata blokkolja a Moonlight-ot. Előfordulhat, hogy az interneten keresztüli streaming nem működik, ha csatlakozik ehhez a hálózathoz.</string>
-    <string name="nettest_text_failure">Úgy tűnik, hogy eszközének jelenlegi hálózati kapcsolata blokkolja a Moonlight-ot. Előfordulhat, hogy az interneten keresztüli streaming nem működik, ha csatlakozik ehhez a hálózathoz.
-\n
-\nA következő hálózati portokat blokkolták:
-\n</string>
+    <string name="nettest_text_failure">Úgy tűnik, hogy eszközének jelenlegi hálózati kapcsolata blokkolja a Moonlight-ot. Előfordulhat, hogy az interneten keresztüli streaming nem működik, ha csatlakozik ehhez a hálózathoz.\n\nA következő hálózati portokat blokkolták:\n</string>
     <string name="nettest_text_inconclusive">A hálózati tesztet nem sikerült elvégezni, mert a Moonlight egyik kapcsolat tesztelő szervere sem volt elérhető. Ellenőrizze az internetkapcsolatot, vagy próbálkozzon újra később.</string>
-    <string name="nettest_text_success">Úgy tűnik, hogy a hálózata nem blokkolja a Moonlight-ot. Ha továbbra is problémái vannak a csatlakozással, ellenőrizze a számítógép tűzfalának beállításait.
-\n
-\nHa az interneten keresztül kíván közvetíteni, telepítse a Moonlight Internet Hosting Tool alkalmazást a számítógépére, és futtassa a mellékelt Internet Streaming Tester szoftvert a számítógép internetkapcsolatának ellenőrzéséhez.</string>
+    <string name="nettest_text_success">Úgy tűnik, hogy a hálózata nem blokkolja a Moonlight-ot. Ha továbbra is problémái vannak a csatlakozással, ellenőrizze a számítógép tűzfalának beállításait.\n\nHa az interneten keresztül kíván közvetíteni, telepítse a Moonlight Internet Hosting Tool alkalmazást a számítógépére, és futtassa a mellékelt Internet Streaming Tester szoftvert a számítógép internetkapcsolatának ellenőrzéséhez.</string>
     <string name="nettest_title_done">Hálózati kapcsolat teszt kész</string>
-    <string name="nettest_text_waiting">A Moonlight teszteli a hálózati kapcsolatot, hogy megállapítsa, nem blokkoltak-e szükséges portokat.
-\n
-\nEz néhány másodpercig eltarthat…</string>
+    <string name="nettest_text_waiting">A Moonlight teszteli a hálózati kapcsolatot, hogy megállapítsa, nem blokkoltak-e szükséges portokat.\n\nEz néhány másodpercig eltarthat…</string>
     <string name="pcview_menu_test_network">Hálózati kapcsolat teszt</string>
     <string name="nettest_title_waiting">Hálózati kapcsolat ellenőrzése</string>
     <string name="pcview_menu_details">Részletek megtekintése</string>
@@ -205,9 +187,7 @@
     <string name="resolution_720p">720p</string>
     <string name="videoformat_auto">Automatikus (ajánlott)</string>
     <string name="pacing_balanced_alt">Kiegyensúlyozott FPS-korlátozással</string>
-    <string name="frame_conversion_error">A fogadó számítógép végzetes videokódolási hibát jelentett.
-\n
-\nPróbálja meg letiltani a HDR módot, megváltoztatni a streaming felbontást, vagy megváltoztatni a host PC kijelzőjének felbontását.</string>
+    <string name="frame_conversion_error">A fogadó számítógép végzetes videokódolási hibát jelentett.\n\nPróbálja meg letiltani a HDR módot, megváltoztatni a streaming felbontást, vagy megváltoztatni a host PC kijelzőjének felbontását.</string>
     <string name="summary_checkbox_gamepad_touchpad_as_mouse">Kényszeríti a gamepad touchpad bevitelét a host egér vezérlésére, még akkor is, ha egy touchpaddal ellátott gamepadot emulál.</string>
     <string name="title_frame_pacing">Videó képkocka ütemezése</string>
     <string name="resolution_1440p">1440p</string>
@@ -235,4 +215,5 @@
     <string name="title_checkbox_gamepad_touchpad_as_mouse">Az egeret mindig az érintőpaddal vezérelje</string>
     <string name="resolution_prefix_native_landscape">(Tájkép)</string>
     <string name="pacing_latency">A legalacsonyabb késleltetés előnyben részesítése</string>
+    <string name="title_config_sync_backup_password">Biztonsági mentés titkosítási jelszava</string>
 </resources>

@@ -51,9 +51,7 @@
     <string name="conn_terminated_msg">연결이 종료되었습니다</string>
     <!-- General strings -->
     <string name="ip_hint">호스트 PC의 IP 주소</string>
-    <string name="searching_pc">로컬 네트워크의 호스트 PC를 검색중…
-\n
-\n 호스트 PC에서 Sunshine이 실행 중인지 또는 GeForce Experience SHIELD 설정에서 GameStream이 활성화되어 있는지 확인하십시오.</string>
+    <string name="searching_pc">로컬 네트워크의 호스트 PC를 검색중…\n\n 호스트 PC에서 Sunshine이 실행 중인지 또는 GeForce Experience SHIELD 설정에서 GameStream이 활성화되어 있는지 확인하십시오.</string>
     <string name="yes">예</string>
     <string name="no">아니오</string>
     <string name="lost_connection">PC 연결 끊김</string>
@@ -120,27 +118,18 @@
     <string name="resolution_prefix_native">네이티브</string>
     <string name="summary_fps_list">높을수록 화면이 더 부드러워집니다. 저사양 기기에서는 낮추는것이 좋습니다.</string>
     <string name="title_fps_list">FPS 설정</string>
-    <string name="text_native_res_dialog">네이티브 해상도 및 FPS는 스트리밍 서버에서 지원하지 않을 수 있습니다. 호스트 PC에 대해 일치하는 사용자 지정 디스플레이 모드를 수동으로 구성해야 할 수 있습니다.
-\n
-\n화면 설정과 일치하도록 NVIDIA 제어판에서 사용자 정의 해상도를 생성 할 경우 모니터 손상, PC 불안정 및 기타 잠재적인 문제에 대한 NVIDIA의 경고를 읽고 이해했는지 확인하십시오.
-\n
-\nMoonlight는 PC에서 사용자 지정 해상도를 생성하여 발생하는 문제에 대해 책임을 지지 않습니다.
-\n
-\n모니터가 필요한 디스플레이 구성을 지원하지 않을 경우 가상 모니터 설정을 시도할 수 있습니다. 장치나 호스트 PC가 특정 해상도나 새로 고침 빈도로 스트리밍을 지원하지 않을 수 있습니다.</string>
+    <string name="text_native_res_dialog">네이티브 해상도 및 FPS는 스트리밍 서버에서 지원하지 않을 수 있습니다. 호스트 PC에 대해 일치하는 사용자 지정 디스플레이 모드를 수동으로 구성해야 할 수 있습니다.\n\n화면 설정과 일치하도록 NVIDIA 제어판에서 사용자 정의 해상도를 생성 할 경우 모니터 손상, PC 불안정 및 기타 잠재적인 문제에 대한 NVIDIA의 경고를 읽고 이해했는지 확인하십시오.\n\nMoonlight는 PC에서 사용자 지정 해상도를 생성하여 발생하는 문제에 대해 책임을 지지 않습니다.\n\n모니터가 필요한 디스플레이 구성을 지원하지 않을 경우 가상 모니터 설정을 시도할 수 있습니다. 장치나 호스트 PC가 특정 해상도나 새로 고침 빈도로 스트리밍을 지원하지 않을 수 있습니다.</string>
     <string name="title_native_res_dialog">네이티브 해상도 주의사항</string>
     <string name="addpc_wrong_sitelocal">주소가 잘못된 것 같습니다. 인터넷을 통해 스트리밍하려면 라우터의 공용 IP 주소를 사용해야합니다.</string>
     <string name="applist_menu_hide_app">게임 숨기기</string>
     <string name="applist_menu_scut">바로가기 만들기</string>
     <string name="applist_menu_details">세부사항</string>
     <string name="poor_connection_msg">PC와의 연결이 불안정함</string>
-    <string name="slow_connection_msg">PC와의 연결이 불안정합니다.
-\n비트레이트를 줄이세요</string>
+    <string name="slow_connection_msg">PC와의 연결이 불안정합니다.\n비트레이트를 줄이세요</string>
     <string name="delete_pc_msg">이 PC를 삭제 하시겠습니까\?</string>
     <string name="title_details">세부정보</string>
     <string name="check_ports_msg">다음 포트의 방화벽 및 포트 포워딩 설정을 확인하십시오:</string>
-    <string name="early_termination_error">스트림을 시작할 때 호스트 PC에서 문제가 발생했습니다.
-\n
-\n호스트 PC에 DRM으로 보호 된 콘텐츠가 열려 있지 않은지 확인하거나 호스트 PC를 재부팅하십시오 .</string>
+    <string name="early_termination_error">스트림을 시작할 때 호스트 PC에서 문제가 발생했습니다.\n\n호스트 PC에 DRM으로 보호 된 콘텐츠가 열려 있지 않은지 확인하거나 호스트 PC를 재부팅하십시오 .</string>
     <string name="no_frame_received_error">네트워크 연결이 불안정합니다. 비트레이트를 낮추거나 더 빠른 네트워크에 연결하십시오.</string>
     <string name="no_video_received_error">호스트로부터 비디오를 받지 못했습니다.</string>
     <string name="video_decoder_init_failed">비디오 디코더를 실행하지 못했습니다. 이 장치가 선택한 해상도 또는 프레임 속도를 지원하지 않을 수 있습니다.</string>
@@ -150,18 +139,11 @@
     <string name="message_decoding_error">이 장치의 비디오 디코더와 호환되지 않아 Moonlight에서 오류가 발생했습니다. 충돌이 계속되면 스트리밍 설정을 조정 해보십시오.</string>
     <string name="title_decoding_error">비디오 디코더 오류</string>
     <string name="nettest_text_blocked">기기의 현재 네트워크가 Moonlight를 차단하고 있습니다. 이 네트워크에 연결되어 있으면 인터넷을 통한 스트리밍이 작동하지 않을 수 있습니다.</string>
-    <string name="nettest_text_failure">기기의 현재 네트워크가 Moonlight를 차단하는 것 같습니다. 이 네트워크에 연결되어 있으면 인터넷을 통한 스트리밍이 작동하지 않을 수 있습니다.
-\n
-\n차단된 네트워크 포트:
-\n</string>
+    <string name="nettest_text_failure">기기의 현재 네트워크가 Moonlight를 차단하는 것 같습니다. 이 네트워크에 연결되어 있으면 인터넷을 통한 스트리밍이 작동하지 않을 수 있습니다.\n\n차단된 네트워크 포트:\n</string>
     <string name="nettest_text_inconclusive">Moonlight의 테스트 서버에 연결할 수 없기 때문에 네트워크 테스트를 할 수 없습니다. 인터넷 연결을 확인하거나 나중에 다시 시도하십시오.</string>
-    <string name="nettest_text_success">네트워크가 Moonlight를 차단하지 않는 것 같습니다. 여전히 연결에 문제가 있으면 PC의 방화벽 설정을 확인하십시오
-\n
-\n인터넷을 통해 연결하려는 경우 PC에 Moonlight Internet Hosting Tool을 설치하고 Internet Streaming Tester를 실행하여 PC의 인터넷 연결을 확인하십시오.</string>
+    <string name="nettest_text_success">네트워크가 Moonlight를 차단하지 않는 것 같습니다. 여전히 연결에 문제가 있으면 PC의 방화벽 설정을 확인하십시오\n\n인터넷을 통해 연결하려는 경우 PC에 Moonlight Internet Hosting Tool을 설치하고 Internet Streaming Tester를 실행하여 PC의 인터넷 연결을 확인하십시오.</string>
     <string name="nettest_title_done">네트워크 연결 테스트 완료</string>
-    <string name="nettest_text_waiting">Moonlight는 필요한 포트가 차단되었는지 확인하기 위해 네트워크 연결을 테스트하고 있습니다.
-\n
-\n잠시 기다려 주세요…</string>
+    <string name="nettest_text_waiting">Moonlight는 필요한 포트가 차단되었는지 확인하기 위해 네트워크 연결을 테스트하고 있습니다.\n\n잠시 기다려 주세요…</string>
     <string name="pcview_menu_header_unknown">상태 확인중</string>
     <string name="pcview_menu_test_network">네트워크 연결 테스트</string>
     <string name="pcview_menu_header_offline">오프라인</string>
@@ -234,9 +216,7 @@
     <string name="resolution_prefix_native_portrait">(세로)</string>
     <string name="title_checkbox_reduce_refresh_rate">주사율 감소 허용</string>
     <string name="summary_checkbox_reduce_refresh_rate">화면 주사율을 낮춰서 영상 지연 시간이 증가하고 전력을 절약할 수 있습니다.</string>
-    <string name="frame_conversion_error">호스트 PC에서 치명적인 비디오 인코딩 오류를 보고했습니다.
-\n
-\nHDR 모드를 비활성화하거나 스트리밍 해상도를 변경하거나 호스트 PC의 디스플레이 해상도를 변경해 보십시오.</string>
+    <string name="frame_conversion_error">호스트 PC에서 치명적인 비디오 인코딩 오류를 보고했습니다.\n\nHDR 모드를 비활성화하거나 스트리밍 해상도를 변경하거나 호스트 PC의 디스플레이 해상도를 변경해 보십시오.</string>
     <string name="summary_full_range">밝기범위를 \"전체(0~255)\"로 설정합니다. 장치의 디스플레이가 \"제한(16~235)\" 범위로 출력하는 경우 밝기가 제대로 표현되지 않습니다.</string>
     <string name="title_full_range">전체 범위 비디오 활성화 (실험용)</string>
     <string name="title_checkbox_gamepad_motion_sensors">컨트롤러 모션 센서 사용 허용</string>
@@ -251,8 +231,7 @@
     <string name="videoformat_av1always">AV1 선호 (실험용)</string>
     <string name="videoformat_h264always">H.264 선호</string>
     <string name="toast_controller_type_changed">모션 센서 에뮬레이션으로 인해 컨트롤러 유형이 변경될 수 있습니다</string>
-    <string name="summary_checkbox_gamepad_motion_fallback">연결된 컨트롤러 또는 기기의 Android 버전에서 컨트롤러 센서가 지원되지 않는 경우 장치에 내장된 모션 센서를 사용합니다.
-\n참고: 이 옵션을 활성화하면 사용 중인 컨트롤러가 호스트에서 PlayStation 컨트롤러로 나타날 수 있습니다.</string>
+    <string name="summary_checkbox_gamepad_motion_fallback">연결된 컨트롤러 또는 기기의 Android 버전에서 컨트롤러 센서가 지원되지 않는 경우 장치에 내장된 모션 센서를 사용합니다.\n참고: 이 옵션을 활성화하면 사용 중인 컨트롤러가 호스트에서 PlayStation 컨트롤러로 나타날 수 있습니다.</string>
     <string name="title_checkbox_gamepad_motion_fallback">컨트롤러의 모션 센서 에뮬레이션 지원</string>
     <string name="mic_stats_continuity">오디오 연속성: %1$.1f%% (캡처:%2$d 인코딩:%3$d 전송:%4$d 드롭:%5$d)</string>
     <!-- 오디오 진동 설정 -->
@@ -265,4 +244,21 @@
     <string name="summary_list_audio_vibration_mode">진동 전달 방법 선택</string>
     <string name="title_list_audio_vibration_scene">장면 모드</string>
     <string name="summary_list_audio_vibration_scene">콘텐츠 유형에 맞춰 진동 패턴 최적화</string>
+    <string name="title_screen_combination_mode">디스플레이 조합 설정</string>
+    <string name="summary_screen_combination_mode">Sunshine Foundation 디스플레이 제어</string>
+    <string name="screen_combination_mode_dialog_subtitle">Sunshine Foundation 디스플레이 제어에 적용</string>
+    <string name="screen_mode_host_default">호스트 따르기</string>
+    <string name="screen_mode_no_operation">작업 없음 모드</string>
+    <string name="screen_mode_auto_activate">활성화 모드</string>
+    <string name="screen_mode_primary_streaming">주 디스플레이 스트리밍 모드</string>
+    <string name="screen_mode_secondary_streaming">보조 디스플레이 스트리밍 모드</string>
+    <string name="screen_mode_exclusive_streaming">전용 디스플레이 스트리밍 모드</string>
+    <string name="screen_mode_host_default_desc">Sunshine 호스트 설정을 덮어쓰지 않고 사용합니다.</string>
+    <string name="screen_mode_no_operation_desc">현재 디스플레이 구성을 유지합니다.</string>
+    <string name="screen_mode_auto_activate_desc">선택한 디스플레이를 스트리밍용으로 활성화합니다.</string>
+    <string name="screen_mode_primary_streaming_desc">선택한 디스플레이를 활성화하고 주 디스플레이로 설정합니다.</string>
+    <string name="screen_mode_secondary_streaming_desc">물리 디스플레이를 주 디스플레이로 유지하고 Foundation 디스플레이를 보조로 사용합니다.</string>
+    <string name="screen_mode_exclusive_streaming_desc">선택한 디스플레이만 사용하고 다른 디스플레이를 비활성화합니다.</string>
+    <string name="screen_combination_mode_label">모드: %1$s</string>
+    <string name="title_config_sync_backup_password">백업 암호화 비밀번호</string>
 </resources>

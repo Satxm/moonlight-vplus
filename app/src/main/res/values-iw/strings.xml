@@ -5,9 +5,7 @@
     <string name="help_loading_msg">טוען עמוד עזרה…</string>
     <string name="pcview_menu_header_online">פעיל</string>
     <string name="pcview_menu_details">הראה פרטים</string>
-    <string name="nettest_text_waiting">מונלייט בודק את הרשת שלך ובודק אם ישנם פורטים הכרחיים חסומים
-\n
-\nהמתן כמה שניות…</string>
+    <string name="nettest_text_waiting">מונלייט בודק את הרשת שלך ובודק אם ישנם פורטים הכרחיים חסומים\n\nהמתן כמה שניות…</string>
     <string name="wol_no_mac">לא מצליח להעיר את המחשב, אין כתובת MAC</string>
     <string name="scut_pc_not_found">מחשב לא נמצא</string>
     <string name="help_loading_title">עזרה</string>
@@ -24,10 +22,7 @@
     <string name="nettest_title_waiting">בודק חיבור רשת</string>
     <string name="nettest_title_done">בדיקת רשת הושלמה</string>
     <string name="nettest_text_inconclusive">בדיקת הרשת לא התבצעה בגלל שאין קישוריות לשרתי הבדיקה של מונלייט. בבקשה בדוק את החיבור לאינטרנט או נסה שוב מאוחר יותר.</string>
-    <string name="nettest_text_failure">גישה של מונלייט לרשת חסומה במכשיר הנוכחי. הזרמה על גבי האינטרנט לא יכוה לעבוד כל עוד מונלייט מחובר לרשת הנוכחית.
-\n
-\nהפורטים הבאים חסומים:
-\n</string>
+    <string name="nettest_text_failure">גישה של מונלייט לרשת חסומה במכשיר הנוכחי. הזרמה על גבי האינטרנט לא יכוה לעבוד כל עוד מונלייט מחובר לרשת הנוכחית.\n\nהפורטים הבאים חסומים:\n</string>
     <string name="nettest_text_blocked">חיבור הרשת הנוכחי חוסם את מונלייט. הזרמה על גבי האינטרנט אינה אפשרית כל עוד מונלייט מחובר לרשת הנוכחית.</string>
     <string name="pair_pc_offline">מחשב לא פעיל</string>
     <string name="pair_pairing_title">מחבר</string>
@@ -66,9 +61,7 @@
     <string name="title_native_res_dialog">אזהרת רזולוצייה טבעית</string>
     <string name="title_fps_list">פריימים לשניה</string>
     <string name="wol_waking_msg">ייקחו כמה שניות להפעיל את המחשב. אם הוא לא, אנא וודא שהוא מוגדר נכון לפונקציית Wake-On-LAN.</string>
-    <string name="nettest_text_success">הרשת שלך איננה חוסמת את מונלייט, בבקשה בדוק את הגדרות חומת האש במחשב המארח.
-\n
-\nאם אתה מנסה להזרים דרך האינטרנט, אנא התקן את הכל Moonlight Internet Hosting Tool על המחשב והפעל את כלי הבדיקה המצורף בכדי לבדוק את חיבור האינטרנט.</string>
+    <string name="nettest_text_success">הרשת שלך איננה חוסמת את מונלייט, בבקשה בדוק את הגדרות חומת האש במחשב המארח.\n\nאם אתה מנסה להזרים דרך האינטרנט, אנא התקן את הכל Moonlight Internet Hosting Tool על המחשב והפעל את כלי הבדיקה המצורף בכדי לבדוק את חיבור האינטרנט.</string>
     <string name="pairing">מאמת…</string>
     <string name="pair_pc_ingame">מחשב באמצע משחק. נא לצאת מהמשחק לפני ביצוע חיבור.</string>
     <string name="pair_already_in_progress">פעולת החיבור מתבצעת</string>
@@ -83,14 +76,9 @@
     <string name="check_ports_msg">בדוק את חומת האש וניהול פורטים עבור הפורטים הבאים:</string>
     <string name="conn_establishing_title">מתחיל חיבור</string>
     <string name="addpc_success">מחשב נוסף בהצלחה</string>
-    <string name="early_termination_error">מששהו קרה במחשב המארח כשהחלה הזרמה.
-\n
-\nאנא וודא שאין תוכן מוגן DRM פתוח במחשב. אפשר לנסות להפעיל מחדש את המחשב.</string>
-    <string name="slow_connection_msg">חיבור איטי למחשב
-\nהורד Bitrate</string>
-    <string name="frame_conversion_error">המחשב המארח דיווח על שגיאת הצפנת וידיאו.
-\n
-\nנסה לבטל הגדרת HDR, החלפת רזולוציית הזרמה או לשנות את רזולוציית המחשב המארח.</string>
+    <string name="early_termination_error">מששהו קרה במחשב המארח כשהחלה הזרמה.\n\nאנא וודא שאין תוכן מוגן DRM פתוח במחשב. אפשר לנסות להפעיל מחדש את המחשב.</string>
+    <string name="slow_connection_msg">חיבור איטי למחשב\nהורד Bitrate</string>
+    <string name="frame_conversion_error">המחשב המארח דיווח על שגיאת הצפנת וידיאו.\n\nנסה לבטל הגדרת HDR, החלפת רזולוציית הזרמה או לשנות את רזולוציית המחשב המארח.</string>
     <string name="conn_establishing_msg">מתחבר</string>
     <string name="conn_starting">מתחיל</string>
     <string name="conn_metered">אזהרה: החיבור הנוכחי הוא נמדד!</string>
@@ -99,9 +87,7 @@
     <string name="delete_pc_msg">אתה בטוח שאתה רוצה להסיר מחשב זה\?</string>
     <string name="conn_client_latency_hw">מהירות פענוח חומרתי:</string>
     <string name="conn_error_msg">נכשל להפעיל</string>
-    <string name="searching_pc">מחפש מחשבים ברשת המקומית שלך...
-\n
-\nוודא שסאנשיין או GeForce Experience פועלים.</string>
+    <string name="searching_pc">מחפש מחשבים ברשת המקומית שלך...\n\nוודא שסאנשיין או GeForce Experience פועלים.</string>
     <string name="yes">כן</string>
     <string name="no">לא</string>
     <string name="help">עזרה</string>
@@ -117,13 +103,7 @@
     <string name="addpc_fail">לא ניתן להתחבר למחשב שנבחר. נא לבדוק שהפורטים הנחוצים פתוחים בחומת האש.</string>
     <string name="addpc_wrong_sitelocal">הכתובת לא נראת נכונה. צריך להשתמש בכתובת IP הציבורית בכדי להתחבר דרך האינטרנט.</string>
     <string name="summary_resolution_list">להגביר לשיפור איכות התמונה. להוריד לשיפור ביצועים על מערכות ישנות ורשתות איטיות.</string>
-    <string name="text_native_res_dialog">רזולוציות טבעיות אינן נתמכות רשמית דרך Geforce Expereience, הרזולוציה לא מוגדרת במסך המארח. יש להגדירה ידנית בזמן משחק.
-\n
-\nיש לקרוא ולהבין את ההנחיות של NVIDIA לגבי אי יציבות ונזקים אם מגדירים רזולוציה מותאמת אישית דרך פאנל הניהול.
-\n
-\nמונלייט אינו אחראי לבעיות או נזקים שנגרמים כתוצאה משימוש ברזולוציה מותאמת אישית.
-\n
-\nהמכשיר שלך כנראה ואינו תומך ברזולוציה טבעית.</string>
+    <string name="text_native_res_dialog">רזולוציות טבעיות אינן נתמכות רשמית דרך Geforce Expereience, הרזולוציה לא מוגדרת במסך המארח. יש להגדירה ידנית בזמן משחק.\n\nיש לקרוא ולהבין את ההנחיות של NVIDIA לגבי אי יציבות ונזקים אם מגדירים רזולוציה מותאמת אישית דרך פאנל הניהול.\n\nמונלייט אינו אחראי לבעיות או נזקים שנגרמים כתוצאה משימוש ברזולוציה מותאמת אישית.\n\nהמכשיר שלך כנראה ואינו תומך ברזולוציה טבעית.</string>
     <string name="summary_seekbar_bitrate">הגבר לשיפור איכות התמונה. הנמך בכדי לשפר ביצועים על גבי חיבור רשת איטי.</string>
     <string name="summary_audio_config_list">הפעל קול היקפי בהגדרת 5.1 או 7.1 עבור מערכות קולנוע ביתי</string>
     <string name="summary_checkbox_enable_audiofx">אפשר לאפקטי סאונד לפעול בזמן הזרמה, יגרום להשהיית אודיו</string>
@@ -139,4 +119,5 @@
     <string name="title_checkbox_enable_audiofx">הפעל תמיכה באקולייזר</string>
     <string name="category_input_settings">הגדרות קלט</string>
     <string name="title_checkbox_touchscreen_trackpad">השתמש במסך מגע כמשטח מגע</string>
+    <string name="title_config_sync_backup_password">סיסמת הצפנת גיבוי</string>
 </resources>

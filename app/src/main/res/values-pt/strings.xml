@@ -19,17 +19,10 @@
     <string name="pcview_menu_send_wol">Enviar requisição Wake-On-LAN</string>
     <string name="pcview_menu_delete_pc">Deletar PC</string>
     <string name="pcview_menu_test_network">Testar Conexão com a Internet</string>
-    <string name="nettest_text_waiting">Moonlight está testando sua conexão com a rede para determinar se o NVIDIA GameStream está bloqueado.
-\n
-\nEste processo pode demorar alguns segundos…</string>
+    <string name="nettest_text_waiting">Moonlight está testando sua conexão com a rede para determinar se o NVIDIA GameStream está bloqueado.\n\nEste processo pode demorar alguns segundos…</string>
     <string name="pacing_balanced">Balanceado</string>
-    <string name="nettest_text_success">A sua rede não parece estar a bloquear o Moonlight. Se ainda tiver problemas a se conectar, verifique as configurações de firewall do seu PC.
-\n
-\nSe estiver a tentar transmitir pela Internet, instale o Moonlight Internet Hosting Tool no seu PC e execute o Internet Streaming Tester para verificar a conexão com a Internet do seu PC.</string>
-    <string name="nettest_text_failure">A conexão de rede atual do seu aparelho parece estar a bloquear o Moonlight. A transmissão pela Internet pode não funcionar enquanto estiver conectado a esta rede.
-\n
-\nAs seguintes portas de rede estão bloqueadas:
-\n</string>
+    <string name="nettest_text_success">A sua rede não parece estar a bloquear o Moonlight. Se ainda tiver problemas a se conectar, verifique as configurações de firewall do seu PC.\n\nSe estiver a tentar transmitir pela Internet, instale o Moonlight Internet Hosting Tool no seu PC e execute o Internet Streaming Tester para verificar a conexão com a Internet do seu PC.</string>
+    <string name="nettest_text_failure">A conexão de rede atual do seu aparelho parece estar a bloquear o Moonlight. A transmissão pela Internet pode não funcionar enquanto estiver conectado a esta rede.\n\nAs seguintes portas de rede estão bloqueadas:\n</string>
     <string name="nettest_text_blocked">A conexão de rede atual do seu aparelho está a bloquear o Moonlight. A transmissão pela Internet pode não funcionar enquanto estiver conectado a esta rede.</string>
     <string name="wol_waking_msg">Pode levar alguns segundos até o seu PC acordar. Se isso não acontecer, verifique se ele está configurado corretamente para Wake-On-LAN.</string>
     <string name="wol_fail">Falha ao enviar pacotes Wake-On-LAN</string>
@@ -40,14 +33,8 @@
     <string name="message_decoding_error">Moonlight crashou devido a uma incompatibilidade com o decodificador de vídeo deste aparelho. Certifique-se de que o GeForce Experience esteja atualizado à versão mais recente no seu PC. Tente ajustar as configurações de transmissão se as falhas continuarem.</string>
     <string name="unable_to_pin_shortcut">O seu launcher atual não permite a criação de atalhos fixados.</string>
     <string name="video_decoder_init_failed">Falha ao iniciar o decodificador de vídeo. O seu aparelho pode não suportar a resolução ou taxa de quadros selecionada.</string>
-    <string name="frame_conversion_error">O PC host relatou um erro fatal de codificação de vídeo.
-\n
-\nTente desativar o modo HDR, alterar a resolução de streaming ou alterar a resolução do PC host.</string>
-    <string name="early_termination_error">Algo deu errado no seu PC ao iniciar a transmissão.
-\n
-\nCertifique-se de não ter nenhum conteúdo protegido por DRM aberto no seu PC. Também pode tentar reiniciar ele.
-\n
-\nSe o problema persistir, tente reinstalar os drivers da GPU e o GeForce Experience.</string>
+    <string name="frame_conversion_error">O PC host relatou um erro fatal de codificação de vídeo.\n\nTente desativar o modo HDR, alterar a resolução de streaming ou alterar a resolução do PC host.</string>
+    <string name="early_termination_error">Algo deu errado no seu PC ao iniciar a transmissão.\n\nCertifique-se de não ter nenhum conteúdo protegido por DRM aberto no seu PC. Também pode tentar reiniciar ele.\n\nSe o problema persistir, tente reinstalar os drivers da GPU e o GeForce Experience.</string>
     <string name="conn_metered">Aviso: A sua conexão de rede atual é limitada!</string>
     <string name="conn_client_latency">Latência média de decodificação de quadros:</string>
     <string name="conn_client_latency_hw">latência do decodificador de hardware:</string>
@@ -55,21 +42,13 @@
     <string name="conn_terminated_title">Conexão Encerrada</string>
     <string name="conn_terminated_msg">A conexão foi encerrada</string>
     <string name="ip_hint">Endereço de IP do PC GeForce</string>
-    <string name="searching_pc">Procurando por PCs a executar o GameStream...
-\n
-\nCertifique-se de que o GameStream esteja ativado nas configurações do SHIELD do GeForce Experience.</string>
+    <string name="searching_pc">Procurando por PCs a executar o GameStream...\n\nCertifique-se de que o GameStream esteja ativado nas configurações do SHIELD do GeForce Experience.</string>
     <string name="applist_menu_scut">Criar Atalho</string>
     <string name="applist_refresh_msg">A recarregar apps…</string>
     <string name="applist_quit_app">Saindo</string>
     <string name="applist_quit_success">Saiu com sucesso</string>
     <string name="applist_quit_fail">Falha ao sair</string>
-    <string name="text_native_res_dialog">Os modos de resolução nativa não são oficialmente suportados pelo GeForce Experience, portanto, ele não definirá a resolução da ecrã do host. Precisará configurá-lo manualmente durante o jogo.
-\n
-\nSe optar por criar uma resolução personalizada no Painel de controle da NVIDIA para corresponder à resolução do seu aparelho, certifique-se de ter lido e entendido o aviso da NVIDIA sobre possíveis danos ao monitor, instabilidade do PC e outros problemas potenciais.
-\n
-\nNão nos responsabilizamos por quaisquer problemas resultantes da criação de uma resolução personalizada no seu PC.
-\n
-\nPor fim, o seu aparelho ou PC host pode não suportar transmissões na resolução nativa. Se não funcionar no seu aparelho, está sem sorte, infelizmente.</string>
+    <string name="text_native_res_dialog">Os modos de resolução nativa não são oficialmente suportados pelo GeForce Experience, portanto, ele não definirá a resolução da ecrã do host. Precisará configurá-lo manualmente durante o jogo.\n\nSe optar por criar uma resolução personalizada no Painel de controle da NVIDIA para corresponder à resolução do seu aparelho, certifique-se de ter lido e entendido o aviso da NVIDIA sobre possíveis danos ao monitor, instabilidade do PC e outros problemas potenciais.\n\nNão nos responsabilizamos por quaisquer problemas resultantes da criação de uma resolução personalizada no seu PC.\n\nPor fim, o seu aparelho ou PC host pode não suportar transmissões na resolução nativa. Se não funcionar no seu aparelho, está sem sorte, infelizmente.</string>
     <string name="suffix_seekbar_bitrate_mbps">Mbps</string>
     <string name="resolution_prefix_native_landscape">(Paisagem)</string>
     <string name="resolution_prefix_native_portrait">(Retrato)</string>
@@ -141,8 +120,7 @@
     <string name="help">Ajuda</string>
     <string name="delete_pc_msg">Tem certeza de que deseja apagar este PC\?</string>
     <string name="poor_connection_msg">Conexão ruim com o PC</string>
-    <string name="slow_connection_msg">Conexão lenta com o PC
-\nReduza sua taxa de bits</string>
+    <string name="slow_connection_msg">Conexão lenta com o PC\nReduza sua taxa de bits</string>
     <string name="applist_connect_msg">Conectando ao PC…</string>
     <string name="applist_menu_resume">Retomar Sessão</string>
     <string name="applist_menu_quit">Sair da Sessão</string>
@@ -338,13 +316,22 @@
     <string name="summary_checkbox_resume_stream">Retomar automaticamente o stream ao retornar ao Moonlight do segundo plano</string>
     
     <!-- Host settings -->
-    <string name="title_screen_combination_mode">Modo de combinação de tela (Sunshine Foundation)</string>
-    <string name="summary_screen_combination_mode">Controle como o Sunshine gerencia seus monitores ao iniciar um stream</string>
-    <string name="screen_mode_host_default">Usar configuração do host Sunshine (padrão)</string>
-    <string name="screen_mode_no_operation">Não alterar configuração do monitor</string>
-    <string name="screen_mode_ensure_active">Garantir que a tela de streaming esteja ativa</string>
-    <string name="screen_mode_ensure_primary">Garantir que a tela de streaming seja principal</string>
-    <string name="screen_mode_ensure_only_display">Usar apenas a tela de streaming (desligar outros displays)</string>
+    <string name="title_screen_combination_mode">Definições de combinação de ecrãs</string>
+    <string name="summary_screen_combination_mode">Controlo de ecrãs do Sunshine Foundation</string>
+    <string name="screen_combination_mode_dialog_subtitle">Aplica-se ao controlo de ecrãs do Sunshine Foundation</string>
+    <string name="screen_mode_host_default">Seguir anfitrião</string>
+    <string name="screen_mode_no_operation">Modo sem operação</string>
+    <string name="screen_mode_auto_activate">Modo de ativação</string>
+    <string name="screen_mode_primary_streaming">Modo de streaming no ecrã principal</string>
+    <string name="screen_mode_secondary_streaming">Modo de streaming no ecrã secundário</string>
+    <string name="screen_mode_exclusive_streaming">Modo de streaming em ecrã exclusivo</string>
+    <string name="screen_mode_host_default_desc">Usa a definição do anfitrião Sunshine sem a substituir.</string>
+    <string name="screen_mode_no_operation_desc">Mantém a disposição atual dos ecrãs.</string>
+    <string name="screen_mode_auto_activate_desc">Ativa o ecrã selecionado para streaming.</string>
+    <string name="screen_mode_primary_streaming_desc">Ativa o ecrã selecionado e define-o como principal.</string>
+    <string name="screen_mode_secondary_streaming_desc">Mantém o ecrã físico como principal e usa o ecrã Foundation como secundário.</string>
+    <string name="screen_mode_exclusive_streaming_desc">Usa apenas o ecrã selecionado e desativa os outros ecrãs.</string>
+    <string name="screen_combination_mode_label">Modo: %1$s</string>
     
     <!-- Advanced settings -->
     <string name="title_enable_hdr_high_brightness">Ativar HDR com alto brilho</string>
@@ -566,7 +553,7 @@
     <string name="host_resolution_changed">Resolução do host alterada para %1$dx%2$d</string>
     
     <!-- PC view menu -->
-    <string name="pcview_menu_secondary_screen">Stream de tela secundária (compatível com Foundation Sunshine)</string>
+    <string name="pcview_menu_secondary_screen">Configurações de combinação de telas</string>
     <string name="pcview_menu_eol">Fim de serviço do NVIDIA GameStream</string>
     <string name="pcview_menu_sleep_success">Suspensão do host bem-sucedida</string>
     <string name="pcview_menu_sleep_fail">Falha na suspensão do host</string>
@@ -575,4 +562,5 @@
     <!-- Drawer Menu -->
     <string name="menu">Menu</string>
     <string name="title_settings">Configurações</string>
+    <string name="title_config_sync_backup_password">Palavra-passe de encriptação da cópia de segurança</string>
 </resources>

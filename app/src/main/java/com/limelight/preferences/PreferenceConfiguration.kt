@@ -66,6 +66,7 @@ class PreferenceConfiguration {
     var enableDoubleClickDrag = false
     var doubleTapTimeThreshold = 0
     var enableLocalCursorRendering = false
+    var optimizeHardwareTouchpad = false
     //自定义按键映射
     var enableCustomKeyMap = false
     //修复鼠标中键识别
@@ -108,6 +109,8 @@ class PreferenceConfiguration {
     @JvmField var halfHeightOscPortrait = false
     var enableHdr = false
     var enableHdrHighBrightness = false
+    var hdrBrightnessOverride = false
+    var hdrPeakBrightnessNits = 1000
     var hdrMode = 0 // 0=HDR disabled, 1=HDR10/PQ, 2=HLG
     var enablePip = false
     var enablePerfOverlay = false
@@ -118,8 +121,7 @@ class PreferenceConfiguration {
     var enableSimplifyPerfOverlay = false
     var enableLatencyToast = false
     var enableStun = false
-    var screenCombinationMode = 0
-    var vddScreenCombinationMode = 0
+    var screenCombinationMode = -1
     var lockScreenAfterDisconnect = false
     var swapQuitAndDisconnect = false
     var bindAllUsb = false
@@ -256,6 +258,8 @@ class PreferenceConfiguration {
                 .putString(VIDEO_FORMAT_PREF_STRING, getVideoFormatPreferenceString(videoFormat))
                 .putBoolean(ENABLE_HDR_PREF_STRING, enableHdr)
                 .putBoolean(ENABLE_HDR_HIGH_BRIGHTNESS_PREF_STRING, enableHdrHighBrightness)
+                .putBoolean(HDR_BRIGHTNESS_OVERRIDE_PREF_STRING, hdrBrightnessOverride)
+                .putInt(HDR_PEAK_BRIGHTNESS_NITS_PREF_STRING, hdrPeakBrightnessNits)
                 .putBoolean(ENABLE_PERF_OVERLAY_STRING, enablePerfOverlay)
                 .putBoolean(PERF_OVERLAY_LOCKED_STRING, perfOverlayLocked)
                 .putInt(PERF_OVERLAY_BG_OPACITY_STRING, perfOverlayBgOpacity)
@@ -280,6 +284,7 @@ class PreferenceConfiguration {
                 .putBoolean(FORCE_MTK_MAX_OPERATING_RATE_PREF_STRING, forceMtkMaxOperatingRate)
                 .putBoolean(ENABLE_DOUBLE_CLICK_DRAG_PREF_STRING, enableDoubleClickDrag)
                 .putBoolean(ENABLE_LOCAL_CURSOR_RENDERING_PREF_STRING, enableLocalCursorRendering)
+                .putBoolean(OPTIMIZE_HARDWARE_TOUCHPAD_PREF_STRING, optimizeHardwareTouchpad)
                 .putFloat(GYRO_SENSITIVITY_MULTIPLIER_PREF_STRING, gyroSensitivityMultiplier)
                 .putBoolean(GYRO_INVERT_X_AXIS_PREF_STRING, gyroInvertXAxis)
                 .putBoolean(GYRO_INVERT_Y_AXIS_PREF_STRING, gyroInvertYAxis)
@@ -320,6 +325,8 @@ class PreferenceConfiguration {
                 .putBoolean(FULL_RANGE_PREF_STRING, fullRange)
                 .putBoolean(ENABLE_HDR_PREF_STRING, enableHdr)
                 .putBoolean(ENABLE_HDR_HIGH_BRIGHTNESS_PREF_STRING, enableHdrHighBrightness)
+                .putBoolean(HDR_BRIGHTNESS_OVERRIDE_PREF_STRING, hdrBrightnessOverride)
+                .putInt(HDR_PEAK_BRIGHTNESS_NITS_PREF_STRING, hdrPeakBrightnessNits)
                 .putString(HDR_MODE_PREF_STRING, hdrMode.toString())
                 .putBoolean(ENABLE_PERF_OVERLAY_STRING, enablePerfOverlay)
                 .putBoolean(PERF_OVERLAY_LOCKED_STRING, perfOverlayLocked)
@@ -351,6 +358,8 @@ class PreferenceConfiguration {
         copy.fullRange = this.fullRange
         copy.enableHdr = this.enableHdr
         copy.enableHdrHighBrightness = this.enableHdrHighBrightness
+        copy.hdrBrightnessOverride = this.hdrBrightnessOverride
+        copy.hdrPeakBrightnessNits = this.hdrPeakBrightnessNits
         copy.hdrMode = this.hdrMode
         copy.enablePerfOverlay = this.enablePerfOverlay
         copy.perfOverlayLocked = this.perfOverlayLocked
@@ -376,6 +385,7 @@ class PreferenceConfiguration {
         copy.forceMtkMaxOperatingRate = this.forceMtkMaxOperatingRate
         copy.enableDoubleClickDrag = this.enableDoubleClickDrag
         copy.enableLocalCursorRendering = this.enableLocalCursorRendering
+        copy.optimizeHardwareTouchpad = this.optimizeHardwareTouchpad
         copy.gyroToRightStick = this.gyroToRightStick
         copy.gyroToMouse = this.gyroToMouse
         copy.gyroFullDeflectionDps = this.gyroFullDeflectionDps
@@ -396,6 +406,7 @@ class PreferenceConfiguration {
         private const val ENABLE_DOUBLE_CLICK_DRAG_PREF_STRING = "pref_enable_double_click_drag"
         private const val DOUBLE_TAP_TIME_THRESHOLD_PREF_STRING = "seekbar_double_tap_time_threshold"
         private const val ENABLE_LOCAL_CURSOR_RENDERING_PREF_STRING = "pref_enable_local_cursor_rendering"
+        private const val OPTIMIZE_HARDWARE_TOUCHPAD_PREF_STRING = "checkbox_optimize_hardware_touchpad"
 
         private const val LEGACY_RES_FPS_PREF_STRING = "list_resolution_fps"
         private const val LEGACY_ENABLE_51_SURROUND_PREF_STRING = "checkbox_51_surround"
@@ -421,6 +432,8 @@ class PreferenceConfiguration {
         private const val LEGACY_DISABLE_FRAME_DROP_PREF_STRING = "checkbox_disable_frame_drop"
         private const val ENABLE_HDR_PREF_STRING = "checkbox_enable_hdr"
         private const val ENABLE_HDR_HIGH_BRIGHTNESS_PREF_STRING = "checkbox_enable_hdr_high_brightness"
+        private const val HDR_BRIGHTNESS_OVERRIDE_PREF_STRING = "checkbox_hdr_brightness_override"
+        private const val HDR_PEAK_BRIGHTNESS_NITS_PREF_STRING = "seekbar_hdr_peak_brightness_nits"
         private const val HDR_MODE_PREF_STRING = "list_hdr_mode" // 0=SDR, 1=HDR10, 2=HLG
         private const val ENABLE_PIP_PREF_STRING = "checkbox_enable_pip"
         private const val ENABLE_PERF_OVERLAY_STRING = "checkbox_enable_perf_overlay"
@@ -612,6 +625,8 @@ class PreferenceConfiguration {
         private const val HALF_HEIGHT_OSC_PORTRAIT_DEFAULT = true
         private const val DEFAULT_ENABLE_HDR = false
         private const val DEFAULT_ENABLE_HDR_HIGH_BRIGHTNESS = false
+        private const val DEFAULT_HDR_BRIGHTNESS_OVERRIDE = false
+        private const val DEFAULT_HDR_PEAK_BRIGHTNESS_NITS = 1000
         private const val DEFAULT_HDR_MODE = 1 // 默认 HDR10/PQ 模式 (0=禁用自动HDR切换, 1=HDR10, 2=HLG)
         private const val DEFAULT_ENABLE_PIP = false
         private const val DEFAULT_ENABLE_PERF_OVERLAY = false
@@ -690,6 +705,7 @@ class PreferenceConfiguration {
         private const val DEFAULT_ENABLE_DOUBLE_CLICK_DRAG = false
         private const val DEFAULT_DOUBLE_TAP_TIME_THRESHOLD = 125 // 默认125ms
         private const val DEFAULT_ENABLE_LOCAL_CURSOR_RENDERING = true
+        private const val DEFAULT_OPTIMIZE_HARDWARE_TOUCHPAD = false
 
         private const val DEFAULT_REVERSE_RESOLUTION = false
         private const val DEFAULT_ROTABLE_SCREEN = false
@@ -982,6 +998,8 @@ class PreferenceConfiguration {
                 .remove(VIDEO_FORMAT_PREF_STRING)
                 .remove(ENABLE_HDR_PREF_STRING)
                 .remove(ENABLE_HDR_HIGH_BRIGHTNESS_PREF_STRING)
+                .remove(HDR_BRIGHTNESS_OVERRIDE_PREF_STRING)
+                .remove(HDR_PEAK_BRIGHTNESS_NITS_PREF_STRING)
                 .remove(UNLOCK_FPS_STRING)
                 .remove(FULL_RANGE_PREF_STRING)
                 .apply()
@@ -1149,6 +1167,7 @@ class PreferenceConfiguration {
             config.enableDoubleClickDrag = prefs.getBoolean(ENABLE_DOUBLE_CLICK_DRAG_PREF_STRING, DEFAULT_ENABLE_DOUBLE_CLICK_DRAG)
             config.doubleTapTimeThreshold = prefs.getInt(DOUBLE_TAP_TIME_THRESHOLD_PREF_STRING, DEFAULT_DOUBLE_TAP_TIME_THRESHOLD)
             config.enableLocalCursorRendering = prefs.getBoolean(ENABLE_LOCAL_CURSOR_RENDERING_PREF_STRING, DEFAULT_ENABLE_LOCAL_CURSOR_RENDERING)
+            config.optimizeHardwareTouchpad = prefs.getBoolean(OPTIMIZE_HARDWARE_TOUCHPAD_PREF_STRING, DEFAULT_OPTIMIZE_HARDWARE_TOUCHPAD)
             config.enableCustomKeyMap = prefs.getBoolean("checkbox_special_key_map", false)
             config.fixMouseMiddle = prefs.getBoolean("checkbox_mouse_middle", false)
             config.fixMouseWheel = prefs.getBoolean("checkbox_mouse_wheel", false)
@@ -1166,6 +1185,8 @@ class PreferenceConfiguration {
             config.halfHeightOscPortrait = prefs.getBoolean(HALF_HEIGHT_OSC_PORTRAIT_PREF_STRING, HALF_HEIGHT_OSC_PORTRAIT_DEFAULT)
             config.enableHdr = prefs.getBoolean(ENABLE_HDR_PREF_STRING, DEFAULT_ENABLE_HDR) && !isShieldAtvFirmwareWithBrokenHdr()
             config.enableHdrHighBrightness = prefs.getBoolean(ENABLE_HDR_HIGH_BRIGHTNESS_PREF_STRING, DEFAULT_ENABLE_HDR_HIGH_BRIGHTNESS)
+            config.hdrBrightnessOverride = prefs.getBoolean(HDR_BRIGHTNESS_OVERRIDE_PREF_STRING, DEFAULT_HDR_BRIGHTNESS_OVERRIDE)
+            config.hdrPeakBrightnessNits = prefs.getInt(HDR_PEAK_BRIGHTNESS_NITS_PREF_STRING, DEFAULT_HDR_PEAK_BRIGHTNESS_NITS).coerceIn(300, 4000)
             // HDR mode is stored as a String from ListPreference, default to HDR10 (1)
             config.hdrMode = try {
                 (prefs.getString(HDR_MODE_PREF_STRING, DEFAULT_HDR_MODE.toString()) ?: DEFAULT_HDR_MODE.toString()).toInt()
@@ -1219,10 +1240,6 @@ class PreferenceConfiguration {
             } catch (e: NumberFormatException) {
                 -1
             }
-
-            // VDD screen combination mode defaults to -1 (use host config)
-            // This is set dynamically from AppView based on display selection
-            config.vddScreenCombinationMode = -1
 
             config.lockScreenAfterDisconnect = prefs.getBoolean(LOCK_SCREEN_AFTER_DISCONNECT_PREF_STRING, DEFAULT_LATENCY_TOAST)
             config.swapQuitAndDisconnect = prefs.getBoolean(SWAP_QUIT_AND_DISCONNECT_PERF_STRING, DEFAULT_LATENCY_TOAST)

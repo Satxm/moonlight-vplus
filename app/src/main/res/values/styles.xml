@@ -155,6 +155,16 @@
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:colorAccent">@color/theme_pink_primary</item>
+        <item name="colorAccent">@color/theme_pink_primary</item>
+        <item name="android:colorControlActivated">@color/theme_pink_primary</item>
+        <item name="colorControlActivated">@color/theme_pink_primary</item>
+        <item name="android:colorControlNormal">@color/ui_shell_text_secondary</item>
+        <item name="colorControlNormal">@color/ui_shell_text_secondary</item>
+        <item name="android:colorControlHighlight">@color/ui_shell_accent_soft</item>
+        <item name="colorControlHighlight">@color/ui_shell_accent_soft</item>
+        <item name="android:textColorPrimary">@color/settings_preference_title_text</item>
+        <item name="android:textColorSecondary">@color/settings_preference_summary_text</item>
         <item name="preferenceTheme">@style/MyPreferenceThemeOverlay</item>
     </style>
 
@@ -174,6 +184,7 @@
     </style>
     <style name="MyCheckBoxPreferenceCompact" parent="@style/Preference.CheckBoxPreference.Material">
         <item name="iconSpaceReserved">false</item>
+        <item name="widgetLayout">@layout/preference_widget_app_checkbox</item>
     </style>
     <style name="MySwitchPreferenceCompact" parent="@style/Preference.SwitchPreferenceCompat.Material">
         <item name="iconSpaceReserved">false</item>
@@ -198,13 +209,14 @@
         <item name="android:textAppearanceListItemSecondary">@style/PreferenceSummaryWithShadow</item>
         <item name="android:textAppearanceListItemSmall">@style/PreferenceSummaryWithShadow</item>
         <item name="android:colorAccent">@color/theme_pink_secondary</item>
-        <item name="android:textColorPrimary">@color/theme_pink_secondary</item>
-        <item name="android:listDivider">@color/theme_pink_secondary</item>
+        <item name="android:textColorPrimary">@color/settings_preference_title_text</item>
+        <item name="android:textColorSecondary">@color/settings_preference_summary_text</item>
+        <item name="android:listDivider">@color/ui_shell_outline</item>
     </style>
 
     <style name="PreferenceTextWithShadow">
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:shadowColor">#88000000</item>
+        <item name="android:textColor">@color/settings_preference_title_text</item>
+        <item name="android:shadowColor">@color/ui_shell_text_shadow</item>
         <item name="android:shadowDx">1</item>
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">3</item>
@@ -214,21 +226,20 @@
     <style name="PreferenceTitleWithShadow" parent="PreferenceTextWithShadow">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/settings_preference_title_text</item>
     </style>
 
     <style name="PreferenceSummaryWithShadow">
         <item name="android:textSize">11sp</item>
-        <item name="android:textColor">?android:attr/textColorSecondary</item>
-        <!-- 使用系统默认的次要文字颜色 -->
+        <item name="android:textColor">@color/settings_preference_summary_text</item>
     </style>
 
     <style name="PreferenceCategoryWithShadow" parent="PreferenceTextWithShadow">
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/theme_pink_secondary</item> 
-        <item name="android:shadowColor">#AA000000</item> <!-- 更强的阴影 -->
-        <item name="android:shadowRadius">5</item> <!-- 更大的阴影半径 -->
+        <item name="android:shadowColor">@color/ui_shell_text_shadow_strong</item>
+        <item name="android:shadowRadius">5</item>
     </style>
 
     <!-- GameMenu 对话框样式 -->
@@ -278,7 +289,7 @@
     </style>
 
     <!-- 通用弹窗样式 -->
-    <style name="AppDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="AppDialogStyle" parent="Theme.AppCompat.Dialog.Alert">
         <item name="android:windowBackground">@drawable/app_dialog_bg_cute</item>
         <item name="android:windowMinWidthMajor">60%</item>
         <item name="android:windowMinWidthMinor">80%</item>
@@ -289,7 +300,14 @@
         <item name="android:textColorPrimary">@color/app_dialog_title_color</item>
         <item name="android:textColorSecondary">@color/app_dialog_subtitle_color</item>
         <item name="android:colorAccent">@color/app_dialog_accent_color</item>
-        <item name="android:listDivider">@color/app_dialog_accent_color</item>
+        <item name="colorAccent">@color/app_dialog_accent_color</item>
+        <item name="android:colorControlActivated">@color/app_dialog_accent_color</item>
+        <item name="colorControlActivated">@color/app_dialog_accent_color</item>
+        <item name="android:colorControlNormal">@color/app_dialog_text_secondary</item>
+        <item name="colorControlNormal">@color/app_dialog_text_secondary</item>
+        <item name="android:colorControlHighlight">@color/app_dialog_accent_soft</item>
+        <item name="colorControlHighlight">@color/app_dialog_accent_soft</item>
+        <item name="android:listDivider">@color/app_dialog_outline</item>
         <!-- 标题样式 -->
         <item name="android:windowTitleStyle">@style/AppDialogTitleStyle</item>
     </style>
@@ -372,64 +390,6 @@
         <item name="android:textColor">#007AFF</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textStyle">bold</item>
-    </style>
-
-    <!-- 专门用于 easyter 对话框的标题样式 -->
-    <style name="DialogRowLayout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:orientation">horizontal</item>
-        <item name="android:paddingTop">4dp</item>
-        <item name="android:paddingBottom">4dp</item>
-    </style>
-
-    <style name="DialogRowLabel" parent="Widget.AppCompat.TextView">
-        <item name="android:layout_width">100dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="DialogRowValue" parent="Widget.AppCompat.TextView">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:textIsSelectable">true</item>
-    </style>
-
-
-    <style name="ConfigLabel" parent="Widget.AppCompat.TextView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">12dp</item>
-        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="ConfigEditText" parent="Widget.AppCompat.EditText">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <style name="ConfigEditText.MultiLine">
-        <item name="android:minLines">2</item>
-        <item name="android:gravity">top</item>
-        <item name="android:inputType">textMultiLine</item>
-    </style>
-
-    <style name="ConfigSubLabel" parent="Widget.AppCompat.TextView">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">16dp</item>
-        <item name="android:layout_marginBottom">4dp</item>
-        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
-        <item name="android:textColor">?android:attr/textColorSecondary</item>
-    </style>
-
-    <style name="ConfigSwitch">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingTop">8dp</item>
-        <item name="android:paddingBottom">8dp</item>
     </style>
 
 </resources>

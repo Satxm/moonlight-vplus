@@ -37,15 +37,10 @@
     <string name="help_loading_title">Yardım</string>
     <string name="scut_invalid_app_id">Tanımlanmış uygulama geçerli değil</string>
     <string name="scut_invalid_uuid">Tanımlanmış bilgisayar geçerli değil</string>
-    <string name="nettest_text_waiting">Moonlight, NVIDIA GameStream\'in engellenip engellenmediğini belirlemek için ağ bağlantınızı test ediyor.
-\n
-\nBu birkaç saniye sürebilir…</string>
+    <string name="nettest_text_waiting">Moonlight, NVIDIA GameStream\'in engellenip engellenmediğini belirlemek için ağ bağlantınızı test ediyor.\n\nBu birkaç saniye sürebilir…</string>
     <string name="nettest_title_done">Ağ Testi Tamamlandı</string>
     <string name="nettest_text_inconclusive">Moonlight\'ın bağlantı testi sunucularından hiçbirine erişilemediği için ağ testi gerçekleştirilemedi. İnternet bağlantınızı kontrol edin veya daha sonra tekrar deneyin.</string>
-    <string name="nettest_text_failure">Cihazınızın mevcut ağ bağlantısı Moonlight\'ı engelliyor gibi görünüyor. Bu ağa bağlıyken İnternet üzerinden yayın akışı çalışmayabilir.
-\n
-\nAşağıdaki ağ bağlantı noktaları engellenmiş:
-\n</string>
+    <string name="nettest_text_failure">Cihazınızın mevcut ağ bağlantısı Moonlight\'ı engelliyor gibi görünüyor. Bu ağa bağlıyken İnternet üzerinden yayın akışı çalışmayabilir.\n\nAşağıdaki ağ bağlantı noktaları engellenmiş:\n</string>
     <string name="nettest_text_blocked">Cihazınızın mevcut ağ bağlantısı Moonlight\'ı engelliyor. Bu ağa bağlıyken internet üzerinden yayın akışı çalışmayabilir.</string>
     <string name="pair_pc_ingame">Bilgisayar şu anda bir oyunda. Eşleştirmeden önce oyunu kapatmalısınız.</string>
     <string name="pair_pairing_msg">Lütfen hedef bilgisayarda aşağıdaki PIN kodunu girin:</string>
@@ -56,9 +51,7 @@
     <string name="wol_waking_msg">Bilgisayarınızın uyanması birkaç saniye sürebilir. Eğer uyanmazsa, Yerel Ağda Uyandırma için doğru şekilde yapılandırıldığından emin olun.</string>
     <string name="unpair_fail">Eşleşme kaldırılamadı</string>
     <string name="unpair_error">Cihaz eşleştirilmedi</string>
-    <string name="nettest_text_success">Ağınız Moonlight\'ı engelliyor gibi görünmüyor. Bağlanmakta hala sorun yaşıyorsanız, bilgisayarınızın güvenlik duvarı ayarlarını kontrol edin.
-\n
-\nİnternet üzerinden yayın yapmaya çalışıyorsanız, Moonlight İnternet Barındırma Aracını bilgisayarınıza yükleyin ve bilgisayarınızın internet bağlantısını kontrol etmek için birlikte verilen İnternet Akış Test Cihazını çalıştırın.</string>
+    <string name="nettest_text_success">Ağınız Moonlight\'ı engelliyor gibi görünmüyor. Bağlanmakta hala sorun yaşıyorsanız, bilgisayarınızın güvenlik duvarı ayarlarını kontrol edin.\n\nİnternet üzerinden yayın yapmaya çalışıyorsanız, Moonlight İnternet Barındırma Aracını bilgisayarınıza yükleyin ve bilgisayarınızın internet bağlantısını kontrol etmek için birlikte verilen İnternet Akış Test Cihazını çalıştırın.</string>
     <string name="title_checkbox_multi_controller">Otomatik oyun kumandası varlığı algılama</string>
     <string name="summary_checkbox_multi_controller">Bu seçeneğin işaretinin kaldırılması bir oyun kumandasının her zaman mevcut olmasını zorlar</string>
     <string name="summary_checkbox_vibrate_fallback">Oyun kumandanız desteklemiyorsa, gürültüyü taklit etmek için cihazınızı titreştirir</string>
@@ -77,11 +70,7 @@
     <string name="video_decoder_init_failed">Video kod çözücü başlatılamadı. Cihazınız seçilen çözünürlüğü veya kare hızını desteklemiyor olabilir.</string>
     <string name="no_video_received_error">Ana bilgisayardan video alınmadı.</string>
     <string name="no_frame_received_error">Ağ bağlantınız iyi performans göstermiyor. Video bit hızı ayarınızı düşürün veya daha hızlı bir bağlantı deneyin.</string>
-    <string name="early_termination_error">Yayını başlatırken ana bilgisayarda bir şeyler ters gitti.
-\n
-\nAna bilgisayarınızda DRM korumalı herhangi bir içeriğin açık olmadığından emin olun. Ana bilgisayarınızı yeniden başlatmayı da deneyebilirsiniz.
-\n
-\nSorun devam ederse GPU sürücülerinizi ve GeForce Experience\'ı yeniden yüklemeyi deneyin.</string>
+    <string name="early_termination_error">Yayını başlatırken ana bilgisayarda bir şeyler ters gitti.\n\nAna bilgisayarınızda DRM korumalı herhangi bir içeriğin açık olmadığından emin olun. Ana bilgisayarınızı yeniden başlatmayı da deneyebilirsiniz.\n\nSorun devam ederse GPU sürücülerinizi ve GeForce Experience\'ı yeniden yüklemeyi deneyin.</string>
     <string name="check_ports_msg">Bağlantı noktaları için güvenlik duvarınızı ve bağlantı noktası yönlendirme kurallarınızı kontrol edin:</string>
     <string name="conn_establishing_title">Bağlantı kuruluyor</string>
     <string name="conn_terminated_title">Bağlantı sonlandırıldı</string>
@@ -90,8 +79,7 @@
     <string name="lost_connection">Bilgisayar ile bağlantı kesildi</string>
     <string name="help">Yardım</string>
     <string name="delete_pc_msg">Bu bilgisayarı silmek istediğinizden emin misiniz\?</string>
-    <string name="slow_connection_msg">Bilgisayara yavaş bağlantı
-\nBit hızınızı düşürün</string>
+    <string name="slow_connection_msg">Bilgisayara yavaş bağlantı\nBit hızınızı düşürün</string>
     <string name="poor_connection_msg">Bilgisayar ile zayıf bağlantı</string>
     <string name="applist_menu_resume">Oturumu sürdür</string>
     <string name="applist_menu_quit">Oturumu sonlandır</string>
@@ -141,23 +129,32 @@
     <string name="message_decoding_error">Moonlight, bu cihazın video kod çözücüsü ile uyumsuzluk nedeniyle çöktü. GeForce Experience\'ın bilgisayarınızdaki en son sürüme güncellendiğinden emin olun. Çökmeler devam ederse akış ayarlarını değiştirmeyi deneyin.</string>
     <string name="conn_hardware_latency">Ortalama donanım kod çözme gecikmesi:</string>
     <string name="title_decoding_reset">Video Ayarlarını Sıfırla</string>
-    <string name="searching_pc">GameStream\'in çalıştığı bilgisayarlar aranıyor...
-\n
-\n GeForce Experience SHIELD ayarlarında GameStream\'in etkinleştirildiğinden emin olun.</string>
+    <string name="searching_pc">GameStream\'in çalıştığı bilgisayarlar aranıyor...\n\n GeForce Experience SHIELD ayarlarında GameStream\'in etkinleştirildiğinden emin olun.</string>
     <string name="applist_connect_msg">Bilgisayara bağlanıyor…</string>
     <string name="no">Hayır</string>
     <string name="addpc_wrong_sitelocal">Bu adres doğru görünmüyor. İnternet üzerinden akış için yönlendiricinizin genel IP adresini kullanmanız gerekir.</string>
-    <string name="text_native_res_dialog">Yerel çözünürlük modları GeForce Experience tarafından resmi olarak desteklenmez, bu nedenle ana ekran çözünürlüğünüzü kendisi ayarlamaz. Oyun içindeyken manuel olarak ayarlamanız gerekecektir.
-\n
-\nCihazınızın çözünürlüğüne uyması için NVIDIA Denetim Masası\'nda özel bir çözünürlük oluşturmayı seçerseniz, lütfen NVIDIA\'nın olası monitör hasarı, bilgisayar kararsızlığı ve diğer olası sorunlarla ilgili uyarısını okuyup anladığınızdan emin olun.
-\n
-\nBilgisayarınızda özel bir çözünürlük oluşturulmasından kaynaklanan herhangi bir sorundan sorumlu değiliz.
-\n
-\nSon olarak, cihazınız veya bilgisayarınız doğal çözünürlükte akışı desteklemiyor olabilir. Eğer cihazınızda çalışmıyorsa, ne yazık ki şansınız yok demektir.</string>
+    <string name="text_native_res_dialog">Yerel çözünürlük modları GeForce Experience tarafından resmi olarak desteklenmez, bu nedenle ana ekran çözünürlüğünüzü kendisi ayarlamaz. Oyun içindeyken manuel olarak ayarlamanız gerekecektir.\n\nCihazınızın çözünürlüğüne uyması için NVIDIA Denetim Masası\'nda özel bir çözünürlük oluşturmayı seçerseniz, lütfen NVIDIA\'nın olası monitör hasarı, bilgisayar kararsızlığı ve diğer olası sorunlarla ilgili uyarısını okuyup anladığınızdan emin olun.\n\nBilgisayarınızda özel bir çözünürlük oluşturulmasından kaynaklanan herhangi bir sorundan sorumlu değiliz.\n\nSon olarak, cihazınız veya bilgisayarınız doğal çözünürlükte akışı desteklemiyor olabilir. Eğer cihazınızda çalışmıyorsa, ne yazık ki şansınız yok demektir.</string>
     <string name="summary_seekbar_bitrate">Daha iyi görüntü kalitesi için artırın. Daha yavaş bağlantılarda performansı artırmak için azaltın.</string>
     <string name="title_checkbox_stretch_video">Videoyu tam ekrana genişlet</string>
     <string name="title_checkbox_vibrate_fallback">Titreşim ile gürültü desteğini taklit etme</string>
     <string name="summary_checkbox_usb_bind_all">Yerel Xbox oyun kumandası desteği mevcut olsa bile desteklenen tüm oyun kumandaları için Moonlight\'ın USB sürücüsünü kullan</string>
     <string name="summary_checkbox_flip_face_buttons">Oyun kumandaları ve ekran kontrolleri için A/B ve X/Y yüz düğmelerini değiştirir</string>
     <string name="summary_checkbox_absolute_mouse_mode">Bu fare hızlandırmanın uzak masaüstü kullanımı için daha doğal davranmasını sağlayabilir, ancak birçok oyunla uyumsuzdur.</string>
+    <string name="title_screen_combination_mode">Ekran birleşimi ayarları</string>
+    <string name="summary_screen_combination_mode">Sunshine Foundation ekran denetimi</string>
+    <string name="screen_combination_mode_dialog_subtitle">Sunshine Foundation ekran denetimi için geçerlidir</string>
+    <string name="screen_mode_host_default">Ana makineyi takip et</string>
+    <string name="screen_mode_no_operation">İşlem yok modu</string>
+    <string name="screen_mode_auto_activate">Etkinleştirme modu</string>
+    <string name="screen_mode_primary_streaming">Birincil ekran akışı modu</string>
+    <string name="screen_mode_secondary_streaming">İkincil ekran akışı modu</string>
+    <string name="screen_mode_exclusive_streaming">Özel ekran akışı modu</string>
+    <string name="screen_mode_host_default_desc">Sunshine ana makine ayarını üzerine yazmadan kullanır.</string>
+    <string name="screen_mode_no_operation_desc">Geçerli ekran düzenini korur.</string>
+    <string name="screen_mode_auto_activate_desc">Seçili ekranı akış için etkinleştirir.</string>
+    <string name="screen_mode_primary_streaming_desc">Seçili ekranı etkinleştirir ve birincil olarak ayarlar.</string>
+    <string name="screen_mode_secondary_streaming_desc">Fiziksel ekranı birincil tutar ve Foundation ekranını ikincil olarak kullanır.</string>
+    <string name="screen_mode_exclusive_streaming_desc">Yalnızca seçili ekranı kullanır ve diğer ekranları devre dışı bırakır.</string>
+    <string name="screen_combination_mode_label">Mod: %1$s</string>
+    <string name="title_config_sync_backup_password">Yedek şifreleme parolası</string>
 </resources>
