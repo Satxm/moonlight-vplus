@@ -87,6 +87,7 @@ jobs:
           echo "Updated versionCode from $CURRENT_VERSION_CODE to $NEW_VERSION_CODE"
 
       - name: Build NonRoot Debug APK
+        if: startsWith(github.ref, 'refs/heads/')
         run: ./gradlew :app:assembleNonRootDebug --no-daemon --stacktrace
 
       - name: Upload APK artifact
