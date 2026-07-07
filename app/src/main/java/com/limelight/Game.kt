@@ -183,6 +183,7 @@ class Game : Activity(), SurfaceHolder.Callback,
 
     lateinit var notificationOverlayManager: NotificationOverlayManager
     private var performanceOverlayManager: PerformanceOverlayManager? = null
+    private var jitterMonitorManager: JitterMonitorManager? = null
     lateinit var cursorServiceManager: CursorServiceManager
     lateinit var floatBallHandler: FloatBallHandler
     lateinit var connectionCallbackHandler: ConnectionCallbackHandler
@@ -209,12 +210,14 @@ class Game : Activity(), SurfaceHolder.Callback,
     private var audioRenderer: com.limelight.binding.audio.SmartAudioRenderer? = null
 
     enum class BackKeyMenuMode {
-        GAME_MENU, CROWN_MODE, NO_MENU
+        GAME_MENU, CROWN_MODE, NO_MENU, NO_MENU_LOCKED
     }
 
     fun setcurrentBackKeyMenu(currentBackKeyMenu: BackKeyMenuMode) {
         crownSessionController.setBackKeyMenuMode(currentBackKeyMenu)
     }
+
+    fun getCurrentBackKeyMenuMode(): BackKeyMenuMode = crownSessionController.backKeyMenuMode
 
     fun toggleVirtualControllerVisibility() {
         crownSessionController.toggleElementsVisibility()
@@ -230,6 +233,14 @@ class Game : Activity(), SurfaceHolder.Callback,
 
     fun setisTouchOverrideEnabled(isTouchOverrideEnabled: Boolean) {
         this.isTouchOverrideEnabled = isTouchOverrideEnabled
+    }
+
+    // 仅鼠标移动模式：禁用所有屏幕触摸产生的鼠标点击事件，只保留鼠标移动
+    var isMouseMoveOnlyEnabled = false
+        private set
+
+    fun toggleMouseMoveOnly() {
+        isMouseMoveOnlyEnabled = !isMouseMoveOnlyEnabled
     }
 
     var usbDriverServiceManager: UsbDriverServiceManager? = null
@@ -335,6 +346,9 @@ class Game : Activity(), SurfaceHolder.Callback,
 
         performanceOverlayManager = PerformanceOverlayManager(this, prefConfig)
         performanceOverlayManager?.initialize()
+
+        jitterMonitorManager = JitterMonitorManager(this, prefConfig)
+        jitterMonitorManager?.initialize()
 
         inputCaptureProvider = InputCaptureManager.getInputCaptureProvider(this, this)
 
@@ -954,6 +968,7 @@ class Game : Activity(), SurfaceHolder.Callback,
             if (isInPictureInPictureMode) {
                 virtualController?.hide()
                 performanceOverlayManager?.hideOverlayImmediate()
+                jitterMonitorManager?.hideImmediate()
                 notificationOverlayManager.setHiding(true)
                 microphoneManager?.setEnableMic(false)
                 controllerHandler.disableSensors()
@@ -961,6 +976,7 @@ class Game : Activity(), SurfaceHolder.Callback,
             } else {
                 virtualController?.show()
                 performanceOverlayManager?.applyRequestedVisibility()
+                jitterMonitorManager?.applyVisibility()
                 notificationOverlayManager.setHiding(false)
                 notificationOverlayManager.applyVisibility()
                 microphoneManager?.setEnableMic(prefConfig.enableMic)
@@ -971,6 +987,10 @@ class Game : Activity(), SurfaceHolder.Callback,
         }
 
         performanceOverlayManager?.onConfigurationChanged()
+        // PiP 下不重显浮层：进入 PiP 分支已 hideImmediate()，此处仅在非 PiP 时按偏好显隐
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O || !isInPictureInPictureMode) {
+            jitterMonitorManager?.applyVisibility()
+        }
         refreshDisplayPosition()
     }
 
@@ -1180,6 +1200,8 @@ class Game : Activity(), SurfaceHolder.Callback,
 
         lowLatencyWifiLock?.release()
         highPerfWifiLock?.release()
+        jitterMonitorManager?.destroy()
+        jitterMonitorManager = null
         usbDriverServiceManager?.stopAndUnbind()
         if (::inputCaptureProvider.isInitialized) {
             inputCaptureProvider.destroy()
@@ -2155,7 +2177,12 @@ class Game : Activity(), SurfaceHolder.Callback,
                     controllerManager?.superPagesController?.returnOperation()
                 }
             }
-            BackKeyMenuMode.NO_MENU -> {}
+            BackKeyMenuMode.NO_MENU -> {
+                if (prefConfig.enableCrownFeatures) {
+                    controllerManager?.superPagesController?.returnOperation()
+                }
+            }
+            BackKeyMenuMode.NO_MENU_LOCKED -> {}
             BackKeyMenuMode.GAME_MENU -> {
                 activeGameMenu = GameMenu(this, app, conn!!, device)
             }
@@ -2195,6 +2222,8 @@ class Game : Activity(), SurfaceHolder.Callback,
             prefConfig.perfOverlayLocked = false
             performanceOverlayManager?.applyOverlayState()
         }
+
+        prefConfig.writePreferences(this)
     }
 
     fun toggleMicrophoneButton() {

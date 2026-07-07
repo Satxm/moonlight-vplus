@@ -174,7 +174,7 @@
     <string name="game_menu_bitrate_tip">拖动滑动条实时调整码率, 需要更高的码率请到设置菜单操作。</string>
 
     <!-- Add computer manually activity -->
-    <string name="title_add_pc">手动添加电脑</string>
+    <string name="title_add_pc">添加电脑</string>
     <string name="title_add_pc_choose">添加电脑</string>
     <string name="addpc_manual">输入 IP 地址</string>
     <string name="addpc_qr_scan">扫描二维码</string>
@@ -351,6 +351,10 @@
     <string name="summary_checkbox_disable_warnings">串流中禁用连接错误提示</string>
     <string name="title_enable_perf_overlay">性能监控图层</string>
     <string name="summary_enable_perf_overlay">显示实时的串流监控数据，盯帧必备！</string>
+    <string name="title_enable_jitter_monitor">抖动监控图表</string>
+    <string name="summary_enable_jitter_monitor">串流时叠加实时呈现间隔抖动图表（judder%、抖动幅度、分布直方图），可长期挂机观测节奏；关闭时对串流零性能影响。</string>
+    <string name="title_enable_host_cadence_precise_sync">主机节奏两步呈现（精确同步）</string>
+    <string name="summary_enable_host_cadence_precise_sync">仅在「精确同步」帧率模式下生效。用主机出帧节奏去抖后再对齐本地 vsync，消除干净链路上的拍频判抖；约增加 1~3ms 延迟。默认关闭。</string>
     <string name="title_perf_overlay_orientation">性能图层方向</string>
     <string name="summary_perf_overlay_orientation">选择性能统计信息的显示方向。</string>
     <string name="title_perf_overlay_position">性能图层位置</string>
@@ -1139,6 +1143,9 @@
     <string name="layout_page_config_text_9eba2">当前档案</string>
     <string name="layout_page_config_text_83a23">触控输入</string>
     <string name="layout_page_config_text_f4b7c">触控板</string>
+    <string name="layout_page_device_text_mmo">仅鼠标移动</string>
+    <string name="layout_page_device_text_mmo_true_text">仅鼠标移动</string>
+    <string name="layout_page_device_text_mmo_false_text">鼠标移动+点击</string>
     <string name="layout_page_config_text_8ea81">多点触控</string>
     <string name="layout_page_config_text_cd2c1">游戏反馈</string>
     <string name="layout_page_config_text_f4651">按键反馈</string>
@@ -1405,6 +1412,34 @@
     <string name="easytier_status_refreshed">状态已刷新</string>
     <string name="easytier_stopped">EasyTier服务已停止</string>
     <string name="easytier_config_saved">配置已保存，服务已根据新配置重新初始化。</string>
+    <string name="easytier_network_name_label">网络名称</string>
+    <string name="easytier_network_name_hint">例如：easytier</string>
+    <string name="easytier_network_secret_label">网络密钥</string>
+    <string name="easytier_network_secret_empty_hint">建议服务端设置密码。</string>
+    <string name="easytier_virtual_ipv4_label">虚拟 IPv4</string>
+    <string name="easytier_virtual_ipv4_hint">例如：10.0.0.6，默认掩码 /24</string>
+    <string name="easytier_listeners_label">监听器（每行一个）</string>
+    <string name="easytier_listeners_hint">例如：udp://0.0.0.0:11010</string>
+    <string name="easytier_peers_label">对等节点（每行一个）</string>
+    <string name="easytier_peers_hint">例如：tcp://1.2.3.4:11010</string>
+    <string name="easytier_show_advanced_flags">显示高级功能标志</string>
+    <string name="easytier_hide_advanced_flags">隐藏高级功能标志</string>
+    <string name="easytier_core_network_behavior">核心网络行为</string>
+    <string name="easytier_use_smoltcp">使用 Smoltcp</string>
+    <string name="easytier_latency_priority">延迟优先</string>
+    <string name="easytier_disable_p2p">禁用 P2P（强制中继）</string>
+    <string name="easytier_private_mode">私有模式</string>
+    <string name="easytier_disable_ipv6">禁用 IPv6</string>
+    <string name="easytier_proxy_protocol">代理与协议</string>
+    <string name="easytier_enable_kcp_proxy">启用 KCP 代理</string>
+    <string name="easytier_disable_kcp_input">禁用 KCP 输入</string>
+    <string name="easytier_enable_quic_proxy">启用 QUIC 代理</string>
+    <string name="easytier_disable_quic_input">禁用 QUIC 输入</string>
+    <string name="easytier_proxy_forward_by_system">使用系统代理转发</string>
+    <string name="easytier_security_connection">安全与连接</string>
+    <string name="easytier_disable_encryption">禁用加密</string>
+    <string name="easytier_disable_udp_hole_punching">禁用 UDP 打洞</string>
+    <string name="easytier_disable_sym_hole_punching">禁用对称 NAT 打洞</string>
     <string name="easytier_loading">获取中…</string>
     <string name="easytier_unknown">未知</string>
     <string name="easytier_none">无</string>

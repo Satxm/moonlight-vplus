@@ -15,6 +15,7 @@ import android.os.Process
 import android.os.SystemClock
 import android.view.Surface
 import android.view.SurfaceHolder
+import com.limelight.BuildConfig
 import com.limelight.LimeLog
 import com.limelight.nvstream.av.video.VideoDecoderRenderer
 import com.limelight.nvstream.jni.MoonBridge
@@ -158,6 +159,24 @@ class MediaCodecDecoderRenderer(
     // Key: timestamp in microseconds (from enqueueTimeUs)
     // Value: enqueue time in milliseconds (from SystemClock.uptimeMillis())
     private val timestampToEnqueueTime: MutableMap<Long, Long> = ConcurrentHashMap()
+
+    // Map: 本地单调 timestampUs(送入 MediaCodec 的 PTS) -> host 节奏 PTS(presentationTimeUs, 微秒)
+    // host PTS 源自主机捕获时刻(见 common-c RtpVideoQueue.c: packet->timestamp * 1000 / PTS_DIVISOR)，
+    // 是三端同源的呈现节奏基准。之前在 JNI 边界被丢弃，现打通供 host-cadence pacing 使用。
+    private val timestampToHostPts: MutableMap<Long, Long> = ConcurrentHashMap()
+
+    // ---- host-cadence 去抖呈现时钟(alpha-beta / PI 时钟恢复，移植自鸿蒙 native_render，已离线仿真验证) ----
+    // 默认关闭：置 true 前，全部走原有 pacing，行为零变化。开启后在偏平滑档用 host PTS 复现主机出帧节奏，
+    // 消除"本地 vsync 网格 vs 主机节奏"错拍造成的微判抖；代价是自适应缓冲延迟(净 LAN≈1ms，抖动网络更大)。
+    // TODO(on-device): 接入设置项/按网络自适应开启，并在真机上标定 Kp/Ki/cushion。
+    private val useHostCadencePacing = false
+    // host PTS 旁路映射是否需要维护：直渲染档(useHostCadencePacing) 或 PRECISE_SYNC 两步呈现激活时都需要。
+    private val needsHostPtsMapping: Boolean
+        get() = useHostCadencePacing || framePacingController.isHostCadencePreciseSyncActive()
+    // 直渲染档(MAX_SMOOTHNESS/CAP_FPS)无 vsync snap 兜底：一帧迟到即可见 hitch，故用较大 cushion
+    // (3×MAD, floor 1ms)覆盖抖动分布。PRECISE_SYNC 路径(有 snap)将另建低 cushion 实例。
+    private val hostCadenceClock =
+        HostCadenceClock(cushionMul = 3.0, cushionFloorNs = 1_000_000L, enableDebugStats = BuildConfig.DEBUG)
 
     // Frame pacing and performance management (extracted)
     private val framePacingController: FramePacingController
@@ -833,6 +852,7 @@ class MediaCodecDecoderRenderer(
         spsBuffers.clear()
         ppsBuffers.clear()
         timestampToEnqueueTime.clear()
+        timestampToHostPts.clear()
 
         // This will contain the actual accepted input format attributes
         inputFormat = videoDecoder!!.inputFormat
@@ -1295,22 +1315,32 @@ class MediaCodecDecoderRenderer(
 
     /**
      * Delivers a decoded frame to the appropriate output path based on frame pacing mode.
-     * Used by both async callbacks and the sync renderer thread.
+     * Called only from the async output callback (onOutputBufferAvailable); the sync
+     * renderer thread in startRendererThread() releases output buffers directly and does
+     * not go through this method.
      */
-    private fun deliverDecodedFrame(bufferIndex: Int) {
+    private fun deliverDecodedFrame(bufferIndex: Int, hostPtsUs: Long = -1L) {
         if (prefs.framePacing == PreferenceConfiguration.FRAME_PACING_BALANCED ||
             prefs.framePacing == PreferenceConfiguration.FRAME_PACING_EXPERIMENTAL_LOW_LATENCY ||
             prefs.framePacing == PreferenceConfiguration.FRAME_PACING_PRECISE_SYNC
         ) {
             // Buffered modes - queue for frame pacing controller
-            framePacingController.offerOutputBuffer(bufferIndex)
+            framePacingController.offerOutputBuffer(bufferIndex, hostPtsUs)
         } else {
             // Direct render modes (MIN_LATENCY, MAX_SMOOTHNESS, CAP_FPS)
             try {
                 if (prefs.framePacing == PreferenceConfiguration.FRAME_PACING_MAX_SMOOTHNESS ||
                     prefs.framePacing == PreferenceConfiguration.FRAME_PACING_CAP_FPS
                 ) {
-                    videoDecoder!!.releaseOutputBuffer(bufferIndex, 0)
+                    if (useHostCadencePacing && hostPtsUs >= 0) {
+                        // host-cadence 呈现：按主机出帧节奏复现，去抖时钟给出精确呈现时刻。
+                        // 偏平滑档(MAX_SMOOTHNESS/CAP_FPS)权衡少量缓冲延迟换取无判抖，语义相符。
+                        val fps = if (refreshRate > 0) refreshRate else 60
+                        val frameIntervalNs = 1_000_000_000L / fps
+                        videoDecoder!!.releaseOutputBuffer(bufferIndex, hostCadenceClock.presentTimeNs(hostPtsUs, frameIntervalNs))
+                    } else {
+                        videoDecoder!!.releaseOutputBuffer(bufferIndex, 0)
+                    }
                 } else {
                     videoDecoder!!.releaseOutputBuffer(bufferIndex, System.nanoTime())
                 }
@@ -1360,7 +1390,9 @@ class MediaCodecDecoderRenderer(
                 }
 
                 // Deliver to frame pacing
-                deliverDecodedFrame(index)
+                val hostPtsUs = if (needsHostPtsMapping)
+                    (timestampToHostPts.remove(info.presentationTimeUs) ?: -1L) else -1L
+                deliverDecodedFrame(index, hostPtsUs)
 
                 doCodecRecoveryIfRequired(CR_FLAG_RENDER_THREAD)
             }
@@ -1577,6 +1609,7 @@ class MediaCodecDecoderRenderer(
 
         // Clear timestamp tracking map
         timestampToEnqueueTime.clear()
+        timestampToHostPts.clear()
 
         // Halt the rendering thread
         rendererThread?.interrupt()
@@ -1622,6 +1655,7 @@ class MediaCodecDecoderRenderer(
             }
         }
         timestampToEnqueueTime.clear()
+        timestampToHostPts.clear()
 
         // Stop codec callback thread (async mode)
         if (codecCallbackThread != null) {
@@ -1774,7 +1808,8 @@ class MediaCodecDecoderRenderer(
         frameType: Int,
         frameHostProcessingLatency: Char,
         receiveTimeUs: Long,
-        enqueueTimeUs: Long
+        enqueueTimeUs: Long,
+        hostPresentationTimeUs: Long
     ): Int {
         if (stopping || isProcessingPaused) {
             // Don't bother if we're stopping or paused
@@ -2015,6 +2050,12 @@ class MediaCodecDecoderRenderer(
             timestampUs = lastTimestampUs + 1
         }
         lastTimestampUs = timestampUs
+
+        // 记录本地 codec PTS -> host 节奏 PTS 的映射，供输出侧 host-cadence pacing 还原(仅在开启时消费)。
+        // 用本地 timestampUs 作 MediaCodec 的 PTS(保持既有延迟统计/去重逻辑不变)，host PTS 另存旁路。
+        if (needsHostPtsMapping) {
+            timestampToHostPts[timestampUs] = hostPresentationTimeUs
+        }
 
         numFramesIn++
 

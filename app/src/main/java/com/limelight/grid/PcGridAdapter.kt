@@ -369,7 +369,11 @@ class PcGridAdapter(
         } else {
             ipView.alpha = 1.0f
         }
-        ipView.visibility = View.VISIBLE
+        if (details.state != ComputerDetails.State.UNKNOWN) {
+            ipView.visibility = View.VISIBLE
+        } else {
+            ipView.visibility = View.GONE
+        }
         if (details.activeAddress != null) {
             ipView.text = details.activeAddress!!.address
         } else if (details.localAddress != null) {
