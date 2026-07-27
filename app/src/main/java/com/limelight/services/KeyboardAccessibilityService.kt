@@ -106,9 +106,9 @@ class KeyboardAccessibilityService : AccessibilityService() {
 
     override fun onDestroy() {
         super.onDestroy()
-        instance = null
-        interceptingEnabled = false
-        Log.i(TAG, "Accessibility Service destroyed.")
+        // instance = null
+        // interceptingEnabled = false
+        // Log.i(TAG, "Accessibility Service destroyed.")
     }
 
     companion object {
