@@ -124,6 +124,7 @@ class KeyboardTranslator : InputManager.InputDeviceListener {
                 KeyEvent.KEYCODE_CTRL_RIGHT -> 0xA3
                 KeyEvent.KEYCODE_DEL -> VK_BACK_SPACE
                 KeyEvent.KEYCODE_ENTER -> 0x0d
+                KeyEvent.KEYCODE_NUMPAD_ENTER -> 0x0d
                 KeyEvent.KEYCODE_PLUS, KeyEvent.KEYCODE_EQUALS -> 0xbb
                 KeyEvent.KEYCODE_ESCAPE -> VK_ESCAPE
                 KeyEvent.KEYCODE_FORWARD_DEL -> 0x2e

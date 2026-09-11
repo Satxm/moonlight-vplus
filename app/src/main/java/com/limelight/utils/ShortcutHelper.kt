@@ -75,7 +75,7 @@ class ShortcutHelper(private val context: Activity) {
                 .setIntent(ServerHelper.createPcShortcutIntent(context, computer))
                 .setShortLabel(computer.name!!)
                 .setLongLabel(computer.name!!)
-                .setIcon(Icon.createWithResource(context, R.mipmap.ic_pc_scut))
+                .setIcon(Icon.createWithResource(context, R.drawable.ic_computer))
                 .build()
 
             val existingSinfo = getInfoForId(computer.uuid!!)
@@ -116,7 +116,7 @@ class ShortcutHelper(private val context: Activity) {
                 val adaptiveSquare = prepareAdaptiveSquareBitmap(iconBits)
                 Icon.createWithAdaptiveBitmap(adaptiveSquare)
             } else {
-                Icon.createWithResource(context, R.mipmap.ic_pc_scut)
+                Icon.createWithResource(context, R.drawable.ic_computer)
             }
 
             val sInfo = ShortcutInfo.Builder(context, getShortcutIdForGame(computer, app))

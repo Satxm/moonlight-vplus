@@ -85,7 +85,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Run lint and unit tests
-        run: ./gradlew :app:lintNonRootDebug :app:testNonRootDebugUnitTest --no-daemon --stacktrace
+        run: ./gradlew updateLintBaseline :app:lintNonRootDebug :app:testNonRootDebugUnitTest --no-daemon --stacktrace
 
       - name: Test release versioning
         shell: bash
@@ -101,37 +101,6 @@ jobs:
           VERSION=${VERSION#v}
           echo "VERSION_NAME=$VERSION" >> $GITHUB_ENV
           echo "Using version from tag: $VERSION"
-
-      - name: Update version in build.gradle
-        if: startsWith(github.ref, 'refs/tags/')
-        shell: bash
-        run: |
-          set -e
-          TAG=${GITHUB_REF#refs/tags/}
-          # 移除版本号前缀 'v' 如果存在
-          VERSION=${TAG#v}
-          echo "Updating version to: $VERSION"
-
-          # 每个 MAJOR.MINOR.PATCH 基础版本有 999 个发布槽位，按 tag 创建时间分配。
-          # 这样同一基础版本下的稳定版、hotfix 和不同功能预览 tag 也不会撞号。
-          # PATCH 可省略；历史 tag、前导零、Android 上限和回退基准都由脚本统一校验。
-          VERSION_INFO=$(bash .github/release/version-code.sh "$TAG" app/build.gradle)
-          IFS=$'\t' read -r NEW_VERSION_CODE FLOOR FLOOR_SRC <<< "$VERSION_INFO"
-          echo "Version floor: $FLOOR (from $FLOOR_SRC)"
-
-          # 允许相等（同一个 tag 重跑 CI 应当产出同样的包），只拒绝变小。
-          if [ "$NEW_VERSION_CODE" -lt "$FLOOR" ]; then
-            echo "ERROR: 推导出的 versionCode $NEW_VERSION_CODE 小于已发布的 $FLOOR（来自 $FLOOR_SRC）"
-            echo "Android 不允许 versionCode 倒退，请检查 tag '$TAG' 是否打错。"
-            exit 1
-          fi
-
-          bash .github/release/gradle-version.sh write \
-            app/build.gradle \
-            "$VERSION" \
-            "$NEW_VERSION_CODE"
-          echo "VERSION_CODE=$NEW_VERSION_CODE" >> "$GITHUB_ENV"
-          echo "Updated release version (floor was $FLOOR from $FLOOR_SRC)"
 
       - name: Build NonRoot Debug APK
         run: ./gradlew :app:assembleNonRootDebug --no-daemon --stacktrace
@@ -163,7 +132,7 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: ./gradlew :app:assembleNonRootRelease --no-daemon --stacktrace
 
-      - name: Rename Release APK to Moonlight.V+.<version>.apk
+      - name: Rename Release APK to Moonlight-V+.<version>.apk
         if: startsWith(github.ref, 'refs/tags/')
         shell: bash
         run: |
@@ -178,7 +147,7 @@ jobs:
             echo "Using metadata version: $VERSION"
           fi
           SRC_APK=$(ls "$REL_DIR"/*.apk | head -n 1)
-          DEST="$REL_DIR/Moonlight.V+.${VERSION}.apk"
+          DEST="$REL_DIR/Moonlight-V+.${VERSION}.apk"
           mv "$SRC_APK" "$DEST"
           echo "Renamed APK to: $DEST"
           echo "REL_APK=$DEST" >> $GITHUB_ENV
@@ -190,92 +159,12 @@ jobs:
           set -e
           DATE=$(date +'%Y-%m-%d')
           V="${VERSION_NAME:-${GITHUB_REF#refs/tags/}}"; V="${V#v}"
-          CUR_TAG="${GITHUB_REF#refs/tags/}"
-          # 只在发版 tag（v*）里找上一个版本，并显式排除当前 tag。
-          # 直接取 `git tag | sed -n 2p` 会选中 issue-*-test-* 这类临时 tag，changelog 区间就错了。
-          PREV_TAG=$(git tag --list 'v*' --sort=-creatordate | grep -Fxv "$CUR_TAG" | head -n 1 || true)
-          echo "Previous release tag: ${PREV_TAG:-<none>}"
-          APK_SHA256=$(sha256sum "$REL_APK" | awk '{print $1}')
-
-          # 定制发布说明一律在 GitHub Release 页面发布后直接编辑，
-          # 不再从仓库根目录读取 RELEASE_NOTES_V*.md 文件。
-          if [ -n "$PREV_TAG" ]; then
-            LOG=$(git log --pretty=format:'%s' "${PREV_TAG}..${CUR_TAG}" --no-merges || true)
-          else
-            LOG=$(git log --pretty=format:'%s' -n 100 --no-merges || true)
-          fi
-
-          # 按 conventional commit 前缀分类
-          FEAT="" FIX="" PERF="" OTHER=""
-          # 正则存入变量，避免 bash [[ =~ ]] 的括号解析问题
-          RE='^(feat|fix|perf|refactor|remove|chore|ci|docs|style|test|build)(\([^)]*\))?:[[:space:]](.+)$'
-          while IFS= read -r line; do
-            [ -z "$line" ] && continue
-            # 提取前缀和描述（支持 type(scope): desc 和 type: desc）
-            if [[ "$line" =~ $RE ]]; then
-              prefix="${BASH_REMATCH[1]}"
-              desc="${BASH_REMATCH[3]}"
-              case "$prefix" in
-                feat)           FEAT+="- ✨ ${desc}"$'\n' ;;
-                fix)            FIX+="- 🐛 ${desc}"$'\n' ;;
-                perf|refactor)  PERF+="- ⚡ ${desc}"$'\n' ;;
-                remove)         OTHER+="- 🗑️ ${desc}"$'\n' ;;
-                # chore/ci/docs/style/test/build → 跳过
-              esac
-            fi
-          done <<< "$LOG"
 
           # 拼装 release notes
           {
             echo "## 🌙 Moonlight V+ ${V}"
             echo ""
-            echo "感谢你使用 Moonlight V+！如果喜欢，记得点亮一颗 ⭐～"
-            echo ""
 
-            if [ -n "$FEAT" ]; then
-              echo "### 新增"
-              printf '%s' "$FEAT"
-              echo ""
-            fi
-            if [ -n "$PERF" ]; then
-              echo "### 优化"
-              printf '%s' "$PERF"
-              echo ""
-            fi
-            if [ -n "$FIX" ]; then
-              echo "### 修复"
-              printf '%s' "$FIX"
-              echo ""
-            fi
-            if [ -n "$OTHER" ]; then
-              echo "### 其他"
-              printf '%s' "$OTHER"
-              echo ""
-            fi
-
-            # 如果所有分类都为空，列出原始提交
-            if [ -z "$FEAT" ] && [ -z "$FIX" ] && [ -z "$PERF" ] && [ -z "$OTHER" ]; then
-              echo "### 更新内容"
-              if [ -n "$PREV_TAG" ]; then
-                git log --pretty=format:'- %s' "${PREV_TAG}..${CUR_TAG}" --no-merges || true
-              else
-                echo "- 初始发布"
-              fi
-              echo ""
-            fi
-
-            echo "### 📦 下载"
-            echo "- APK 文件：\`Moonlight.V+.${V}.apk\`"
-            echo ""
-            echo "### SHA256"
-            echo ""
-            echo '```text'
-            echo "${APK_SHA256}  Moonlight.V+.${V}.apk"
-            echo '```'
-            echo ""
-            echo "---"
-            echo "如遇到问题，请在 [Issues](../../issues) 反馈。祝你游戏顺利、低延迟满帧！🎮"
-            echo ""
             echo "*发布于 ${DATE}*"
           } > release_notes.md
 

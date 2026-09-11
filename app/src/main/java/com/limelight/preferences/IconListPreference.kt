@@ -55,7 +55,8 @@ class IconListPreference(context: Context, attrs: AttributeSet?) : ListPreferenc
         val index = findIndexOfValue(value)
         if (index >= 0) {
             val currentEntry = entries[index].toString()
-            val summary = "$mOriginalSummary (当前：$currentEntry)"
+            val resources = getContext().getResources().getString(R.string.position_current)
+            val summary = "$mOriginalSummary ($resources$currentEntry)"
             super.setSummary(summary)
         } else {
             super.setSummary(mOriginalSummary)

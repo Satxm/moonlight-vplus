@@ -156,7 +156,7 @@
     <string name="game_menu_bitrate_range">码率范围:</string>
     <string name="game_menu_bitrate_tip">拖动滑动条实时调整码率, 需要更高的码率请到设置菜单操作。</string>
     <!-- Add computer manually activity -->
-    <string name="title_add_pc"> new\nDianLao () </string>
+    <string name="title_add_pc"> 添加电脑 </string>
     <string name="title_add_pc_choose">添加电脑</string>
     <string name="addpc_manual">输入 IP 地址</string>
     <string name="addpc_qr_scan">扫描二维码</string>
@@ -2144,4 +2144,30 @@
     <string name="summary_seekbar_bitrate_baseline">智能码率从此数值开始，并围绕它动态调整；最低和最高范围由所选智能码率模式决定。</string>
     <string name="summary_checkbox_enable_audiofx_passthrough">启用音频直通时不可用，因为直通会绕过系统音频效果。</string>
     <string name="summary_checkbox_enable_spatializer_passthrough">启用音频直通时不可用，因为直通会绕过 Android 空间音频。</string>
+    
+    <!-- Details -->
+    <string name="details_name">名称：</string>
+    <string name="details_state">状态：</string>
+    <string name="details_activeaddress">活跃地址：</string>
+    <string name="details_uuid">唯一标识：</string>
+    <string name="details_localaddress">本地地址：</string>
+    <string name="details_remoteaddress">远程地址：</string>
+    <string name="details_ipv6address">IPv6 地址：</string>
+    <string name="details_manualaddress">固定地址：</string>
+    <string name="details_macaddress">MAC 地址：</string>
+    <string name="details_pairstate">配对状态：</string>
+    <string name="details_runninggameid">正在运行的应用 ID ：</string>
+    <string name="details_httpsport">HTTPS 端口：</string>
+    <string name="details_sunshine_version">Sunshine 版本：</string>
+    <string name="desktop_special_app_support">桌面特殊应用支持：</string>
+    <string name="vdd_capability_version">VDD Capability 版本：</string>
+    <string name="details_online">在线</string>
+    <string name="details_offline">离线</string>
+    <string name="details_unknown">未知</string>
+    <string name="details_paired">已配对</string>
+    <string name="details_not_paired">未配对</string>
+
+    <!-- Array strings -->
+    <string name="position_current">当前：</string>
+    <string name="resolution_custom">自定义 </string>
 </resources>
