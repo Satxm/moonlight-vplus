@@ -104,13 +104,6 @@ class KeyboardAccessibilityService : AccessibilityService() {
         Log.w(TAG, "Accessibility Service interrupted.")
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        instance = null
-        interceptingEnabled = false
-        Log.i(TAG, "Accessibility Service destroyed.")
-    }
-
     companion object {
         private const val TAG = "KeyboardService"
 

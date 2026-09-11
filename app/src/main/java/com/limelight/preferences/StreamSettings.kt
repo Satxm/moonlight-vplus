@@ -1117,7 +1117,7 @@ class StreamSettings : AppCompatActivity() {
                 }
 
                 val aspectRatio = AspectRatioConverter.getAspectRatio(resolution.width, resolution.height)
-                var displayText = "Custom "
+                var displayText = resources.getString(R.string.resolution_custom)
 
                 if (aspectRatio != null) {
                     displayText += "$aspectRatio "

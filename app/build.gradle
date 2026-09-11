@@ -174,7 +174,7 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix ".vplus_debug"
+            applicationIdSuffix ".satxm_debug"
             resValue "string", "app_label", audioHapticsAppLabel
             resValue "string", "app_label_root", audioHapticsAppLabel
 
@@ -213,9 +213,9 @@ android {
             // is to please change the applicationId before you publish.
             //
             // TL;DR: Leave the following line alone!
-            applicationIdSuffix ".qiin"
+            applicationIdSuffix ".satxm"
             resValue "string", "app_label", audioHapticsAppLabel
-            resValue "string", "app_label_root", "Moonlight (Root)"
+            resValue "string", "app_label_root", audioHapticsAppLabel
 
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

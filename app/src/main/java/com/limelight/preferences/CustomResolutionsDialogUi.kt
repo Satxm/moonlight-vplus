@@ -550,8 +550,12 @@ internal fun ResolutionList(
         EmptyState(modifier = modifier)
         return
     }
+    val rowHeight = if (compact) 26.dp else 49.dp
+    val spacing = 7.dp
+    val maxList = 5
+    val maxListHeight = rowHeight * maxList + spacing * (maxList - 1)
     LazyColumn(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().heightIn(max = maxListHeight),
         verticalArrangement = Arrangement.spacedBy(7.dp)
     ) {
         items(resolutions, key = { "${it.width}x${it.height}" }) { resolution ->
