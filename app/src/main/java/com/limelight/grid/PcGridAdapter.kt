@@ -367,6 +367,7 @@ class PcGridAdapter(
         )
 
         updateOverlay(overlayView, details, isOnline, isOffline)
+        updateOverlayIP(parentView, details)
     }
 
     private fun updateSpinner(spinnerView: ImageView, shouldShow: Boolean) {
@@ -399,6 +400,31 @@ class PcGridAdapter(
             else -> {
                 overlayView.visibility = View.GONE
             }
+        }
+    }
+
+    private fun updateOverlayIP(parentView: View, details: ComputerDetails) {
+        val ipView = parentView.findViewById<TextView>(R.id.grid_ip)
+        val shouldShow = details.state == ComputerDetails.State.ONLINE &&
+                         details.uuid != PcGridAdapter.ADD_COMPUTER_UUID
+
+        ipView.alpha = if (shouldShow) 1.0f else 0.4f
+
+        if (shouldShow) {
+            val address = details.activeAddress?.address
+                ?: details.localAddress?.address
+                ?: details.ipv6Address?.address
+                ?: details.manualAddress?.address
+                ?: details.remoteAddress?.address
+
+            if (address != null) {
+                ipView.text = address
+                ipView.visibility = View.VISIBLE
+            } else {
+                ipView.visibility = View.GONE
+            }
+        } else {
+            ipView.visibility = View.GONE
         }
     }
 
