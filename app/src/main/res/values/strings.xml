@@ -353,6 +353,12 @@
     <string name="summary_checkbox_reduce_refresh_rate">Only applies to Balanced frame pacing. A lower matching refresh rate can save power but may add video latency.</string>
 
     <string name="category_gamepad_settings">Gamepad</string>
+    <string name="title_combine_joycons">Combine Joy-Con controllers</string>
+    <string name="joycon_system_capabilities">System rumble: %1$s · Gyroscope: %2$s</string>
+    <string name="joycon_capability_available">Available</string>
+    <string name="joycon_capability_missing">Not exposed by Android</string>
+    <string name="joycon_capability_unchecked">Not checked</string>
+    <string name="summary_combine_joycons">Use a first-generation left and right Joy-Con as one player, held vertically. Automatically pairs only when one unpaired controller of each side is connected. Applies to the next stream.</string>
     <string name="title_checkbox_multi_controller">Separate controllers and players</string>
     <string name="summary_checkbox_multi_controller">Expose each connected controller as a separate controller on the host. Turn off to combine them as one.</string>
     <string name="title_list_game_rumble_mode">Host game rumble output</string>
@@ -679,7 +685,7 @@
     <string name="category_advanced_settings">Advanced Settings</string>
     <string name="title_unlock_fps">Show high frame-rate options</string>
     <string name="summary_unlock_fps">Streaming at 90 or 120 FPS may reduce latency on high-end devices but can cause lag or instability on devices that can\'t support it</string>
-    <string name="title_checkbox_disable_warnings">Hide stream connection warnings</string>
+    <string name="title_checkbox_disable_warnings">Hide stream warning notifications</string>
     <string name="summary_checkbox_disable_warnings">Hide connection-quality warning overlays during a stream</string>
     <string name="title_disable_frame_drop">Never drop frames</string>
     <string name="summary_disable_frame_drop">May reduce micro-stuttering on some devices, but can increase latency</string>
@@ -2228,6 +2234,11 @@ Tap again to replace it.</string>
     <string name="summary_seekbar_bitrate_baseline">Adaptive bitrate starts here and adjusts around this value. The selected ABR mode controls the minimum and maximum range.</string>
     <string name="summary_checkbox_enable_audiofx_passthrough">Unavailable while audio passthrough is enabled because passthrough bypasses system audio effects.</string>
     <string name="summary_checkbox_enable_spatializer_passthrough">Unavailable while audio passthrough is enabled because passthrough bypasses Android spatial audio.</string>
+    <string name="title_ac3_iec61937">AC3 IEC61937 compatibility output</string>
+    <string name="summary_ac3_iec61937">Wrap 48 kHz AC3 for receivers that get PCM from raw passthrough. Requires Android 7+. Enable audio passthrough and select AC3; other codecs are unchanged. Restart the client after changing. Disable to restore raw AC3.</string>
+    <string name="stick_calibration_title">Stick center calibration</string>
+    <string name="stick_calibration_summary">Use the current stick position as neutral for this controller</string>
+
 
     <!-- Details -->
     <string name="details_name">Name: </string>

@@ -19,14 +19,14 @@ class SimpleMarkdownRendererInstrumentedTest {
             "## [Docs](https://example.com/a_(b_(c)).html)\n\n" +
                 "[Issues](../../issues), [Guide](../../docs/指南), https://example.com/path_(x).",
             accentColor,
-            "https://github.com/qiin2333/moonlight-vplus/releases/tag/v12.10.8"
+            "https://github.com/satxm/moonlight-vplus/releases/tag/v12.12.6"
         )
 
         val spans = urlSpans(rendered)
         assertEquals(4, spans.size)
         assertTrue(spans.any { it.url == "https://example.com/a_(b_(c)).html" })
-        assertTrue(spans.any { it.url == "https://github.com/qiin2333/moonlight-vplus/issues" })
-        assertTrue(spans.any { it.url == "https://github.com/qiin2333/moonlight-vplus/docs/%E6%8C%87%E5%8D%97" })
+        assertTrue(spans.any { it.url == "https://github.com/satxm/moonlight-vplus/issues" })
+        assertTrue(spans.any { it.url == "https://github.com/satxm/moonlight-vplus/docs/%E6%8C%87%E5%8D%97" })
         assertTrue(spans.any { it.url == "https://example.com/path_(x)" })
     }
 
@@ -52,7 +52,7 @@ class SimpleMarkdownRendererInstrumentedTest {
         val inert = SimpleMarkdownRenderer.render(
             "[Issues](https://example.com/issues) https://example.com/path",
             accentColor,
-            "https://github.com/qiin2333/moonlight-vplus/releases/tag/v12.10.8",
+            "https://github.com/satxm/moonlight-vplus/releases/tag/v12.12.6",
             linksEnabled = false
         )
         assertEquals(0, urlSpans(inert).size)

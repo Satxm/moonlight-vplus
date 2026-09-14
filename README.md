@@ -3,11 +3,11 @@
 
   # Moonlight V+
 
-  [![GitHub Release](https://img.shields.io/github/v/release/qiin2333/moonlight-vplus?label=latest&style=flat-square)](https://github.com/qiin2333/moonlight-vplus/releases/latest)
+  [![GitHub Release](https://img.shields.io/github/v/release/satxm/moonlight-vplus?label=latest&style=flat-square)](https://github.com/satxm/moonlight-vplus/releases/latest)
   [![Android](https://img.shields.io/badge/Android-5.0+-34A853?style=flat-square&logo=android&logoColor=white)](https://developer.android.com/about/versions)
   [![License](https://img.shields.io/badge/license-GPL%20v3-EF9421?style=flat-square)](LICENSE.txt)
-  [![GitHub Stars](https://img.shields.io/github/stars/qiin2333/moonlight-vplus?style=flat-square)](https://github.com/qiin2333/moonlight-vplus/stargazers)
-  [![Downloads](https://img.shields.io/github/downloads/qiin2333/moonlight-vplus/total?style=flat-square&color=blue)](https://github.com/qiin2333/moonlight-vplus/releases)
+  [![GitHub Stars](https://img.shields.io/github/stars/satxm/moonlight-vplus?style=flat-square)](https://github.com/satxm/moonlight-vplus/stargazers)
+  [![Downloads](https://img.shields.io/github/downloads/satxm/moonlight-vplus/total?style=flat-square&color=blue)](https://github.com/satxm/moonlight-vplus/releases)
 
   **基于 [Moonlight](https://github.com/moonlight-stream/moonlight-android) 的增强版 Android 游戏串流客户端**
 
@@ -67,14 +67,14 @@ Moonlight V+ 在 [moonlight-android](https://github.com/moonlight-stream/moonlig
 
 ### 安装
 
-从 [Releases](https://github.com/qiin2333/moonlight-vplus/releases/latest) 下载最新 APK，安装后按应用内引导完成配对即可。
+从 [Releases](https://github.com/satxm/moonlight-vplus/releases/latest) 下载最新 APK，安装后按应用内引导完成配对即可。
 
 如果遇到黑屏、卡顿、HDR、手柄、EasyTier 等问题，请先查看 [Moonlight V+ 常见问题](FAQ.md)。
 
 ### 从源码编译
 
 ```bash
-git clone https://github.com/qiin2333/moonlight-vplus.git
+git clone https://github.com/satxm/moonlight-vplus.git
 cd moonlight-vplus
 ./gradlew assembleRelease
 ```

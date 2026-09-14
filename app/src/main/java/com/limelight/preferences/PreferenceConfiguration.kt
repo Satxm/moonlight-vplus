@@ -117,6 +117,7 @@ class PreferenceConfiguration {
     var language: String = ""
     var smallIconMode = false
     var multiController = false
+    var combineJoyCons = true
     var usbDriver = false
     var dualSenseWirelessBridge = false
     var dualSenseDirectBluetooth = false
@@ -174,6 +175,7 @@ class PreferenceConfiguration {
     var audioCodecBitrate: Int = 0
     /** AC3 passthrough AudioTrack buffer size in bytes — trade jitter resilience for latency. */
     var audioPassthroughBufferBytes: Int = 16 * 1024
+    var useAc3Iec61937: Boolean = false
     var framePacing = 0
     var enableHostCadencePreciseSync = false // 精确同步·两步 host-cadence 呈现（仅精确同步模式生效）
     var absoluteMouseMode = false
@@ -605,6 +607,7 @@ class PreferenceConfiguration {
         private const val ENABLE_AUDIO_FX_PREF_STRING = "checkbox_enable_audiofx"
         private const val ENABLE_SPATIALIZER_PREF_STRING = "checkbox_enable_spatializer"
         private const val ENABLE_AUDIO_PASSTHROUGH_PREF_STRING = "checkbox_enable_audio_passthrough"
+        private const val AC3_IEC61937_PREF_STRING = "checkbox_ac3_iec61937"
         private const val DEFAULT_ENABLE_AUDIO_PASSTHROUGH = false
         private const val FORCE_MTK_MAX_OPERATING_RATE_PREF_STRING = "checkbox_force_mtk_max_operating_rate"
         private const val DEFAULT_FORCE_MTK_MAX_OPERATING_RATE = false
@@ -1311,6 +1314,7 @@ class PreferenceConfiguration {
 
             val enableAudioPassthrough = prefs.getBoolean(ENABLE_AUDIO_PASSTHROUGH_PREF_STRING, DEFAULT_ENABLE_AUDIO_PASSTHROUGH)
             config.enableAudioPassthrough = enableAudioPassthrough
+            config.useAc3Iec61937 = prefs.getBoolean(AC3_IEC61937_PREF_STRING, false)
 
             val audioConfig = prefs.getString(AUDIO_CONFIG_PREF_STRING, DEFAULT_AUDIO_CONFIG) ?: DEFAULT_AUDIO_CONFIG
             config.audioConfiguration = when (audioConfig) {
@@ -1378,6 +1382,7 @@ class PreferenceConfiguration {
             config.playHostAudio = prefs.getBoolean(HOST_AUDIO_PREF_STRING, DEFAULT_HOST_AUDIO)
             config.smallIconMode = prefs.getBoolean(SMALL_ICONS_PREF_STRING, getDefaultSmallMode(context))
             config.multiController = prefs.getBoolean(MULTI_CONTROLLER_PREF_STRING, DEFAULT_MULTI_CONTROLLER)
+            config.combineJoyCons = prefs.getBoolean("checkbox_combine_joycons", true)
             config.usbDriver = prefs.getBoolean(USB_DRIVER_PREF_SRING, DEFAULT_USB_DRIVER)
             config.dualSenseWirelessBridge = prefs.getBoolean(
                 DUALSENSE_WIRELESS_BRIDGE_PREF_STRING,

@@ -13,7 +13,7 @@ object GitHubStarVerifier {
     private const val ACCESS_TOKEN_URL = "https://github.com/login/oauth/access_token"
     private const val API_USER_URL = "https://api.github.com/user"
     private const val API_VERSION = "2022-11-28"
-    private const val REPO_OWNER = "qiin2333"
+    private const val REPO_OWNER = "satxm"
     private const val REPO_NAME = "moonlight-vplus"
 
     enum class OAuthScope(val preferenceValue: String, val requestValue: String) {
