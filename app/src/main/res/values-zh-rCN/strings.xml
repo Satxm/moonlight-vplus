@@ -554,6 +554,7 @@
     <string name="pcview_theme_light">浅色</string>
     <string name="pcview_theme_dark">深色</string>
     <string name="pcview_theme_applied">主题已切换为%1$s</string>
+
     <string name="pcview_press_back_again_to_exit">再按一次返回键退出</string>
     <string name="title_enable_host_cadence_precise_sync">精确同步更顺滑</string>
     <string name="summary_enable_host_cadence_precise_sync">网络稳定时可减少规律性小卡顿，90/120 FPS 下更容易感觉到。可能增加约 1-3 ms 延迟。</string>
@@ -2088,7 +2089,7 @@
     <string name="title_force_mtk_max_operating_rate">强制联发科解码器最高运行速率（实验性）</string>
     <string name="summary_force_mtk_max_operating_rate">仅用于联发科解码器的兼容性选项。在部分设备上可能降低延迟，也可能在另一些设备上造成严重延迟；除非在排查已知联发科解码问题，否则请保持关闭。</string>
     <string name="title_hevc_low_latency_mode">HEVC 低延迟解码</string>
-    <string name="summary_hevc_low_latency_mode">Amlogic 芯片电视盒子开启解码器低延迟模式后，HEVC 画面可能变成幻灯片（帧率显示正常但几乎不刷新）。自动：仅在 Amlogic HEVC 解码器上跳过低延迟选项（这些设备多 1–2 帧延迟）；关闭：所有 HEVC 与杜比视界流跳过；开启：恢复原有行为。</string>
+    <string name="summary_hevc_low_latency_mode">自动：对 Amlogic HEVC 解码器使用兼容配置；开启：恢复低延迟选项；关闭：对所有 HEVC 和杜比视界串流使用兼容配置。兼容配置可能增加解码延迟。</string>
     <string name="hevc_low_latency_auto">自动</string>
     <string name="hevc_low_latency_on">开启</string>
     <string name="hevc_low_latency_off">关闭</string>
@@ -2155,6 +2156,29 @@
     <string name="stick_calibration_title">摇杆中心校准</string>
     <string name="stick_calibration_summary">将摇杆当前位置设为此控制器的中立位置</string>
 
+    <string name="osc_layout_title">虚拟手柄布局</string>
+    <string name="theme_appearance">明暗模式</string>
+    <string name="theme_accent_source">强调色来源</string>
+    <string name="theme_accent_pink">品牌粉</string>
+    <string name="theme_accent_background">跟随首页背景</string>
+    <string name="theme_summary">%1$s · %2$s</string>
+    <string name="title_experimental_haptic_protocols">允许实验性触觉协议</string>
+    <string name="summary_experimental_haptic_protocols">自动识别手柄。允许尝试已识别但尚未验证的波形协议；未知协议继续使用普通振动。更改后重新串流。</string>
+    <string name="waveform_status_ready">波形通道已就绪，播放仍需触觉内容。</string>
+    <string name="waveform_status_validation">已识别候选波形协议，尚待验证；当前保留普通振动。</string>
+    <string name="waveform_status_permission">波形输出需要 USB 授权，普通振动仍可使用。</string>
+    <string name="waveform_status_association">等待唯一玩家关联。请按下手柄按键；无法区分的同款设备保留普通振动。</string>
+    <string name="waveform_status_initializing">正在建立波形通道…</string>
+    <string name="waveform_status_busy">波形通道被占用，当前保留普通振动。</string>
+    <string name="waveform_status_failed">波形输出失败，已回退普通振动；重新连接可重试。</string>
+    <string name="waveform_status_unavailable">未识别到可用波形通道，当前保留普通振动。</string>
+    <string name="waveform_experimental">实验性</string>
+    <string name="waveform_player">玩家 %1$d</string>
+    <string name="waveform_test_channels">测试左右触觉</string>
+    <string name="waveform_test_cancel">停止触觉测试</string>
+    <string name="title_host_gamepad_selection">主机虚拟手柄</string>
+    <string name="summary_host_gamepad_selection">选择向 Sunshine 请求的手柄类型，对所有玩家生效。自动模式会为已识别的波形手柄或屏幕触摸板请求 DS5。更改后重新串流。</string>
+    <string-array name="host_gamepad_selection_names"><item>自动</item><item>遵循主机设置</item><item>Xbox 360</item><item>DualShock 4</item><item>DualSense</item></string-array>
     
     <!-- Details -->
     <string name="details_name">名称：</string>

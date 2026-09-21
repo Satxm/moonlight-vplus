@@ -52,6 +52,8 @@ app/google-services.json
 docs/*
 !docs/DUALSENSE_WIRELESS_BRIDGE_IMPLEMENTATION.md
 !docs/REMOTE_TEXT_FOCUS_DETECTION_IMPLEMENTATION.md
+!docs/STYLUS_IME_HANDWRITING_ISOLATION.md
+!docs/controller-waveform-haptics.md
 
 # Kotlin build cache
 .kotlin/
@@ -59,8 +61,10 @@ docs/*
 # Gradle daemon config
 gradle/gradle-daemon-jvm.properties
 
-# Dev utility scripts
-scripts/
+# Dev utility scripts (keep the reproducible accent palette generator)
+scripts/*
+!scripts/generate_accent_variants.py
+!scripts/test_accent_palette.py
 
 # Local mock server generated certs/logs
 tools/mock-sunshine/.generated/

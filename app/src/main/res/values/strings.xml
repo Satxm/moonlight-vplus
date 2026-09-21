@@ -1338,6 +1338,7 @@
     <string name="pcview_theme_light">Light</string>
     <string name="pcview_theme_dark">Dark</string>
     <string name="pcview_theme_applied">Theme set to %1$s</string>
+
     <string name="pcview_press_back_again_to_exit">Press Back again to exit</string>
     <string name="save_to_scene">Save to Scene %1$d</string>
     <string name="overwrite_current_config">Overwrite current configuration?</string>
@@ -1369,7 +1370,7 @@
     <string name="title_force_mtk_max_operating_rate">Force MediaTek decoder maximum rate (Experimental)</string>
     <string name="summary_force_mtk_max_operating_rate">Compatibility override for MediaTek decoders only. It may reduce latency on some devices, but can cause severe delay on others. Leave off unless testing a known MediaTek decoder issue.</string>
     <string name="title_hevc_low_latency_mode">HEVC low-latency decoding</string>
-    <string name="summary_hevc_low_latency_mode">Amlogic-based TV boxes can turn HEVC video into a slideshow when decoder low-latency mode is enabled. Auto skips low-latency options on Amlogic HEVC decoders (adds 1–2 frames of latency on those devices only). Off disables them for all HEVC and Dolby Vision streams; On restores the previous behavior.</string>
+    <string name="summary_hevc_low_latency_mode">Auto uses compatibility settings for Amlogic HEVC decoders. On restores low-latency options; Off uses compatibility settings for all HEVC and Dolby Vision streams. Compatibility settings may increase decoding latency.</string>
     <string name="hevc_low_latency_auto">Auto</string>
     <string name="hevc_low_latency_on">On</string>
     <string name="hevc_low_latency_off">Off</string>
@@ -2239,6 +2240,30 @@ Tap again to replace it.</string>
     <string name="stick_calibration_title">Stick center calibration</string>
     <string name="stick_calibration_summary">Use the current stick position as neutral for this controller</string>
 
+    <string name="osc_layout_title">Virtual controller layout</string>
+    <string name="theme_appearance">Appearance</string>
+    <string name="theme_accent_source">Accent color</string>
+    <string name="theme_accent_pink">Brand pink</string>
+    <string name="theme_accent_background">Follow home background</string>
+    <string name="theme_summary">%1$s · %2$s</string>
+    <string name="title_experimental_haptic_protocols">Allow experimental haptic protocols</string>
+    <string name="summary_experimental_haptic_protocols">Controllers are detected automatically. Allow attempts to use recognized but unverified waveform protocols. Unknown protocols keep ordinary vibration. Reconnect the stream after changing.</string>
+    <string name="waveform_status_ready">Waveform channel ready; playback requires haptic content.</string>
+    <string name="waveform_status_validation">Candidate waveform protocol needs validation. Using ordinary vibration.</string>
+    <string name="waveform_status_permission">Waveform output needs USB permission. Ordinary vibration remains available.</string>
+    <string name="waveform_status_association">Waiting for a unique player association. Press a controller button; indistinguishable devices keep ordinary vibration.</string>
+    <string name="waveform_status_initializing">Opening waveform channel…</string>
+    <string name="waveform_status_busy">Waveform channel is in use. Using ordinary vibration.</string>
+    <string name="waveform_status_failed">Waveform output failed. Using ordinary vibration; reconnect to retry.</string>
+    <string name="waveform_status_unavailable">No usable waveform channel identified. Ordinary vibration remains available.</string>
+    <string name="waveform_experimental">Experimental</string>
+    <string name="waveform_player">Player %1$d</string>
+    <string name="waveform_test_channels">Test left / right haptics</string>
+    <string name="waveform_test_cancel">Stop haptic test</string>
+    <string name="title_host_gamepad_selection">Host virtual controller</string>
+    <string name="summary_host_gamepad_selection">Choose the controller type requested from Sunshine for all players. Automatic requests DS5 for recognized waveform controllers or the screen touchpad. Reconnect after changing.</string>
+    <string-array name="host_gamepad_selection_names"><item>Automatic</item><item>Follow host settings</item><item>Xbox 360</item><item>DualShock 4</item><item>DualSense</item></string-array>
+    <string-array name="host_gamepad_selection_values"><item>automatic</item><item>host</item><item>x360</item><item>ds4</item><item>ds5</item></string-array>
 
     <!-- Details -->
     <string name="details_name">Name: </string>

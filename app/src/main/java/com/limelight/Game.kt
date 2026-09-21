@@ -1,6 +1,11 @@
 @file:Suppress("DEPRECATION")
 package com.limelight
 
+import com.limelight.ui.ThemedComponentActivity
+import com.limelight.binding.input.driver.UsbWaveformBackends
+
+import android.hardware.usb.UsbManager
+
 import com.limelight.binding.PlatformBinding
 import com.limelight.binding.audio.AndroidAudioRenderer
 import com.limelight.binding.audio.AudioDiagnostics
@@ -102,6 +107,8 @@ import android.view.View.OnGenericMotionListener
 import android.view.View.OnSystemUiVisibilityChangeListener
 import android.view.View.OnTouchListener
 import android.view.Window
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import android.view.WindowManager
 import android.widget.FrameLayout
 import android.view.inputmethod.InputMethodManager
@@ -111,7 +118,6 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.app.ActivityCompat
 import androidx.annotation.RequiresApi
-import androidx.activity.ComponentActivity
 
 import java.io.ByteArrayInputStream
 import java.lang.reflect.InvocationTargetException
@@ -132,7 +138,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 
-class Game : ComponentActivity(), SurfaceHolder.Callback,
+class Game : ThemedComponentActivity(), SurfaceHolder.Callback,
     OnGenericMotionListener, OnTouchListener, NvConnectionListener, EvdevListener,
     OnSystemUiVisibilityChangeListener, GameGestures, GameMenuAxisSourceLifecycle,
     StreamView.InputCallbacks,
@@ -575,7 +581,7 @@ class Game : ComponentActivity(), SurfaceHolder.Callback,
             initializeControllerManager()
         }
 
-        if (prefConfig.usbDriver || prefConfig.dualSenseWirelessBridge) {
+        if (prefConfig.usbDriver || prefConfig.dualSenseWirelessBridge || packageManager.hasSystemFeature(android.content.pm.PackageManager.FEATURE_USB_HOST)) {
             bindUsbDriverService()
         }
 
@@ -1069,6 +1075,10 @@ class Game : ComponentActivity(), SurfaceHolder.Callback,
         negotiatedHdrEnabled = willStreamHdr && prefConfig.hdrMode != MoonBridge.HDR_MODE_SDR
         framegenInputHdrEnabled = negotiatedHdrEnabled
 
+        val waveformController = UsbWaveformBackends.hasEligibleController(
+            getSystemService(USB_SERVICE) as? UsbManager,
+            prefConfig.allowExperimentalHaptics)
+        val hostGamepad = prefConfig.hostGamepadSelection.resolve(prefConfig.screenDs5Touchpad, waveformController)
         val config = StreamConfiguration.Builder()
             .setResolution(prefConfig.width, prefConfig.height)
             .setLaunchRefreshRate(prefConfig.fps)
@@ -1089,6 +1099,10 @@ class Game : ComponentActivity(), SurfaceHolder.Callback,
             // — bypasses both PcmPassthroughRenderer and Ac3PassthroughRenderer.
             .setAudioCodec(if (prefConfig.enableAudioPassthrough) prefConfig.audioCodec else MoonBridge.AUDIO_CODEC_OPUS)
             .setAudioBitrate(prefConfig.audioCodecBitrate)
+            .setAuthoredPcmHaptics(prefConfig.hostGamepadSelection.requestsAuthoredPcm(
+                waveformController,
+                prefConfig.gameRumbleMode != com.limelight.binding.input.haptics.GameRumbleMode.DEVICE))
+            .setHostGamepad(hostGamepad)
             .setColorSpace(decoderRenderer?.getPreferredColorSpace() ?: 0)
             .setColorRange(
                 decoderRenderer?.getPreferredColorRange()
@@ -1187,7 +1201,7 @@ class Game : ComponentActivity(), SurfaceHolder.Callback,
 
         audioVibrationService?.controllerHandler = controllerHandler
 
-        if (prefConfig.usbDriver || prefConfig.dualSenseWirelessBridge) {
+        if (prefConfig.usbDriver || prefConfig.dualSenseWirelessBridge || packageManager.hasSystemFeature(android.content.pm.PackageManager.FEATURE_USB_HOST)) {
             bindUsbDriverService()
         } else {
             usbDriverServiceManager?.refreshListener()
@@ -1914,9 +1928,22 @@ class Game : ComponentActivity(), SurfaceHolder.Callback,
 
     override fun toggleKeyboard() {
         LimeLog.info("Toggling keyboard overlay")
-        streamView.clearFocus()
         val inputManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        inputManager.toggleSoftInput(0, 0)
+        val imeVisible = ViewCompat.getRootWindowInsets(streamView)
+            ?.isVisible(WindowInsetsCompat.Type.ime()) == true
+        if (imeVisible) {
+            inputManager.hideSoftInputFromWindow(streamView.windowToken, 0)
+            return
+        }
+
+        streamView.setTextInputEnabled(true)
+        streamView.isFocusableInTouchMode = true
+        streamView.requestFocus()
+        streamView.post {
+            if (!isFinishing && !isDestroyed) {
+                inputManager.showSoftInput(streamView, InputMethodManager.SHOW_IMPLICIT)
+            }
+        }
     }
 
     override fun onRemoteTextContext(context: RemoteTextContext) {
