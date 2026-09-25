@@ -3281,6 +3281,8 @@ class ConfigurationSyncManager(private val context: Context) {
 
         private val PORTABLE_DEFAULT_PREF_KEYS = setOf(
             "analog_scrolling",
+            "controller_mouse_speed_percent",
+            "controller_mouse_dpad_behavior",
             "background_image_url",
             "background_source",
             "checkbox_adaptive_bitrate",
@@ -3389,6 +3391,7 @@ class ConfigurationSyncManager(private val context: Context) {
             "list_languages",
             MicrophoneButtonPreferences.KEY_PRESET_POSITION,
             "list_mic_icon_color",
+            PreferenceConfiguration.MIC_INITIAL_STATE_PREF_STRING,
             "list_mic_volume_processing_mode",
             "list_native_mouse_mode_preset",
             "list_perf_overlay_orientation",

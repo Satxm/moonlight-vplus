@@ -12,7 +12,7 @@
     从而实现镂空效果。
     -->
     <path
-        android:fillColor="@android:color/white"
+        android:fillColor="?attr/appAccent"
         android:fillType="evenOdd"
         android:pathData="
             M12,2 C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z

@@ -69,9 +69,10 @@ flowchart TD
 - The coordinator handles startup and stale connection generations. Ordinary motor
   output yields while a sink's playback control owns those motors, then resumes
   after that sink disables waveform playback. Trigger feedback is separate.
-- The menu renders one status/test row per discovered route. Testing selects a route
-  ID, not a brand or an arbitrary first device. Tests are cancelled when the card
-  controller is disposed.
+- The menu renders a dedicated waveform card — separate from the audio-haptics
+  card — with one status/test row per discovered route, and only while at least
+  one route exists. Testing selects a route ID, not a brand or an arbitrary first
+  device. Tests are cancelled when the game menu is dismissed.
 
 ## Host negotiation and fallback
 
@@ -147,6 +148,35 @@ The Kishi initialization and packet-format reference is the public
 [PeaSyo implementation](https://github.com/Geocld/PeaSyo/blob/master/android/app/src/main/java/com/peasyo/input/RazerKishiController.java),
 reviewed on 2026-09-18. Initialization success is transport evidence, not proof of XL
 compatibility, mechanical waveform fidelity, channel polarity or firmware compatibility.
+
+## Protocol provenance
+
+Every waveform backend in this repository must be able to name the public materials
+its protocol knowledge came from. The current ones:
+
+- **DS5 PCM wire format** — defined by this project's own dependency
+  moonlight-common-c (GPL-3.0, pinned at `31a2a4589ea926988a08ca508bb317fbfbe2a177`);
+  the frame parser and control packets are reused from it unchanged.
+- **Razer Kishi USB PCM** — wire-format facts only (frame header and checksum range,
+  interface and endpoint layout, feature-report controls) taken from the public
+  PeaSyo implementation (AGPL-3.0, link and review date above). The encoder
+  (windowed-sinc FIR with ring-buffer history), output worker, queue discipline and
+  lifecycle in `KishiPcmEncoder`/`KishiUsbHapticsSink` are independent code, not a
+  translation of that reference. AGPL-3.0 and GPLv3 are compatible for combining
+  (GPLv3 §7 / AGPL-3.0 §13), but any incorporated AGPL code carries its own
+  obligations — preserved notices, license text and the network-source provision —
+  which go beyond attribution. Because the encoder and worker here are independent
+  implementations, no AGPL obligations attach unless a derivation is established;
+  and since this project already distributes complete source under GPLv3, even a
+  disputed derivation would be an obligation this project already satisfies rather
+  than a distribution blocker.
+- **DualSense USB audio (UAC) topology** — interface/endpoint and channel-role facts
+  from the public HIDMaestro DualSense profile (MIT), cited in the
+  `DualSenseUsbHapticsSink` header.
+
+No vendor SDK, proprietary binary or decompiled material is bundled or referenced by
+these backends. New backends must record their reference materials, licenses and
+review dates here before activation leaves the experimental stage.
 
 ## Extending support
 

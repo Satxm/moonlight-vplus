@@ -41,7 +41,7 @@
         errorLine2="                       ~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/PreferenceConfiguration.kt"
-            line="383"
+            line="390"
             column="24"/>
     </issue>
 
@@ -52,7 +52,7 @@
         errorLine2="                                    ~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/PreferenceConfiguration.kt"
-            line="403"
+            line="410"
             column="37"/>
     </issue>
 
@@ -95,7 +95,7 @@
         errorLine2="            ^">
         <location
             file="src/main/java/com/limelight/utils/AboutDialogLauncher.kt"
-            line="284"
+            line="289"
             column="13"/>
     </issue>
 
@@ -355,105 +355,6 @@
     <issue
         id="DefaultLocale"
         message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
-        errorLine1="                perfAttrs[getString(R.string.perf_fps)] = String.format(&quot;%.0f&quot;, performanceInfo.totalFps)"
-        errorLine2="                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/limelight/Game.kt"
-            line="2760"
-            column="59"/>
-    </issue>
-
-    <issue
-        id="DefaultLocale"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
-        errorLine1="                perfAttrs[getString(R.string.perf_rx_fps)] = String.format(&quot;%.0f&quot;, performanceInfo.receivedFps)"
-        errorLine2="                                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/limelight/Game.kt"
-            line="2761"
-            column="62"/>
-    </issue>
-
-    <issue
-        id="DefaultLocale"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
-        errorLine1="                perfAttrs[getString(R.string.perf_rd_fps)] = String.format(&quot;%.0f&quot;, performanceInfo.renderedFps)"
-        errorLine2="                                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/limelight/Game.kt"
-            line="2762"
-            column="62"/>
-    </issue>
-
-    <issue
-        id="DefaultLocale"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
-        errorLine1="                    String.format(&quot;%.0f&quot;, performanceInfo.framegenFps)"
-        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/limelight/Game.kt"
-            line="2764"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="DefaultLocale"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
-        errorLine1="                perfAttrs[getString(R.string.perf_frame_loss)] = String.format(&quot;%.1f&quot;, performanceInfo.lostFrameRate)"
-        errorLine2="                                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/limelight/Game.kt"
-            line="2768"
-            column="66"/>
-    </issue>
-
-    <issue
-        id="DefaultLocale"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
-        errorLine1="                perfAttrs[getString(R.string.perf_network_rtt)] = String.format(&quot;%d&quot;, (performanceInfo.rttInfo shr 32).toInt())"
-        errorLine2="                                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/limelight/Game.kt"
-            line="2769"
-            column="67"/>
-    </issue>
-
-    <issue
-        id="DefaultLocale"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
-        errorLine1="                perfAttrs[getString(R.string.perf_host_latency)] = String.format(&quot;%.2f&quot;, performanceInfo.aveHostProcessingLatency)"
-        errorLine2="                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/limelight/Game.kt"
-            line="2770"
-            column="68"/>
-    </issue>
-
-    <issue
-        id="DefaultLocale"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
-        errorLine1="                perfAttrs[getString(R.string.perf_decode_time)] = String.format(&quot;%.2f&quot;, performanceInfo.decodeTimeMs)"
-        errorLine2="                                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/limelight/Game.kt"
-            line="2771"
-            column="67"/>
-    </issue>
-
-    <issue
-        id="DefaultLocale"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
-        errorLine1="                perfAttrs[getString(R.string.perf_render_latency)] = String.format(&quot;%.2f&quot;, performanceInfo.renderingLatencyMs)"
-        errorLine2="                                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/limelight/Game.kt"
-            line="2773"
-            column="70"/>
-    </issue>
-
-    <issue
-        id="DefaultLocale"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
         errorLine1="                String.format("
         errorLine2="                ^">
         <location
@@ -509,100 +410,12 @@
     <issue
         id="DefaultLocale"
         message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
-        errorLine1="        canvas.drawText(String.format(&quot;卡顿 %.1f%%&quot;, judderPct), padX, y, metricPaint)"
-        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/limelight/binding/video/JitterMonitorView.kt"
-            line="169"
-            column="25"/>
-    </issue>
-
-    <issue
-        id="DefaultLocale"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
-        errorLine1="        val fpsText = String.format(&quot;%.0f 帧/秒&quot;, fps)"
-        errorLine2="                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/limelight/binding/video/JitterMonitorView.kt"
-            line="171"
-            column="23"/>
-    </issue>
-
-    <issue
-        id="DefaultLocale"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
-        errorLine1="            String.format("
-        errorLine2="            ^">
-        <location
-            file="src/main/java/com/limelight/binding/video/JitterMonitorView.kt"
-            line="177"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="DefaultLocale"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
-        errorLine1="                    canvas.drawText(String.format(&quot;%.0f&quot;, pct), cx, histBottom - barH - dp(2f), countPaint)"
-        errorLine2="                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/limelight/binding/video/JitterMonitorView.kt"
-            line="240"
-            column="37"/>
-    </issue>
-
-    <issue
-        id="DefaultLocale"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
         errorLine1="                        String.format("
         errorLine2="                        ^">
         <location
             file="src/main/java/com/limelight/binding/audio/MicrophoneStream.kt"
             line="269"
             column="25"/>
-    </issue>
-
-    <issue
-        id="DefaultLocale"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
-        errorLine1="        resolutionInfo.append(&quot;Scale Factor: &quot;).append(String.format(&quot;%.2f&quot;, scaleFactor))"
-        errorLine2="                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/limelight/PerformanceOverlayManager.kt"
-            line="1043"
-            column="56"/>
-    </issue>
-
-    <issue
-        id="DefaultLocale"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
-        errorLine1="        resolutionInfo.append(&quot;Current FPS: &quot;).append(String.format(&quot;%.0f&quot;, perfInfo.totalFps)).append(&quot; FPS\n&quot;)"
-        errorLine2="                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/limelight/PerformanceOverlayManager.kt"
-            line="1048"
-            column="55"/>
-    </issue>
-
-    <issue
-        id="DefaultLocale"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
-        errorLine1="        resolutionInfo.append(&quot;Device Refresh Rate: &quot;).append(String.format(&quot;%.0f&quot;, deviceRefreshRate)).append(&quot; Hz\n&quot;)"
-        errorLine2="                                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/limelight/PerformanceOverlayManager.kt"
-            line="1049"
-            column="63"/>
-    </issue>
-
-    <issue
-        id="DefaultLocale"
-        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead"
-        errorLine1="            resolutionInfo.append(&quot;Actual Display Refresh Rate: &quot;).append(String.format(&quot;%.2f&quot;, actualDisplayRefreshRate)).append(&quot; Hz\n&quot;)"
-        errorLine2="                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/limelight/PerformanceOverlayManager.kt"
-            line="1052"
-            column="75"/>
     </issue>
 
     <issue
@@ -751,7 +564,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/ControllerHandler.kt"
-            line="110"
+            line="117"
             column="13"/>
     </issue>
 
@@ -762,7 +575,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/ControllerHandler.kt"
-            line="111"
+            line="118"
             column="13"/>
     </issue>
 
@@ -773,7 +586,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/ControllerHandler.kt"
-            line="112"
+            line="119"
             column="13"/>
     </issue>
 
@@ -784,7 +597,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/ControllerHandler.kt"
-            line="113"
+            line="120"
             column="13"/>
     </issue>
 
@@ -1026,7 +839,7 @@
         errorLine2="                           ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/advance_setting/element/ElementController.java"
-            line="1041"
+            line="1038"
             column="28"/>
     </issue>
 
@@ -1037,7 +850,7 @@
         errorLine2="                           ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/advance_setting/element/ElementController.java"
-            line="1042"
+            line="1039"
             column="28"/>
     </issue>
 
@@ -1114,7 +927,7 @@
         errorLine2="                                 ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/Game.kt"
-            line="1979"
+            line="2076"
             column="34"/>
     </issue>
 
@@ -1125,7 +938,7 @@
         errorLine2="                                 ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/Game.kt"
-            line="1984"
+            line="2081"
             column="34"/>
     </issue>
 
@@ -1136,7 +949,7 @@
         errorLine2="                                 ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/Game.kt"
-            line="1995"
+            line="2092"
             column="34"/>
     </issue>
 
@@ -1147,7 +960,7 @@
         errorLine2="                                 ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/Game.kt"
-            line="3124"
+            line="3242"
             column="34"/>
     </issue>
 
@@ -1301,7 +1114,7 @@
         errorLine2="                                ~~~~~">
         <location
             file="src/main/java/com/limelight/binding/audio/PcmPassthroughRenderer.kt"
-            line="127"
+            line="137"
             column="33"/>
     </issue>
 
@@ -1774,7 +1587,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/layout/pc_grid_item.xml"
-            line="64"
+            line="62"
             column="17"/>
     </issue>
 
@@ -1785,7 +1598,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/layout/pc_grid_item.xml"
-            line="111"
+            line="109"
             column="13"/>
     </issue>
 
@@ -1796,7 +1609,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/layout/pc_grid_item.xml"
-            line="112"
+            line="110"
             column="13"/>
     </issue>
 
@@ -1840,7 +1653,7 @@
         errorLine2="                                                                                         ~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/StreamSettings.kt"
-            line="4003"
+            line="4015"
             column="90"/>
     </issue>
 
@@ -1950,7 +1763,7 @@
         errorLine2="                                                                                                   ~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/advance_setting/element/ElementController.java"
-            line="261"
+            line="258"
             column="100"/>
     </issue>
 
@@ -5327,7 +5140,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/advance_setting/element/ElementController.java"
-            line="394"
+            line="391"
             column="9"/>
     </issue>
 
@@ -5338,7 +5151,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/advance_setting/element/ElementController.java"
-            line="409"
+            line="406"
             column="9"/>
     </issue>
 
@@ -5349,7 +5162,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/advance_setting/element/ElementController.java"
-            line="1039"
+            line="1036"
             column="13"/>
     </issue>
 
@@ -5888,7 +5701,7 @@
         errorLine2="                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/ui/AboutDialog.kt"
-            line="193"
+            line="194"
             column="22"/>
     </issue>
 
@@ -6053,7 +5866,7 @@
         errorLine2="    ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/ui/AboutDialog.kt"
-            line="260"
+            line="261"
             column="5"/>
     </issue>
 
@@ -6064,7 +5877,7 @@
         errorLine2="    ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/ui/AboutDialog.kt"
-            line="542"
+            line="554"
             column="5"/>
     </issue>
 
@@ -6075,7 +5888,7 @@
         errorLine2="    ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/ui/AboutDialog.kt"
-            line="802"
+            line="821"
             column="5"/>
     </issue>
 
@@ -6130,7 +5943,7 @@
         errorLine2="    ~~~~~~~~">
         <location
             file="src/main/java/com/limelight/gamemenu/GameMenuCards.kt"
-            line="125"
+            line="128"
             column="5"/>
     </issue>
 
@@ -6141,7 +5954,7 @@
         errorLine2="    ~~~~~~~~">
         <location
             file="src/main/java/com/limelight/gamemenu/GameMenuCards.kt"
-            line="244"
+            line="247"
             column="5"/>
     </issue>
 
@@ -6342,7 +6155,7 @@
         errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/xml/preferences.xml"
-            line="737"
+            line="745"
             column="25"/>
     </issue>
 
@@ -6353,7 +6166,7 @@
         errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/xml/preferences.xml"
-            line="856"
+            line="861"
             column="25"/>
     </issue>
 
@@ -6364,7 +6177,7 @@
         errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/xml/preferences.xml"
-            line="1012"
+            line="1017"
             column="25"/>
     </issue>
 
@@ -6375,7 +6188,7 @@
         errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/xml/preferences.xml"
-            line="1072"
+            line="1077"
             column="25"/>
     </issue>
 
@@ -6386,7 +6199,7 @@
         errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/xml/preferences.xml"
-            line="1086"
+            line="1091"
             column="25"/>
     </issue>
 
@@ -6397,7 +6210,7 @@
         errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/xml/preferences.xml"
-            line="1115"
+            line="1120"
             column="25"/>
     </issue>
 
@@ -6463,7 +6276,7 @@
         errorLine2="                                 ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/audio/MicrophoneManager.kt"
-            line="241"
+            line="319"
             column="34"/>
     </issue>
 
@@ -6496,7 +6309,7 @@
         errorLine2="    ~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/ControllerContext.kt"
-            line="307"
+            line="319"
             column="5"/>
     </issue>
 
@@ -7123,7 +6936,7 @@
         errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/advance_setting/element/ElementController.java"
-            line="1076"
+            line="1073"
             column="16"/>
     </issue>
 
@@ -7200,7 +7013,7 @@
         errorLine2="                                                  ~~~~">
         <location
             file="src/main/res/values-pt/strings.xml"
-            line="436"
+            line="441"
             column="51"/>
     </issue>
 
@@ -7211,7 +7024,7 @@
         errorLine2="                                                ~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="833"
+            line="859"
             column="49"/>
     </issue>
 
@@ -7222,7 +7035,7 @@
         errorLine2="                                                                                                                                                                                                                    ~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1246"
+            line="1272"
             column="213"/>
     </issue>
 
@@ -7233,7 +7046,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="448"
+            line="465"
             column="5"/>
     </issue>
 
@@ -7244,7 +7057,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="643"
+            line="660"
             column="5"/>
     </issue>
 
@@ -7255,7 +7068,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="644"
+            line="661"
             column="5"/>
     </issue>
 
@@ -7266,7 +7079,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="654"
+            line="671"
             column="5"/>
     </issue>
 
@@ -7277,7 +7090,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="736"
+            line="753"
             column="5"/>
     </issue>
 
@@ -7288,7 +7101,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1127"
+            line="1153"
             column="5"/>
     </issue>
 
@@ -7299,7 +7112,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1135"
+            line="1161"
             column="5"/>
     </issue>
 
@@ -7310,7 +7123,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1142"
+            line="1168"
             column="5"/>
     </issue>
 
@@ -7321,7 +7134,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1144"
+            line="1170"
             column="5"/>
     </issue>
 
@@ -7332,7 +7145,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1278"
+            line="1304"
             column="5"/>
     </issue>
 
@@ -7343,7 +7156,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1280"
+            line="1306"
             column="5"/>
     </issue>
 
@@ -7354,7 +7167,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1309"
+            line="1335"
             column="5"/>
     </issue>
 
@@ -7365,7 +7178,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1310"
+            line="1336"
             column="5"/>
     </issue>
 
@@ -7376,7 +7189,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1311"
+            line="1337"
             column="5"/>
     </issue>
 
@@ -7387,7 +7200,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1324"
+            line="1350"
             column="5"/>
     </issue>
 
@@ -7398,7 +7211,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1325"
+            line="1351"
             column="5"/>
     </issue>
 
@@ -7409,7 +7222,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1328"
+            line="1354"
             column="5"/>
     </issue>
 
@@ -7420,7 +7233,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1329"
+            line="1355"
             column="5"/>
     </issue>
 
@@ -7431,7 +7244,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1347"
+            line="1373"
             column="5"/>
     </issue>
 
@@ -7442,7 +7255,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1355"
+            line="1381"
             column="5"/>
     </issue>
 
@@ -7453,7 +7266,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1356"
+            line="1382"
             column="5"/>
     </issue>
 
@@ -7464,7 +7277,7 @@
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1705"
+            line="1731"
             column="5"/>
     </issue>
 
@@ -7801,7 +7614,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/audio/AndroidAudioRenderer.kt"
-            line="400"
+            line="410"
             column="17"/>
     </issue>
 
@@ -7867,7 +7680,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/ControllerContext.kt"
-            line="347"
+            line="359"
             column="13"/>
     </issue>
 
@@ -7878,7 +7691,7 @@
         errorLine2="                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/ControllerHandler.kt"
-            line="426"
+            line="436"
             column="20"/>
     </issue>
 
@@ -7911,7 +7724,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/advance_setting/element/ElementController.java"
-            line="1040"
+            line="1037"
             column="17"/>
     </issue>
 
@@ -7922,7 +7735,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/advance_setting/element/ElementController.java"
-            line="1047"
+            line="1044"
             column="17"/>
     </issue>
 
@@ -7955,7 +7768,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/PreferenceConfiguration.kt"
-            line="1062"
+            line="1076"
             column="21"/>
     </issue>
 
@@ -7966,7 +7779,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/PreferenceConfiguration.kt"
-            line="1254"
+            line="1268"
             column="21"/>
     </issue>
 
@@ -7977,7 +7790,7 @@
         errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/PreferenceConfiguration.kt"
-            line="1254"
+            line="1268"
             column="21"/>
     </issue>
 
@@ -9020,6 +8833,28 @@
 
     <issue
         id="UnusedResources"
+        message="The resource `R.array.analog_scrolling_names` appears to be unused"
+        errorLine1="    &lt;string-array name=&quot;analog_scrolling_names&quot;>"
+        errorLine2="                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/arrays.xml"
+            line="242"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.array.analog_scrolling_values` appears to be unused"
+        errorLine1="    &lt;string-array name=&quot;analog_scrolling_values&quot; translatable=&quot;false&quot;>"
+        errorLine2="                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/arrays.xml"
+            line="247"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
         message="The resource `R.anim.background_crossfade` appears to be unused"
         errorLine1="&lt;set xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
         errorLine2="^">
@@ -9509,6 +9344,17 @@
 
     <issue
         id="UnusedResources"
+        message="The resource `R.string.root_mouse_unavailable` appears to be unused"
+        errorLine1="    &lt;string name=&quot;root_mouse_unavailable&quot;>This device is not rooted - Mouse capture is unavailable&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/localization.xml"
+            line="60"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
         message="The resource `R.layout.page_add_element` appears to be unused"
         errorLine1="&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;"
         errorLine2="^">
@@ -9770,7 +9616,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="199"
+            line="211"
             column="13"/>
     </issue>
 
@@ -9781,7 +9627,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="200"
+            line="212"
             column="13"/>
     </issue>
 
@@ -9792,7 +9638,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="201"
+            line="213"
             column="13"/>
     </issue>
 
@@ -9803,7 +9649,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="202"
+            line="214"
             column="13"/>
     </issue>
 
@@ -9814,7 +9660,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="203"
+            line="215"
             column="13"/>
     </issue>
 
@@ -9825,7 +9671,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="204"
+            line="216"
             column="13"/>
     </issue>
 
@@ -9836,7 +9682,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="205"
+            line="217"
             column="13"/>
     </issue>
 
@@ -9847,7 +9693,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="206"
+            line="218"
             column="13"/>
     </issue>
 
@@ -9858,7 +9704,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="207"
+            line="219"
             column="13"/>
     </issue>
 
@@ -9869,7 +9715,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="208"
+            line="220"
             column="13"/>
     </issue>
 
@@ -9880,7 +9726,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="213"
+            line="225"
             column="13"/>
     </issue>
 
@@ -9891,7 +9737,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="214"
+            line="226"
             column="13"/>
     </issue>
 
@@ -9902,7 +9748,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="386"
+            line="403"
             column="13"/>
     </issue>
 
@@ -9913,7 +9759,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="387"
+            line="404"
             column="13"/>
     </issue>
 
@@ -9924,7 +9770,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="415"
+            line="432"
             column="13"/>
     </issue>
 
@@ -9935,7 +9781,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="416"
+            line="433"
             column="13"/>
     </issue>
 
@@ -9946,7 +9792,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="420"
+            line="437"
             column="13"/>
     </issue>
 
@@ -9957,7 +9803,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="426"
+            line="443"
             column="13"/>
     </issue>
 
@@ -9968,7 +9814,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="431"
+            line="448"
             column="13"/>
     </issue>
 
@@ -9979,7 +9825,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="432"
+            line="449"
             column="13"/>
     </issue>
 
@@ -9990,7 +9836,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="433"
+            line="450"
             column="13"/>
     </issue>
 
@@ -10001,7 +9847,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="437"
+            line="454"
             column="13"/>
     </issue>
 
@@ -10012,7 +9858,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="467"
+            line="484"
             column="13"/>
     </issue>
 
@@ -10023,7 +9869,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="468"
+            line="485"
             column="13"/>
     </issue>
 
@@ -10034,7 +9880,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="476"
+            line="493"
             column="13"/>
     </issue>
 
@@ -10045,7 +9891,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="522"
+            line="539"
             column="13"/>
     </issue>
 
@@ -10056,7 +9902,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="535"
+            line="552"
             column="13"/>
     </issue>
 
@@ -10067,7 +9913,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="536"
+            line="553"
             column="13"/>
     </issue>
 
@@ -10078,7 +9924,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="537"
+            line="554"
             column="13"/>
     </issue>
 
@@ -10089,7 +9935,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="538"
+            line="555"
             column="13"/>
     </issue>
 
@@ -10100,7 +9946,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="543"
+            line="560"
             column="13"/>
     </issue>
 
@@ -10111,7 +9957,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="544"
+            line="561"
             column="13"/>
     </issue>
 
@@ -10122,7 +9968,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="554"
+            line="571"
             column="13"/>
     </issue>
 
@@ -10133,7 +9979,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="559"
+            line="576"
             column="13"/>
     </issue>
 
@@ -10144,7 +9990,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="575"
+            line="592"
             column="13"/>
     </issue>
 
@@ -10155,7 +10001,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="576"
+            line="593"
             column="13"/>
     </issue>
 
@@ -10166,7 +10012,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="577"
+            line="594"
             column="13"/>
     </issue>
 
@@ -10177,7 +10023,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="578"
+            line="595"
             column="13"/>
     </issue>
 
@@ -10188,7 +10034,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="579"
+            line="596"
             column="13"/>
     </issue>
 
@@ -10199,7 +10045,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="580"
+            line="597"
             column="13"/>
     </issue>
 
@@ -10210,7 +10056,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="581"
+            line="598"
             column="13"/>
     </issue>
 
@@ -10221,7 +10067,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="582"
+            line="599"
             column="13"/>
     </issue>
 
@@ -10232,7 +10078,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="589"
+            line="606"
             column="13"/>
     </issue>
 
@@ -10243,7 +10089,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="590"
+            line="607"
             column="13"/>
     </issue>
 
@@ -10254,7 +10100,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="597"
+            line="614"
             column="13"/>
     </issue>
 
@@ -10265,7 +10111,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="598"
+            line="615"
             column="13"/>
     </issue>
 
@@ -10276,7 +10122,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="607"
+            line="624"
             column="13"/>
     </issue>
 
@@ -10287,7 +10133,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="608"
+            line="625"
             column="13"/>
     </issue>
 
@@ -10298,7 +10144,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="609"
+            line="626"
             column="13"/>
     </issue>
 
@@ -10309,7 +10155,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="618"
+            line="635"
             column="13"/>
     </issue>
 
@@ -10320,7 +10166,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="619"
+            line="636"
             column="13"/>
     </issue>
 
@@ -10331,7 +10177,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="622"
+            line="639"
             column="13"/>
     </issue>
 
@@ -10342,7 +10188,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="631"
+            line="648"
             column="13"/>
     </issue>
 
@@ -10353,7 +10199,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="685"
+            line="702"
             column="13"/>
     </issue>
 
@@ -10364,7 +10210,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="690"
+            line="707"
             column="13"/>
     </issue>
 
@@ -10375,7 +10221,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="691"
+            line="708"
             column="13"/>
     </issue>
 
@@ -10386,7 +10232,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="724"
+            line="741"
             column="13"/>
     </issue>
 
@@ -10397,7 +10243,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="725"
+            line="742"
             column="13"/>
     </issue>
 
@@ -10408,7 +10254,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="753"
+            line="770"
             column="13"/>
     </issue>
 
@@ -10419,7 +10265,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="754"
+            line="771"
             column="13"/>
     </issue>
 
@@ -10430,7 +10276,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="755"
+            line="772"
             column="13"/>
     </issue>
 
@@ -10441,7 +10287,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="756"
+            line="773"
             column="13"/>
     </issue>
 
@@ -10452,7 +10298,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="757"
+            line="774"
             column="13"/>
     </issue>
 
@@ -10463,7 +10309,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="760"
+            line="777"
             column="13"/>
     </issue>
 
@@ -10474,7 +10320,40 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="761"
+            line="778"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.title_analog_scrolling` appears to be unused"
+        errorLine1="    &lt;string name=&quot;title_analog_scrolling&quot;>Use an analog stick to scroll&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="872"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.summary_analog_scrolling` appears to be unused"
+        errorLine1="    &lt;string name=&quot;summary_analog_scrolling&quot;>Select an analog stick to scroll when in mouse emulation mode&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="873"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.analogscroll_none` appears to be unused"
+        errorLine1="    &lt;string name=&quot;analogscroll_none&quot;>None (both sticks move the mouse)&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="874"
             column="13"/>
     </issue>
 
@@ -10485,7 +10364,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="871"
+            line="897"
             column="13"/>
     </issue>
 
@@ -10496,7 +10375,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="872"
+            line="898"
             column="13"/>
     </issue>
 
@@ -10507,7 +10386,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="873"
+            line="899"
             column="13"/>
     </issue>
 
@@ -10518,7 +10397,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="875"
+            line="901"
             column="13"/>
     </issue>
 
@@ -10529,7 +10408,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="878"
+            line="904"
             column="13"/>
     </issue>
 
@@ -10540,7 +10419,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="879"
+            line="905"
             column="13"/>
     </issue>
 
@@ -10551,7 +10430,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="900"
+            line="926"
             column="13"/>
     </issue>
 
@@ -10562,7 +10441,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="999"
+            line="1025"
             column="13"/>
     </issue>
 
@@ -10573,7 +10452,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1149"
+            line="1175"
             column="13"/>
     </issue>
 
@@ -10584,7 +10463,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1155"
+            line="1181"
             column="13"/>
     </issue>
 
@@ -10595,7 +10474,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1156"
+            line="1182"
             column="13"/>
     </issue>
 
@@ -10606,7 +10485,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1157"
+            line="1183"
             column="13"/>
     </issue>
 
@@ -10617,7 +10496,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1158"
+            line="1184"
             column="13"/>
     </issue>
 
@@ -10628,7 +10507,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1224"
+            line="1250"
             column="13"/>
     </issue>
 
@@ -10639,7 +10518,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1229"
+            line="1255"
             column="13"/>
     </issue>
 
@@ -10650,7 +10529,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1289"
+            line="1315"
             column="13"/>
     </issue>
 
@@ -10661,7 +10540,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1301"
+            line="1327"
             column="13"/>
     </issue>
 
@@ -10672,7 +10551,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1317"
+            line="1343"
             column="13"/>
     </issue>
 
@@ -10683,7 +10562,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1318"
+            line="1344"
             column="13"/>
     </issue>
 
@@ -10694,7 +10573,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1320"
+            line="1346"
             column="13"/>
     </issue>
 
@@ -10705,7 +10584,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1325"
+            line="1351"
             column="13"/>
     </issue>
 
@@ -10716,7 +10595,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1340"
+            line="1366"
             column="13"/>
     </issue>
 
@@ -10727,7 +10606,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1344"
+            line="1370"
             column="13"/>
     </issue>
 
@@ -10738,7 +10617,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1357"
+            line="1383"
             column="13"/>
     </issue>
 
@@ -10749,7 +10628,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1445"
+            line="1471"
             column="13"/>
     </issue>
 
@@ -10760,7 +10639,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1478"
+            line="1504"
             column="13"/>
     </issue>
 
@@ -10771,7 +10650,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1543"
+            line="1569"
             column="13"/>
     </issue>
 
@@ -10782,7 +10661,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1544"
+            line="1570"
             column="13"/>
     </issue>
 
@@ -10793,7 +10672,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1545"
+            line="1571"
             column="13"/>
     </issue>
 
@@ -10804,7 +10683,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1546"
+            line="1572"
             column="13"/>
     </issue>
 
@@ -10815,7 +10694,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1547"
+            line="1573"
             column="13"/>
     </issue>
 
@@ -10826,7 +10705,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1548"
+            line="1574"
             column="13"/>
     </issue>
 
@@ -10837,7 +10716,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1549"
+            line="1575"
             column="13"/>
     </issue>
 
@@ -10848,7 +10727,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1550"
+            line="1576"
             column="13"/>
     </issue>
 
@@ -10859,7 +10738,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1552"
+            line="1578"
             column="13"/>
     </issue>
 
@@ -10870,7 +10749,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1553"
+            line="1579"
             column="13"/>
     </issue>
 
@@ -10881,7 +10760,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1554"
+            line="1580"
             column="13"/>
     </issue>
 
@@ -10892,7 +10771,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1564"
+            line="1590"
             column="13"/>
     </issue>
 
@@ -10903,7 +10782,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1592"
+            line="1618"
             column="13"/>
     </issue>
 
@@ -10914,7 +10793,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1593"
+            line="1619"
             column="13"/>
     </issue>
 
@@ -10925,7 +10804,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1594"
+            line="1620"
             column="13"/>
     </issue>
 
@@ -10936,7 +10815,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1595"
+            line="1621"
             column="13"/>
     </issue>
 
@@ -10947,7 +10826,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1596"
+            line="1622"
             column="13"/>
     </issue>
 
@@ -10958,7 +10837,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1792"
+            line="1818"
             column="13"/>
     </issue>
 
@@ -10969,7 +10848,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1793"
+            line="1819"
             column="13"/>
     </issue>
 
@@ -10980,7 +10859,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1800"
+            line="1826"
             column="13"/>
     </issue>
 
@@ -10991,7 +10870,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1806"
+            line="1832"
             column="13"/>
     </issue>
 
@@ -11002,7 +10881,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1830"
+            line="1856"
             column="13"/>
     </issue>
 
@@ -11013,7 +10892,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1849"
+            line="1875"
             column="13"/>
     </issue>
 
@@ -11024,7 +10903,7 @@
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="2110"
+            line="2136"
             column="13"/>
     </issue>
 
@@ -11365,7 +11244,7 @@
         errorLine2="                                                 ~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="214"
+            line="226"
             column="50"/>
     </issue>
 
@@ -11442,7 +11321,7 @@
         errorLine2="                                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-zh-rCN/strings.xml"
-            line="560"
+            line="572"
             column="61"/>
     </issue>
 
@@ -11453,7 +11332,7 @@
         errorLine2="                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-pt/strings.xml"
-            line="620"
+            line="625"
             column="60"/>
     </issue>
 
@@ -11464,7 +11343,7 @@
         errorLine2="                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-pt/strings.xml"
-            line="622"
+            line="627"
             column="46"/>
     </issue>
 
@@ -11475,7 +11354,7 @@
         errorLine2="                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-pt/strings.xml"
-            line="624"
+            line="629"
             column="45"/>
     </issue>
 
@@ -11486,7 +11365,7 @@
         errorLine2="                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-pt/strings.xml"
-            line="626"
+            line="631"
             column="43"/>
     </issue>
 
@@ -11497,7 +11376,7 @@
         errorLine2="                                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="719"
+            line="736"
             column="61"/>
     </issue>
 
@@ -11508,7 +11387,7 @@
         errorLine2="                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1252"
+            line="1278"
             column="60"/>
     </issue>
 
@@ -11519,7 +11398,7 @@
         errorLine2="                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1255"
+            line="1281"
             column="46"/>
     </issue>
 
@@ -11530,7 +11409,7 @@
         errorLine2="                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1258"
+            line="1284"
             column="45"/>
     </issue>
 
@@ -11541,7 +11420,7 @@
         errorLine2="                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1261"
+            line="1287"
             column="43"/>
     </issue>
 
@@ -11552,7 +11431,7 @@
         errorLine2="                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1265"
+            line="1291"
             column="46"/>
     </issue>
 
@@ -11563,7 +11442,7 @@
         errorLine2="                                            ~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-zh-rCN/strings.xml"
-            line="1303"
+            line="1329"
             column="45"/>
     </issue>
 
@@ -11574,7 +11453,7 @@
         errorLine2="                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1622"
+            line="1648"
             column="45"/>
     </issue>
 
@@ -11585,7 +11464,7 @@
         errorLine2="                                      ~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-zh-rCN/strings.xml"
-            line="1893"
+            line="1919"
             column="39"/>
     </issue>
 
@@ -11596,7 +11475,7 @@
         errorLine2="                                      ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1968"
+            line="1994"
             column="39"/>
     </issue>
 
@@ -11728,7 +11607,7 @@
         errorLine2="                                           ~~~~~~">
         <location
             file="src/main/res/values-zh-rCN/strings.xml"
-            line="191"
+            line="203"
             column="44"/>
     </issue>
 
@@ -11750,7 +11629,7 @@
         errorLine2="                                           ~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="245"
+            line="257"
             column="44"/>
     </issue>
 
@@ -11761,7 +11640,7 @@
         errorLine2="                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-zh-rTW/strings.xml"
-            line="454"
+            line="475"
             column="57"/>
     </issue>
 
@@ -11772,7 +11651,7 @@
         errorLine2="                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-pt/strings.xml"
-            line="663"
+            line="668"
             column="50"/>
     </issue>
 
@@ -11783,7 +11662,7 @@
         errorLine2="                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-pt/strings.xml"
-            line="684"
+            line="689"
             column="46"/>
     </issue>
 
@@ -11794,7 +11673,7 @@
         errorLine2="                                                 ~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-zh-rCN/strings.xml"
-            line="1066"
+            line="1092"
             column="50"/>
     </issue>
 
@@ -11805,8 +11684,19 @@
         errorLine2="                                             ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-zh-rCN/strings.xml"
-            line="1093"
+            line="1119"
             column="46"/>
+    </issue>
+
+    <issue
+        id="TypographyEllipsis"
+        message="Replace &quot;...&quot; with ellipsis character (…, &amp;#8230;) ?"
+        errorLine1="    &lt;string name=&quot;message_developer_oauth_unconfigured&quot;>В сборке не задан GitHub OAuth client ID. Для доступа к функциям задайте githubOAuthClientId в local.properties, передайте -PgithubOAuthClientId=... или GITHUB_OAUTH_CLIENT_ID при сборке.&lt;/string>"
+        errorLine2="                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values-ru/strings.xml"
+            line="1223"
+            column="57"/>
     </issue>
 
     <issue
@@ -11816,7 +11706,7 @@
         errorLine2="                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1316"
+            line="1342"
             column="50"/>
     </issue>
 
@@ -11827,7 +11717,7 @@
         errorLine2="                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1355"
+            line="1381"
             column="46"/>
     </issue>
 
@@ -11838,7 +11728,7 @@
         errorLine2="                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1384"
+            line="1410"
             column="57"/>
     </issue>
 
@@ -11849,7 +11739,7 @@
         errorLine2="                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1450"
+            line="1476"
             column="52"/>
     </issue>
 
@@ -11860,7 +11750,7 @@
         errorLine2="                                           ~~~~~~~~~">
         <location
             file="src/main/res/values-zh-rCN/strings.xml"
-            line="1531"
+            line="1557"
             column="44"/>
     </issue>
 
@@ -11871,7 +11761,7 @@
         errorLine2="                                           ~~~~~~~">
         <location
             file="src/main/res/values-zh-rCN/strings.xml"
-            line="1573"
+            line="1599"
             column="44"/>
     </issue>
 
@@ -11882,7 +11772,7 @@
         errorLine2="                                              ~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-zh-rCN/strings.xml"
-            line="1575"
+            line="1601"
             column="47"/>
     </issue>
 
@@ -11893,7 +11783,7 @@
         errorLine2="                                                    ~~~~~~~~~~">
         <location
             file="src/main/res/values-zh-rCN/strings.xml"
-            line="1576"
+            line="1602"
             column="53"/>
     </issue>
 
@@ -11904,7 +11794,7 @@
         errorLine2="                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/values-zh-rCN/strings.xml"
-            line="1617"
+            line="1643"
             column="57"/>
     </issue>
 
@@ -12484,12 +12374,12 @@
     <issue
         id="SmallSp"
         message="Avoid using sizes smaller than `11sp`: `8sp`"
-        errorLine1="                &lt;TextView android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;wrap_content&quot; android:text=&quot;Opacity&quot; android:textColor=&quot;#88FFFFFF&quot; android:textSize=&quot;8sp&quot; android:gravity=&quot;center&quot; android:layout_marginBottom=&quot;8dp&quot;/>"
-        errorLine2="                                                                                                                                                        ~~~~~~~~~~~~~~~~~~~~~~">
+        errorLine1="                &lt;TextView android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;wrap_content&quot; android:text=&quot;@string/keyboard_opacity&quot; android:textColor=&quot;#88FFFFFF&quot; android:textSize=&quot;8sp&quot; android:gravity=&quot;center&quot; android:layout_marginBottom=&quot;8dp&quot;/>"
+        errorLine2="                                                                                                                                                                         ~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/res/layout/layer_6_keyboard.xml"
             line="94"
-            column="153"/>
+            column="170"/>
     </issue>
 
     <issue
@@ -12939,7 +12829,7 @@
         errorLine2="                                        ~~~~~~">
         <location
             file="src/main/res/values/strings.xml"
-            line="1179"
+            line="1205"
             column="41"/>
     </issue>
 
@@ -12950,7 +12840,7 @@
         errorLine2="                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/utils/AboutDialogLauncher.kt"
-            line="233"
+            line="238"
             column="46"/>
     </issue>
 
@@ -13698,7 +13588,7 @@
         errorLine2="                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/ControllerHandler.kt"
-            line="420"
+            line="430"
             column="43"/>
     </issue>
 
@@ -13709,18 +13599,7 @@
         errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/ControllerHandler.kt"
-            line="613"
-            column="27"/>
-    </issue>
-
-    <issue
-        id="UseKtx"
-        message="Use the KTX extension property `SparseArray.size` instead?"
-        errorLine1="        for (i in 0 until inputDeviceContexts.size()) {"
-        errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/com/limelight/binding/input/ControllerHandler.kt"
-            line="780"
+            line="623"
             column="27"/>
     </issue>
 
@@ -13738,11 +13617,22 @@
     <issue
         id="UseKtx"
         message="Use the KTX extension property `SparseArray.size` instead?"
+        errorLine1="        for (i in 0 until inputDeviceContexts.size()) {"
+        errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/limelight/binding/input/ControllerHandler.kt"
+            line="800"
+            column="27"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension property `SparseArray.size` instead?"
         errorLine1="            for (i in 0 until inputDeviceContexts.size()) {"
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/ControllerHandler.kt"
-            line="1034"
+            line="1044"
             column="31"/>
     </issue>
 
@@ -13753,7 +13643,7 @@
         errorLine2="                     ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/ControllerHandler.kt"
-            line="1596"
+            line="1606"
             column="22"/>
     </issue>
 
@@ -13764,7 +13654,7 @@
         errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/ControllerHandler.kt"
-            line="1682"
+            line="1696"
             column="27"/>
     </issue>
 
@@ -13775,7 +13665,7 @@
         errorLine2="                              ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/ControllerHandler.kt"
-            line="1722"
+            line="1736"
             column="31"/>
     </issue>
 
@@ -13786,7 +13676,7 @@
         errorLine2="                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/ControllerHandler.kt"
-            line="2222"
+            line="2215"
             column="35"/>
     </issue>
 
@@ -13797,7 +13687,7 @@
         errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/ControllerHandler.kt"
-            line="3018"
+            line="3071"
             column="27"/>
     </issue>
 
@@ -13808,7 +13698,7 @@
         errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/ControllerHandler.kt"
-            line="3032"
+            line="3085"
             column="27"/>
     </issue>
 
@@ -13819,7 +13709,7 @@
         errorLine2="                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/ControllerHandler.kt"
-            line="3408"
+            line="3461"
             column="45"/>
     </issue>
 
@@ -13830,7 +13720,7 @@
         errorLine2="                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/ControllerHandler.kt"
-            line="3421"
+            line="3474"
             column="49"/>
     </issue>
 
@@ -13841,7 +13731,7 @@
         errorLine2="                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/ControllerHandler.kt"
-            line="3577"
+            line="3630"
             column="41"/>
     </issue>
 
@@ -13852,7 +13742,7 @@
         errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/haptics/ControllerHapticsCoordinator.kt"
-            line="177"
+            line="183"
             column="27"/>
     </issue>
 
@@ -13863,7 +13753,7 @@
         errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/haptics/ControllerHapticsCoordinator.kt"
-            line="643"
+            line="649"
             column="27"/>
     </issue>
 
@@ -13874,8 +13764,74 @@
         errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/binding/input/haptics/ControllerHapticsCoordinator.kt"
-            line="666"
+            line="672"
             column="27"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="                                            prefs.edit().putInt(PreferenceConfiguration.CONTROLLER_MOUSE_SPEED_PREF_STRING, speed).apply()"
+        errorLine2="                                            ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/limelight/preferences/ControllerMouseSettingsActivity.kt"
+            line="128"
+            column="45"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="                                        prefs.edit().putString(&quot;analog_scrolling&quot;, scrollStick).apply()"
+        errorLine2="                                        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/limelight/preferences/ControllerMouseSettingsActivity.kt"
+            line="147"
+            column="41"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="                                        prefs.edit().putString(&quot;analog_scrolling&quot;, scrollStick).apply()"
+        errorLine2="                                        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/limelight/preferences/ControllerMouseSettingsActivity.kt"
+            line="151"
+            column="41"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="                                        prefs.edit().putString(&quot;analog_scrolling&quot;, scrollStick).apply()"
+        errorLine2="                                        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/limelight/preferences/ControllerMouseSettingsActivity.kt"
+            line="155"
+            column="41"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="                                        prefs.edit().putString(PreferenceConfiguration.CONTROLLER_MOUSE_DPAD_PREF_STRING, dpadMode).apply()"
+        errorLine2="                                        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/limelight/preferences/ControllerMouseSettingsActivity.kt"
+            line="167"
+            column="41"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="                                        prefs.edit().putString(PreferenceConfiguration.CONTROLLER_MOUSE_DPAD_PREF_STRING, dpadMode).apply()"
+        errorLine2="                                        ~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/limelight/preferences/ControllerMouseSettingsActivity.kt"
+            line="171"
+            column="41"/>
     </issue>
 
     <issue
@@ -14094,7 +14050,7 @@
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/gamemenu/GameMenu.kt"
-            line="1843"
+            line="1849"
             column="17"/>
     </issue>
 
@@ -14331,6 +14287,17 @@
 
     <issue
         id="UseKtx"
+        message="Use the KTX extension function `SharedPreferences.edit` instead?"
+        errorLine1="            preferences.edit().putBoolean(key, active).apply()"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/limelight/binding/audio/MicrophoneInitialStateStore.kt"
+            line="20"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UseKtx"
         message="Use the KTX extension function `String.toUri` instead?"
         errorLine1="        val host = try { android.net.Uri.parse(url ?: return false).host } catch (_: Exception) { null }"
         errorLine2="                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
@@ -14413,7 +14380,7 @@
         errorLine2="        ~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/PerformanceOverlayManager.kt"
-            line="1417"
+            line="1415"
             column="9"/>
     </issue>
 
@@ -14424,7 +14391,7 @@
         errorLine2="            ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/PreferenceConfiguration.kt"
-            line="421"
+            line="428"
             column="13"/>
     </issue>
 
@@ -14435,7 +14402,7 @@
         errorLine2="                ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/PreferenceConfiguration.kt"
-            line="1106"
+            line="1120"
             column="17"/>
     </issue>
 
@@ -14446,7 +14413,7 @@
         errorLine2="            ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/PreferenceConfiguration.kt"
-            line="1165"
+            line="1179"
             column="13"/>
     </issue>
 
@@ -14457,7 +14424,7 @@
         errorLine2="            ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/PreferenceConfiguration.kt"
-            line="1185"
+            line="1199"
             column="13"/>
     </issue>
 
@@ -14468,7 +14435,7 @@
         errorLine2="                    ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/PreferenceConfiguration.kt"
-            line="1222"
+            line="1236"
             column="21"/>
     </issue>
 
@@ -14479,7 +14446,7 @@
         errorLine2="                    ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/PreferenceConfiguration.kt"
-            line="1222"
+            line="1236"
             column="21"/>
     </issue>
 
@@ -14490,7 +14457,7 @@
         errorLine2="                ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/PreferenceConfiguration.kt"
-            line="1235"
+            line="1249"
             column="17"/>
     </issue>
 
@@ -14501,7 +14468,7 @@
         errorLine2="                ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/PreferenceConfiguration.kt"
-            line="1235"
+            line="1249"
             column="17"/>
     </issue>
 
@@ -14512,7 +14479,7 @@
         errorLine2="                ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/PreferenceConfiguration.kt"
-            line="1240"
+            line="1254"
             column="17"/>
     </issue>
 
@@ -14523,7 +14490,7 @@
         errorLine2="                ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/PreferenceConfiguration.kt"
-            line="1240"
+            line="1254"
             column="17"/>
     </issue>
 
@@ -14534,7 +14501,7 @@
         errorLine2="                ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/PreferenceConfiguration.kt"
-            line="1285"
+            line="1299"
             column="17"/>
     </issue>
 
@@ -14545,7 +14512,7 @@
         errorLine2="                ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/PreferenceConfiguration.kt"
-            line="1285"
+            line="1299"
             column="17"/>
     </issue>
 
@@ -14556,7 +14523,7 @@
         errorLine2="                ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/PreferenceConfiguration.kt"
-            line="1294"
+            line="1308"
             column="17"/>
     </issue>
 
@@ -14567,7 +14534,7 @@
         errorLine2="                ~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/PreferenceConfiguration.kt"
-            line="1294"
+            line="1308"
             column="17"/>
     </issue>
 
@@ -14677,7 +14644,7 @@
         errorLine2="                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/preferences/StreamSettings.kt"
-            line="4961"
+            line="4973"
             column="58"/>
     </issue>
 
@@ -14787,7 +14754,7 @@
         errorLine2="                               ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/com/limelight/Game.kt"
-            line="2956"
+            line="3074"
             column="32"/>
     </issue>
 
@@ -15585,61 +15552,6 @@
 
     <issue
         id="HardcodedText"
-        message="Hardcoded string &quot;Scene 1&quot;, should use `@string` resource"
-        errorLine1="            android:contentDescription=&quot;Scene 1&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-land/activity_pc_view.xml"
-            line="104"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;Scene 2&quot;, should use `@string` resource"
-        errorLine1="            android:contentDescription=&quot;Scene 2&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-land/activity_pc_view.xml"
-            line="115"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;Scene 3&quot;, should use `@string` resource"
-        errorLine1="            android:contentDescription=&quot;Scene 3&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-land/activity_pc_view.xml"
-            line="126"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;Scene 4&quot;, should use `@string` resource"
-        errorLine1="            android:contentDescription=&quot;Scene 4&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-land/activity_pc_view.xml"
-            line="137"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;Scene 5&quot;, should use `@string` resource"
-        errorLine1="            android:contentDescription=&quot;Scene 5&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout-land/activity_pc_view.xml"
-            line="148"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
         message="Hardcoded string &quot;192.168.1.100:47989&quot;, should use `@string` resource"
         errorLine1="            android:text=&quot;192.168.1.100:47989&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
@@ -15647,28 +15559,6 @@
             file="src/main/res/layout/address_list_item.xml"
             line="19"
             column="13"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;Choose a connection address&quot;, should use `@string` resource"
-        errorLine1="        android:text=&quot;Choose a connection address&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/address_selection_dialog.xml"
-            line="11"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;Host name&quot;, should use `@string` resource"
-        errorLine1="        android:text=&quot;Host name&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/address_selection_dialog.xml"
-            line="22"
-            column="9"/>
     </issue>
 
     <issue
@@ -15735,105 +15625,6 @@
             file="src/main/res/layout/dialog_iperf3_test.xml"
             line="177"
             column="13"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;UP&quot;, should use `@string` resource"
-        errorLine1="        android:text=&quot;UP&quot; />"
-        errorLine2="        ~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_key_value.xml"
-            line="44"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;Online&quot;, should use `@string` resource"
-        errorLine1="             android:text=&quot;Online&quot;"
-        errorLine2="             ~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/item_widget_computer.xml"
-            line="46"
-            column="14"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;Main&quot;, should use `@string` resource"
-        errorLine1="                &lt;TextView android:id=&quot;@+id/btn_key_page_main&quot; style=&quot;@style/KeyboardKeyRefined.Modifier&quot; android:layout_width=&quot;52dp&quot; android:layout_height=&quot;0dp&quot; android:layout_weight=&quot;1&quot; android:text=&quot;Main&quot; android:textSize=&quot;11sp&quot;/>"
-        errorLine2="                                                                                                                                                                                           ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/layer_6_keyboard.xml"
-            line="42"
-            column="188"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;Nav&quot;, should use `@string` resource"
-        errorLine1="                &lt;TextView android:id=&quot;@+id/btn_key_page_nav&quot; style=&quot;@style/KeyboardKeyRefined.Modifier&quot; android:layout_width=&quot;52dp&quot; android:layout_height=&quot;0dp&quot; android:layout_weight=&quot;1&quot; android:text=&quot;Nav&quot; android:textSize=&quot;11sp&quot;/>"
-        errorLine2="                                                                                                                                                                                          ~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/layer_6_keyboard.xml"
-            line="43"
-            column="187"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;Num&quot;, should use `@string` resource"
-        errorLine1="                &lt;TextView android:id=&quot;@+id/btn_key_page_num&quot; style=&quot;@style/KeyboardKeyRefined.Modifier&quot; android:layout_width=&quot;52dp&quot; android:layout_height=&quot;0dp&quot; android:layout_weight=&quot;1&quot; android:text=&quot;Num&quot; android:textSize=&quot;11sp&quot;/>"
-        errorLine2="                                                                                                                                                                                          ~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/layer_6_keyboard.xml"
-            line="44"
-            column="187"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;Mini&quot;, should use `@string` resource"
-        errorLine1="                &lt;TextView android:id=&quot;@+id/btn_key_page_mini&quot; style=&quot;@style/KeyboardKeyRefined.Modifier&quot; android:layout_width=&quot;52dp&quot; android:layout_height=&quot;0dp&quot; android:layout_weight=&quot;1&quot; android:text=&quot;Mini&quot; android:textSize=&quot;11sp&quot;/>"
-        errorLine2="                                                                                                                                                                                           ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/layer_6_keyboard.xml"
-            line="45"
-            column="188"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;Hide&quot;, should use `@string` resource"
-        errorLine1="                    android:text=&quot;Hide&quot;"
-        errorLine2="                    ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/layer_6_keyboard.xml"
-            line="82"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;Size&quot;, should use `@string` resource"
-        errorLine1="                    android:text=&quot;Size&quot;"
-        errorLine2="                    ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/layer_6_keyboard.xml"
-            line="90"
-            column="21"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;Opacity&quot;, should use `@string` resource"
-        errorLine1="                &lt;TextView android:layout_width=&quot;match_parent&quot; android:layout_height=&quot;wrap_content&quot; android:text=&quot;Opacity&quot; android:textColor=&quot;#88FFFFFF&quot; android:textSize=&quot;8sp&quot; android:gravity=&quot;center&quot; android:layout_marginBottom=&quot;8dp&quot;/>"
-        errorLine2="                                                                                                   ~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/layer_6_keyboard.xml"
-            line="94"
-            column="100"/>
     </issue>
 
     <issue
@@ -16916,28 +16707,6 @@
 
     <issue
         id="HardcodedText"
-        message="Hardcoded string &quot;Hide&quot;, should use `@string` resource"
-        errorLine1="                android:layout_width=&quot;0dp&quot; android:layout_weight=&quot;1&quot; android:text=&quot;Hide&quot; />"
-        errorLine2="                                                                     ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/layout_keyboard_mini.xml"
-            line="130"
-            column="70"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;Full&quot;, should use `@string` resource"
-        errorLine1="                android:layout_width=&quot;0dp&quot; android:layout_weight=&quot;1&quot; android:text=&quot;Full&quot; />"
-        errorLine2="                                                                     ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/layout_keyboard_mini.xml"
-            line="132"
-            column="70"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
         message="Hardcoded string &quot;↵&quot;, should use `@string` resource"
         errorLine1="                android:layout_weight=&quot;1.5&quot; android:tag=&quot;k66&quot; android:text=&quot;↵&quot;"
         errorLine2="                                                              ~~~~~~~~~~~~~~~~">
@@ -17297,28 +17066,6 @@
             file="src/main/res/layout/layout_keyboard_mini.xml"
             line="200"
             column="61"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;Hide&quot;, should use `@string` resource"
-        errorLine1="                android:layout_weight=&quot;1&quot; android:text=&quot;Hide&quot; />"
-        errorLine2="                                          ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/layout_keyboard_mini.xml"
-            line="203"
-            column="43"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;Full&quot;, should use `@string` resource"
-        errorLine1="                android:layout_weight=&quot;1&quot; android:text=&quot;Full&quot; />"
-        errorLine2="                                          ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/layout_keyboard_mini.xml"
-            line="206"
-            column="43"/>
     </issue>
 
     <issue
@@ -18324,50 +18071,6 @@
 
     <issue
         id="HardcodedText"
-        message="Hardcoded string &quot;↑ UP&quot;, should use `@string` resource"
-        errorLine1="                        android:text=&quot;↑ UP&quot;"
-        errorLine2="                        ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/page_digital_pad_clean.xml"
-            line="79"
-            column="25"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;← LEFT&quot;, should use `@string` resource"
-        errorLine1="                            android:text=&quot;← LEFT&quot;"
-        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/page_digital_pad_clean.xml"
-            line="95"
-            column="29"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;RIGHT →&quot;, should use `@string` resource"
-        errorLine1="                            android:text=&quot;RIGHT →&quot;"
-        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/page_digital_pad_clean.xml"
-            line="107"
-            column="29"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;↓ DOWN&quot;, should use `@string` resource"
-        errorLine1="                        android:text=&quot;↓ DOWN&quot;"
-        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/page_digital_pad_clean.xml"
-            line="118"
-            column="25"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
         message="Hardcoded string &quot;#FFFFFF&quot;, should use `@string` resource"
         errorLine1="                            android:text=&quot;#FFFFFF&quot;"
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
@@ -18396,50 +18099,6 @@
         <location
             file="src/main/res/layout/page_digital_pad_clean.xml"
             line="309"
-            column="25"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;↑ UP&quot;, should use `@string` resource"
-        errorLine1="                        android:text=&quot;↑ UP&quot;"
-        errorLine2="                        ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/page_digital_stick_clean.xml"
-            line="80"
-            column="25"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;← LEFT&quot;, should use `@string` resource"
-        errorLine1="                            android:text=&quot;← LEFT&quot;"
-        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/page_digital_stick_clean.xml"
-            line="96"
-            column="29"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;RIGHT →&quot;, should use `@string` resource"
-        errorLine1="                            android:text=&quot;RIGHT →&quot;"
-        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/page_digital_stick_clean.xml"
-            line="108"
-            column="29"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;↓ DOWN&quot;, should use `@string` resource"
-        errorLine1="                        android:text=&quot;↓ DOWN&quot;"
-        errorLine2="                        ~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/page_digital_stick_clean.xml"
-            line="119"
             column="25"/>
     </issue>
 
@@ -18654,50 +18313,6 @@
 
     <issue
         id="HardcodedText"
-        message="Hardcoded string &quot;UP&quot;, should use `@string` resource"
-        errorLine1="                        android:text=&quot;UP&quot;"
-        errorLine2="                        ~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/page_invisible_digital_stick_clean.xml"
-            line="61"
-            column="25"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;LEFT&quot;, should use `@string` resource"
-        errorLine1="                            android:text=&quot;LEFT&quot;"
-        errorLine2="                            ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/page_invisible_digital_stick_clean.xml"
-            line="75"
-            column="29"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;RIGHT&quot;, should use `@string` resource"
-        errorLine1="                            android:text=&quot;RIGHT&quot;"
-        errorLine2="                            ~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/page_invisible_digital_stick_clean.xml"
-            line="82"
-            column="29"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;DOWN&quot;, should use `@string` resource"
-        errorLine1="                        android:text=&quot;DOWN&quot;"
-        errorLine2="                        ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/page_invisible_digital_stick_clean.xml"
-            line="91"
-            column="25"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
         message="Hardcoded string &quot;LSB&quot;, should use `@string` resource"
         errorLine1="                        android:text=&quot;LSB&quot;"
         errorLine2="                        ~~~~~~~~~~~~~~~~~~">
@@ -18760,50 +18375,6 @@
             file="src/main/res/layout/page_simplify_performance_clean.xml"
             line="158"
             column="29"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;Title:&quot;, should use `@string` resource"
-        errorLine1="                android:text=&quot;Title:&quot;/>"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/page_window.xml"
-            line="24"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;PC Icon&quot;, should use `@string` resource"
-        errorLine1="                android:contentDescription=&quot;PC Icon&quot; />"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/pc_grid_item.xml"
-            line="66"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;Status Overlay&quot;, should use `@string` resource"
-        errorLine1="                android:contentDescription=&quot;Status Overlay&quot; />"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/pc_grid_item.xml"
-            line="76"
-            column="17"/>
-    </issue>
-
-    <issue
-        id="HardcodedText"
-        message="Hardcoded string &quot;Loading&quot;, should use `@string` resource"
-        errorLine1="                android:contentDescription=&quot;Loading&quot; />"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/pc_grid_item.xml"
-            line="87"
-            column="17"/>
     </issue>
 
     <issue

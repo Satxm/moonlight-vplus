@@ -701,7 +701,8 @@ class PcView : ThemedActivity(), AdapterFragmentCallbacks, ShakeDetector.Listene
         addToolbarMenuItem(
             menu,
             R.drawable.ic_restore,
-            getString(R.string.pcview_toolbar_restore_session)
+            getString(R.string.pcview_toolbar_restore_session),
+            accent = true
         ) {
             popup.dismiss()
             restoreLastSession()
@@ -714,7 +715,8 @@ class PcView : ThemedActivity(), AdapterFragmentCallbacks, ShakeDetector.Listene
             getString(
                 if (showUnpaired) R.string.pcview_toolbar_toggle_unpaired_hide
                 else R.string.pcview_toolbar_toggle_unpaired_show
-            )
+            ),
+            accent = true
         ) {
             popup.dismiss()
             toggleUnpairedDevices()
@@ -868,8 +870,10 @@ class PcView : ThemedActivity(), AdapterFragmentCallbacks, ShakeDetector.Listene
      */
     private fun refreshAccentTintedToolbarIcons() {
         val tint = ColorStateList.valueOf(UiHelper.accentColor(this))
+        findViewById<ImageButton?>(R.id.settingsButton)?.imageTintList = tint
         findViewById<ImageButton?>(R.id.aboutButton)?.imageTintList = tint
         findViewById<ImageButton?>(R.id.easyTierControlButton)?.imageTintList = tint
+        findViewById<ImageButton?>(R.id.pcToolbarMenuButton)?.imageTintList = tint
     }
 
     private fun getThemeModeLabel(mode: String): String {
@@ -1760,7 +1764,7 @@ class PcView : ThemedActivity(), AdapterFragmentCallbacks, ShakeDetector.Listene
         try {
             addDetails.name = getString(R.string.title_add_pc)
         } catch (e: Exception) {
-            addDetails.name = "添加电脑"
+            addDetails.name = getString(R.string.title_add_pc_choose)
         }
         addDetails.state = ComputerDetails.State.UNKNOWN
 

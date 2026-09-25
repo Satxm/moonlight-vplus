@@ -198,9 +198,7 @@ class Dialog private constructor(
                     val label = parts[0].trim()
                     val value = parts[1].trim()
                     val icon = getIconForLabel(label)
-                    val tlabel = getTextForLabel(label)
-                    val tvalue = getTextForLabel(value)
-                    "$icon $tlabel$tvalue"
+                    "$icon ${localizeDetailsLabel(label)}: ${localizeDetailsValue(value)}"
                 } else {
                     line
                 }
@@ -208,6 +206,41 @@ class Dialog private constructor(
                 line
             }
         }
+    }
+
+    private fun localizeDetailsLabel(label: String): String {
+        val resource = when (label) {
+            "Name" -> R.string.details_name
+            "State" -> R.string.details_state
+            "Active Address" -> R.string.details_active_address
+            "Local Address" -> R.string.details_local_address
+            "Remote Address" -> R.string.details_remote_address
+            "IPv6 Address" -> R.string.details_ipv6_address
+            "Manual Address" -> R.string.details_manual_address
+            "MAC Address" -> R.string.details_mac_address
+            "Pair State" -> R.string.details_pair_state
+            "Running Game ID" -> R.string.details_running_game
+            "HTTPS Port" -> R.string.details_https_port
+            "Sunshine Version" -> R.string.details_sunshine_version
+            "Desktop Special App Support" -> R.string.details_desktop_support
+            "VDD Capability Version" -> R.string.details_vdd_version
+            "HDR Supported" -> R.string.details_hdr_support
+            "Super CMDs" -> R.string.details_super_commands
+            else -> return label
+        }
+        return activity.getString(resource)
+    }
+
+    private fun localizeDetailsValue(value: String): String {
+        val resource = when (value) {
+        "ONLINE" -> R.string.details_online
+        "OFFLINE" -> R.string.details_offline
+        "UNKNOWN" -> R.string.details_unknown
+        "PAIRED" -> R.string.details_paired
+        "NOT_PAIRED" -> R.string.details_not_paired
+        else -> return value
+        }
+        return activity.getString(resource)
     }
 
     private fun getIconForLabel(label: String): String = when (label.lowercase()) {
@@ -226,30 +259,6 @@ class Dialog private constructor(
         "desktop special app support" -> "📦"
         "vdd capability version" -> "🖥️"
         else -> "🔹"
-    }
-
-    private fun getTextForLabel(label: String): String = when (label.lowercase()) {
-        "name" -> activity.getString(R.string.details_name)
-        "state" -> activity.getString(R.string.details_state)
-        "uuid" -> activity.getString(R.string.details_uuid)
-        "local address" -> activity.getString(R.string.details_localaddress)
-        "remote address" -> activity.getString(R.string.details_remoteaddress)
-        "ipv6 address" -> activity.getString(R.string.details_ipv6address)
-        "manual address" -> activity.getString(R.string.details_manualaddress)
-        "active address" -> activity.getString(R.string.details_activeaddress)
-        "mac address" -> activity.getString(R.string.details_macaddress)
-        "pair state" -> activity.getString(R.string.details_pairstate)
-        "running game id" -> activity.getString(R.string.details_runninggameid)
-        "https port" -> activity.getString(R.string.details_httpsport)
-        "sunshine version" -> activity.getString(R.string.details_sunshine_version)
-        "desktop special app support" -> activity.getString(R.string.desktop_special_app_support)
-        "vdd capability version" -> activity.getString(R.string.vdd_capability_version)
-        "online" -> activity.getString(R.string.details_online)
-        "offline" -> activity.getString(R.string.details_offline)
-        "unknown" -> activity.getString(R.string.details_unknown)
-        "paired" -> activity.getString(R.string.details_paired)
-        "not_paired" -> activity.getString(R.string.details_not_paired)
-        else -> label
     }
 
     companion object {
