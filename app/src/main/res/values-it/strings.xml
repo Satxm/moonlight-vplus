@@ -94,7 +94,7 @@
     <string name="title_resolution_list">Risoluzione video</string>
     <string name="summary_resolution_list">Aumentare per migliorare la nitidezza dell\'immagine. Diminuire per aumentare le prestazioni su dispositivi di fascia più bassa e reti più lente.</string>
     <string name="title_seekbar_bitrate">Velocità di trasmissione video</string>
-    <string name="summary_seekbar_bitrate">Aumentare per migliorare la qualità dell\'immagine. Diminuire per aumentare le prestazioni su reti più lente.</string>
+    <string name="summary_seekbar_bitrate">Un bitrate più alto migliora la qualità dell’immagine, ma usa più banda; un bitrate più basso è più adatto alle reti lente o instabili. Se lo streaming scatta, riducilo prima e aumentalo quando la rete è stabile ma l’immagine è poco nitida; per 1080p60, inizia da circa 10–20 Mbps.</string>
     <string name="title_checkbox_stretch_video">Forza video a schermo intero</string>
     <string name="title_checkbox_disable_warnings">Disabilita messaggi di warning</string>
     <string name="summary_checkbox_disable_warnings">Disabilita i messaggi di warning sullo schermo durante lo streaming</string>
@@ -135,7 +135,7 @@
     <string name="title_disable_frame_drop">Non saltare i fotogrammi</string>
     <string name="summary_disable_frame_drop">Potrebbe ridurre il micro-stuttering su alcuni dispositivi, ma può aumentare la latenza</string>
     <string name="title_video_format">Modifica impostazioni del codec</string>
-    <string name="summary_video_format">I nuovi codec possono ridurre i requisiti di larghezza di banda video se il tuo dispositivo li supporta. La scelta del codec può essere ignorata se non è supportato dal software dell\'host o dalla GPU.</string>
+    <string name="summary_video_format">Non sai quale scegliere? Usa Automatico. HEVC è consigliato per la maggior parte dei dispositivi moderni e offre in genere un buon equilibrio tra qualità dell’immagine, banda e HDR; AV1 può ridurre il consumo di banda se supportato da entrambi i lati, ma su alcuni dispositivi può avere una latenza di decodifica maggiore; H.264 offre la compatibilità migliore, ma richiede più banda e non supporta HDR.</string>
     <string name="title_enable_hdr">Abilita HDR (sperimentale)</string>
     <string name="summary_enable_hdr">Utilizza l\'HDR quando il gioco e la scheda video del PC lo supportano. L\'HDR richiede una scheda video col supporto dell\'encoding HEVC Main 10.</string>
     <string name="suffix_osc_opacity">%</string>
@@ -179,8 +179,10 @@
     <string name="title_checkbox_mouse_nav_buttons">Abilita i bottoni avanti e indietro del mouse</string>
     <string name="title_osc_opacity">Cambia l\'opavità dei controlli a schermo</string>
     <string name="title_unlock_fps">Sblocca tutti i frame rate possibili</string>
-    <string name="pacing_balanced">Bilanciato</string>
-    <string name="pacing_latency">Preferisci ritardi minori</string>
+    <string name="pacing_balanced">Bilanciato (ritardo e fluidità)</string>
+    <string name="pacing_latency">Bassa latenza (risposta più rapida)</string>
+    <string name="pacing_precise_sync">Ritmo fotogrammi preciso (consigliato)</string>
+    <string name="pacing_experimental_low_latency">Latenza ultra-bassa (sperimentale)</string>
     <string name="suffix_seekbar_bitrate_mbps">Mbps</string>
     <string name="resolution_prefix_native">Nativo</string>
     <string name="no_video_received_error">Nessun video ricevuto dal PC sorgente.</string>
@@ -188,7 +190,7 @@
     <string name="category_input_settings">Impostazioni di input</string>
     <string name="title_native_res_dialog">Avviso Risoluzione Nativa</string>
     <string name="dialog_title_osc_opacity">Cambia opacità</string>
-    <string name="pacing_smoothness">Preferisci video più fluido (potrebbe aumentare significativamente il ritardo)</string>
+    <string name="pacing_smoothness">Fluidità prima di tutto (ritardo maggiore)</string>
     <string name="summary_osc_opacity">Rende i controlli a schermo più/meno trasparenti</string>
     <string name="summary_checkbox_mouse_nav_buttons">Abilitare questa opzione può far smettere di funzionare il click destro su alcuni dispositivi</string>
     <string name="title_checkbox_flip_face_buttons">Inverti i bottoni frontali</string>
@@ -210,7 +212,7 @@
     <string name="videoformat_auto">Automatico (Consigliato)</string>
     <string name="videoformat_hevcalways">Preferisci HEVC</string>
     <string name="title_frame_pacing">Bilanciamento frame video</string>
-    <string name="summary_frame_pacing">Specifica come bilanciare il ritardo video e la fluidità</string>
+    <string name="summary_frame_pacing">Scegli come regolare il ritmo dei fotogrammi video. Il ritmo preciso può usare i timestamp video (PTS) ed è consigliato per la maggior parte dei dispositivi.</string>
     <string name="nettest_text_failure">Sembra che l\'attuale connessione di rete del tuo dispositivo stia bloccando Moonlight. Trasmettere via Internet potrebbe non funzionare mentre sei connesso a questa rete.
 \n
 \nQueste porte di rete sono bloccate:
@@ -239,7 +241,7 @@
     <string name="perf_overlay_netlatency">Latenza media della rete: %1$d ms (varianza: %2$d ms)</string>
     <string name="category_help">Aiuto</string>
     <string name="title_setup_guide">Guida configurazione</string>
-    <string name="pacing_balanced_alt">Bilanciato con il limite FPS</string>
+    <string name="pacing_balanced_alt">Limita gli FPS in uscita (fino alla frequenza di aggiornamento)</string>
     <string name="summary_seekbar_deadzone">Nota: Alcuni giochi possono imporre una deadzone più grande di quella che Moonlight è configurato per utilizzare.</string>
     <string name="title_checkbox_absolute_mouse_mode">Modalità mouse desktop remoto</string>
     <string name="summary_checkbox_absolute_mouse_mode">Questo può rendere l\'accelerazione del mouse più naturale per l\'utilizzo del desktop remoto, ma è incompatibile con molti giochi.</string>
@@ -308,4 +310,49 @@
     <string name="suffix_seekbar_mic_balance_target" formatted="false">%</string>
     <string name="title_checkbox_mic_voice_enhancement">Ottimizzazione voce</string>
     <string name="summary_checkbox_mic_voice_enhancement">Riduce il rumore a bassa frequenza e migliora la chiarezza della voce. Disponibile con guadagno fisso e bilanciamento del volume.</string>
+    <string name="title_pyrowave_capability_diagnostic">Verifica delle capacità PyroWave</string>
+    <string name="summary_pyrowave_capability_diagnostic">Esamina le capacità Vulkan e i requisiti del decoder PyroWave attuale.</string>
+    <string name="pyrowave_diag_loading">Verifica delle capacità PyroWave…</string>
+    <string name="pyrowave_diag_runtime">API della libreria PyroWave inclusa</string>
+    <string name="pyrowave_diag_gpu_frontend">Modulo di presentazione GPU</string>
+    <string name="pyrowave_diag_gpu_gate">La presentazione GPU richiede Android 10+, arm64-v8a e Vulkan 1.3. Il percorso SDR di riserva richiede Vulkan 1.2 e le funzioni del decoder indicate sotto; non decodifica solo sulla CPU.</string>
+    <string name="pyrowave_diag_ready">I requisiti verificati sono soddisfatti</string>
+    <string name="pyrowave_diag_missing">Mancano requisiti dell’implementazione attuale</string>
+    <string name="pyrowave_diag_scope">Questo rapporto verifica solo le capacità dichiarate dal driver. Presentazione nella finestra, formati delle immagini, risoluzione di destinazione, uscita HDR e prestazioni di decodifica devono ancora essere verificati durante lo streaming.</string>
+    <string name="pyrowave_diag_loader_missing">Nessun loader Vulkan accessibile</string>
+    <string name="pyrowave_diag_no_devices">Nessun dispositivo fisico Vulkan trovato</string>
+    <string name="pyrowave_diag_query_failed">Impossibile leggere le capacità Vulkan. Questo non conferma l’assenza di supporto.</string>
+    <string name="pyrowave_diag_storage_path">Memoria a 8 bit o buffer di texel di grandi dimensioni</string>
+    <string name="pyrowave_diag_gpu_backend">Requisiti di presentazione GPU</string>
+    <string name="pyrowave_diag_staging_backend">Requisiti del percorso SDR di riserva</string>
+    <string name="pyrowave_diag_subgroup_range">Sottogruppi di calcolo completi nell’intervallo wave4–wave128</string>
+    <string name="pyrowave_diag_max_workgroup">Thread per gruppo di lavoro</string>
+    <string name="pyrowave_diag_shared_memory">Memoria condivisa del gruppo di lavoro</string>
+    <string name="pyrowave_diag_queue">Coda combinata di grafica e calcolo</string>
+    <string name="pyrowave_diag_android_surface">Estensioni Vulkan Surface di Android</string>
+    <string name="pyrowave_diag_copy_failed">Impossibile copiare il rapporto</string>
+    <string name="pyrowave_diag_present">Presente</string>
+    <string name="pyrowave_diag_absent">Assente</string>
+    <string name="pyrowave_diag_vulkan_loader">Loader Vulkan</string>
+    <string name="pyrowave_diag_subgroup_ops">Operazioni dei sottogruppi</string>
+    <string name="pyrowave_diag_subgroup_size">Dimensione del sottogruppo</string>
+    <string name="pyrowave_diag_subgroup_limits">Dimensione min. / max. del sottogruppo</string>
+    <string name="pyrowave_diag_required_subgroup">Operazioni dei sottogruppi richieste</string>
+    <string name="pyrowave_diag_texel_limit">Numero massimo di elementi del buffer di texel</string>
+    <string name="pyrowave_diag_back">Indietro</string>
+    <string name="pyrowave_diag_copy">Copia</string>
+    <string name="pyrowave_diag_copy_success">Rapporto copiato negli appunti</string>
+    <string name="pyrowave_diag_unavailable">Non disponibile</string>
+    <string name="image_saved_successfully">Immagine salvata in: Picture/vplus</string>
+    <string name="image_save_failed_with_error">Salvataggio dell\'immagine non riuscito: %1$s</string>
+    <string name="tip_double_tap_mouse">Suggerimento: tieni premuta l\'area vuota in alto nell\'elenco dei computer per salvare l\'immagine di sfondo attuale.</string>
+    <string name="pyrowave_negotiation_fallback">La negoziazione di PyroWave non è riuscita. Passaggio a %1$s.</string>
+    <string name="title_list_mouse_axis_correction">Correzione della direzione del mouse</string>
+    <string name="summary_list_mouse_axis_correction">Ruota il movimento del mouse acquisito prima di inviarlo all’host. Modifica questa opzione solo se un dispositivo Android segnala assi del mouse ruotati.</string>
+    <string name="mouse_axis_correction_off">Disattivato</string>
+    <string name="mouse_axis_correction_90">Ruota di 90 gradi</string>
+    <string name="mouse_axis_correction_180">Ruota di 180 gradi</string>
+    <string name="mouse_axis_correction_270">Ruota di 270 gradi</string>
+    <string name="summary_checkbox_reverse_resolution">Attiva solo quando l\'orientamento o le dimensioni dell\'immagine sono errati; potrebbe entrare in conflitto con la rotazione del dispositivo.</string>
+    <string name="summary_checkbox_rotable_screen">Sincronizza automaticamente il layout dello streaming quando il dispositivo passa dall\'orientamento verticale a quello orizzontale e viceversa.</string>
 </resources>

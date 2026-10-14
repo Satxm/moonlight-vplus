@@ -59,10 +59,94 @@ class SettingsResourceHygieneTest {
     }
 
     @Test
+    fun pyrowaveDiagnosticIsANonPersistentActionBelowVideoReport() {
+        val preferences = parse(File(resourceDir, "xml/preferences.xml"))
+        val actions = preferences.documentElement.getElementsByTagName("Preference")
+            .asElementSequence().toList()
+        val video = actions.single { it.getAttributeNS(ANDROID_NAMESPACE, "key") == "capability_diagnostic" }
+        val pyrowave = actions.single { it.getAttributeNS(ANDROID_NAMESPACE, "key") == "pyrowave_capability_diagnostic" }
+        assertEquals(video.parentNode, pyrowave.parentNode)
+        val siblings = video.parentNode.childNodes.asElementSequence().toList()
+        assertEquals(siblings.indexOf(video) + 1, siblings.indexOf(pyrowave))
+        assertEquals("false", pyrowave.getAttributeNS(ANDROID_NAMESPACE, "persistent"))
+    }
+
+    @Test
+    fun reverseResolutionIsLastDisplayBehaviorPreference() {
+        val preferences = parse(File(resourceDir, "xml/preferences.xml"))
+        val category = preferences.documentElement.getElementsByTagName("PreferenceCategory")
+            .asElementSequence()
+            .single { it.getAttributeNS(ANDROID_NAMESPACE, "key") == "category_display_behavior" }
+        val keys = category.childNodes.asElementSequence()
+            .map { it.getAttributeNS(ANDROID_NAMESPACE, "key") }
+            .filter(String::isNotEmpty)
+            .toList()
+
+        assertEquals("checkbox_reverse_resolution", keys.last())
+    }
+
+    @Test
+    fun pyrowaveDiagnosticAndFallbackStringsCoverEveryExistingLocale() {
+        val defaultEntries = parse(File(resourceDir, "values/strings.xml"))
+            .documentElement.childNodes.asElementSequence()
+            .filter { it.tagName == "string" && it.getAttribute("translatable") != "false" }
+            .filter {
+                it.getAttribute("name").startsWith("pyrowave_diag_") ||
+                    it.getAttribute("name") in setOf(
+                        "title_pyrowave_capability_diagnostic", "summary_pyrowave_capability_diagnostic",
+                        "pyrowave_negotiation_fallback",
+                    )
+            }.associate { it.getAttribute("name") to it.textContent }
+        assertTrue("No PyroWave strings found", defaultEntries.isNotEmpty())
+        val placeholders = Regex("%(?:\\d+\\$)?[a-zA-Z]")
+        resourceDir.listFiles().orEmpty()
+            .filter { it.isDirectory && it.name.startsWith("values-") && File(it, "strings.xml").isFile }
+            .forEach { directory ->
+                val entries = parse(File(directory, "strings.xml"))
+                    .documentElement.childNodes.asElementSequence()
+                    .filter { it.tagName == "string" }
+                    .groupBy { it.getAttribute("name") }
+                defaultEntries.forEach { (name, defaultValue) ->
+                    val matches = entries[name].orEmpty()
+                    assertEquals("${directory.name}: missing or duplicate $name", 1, matches.size)
+                    val value = matches.single().textContent
+                    assertTrue("${directory.name}: blank $name", value.isNotBlank())
+                    assertEquals("${directory.name}: formatting mismatch in $name",
+                        placeholders.findAll(defaultValue).map { it.value }.toList(),
+                        placeholders.findAll(value).map { it.value }.toList())
+                }
+            }
+    }
+
+    @Test
+    fun mouseAxisCorrectionStringsCoverEveryExistingLocale() {
+        val keys = listOf(
+            "title_list_mouse_axis_correction",
+            "summary_list_mouse_axis_correction",
+            "mouse_axis_correction_off",
+            "mouse_axis_correction_90",
+            "mouse_axis_correction_180",
+            "mouse_axis_correction_270",
+        )
+
+        resourceDir.listFiles().orEmpty()
+            .filter { it.isDirectory && it.name.startsWith("values-") && File(it, "strings.xml").isFile }
+            .forEach { directory ->
+                val entries = stringValues(directory.name)
+                keys.forEach { key ->
+                    val value = entries[key]
+                    assertNotNull("${directory.name}: missing $key", value)
+                    assertTrue("${directory.name}: blank $key", value!!.isNotBlank())
+                }
+            }
+    }
+
+    @Test
     fun userFacingSettingsArraysUseStringResources() {
         val arrays = parse(File(resourceDir, "values/arrays.xml"))
         val localizedArrays = setOf(
             "abr_mode_names",
+            "fec_mode_names",
             "analog_scrolling_names",
             "audio_codec_names",
             "audio_config_names",
@@ -71,6 +155,7 @@ class SettingsResourceHygieneTest {
             "background_stream_behavior_names",
             "quit_behavior_names",
             "dualsense_output_mode_names",
+            "decoder_input_buffer_mode_names",
             "float_ball_action_names",
             "hdr_mode_entries",
             "mic_menu_action_mode_entries",
@@ -83,6 +168,7 @@ class SettingsResourceHygieneTest {
             "perf_overlay_position_vertical_names",
             "perf_overlay_display_items_names",
             "mic_icon_color_entries",
+            "mouse_axis_correction_names",
             "audio_vibration_mode_names",
             "audio_vibration_scene_names",
         )
@@ -136,6 +222,10 @@ class SettingsResourceHygieneTest {
         }
 
         val expectedKeysByCategory = mapOf(
+            "category_basic_settings" to setOf(
+                "checkbox_adaptive_bitrate", "list_abr_mode", "seekbar_bitrate_kbps",
+                "list_fec_mode", "seekbar_fec_percentage",
+            ),
             "category_screen_position" to setOf(
                 "video_format",
                 "checkbox_enable_hdr",
@@ -145,6 +235,7 @@ class SettingsResourceHygieneTest {
                 "list_hdr_mode",
                 "checkbox_full_range",
                 "capability_diagnostic",
+                "pyrowave_capability_diagnostic",
             ),
             "category_host_settings" to setOf(
                 "list_background_stream_behavior",

@@ -26,6 +26,11 @@ set(LSFGVK_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/lsfg-vk-android")
 # 干扰 AGP），直接编译两文件库本身并打开 VK_USE_PLATFORM_ANDROID_KHR=1。
 # 这个 define 必须 PUBLIC，因为 framegen 的 image.cpp 等使用 AHB Vulkan 结构体时也要看到它。
 add_library(volk STATIC "${LSFGVK_ROOT}/thirdparty/volk/volk.c")
+# Use the same fixed Vulkan headers as the PyroWave runtime. The NDK headers
+# do not yet declare VK_HUAWEI_hdr_vivid on all supported build hosts.
+cmake_path(SET PYROWAVE_VULKAN_HEADERS NORMALIZE
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../../../third-party/pyrowave/third_party/Granite/third_party/khronos/vulkan-headers/include")
+target_include_directories(volk BEFORE PUBLIC "${PYROWAVE_VULKAN_HEADERS}")
 target_include_directories(volk PUBLIC "${LSFGVK_ROOT}/thirdparty/volk")
 target_compile_definitions(volk PUBLIC VK_USE_PLATFORM_ANDROID_KHR=1)
 
@@ -53,12 +58,23 @@ add_subdirectory("${LSFGVK_ROOT}/framegen" framegen_build EXCLUDE_FROM_ALL)
 add_library(moonlight-framegen SHARED
     jni_bridge.cpp
     framegen_pipeline.cpp
+    pyrowave_vulkan_decoder.cpp
+    pyrowave_dynamic_hdr.cpp
     fsr_upscaler.cpp
     "${LSFGVK_ROOT}/src/config/config.cpp"
     "${LSFGVK_ROOT}/src/extract/extract.cpp"
     "${LSFGVK_ROOT}/src/extract/trans.cpp")
 
+# The framegen Vulkan decoder and the app CPU bridge must compile against the
+# same PyroWave ABI contract headers. Gradle passes this path explicitly; the
+# normalized fallback only serves direct CMake invocations.
+if(NOT DEFINED MOONLIGHT_NATIVE_INCLUDE_DIR)
+    cmake_path(SET MOONLIGHT_NATIVE_INCLUDE_DIR NORMALIZE
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../../../app/src/main/jni/moonlight-core")
+endif()
+
 target_include_directories(moonlight-framegen PRIVATE
+    "${MOONLIGHT_NATIVE_INCLUDE_DIR}"
     "${LSFGVK_ROOT}"                 # <thirdparty/spirv.hpp>
     "${LSFGVK_ROOT}/include"         # extract/trans.hpp 等
     "${LSFGVK_ROOT}/framegen/public"   # LSFG_3_1 / LSFG_3_1P 公共 API
@@ -103,6 +119,9 @@ endfunction()
 framegen_compile_shader(yuv_to_rgba)
 framegen_compile_shader(yuv_to_rgba16f)
 framegen_compile_shader(yuv_to_rgb10a2)
+framegen_compile_shader(pyrowave_yuv_to_rgba)
+framegen_compile_shader(pyrowave_yuv_to_rgba16f)
+framegen_compile_shader(pyrowave_yuv_to_rgb10a2)
 framegen_compile_shader(rgba_fsr_easu)
 framegen_compile_shader(rgba_fsr_easu16f)
 framegen_compile_shader(rgba_fsr_rcas)

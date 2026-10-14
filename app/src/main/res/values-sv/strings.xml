@@ -159,7 +159,7 @@
     <string name="title_disable_frame_drop">Tappa aldrig bildramar</string>
     <string name="summary_disable_frame_drop">Kan minska mikrohack på vissa enheter, men kan öka latensen</string>
     <string name="title_video_format">Ändra codec-inställningar</string>
-    <string name="summary_video_format">Nyare codecs kan sänka videobandbreddskraven om din enhet stöder dem. Codec-val kan ignoreras om det inte stöds av värdprogramvaran eller GPU:n.</string>
+    <string name="summary_video_format">Osäker på vad du ska välja? Använd Automatiskt. HEVC rekommenderas för de flesta moderna enheter och ger vanligtvis en bra balans mellan bildkvalitet, bandbredd och HDR. AV1 kan spara bandbredd när båda sidor stöder det, men kan ge högre avkodningsfördröjning på vissa enheter. H.264 har bäst kompatibilitet, men kräver mer bandbredd och stöder inte HDR.</string>
     <string name="title_enable_hdr">Sätt på HDR (Prövning)</string>
     <string name="summary_enable_hdr">Strömma HDR när spelet och datorns GPU stöder det. HDR kräver en GPU med stöd för HEVC Main 10-kodning.</string>
     <string name="title_full_range">Tvinga video med fullt omfång (Prövning)</string>
@@ -181,10 +181,12 @@
     <string name="audioconf_51surround">5.1 surroundljud</string>
     <string name="audioconf_71surround">7.1 surroundljud</string>
     <string name="title_frame_pacing">Videorams fart</string>
-    <string name="pacing_latency">Föredrar lägsta latenstid</string>
-    <string name="pacing_balanced">Balanserad</string>
-    <string name="pacing_balanced_alt">Balanserad med FPS-gräns</string>
-    <string name="pacing_smoothness">Föredrar smidigast video (kan öka latensen avsevärt)</string>
+    <string name="pacing_latency">Låg latens (snabbare svar)</string>
+    <string name="pacing_precise_sync">Exakt bildrutestyrning (rekommenderas)</string>
+    <string name="pacing_experimental_low_latency">Ultralåg latens (experimentellt)</string>
+    <string name="pacing_balanced">Balanserad (latens och jämnhet)</string>
+    <string name="pacing_balanced_alt">Begränsa utgående FPS (upp till skärmens uppdateringsfrekvens)</string>
+    <string name="pacing_smoothness">Jämnhet först (högre latens)</string>
     <string name="nettest_title_done">Nätverkstestet fullföljt</string>
     <string name="nettest_text_failure">Din enhets aktuella nätverksanslutning verkar blockera Moonlight. Streaming via Internet kanske inte fungerar när du är ansluten till det här nätverket.
 \n
@@ -220,7 +222,7 @@
 \nVi är inte ansvariga för eventuella problem som uppstår av att skapa en anpassad upplösning på din PC.
 \n
 \nDet kan vara så att din bildskärm inte stöder en nödvändig bildskärmskonfiguration. Om så är fallet kan du försöka ställa in en virtuell skärm. Slutligen, om din enhet eller värddator inte stöder streaming med en specifik upplösning eller uppdateringsfrekvens, har du tyvärr ingen tur.</string>
-    <string name="summary_seekbar_bitrate">Öka för bättre bildkvalitet. Minska för att förbättra prestandan på långsammare anslutningar.</string>
+    <string name="summary_seekbar_bitrate">Högre bithastighet förbättrar bildkvaliteten men använder mer bandbredd; lägre bithastighet passar bättre för långsamma eller instabila nätverk. Sänk den först om streamingen hackar och höj den när nätverket är stabilt men bilden är för oskarp; börja runt 10–20 Mbps för 1080p60.</string>
     <string name="title_checkbox_stretch_video">Sträck ut videon till helskärm</string>
     <string name="summary_audio_config_list">Aktivera 5.1 eller 7.1 surroundljud för hemmabiosystem</string>
     <string name="summary_checkbox_enable_audiofx">Ljudeffekter kan fungera under streaming, men kan öka ljudfördröjningen</string>
@@ -242,7 +244,7 @@
     <string name="summary_setup_guide">Visa instruktioner om hur du utformar din speldator för strömning</string>
     <string name="resolution_1080p">1080p</string>
     <string name="fps_60">60 FPS</string>
-    <string name="summary_frame_pacing">Ange hur du ska balansera videofördröjning och jämnhet</string>
+    <string name="summary_frame_pacing">Välj hur videobildrutorna ska tajmas. Exakt bildrutestyrning kan använda videons tidsstämplar (PTS) och rekommenderas för de flesta enheter.</string>
     <string name="fps_suffix_fps">FPS</string>
     <string name="title_native_fps_dialog">Native FPS varning</string>
     <string name="category_gamepad_settings">Spelkontroller inställningar</string>
@@ -301,4 +303,49 @@
     <string name="suffix_seekbar_mic_balance_target" formatted="false">%</string>
     <string name="title_checkbox_mic_voice_enhancement">Röstförbättring</string>
     <string name="summary_checkbox_mic_voice_enhancement">Minskar lågfrekvent brus och förbättrar talets tydlighet. Tillgängligt med fast förstärkning och volymbalansering.</string>
+    <string name="title_pyrowave_capability_diagnostic">Kontroll av PyroWave-funktioner</string>
+    <string name="summary_pyrowave_capability_diagnostic">Visa Vulkan-funktioner och kraven för den nuvarande PyroWave-dekodern.</string>
+    <string name="pyrowave_diag_loading">Kontrollerar PyroWave-funktioner…</string>
+    <string name="pyrowave_diag_runtime">API för det medföljande PyroWave-biblioteket</string>
+    <string name="pyrowave_diag_gpu_frontend">GPU-visningsmodul</string>
+    <string name="pyrowave_diag_gpu_gate">GPU-visning kräver Android 10+, arm64-v8a och Vulkan 1.3. SDR-reservvägen kräver Vulkan 1.2 och dekoderfunktionerna nedan; den avkodar inte enbart på CPU:n.</string>
+    <string name="pyrowave_diag_ready">De kontrollerade kraven är uppfyllda</string>
+    <string name="pyrowave_diag_missing">Krav för den nuvarande implementationen saknas</string>
+    <string name="pyrowave_diag_scope">Rapporten kontrollerar bara de funktioner som drivrutinen anger. Fönstervisning, bildformat, målupplösning, HDR-utmatning och avkodningsprestanda behöver fortfarande verifieras vid strömning.</string>
+    <string name="pyrowave_diag_loader_missing">Ingen tillgänglig Vulkan-laddare</string>
+    <string name="pyrowave_diag_no_devices">Ingen fysisk Vulkan-enhet hittades</string>
+    <string name="pyrowave_diag_query_failed">Vulkan-funktionerna kunde inte läsas. Det bekräftar inte att stöd saknas.</string>
+    <string name="pyrowave_diag_storage_path">8-bitars lagring eller stora texelbuffertar</string>
+    <string name="pyrowave_diag_gpu_backend">Krav för GPU-visning</string>
+    <string name="pyrowave_diag_staging_backend">Krav för SDR-reservvägen</string>
+    <string name="pyrowave_diag_subgroup_range">Fullständiga beräkningsundergrupper inom wave4–wave128</string>
+    <string name="pyrowave_diag_max_workgroup">Trådar per arbetsgrupp</string>
+    <string name="pyrowave_diag_shared_memory">Arbetsgruppens delade minne</string>
+    <string name="pyrowave_diag_queue">Gemensam kö för grafik och beräkningar</string>
+    <string name="pyrowave_diag_android_surface">Android Vulkan Surface-tillägg</string>
+    <string name="pyrowave_diag_copy_failed">Rapporten kunde inte kopieras</string>
+    <string name="pyrowave_diag_present">Finns</string>
+    <string name="pyrowave_diag_absent">Saknas</string>
+    <string name="pyrowave_diag_vulkan_loader">Vulkan-laddare</string>
+    <string name="pyrowave_diag_subgroup_ops">Undergruppsoperationer</string>
+    <string name="pyrowave_diag_subgroup_size">Undergruppsstorlek</string>
+    <string name="pyrowave_diag_subgroup_limits">Min. / max. undergruppsstorlek</string>
+    <string name="pyrowave_diag_required_subgroup">Nödvändiga undergruppsoperationer</string>
+    <string name="pyrowave_diag_texel_limit">Maximalt antal texelbuffertelement</string>
+    <string name="pyrowave_diag_back">Tillbaka</string>
+    <string name="pyrowave_diag_copy">Kopiera</string>
+    <string name="pyrowave_diag_copy_success">Rapporten har kopierats till urklipp</string>
+    <string name="pyrowave_diag_unavailable">Kan inte hämtas</string>
+    <string name="image_saved_successfully">Bilden har sparats i: Picture/vplus</string>
+    <string name="image_save_failed_with_error">Det gick inte att spara bilden: %1$s</string>
+    <string name="tip_double_tap_mouse">Tips: tryck och håll på det tomma området överst i datorlistan för att spara den aktuella bakgrundsbilden.</string>
+    <string name="pyrowave_negotiation_fallback">PyroWave-förhandlingen misslyckades. Växlar till %1$s.</string>
+    <string name="title_list_mouse_axis_correction">Korrigering av musriktning</string>
+    <string name="summary_list_mouse_axis_correction">Rotera registrerade musrörelser innan de skickas till värden. Ändra bara detta om en Android-enhet rapporterar roterade musaxlar.</string>
+    <string name="mouse_axis_correction_off">Av</string>
+    <string name="mouse_axis_correction_90">Rotera 90 grader</string>
+    <string name="mouse_axis_correction_180">Rotera 180 grader</string>
+    <string name="mouse_axis_correction_270">Rotera 270 grader</string>
+    <string name="summary_checkbox_reverse_resolution">Aktivera endast när bildens riktning eller mått är felaktiga; kan stå i konflikt med att följa enhetens rotation.</string>
+    <string name="summary_checkbox_rotable_screen">Synkroniserar automatiskt strömningslayouten när enheten växlar mellan stående och liggande orientering.</string>
 </resources>

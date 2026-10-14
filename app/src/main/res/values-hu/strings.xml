@@ -4,7 +4,7 @@
     <string name="title_enable_post_stream_toast">A késleltetési üzenet megjelenítése streaming után</string>
     <string name="summary_enable_hdr">Streaming HDR, amikor a játék és a PC GPU támogatja. A HDR-hez GTX 1000 sorozatú vagy újabb verzió szükséges.</string>
     <string name="title_enable_hdr">HDR engedélyezése (kísérleti)</string>
-    <string name="summary_video_format">Az újabb kodekek csökkenthetik a videó sávszélességigényét, ha a készülék támogatja őket. A codec-kiválasztások figyelmen kívül hagyhatók, ha a gazdaszoftver vagy a GPU nem támogatja őket.</string>
+    <string name="summary_video_format">Nem tudja, mit válasszon? Válassza az Automatikus lehetőséget. A legtöbb modern eszközhöz a HEVC ajánlott, mert általában jól egyensúlyoz a képminőség, a sávszélesség és a HDR között; az AV1 mindkét oldali támogatás esetén sávszélességet takaríthat meg, de egyes eszközökön nagyobb dekódolási késleltetést okozhat; a H.264 kompatibilitása a legjobb, de több sávszélességet igényel és nem támogatja a HDR-t.</string>
     <string name="title_video_format">Módosítsa a Kodek beállításait</string>
     <string name="summary_disable_frame_drop">Csökkentheti a mikrodadogást egyes eszközökön, de növelheti a késést</string>
     <string name="title_disable_frame_drop">Soha ne ejtse le a kereteket</string>
@@ -64,7 +64,7 @@
     <string name="category_audio_settings">Hangbeállítások</string>
     <string name="title_checkbox_stretch_video">Nyújtsa a videót teljes képernyősre</string>
     <string name="suffix_seekbar_bitrate_mbps">Mbps</string>
-    <string name="summary_seekbar_bitrate">Növelje a jobb képminőség érdekében. Csökkenjen a lassabb kapcsolatok teljesítményének javítása érdekében.</string>
+    <string name="summary_seekbar_bitrate">A magasabb bitráta javítja a képminőséget, de több sávszélességet használ; az alacsonyabb bitráta jobb lassabb vagy instabil hálózatokon. Akadozás esetén először csökkentse, majd akkor növelje, ha a hálózat stabil, de a kép túl életlen; 1080p60 esetén kezdjen körülbelül 10–20 Mbps értékkel.</string>
     <string name="title_seekbar_bitrate">Videó bitráta</string>
     <string name="summary_fps_list">Növelje a gördülékenyebb videofolyamot. Csökkenjen a jobb teljesítmény érdekében az alsó kategóriás eszközökön.</string>
     <string name="title_fps_list">Videó képkockasebessége</string>
@@ -204,15 +204,15 @@
     <string name="summary_setup_guide">Útmutató a játék-PC streamingre való beállításához</string>
     <string name="title_troubleshooting">Hibaelhárítási útmutató</string>
     <string name="title_checkbox_reduce_refresh_rate">A frissítési sebesség csökkentésének engedélyezése</string>
-    <string name="summary_frame_pacing">A videók késleltetésének és simaságának egyensúlyának megadása</string>
+    <string name="summary_frame_pacing">Adja meg a videoképkockák ütemezését. A pontos képkockaütemezés használhatja a videó időbélyegeit (PTS), és a legtöbb eszközhöz ajánlott.</string>
     <string name="title_checkbox_enable_audiofx">Rendszeres kiegyenlítő támogatás engedélyezése</string>
     <string name="resolution_360p">360p</string>
     <string name="title_native_fps_dialog">Natív FPS figyelmeztetés</string>
-    <string name="pacing_balanced">Kiegyensúlyozott</string>
+    <string name="pacing_balanced">Kiegyensúlyozott (késleltetés és folyamatosság)</string>
     <string name="summary_full_range">Ez részletvesztést okoz a világos és sötét területeken, ha a készülék nem jeleníti meg megfelelően a teljes tartományú videotartalmat.</string>
     <string name="summary_privacy_policy">A Moonlight adatvédelmi szabályzatának megtekintése</string>
     <string name="resolution_4k">4K</string>
-    <string name="pacing_smoothness">A legsimább videó előnyben részesítése (jelentősen növelheti a késleltetést)</string>
+    <string name="pacing_smoothness">Folyamatosság elsőként (nagyobb késleltetés)</string>
     <string name="fps_120">120 FPS</string>
     <string name="category_help">Segítség</string>
     <string name="videoformat_av1always">AV1 előnyben részesítése (kísérleti)</string>
@@ -221,7 +221,7 @@
     <string name="title_checkbox_gamepad_motion_sensors">Gamepad mozgásérzékelők használatának engedélyezése</string>
     <string name="resolution_720p">720p</string>
     <string name="videoformat_auto">Automatikus (ajánlott)</string>
-    <string name="pacing_balanced_alt">Kiegyensúlyozott FPS-korlátozással</string>
+    <string name="pacing_balanced_alt">Kimeneti FPS korlátozása (nem haladhatja meg a kijelző frissítési frekvenciáját)</string>
     <string name="frame_conversion_error">A fogadó számítógép végzetes videokódolási hibát jelentett.
 \n
 \nPróbálja meg letiltani a HDR módot, megváltoztatni a streaming felbontást, vagy megváltoztatni a host PC kijelzőjének felbontását.</string>
@@ -254,7 +254,9 @@
     <string name="title_checkbox_gamepad_touchpad_as_mouse">Az egeret mindig az érintőpaddal vezérelje</string>
     <string name="resolution_prefix_native_landscape">(Tájkép)</string>
     <string name="perf_overlay_hostprocessinglatency">Host feldolgozási késleltetés min/max/átlag: %1$.1f/%2$.1f/%3$.1f ms</string>
-    <string name="pacing_latency">A legalacsonyabb késleltetés előnyben részesítése</string>
+    <string name="pacing_latency">Alacsony késleltetés (gyorsabb reakció)</string>
+    <string name="pacing_precise_sync">Pontos képkockaütemezés (ajánlott)</string>
+    <string name="pacing_experimental_low_latency">Ultraalacsony késleltetés (kísérleti)</string>
     <string name="title_config_sync_backup_password">Biztonsági mentés titkosítási jelszava</string>
     <string name="title_document_handbook">Dokumentáció</string>
     <string name="summary_document_handbook">Kapcsolódó dokumentáció megtekintése</string>
@@ -273,4 +275,49 @@
     <string name="suffix_seekbar_mic_balance_target" formatted="false">%</string>
     <string name="title_checkbox_mic_voice_enhancement">Beszédkiemelés</string>
     <string name="summary_checkbox_mic_voice_enhancement">Csökkenti az alacsony frekvenciájú zajt és javítja a beszéd érthetőségét. Rögzített erősítés és hangerő-kiegyenlítés mellett is elérhető.</string>
+    <string name="title_pyrowave_capability_diagnostic">PyroWave-képességek ellenőrzése</string>
+    <string name="summary_pyrowave_capability_diagnostic">A Vulkan-képességek és a jelenlegi PyroWave-dekóder követelményeinek megtekintése.</string>
+    <string name="pyrowave_diag_loading">PyroWave-képességek ellenőrzése…</string>
+    <string name="pyrowave_diag_runtime">A mellékelt PyroWave-könyvtár API-ja</string>
+    <string name="pyrowave_diag_gpu_frontend">GPU-megjelenítési modul</string>
+    <string name="pyrowave_diag_gpu_gate">A GPU-megjelenítéshez Android 10+, arm64-v8a és Vulkan 1.3 szükséges. Az SDR tartalék útvonalhoz Vulkan 1.2 és az alábbi dekóderfunkciók szükségesek; ez nem kizárólag CPU-s dekódolás.</string>
+    <string name="pyrowave_diag_ready">Az ellenőrzött követelmények teljesülnek</string>
+    <string name="pyrowave_diag_missing">A jelenlegi megvalósítás követelményei nem teljesülnek</string>
+    <string name="pyrowave_diag_scope">Ez a jelentés csak az illesztőprogram által megadott képességeket ellenőrzi. Az ablakos megjelenítést, képformátumokat, célfelbontást, HDR-kimenetet és dekódolási teljesítményt még streamelés közben kell ellenőrizni.</string>
+    <string name="pyrowave_diag_loader_missing">A Vulkan-betöltő nem érhető el</string>
+    <string name="pyrowave_diag_no_devices">Nem található fizikai Vulkan-eszköz</string>
+    <string name="pyrowave_diag_query_failed">A Vulkan-képességek nem olvashatók. Ez nem igazolja a támogatás hiányát.</string>
+    <string name="pyrowave_diag_storage_path">8 bites tárolás vagy nagy texelpufferek</string>
+    <string name="pyrowave_diag_gpu_backend">A GPU-megjelenítés követelményei</string>
+    <string name="pyrowave_diag_staging_backend">Az SDR tartalék útvonal követelményei</string>
+    <string name="pyrowave_diag_subgroup_range">Teljes számítási alcsoportok a wave4–wave128 tartományban</string>
+    <string name="pyrowave_diag_max_workgroup">Szálak munkacsoportonként</string>
+    <string name="pyrowave_diag_shared_memory">A munkacsoport megosztott memóriája</string>
+    <string name="pyrowave_diag_queue">Közös grafikai és számítási parancssor</string>
+    <string name="pyrowave_diag_android_surface">Android Vulkan Surface-bővítmények</string>
+    <string name="pyrowave_diag_copy_failed">A jelentés nem másolható</string>
+    <string name="pyrowave_diag_present">Elérhető</string>
+    <string name="pyrowave_diag_absent">Nem érhető el</string>
+    <string name="pyrowave_diag_vulkan_loader">Vulkan-betöltő</string>
+    <string name="pyrowave_diag_subgroup_ops">Alcsoportműveletek</string>
+    <string name="pyrowave_diag_subgroup_size">Alcsoportméret</string>
+    <string name="pyrowave_diag_subgroup_limits">Min. / max. alcsoportméret</string>
+    <string name="pyrowave_diag_required_subgroup">Szükséges alcsoportműveletek</string>
+    <string name="pyrowave_diag_texel_limit">A texelpuffer elemeinek maximális száma</string>
+    <string name="pyrowave_diag_back">Vissza</string>
+    <string name="pyrowave_diag_copy">Másolás</string>
+    <string name="pyrowave_diag_copy_success">A jelentés a vágólapra másolva</string>
+    <string name="pyrowave_diag_unavailable">Nem állapítható meg</string>
+    <string name="image_saved_successfully">A kép sikeresen mentve ide: Picture/vplus</string>
+    <string name="image_save_failed_with_error">A kép mentése nem sikerült: %1$s</string>
+    <string name="tip_double_tap_mouse">Tipp: a jelenlegi háttérkép mentéséhez tartsa nyomva a számítógéplista tetején lévő üres területet.</string>
+    <string name="pyrowave_negotiation_fallback">A PyroWave egyeztetése sikertelen. Átváltás erre: %1$s.</string>
+    <string name="title_list_mouse_axis_correction">Egérirány korrekciója</string>
+    <string name="summary_list_mouse_axis_correction">A rögzített egérmozgás elforgatása a gazdagépre küldés előtt. Csak akkor módosítsa, ha egy Android-eszköz elforgatott egértengelyeket jelez.</string>
+    <string name="mouse_axis_correction_off">Kikapcsolva</string>
+    <string name="mouse_axis_correction_90">Elforgatás 90 fokkal</string>
+    <string name="mouse_axis_correction_180">Elforgatás 180 fokkal</string>
+    <string name="mouse_axis_correction_270">Elforgatás 270 fokkal</string>
+    <string name="summary_checkbox_reverse_resolution">Csak akkor engedélyezze, ha a kép tájolása vagy méretei hibásak; ütközhet az eszközforgatás követésével.</string>
+    <string name="summary_checkbox_rotable_screen">Automatikusan szinkronizálja a stream elrendezését, amikor az eszköz álló és fekvő tájolás között vált.</string>
 </resources>

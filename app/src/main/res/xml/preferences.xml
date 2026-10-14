@@ -8,6 +8,7 @@
     <PreferenceCategory android:title="@string/category_basic_settings"
         android:key="category_basic_settings"
         android:order="0"
+        app:initialExpandedChildrenCount="5"
         android:layout="@layout/preference_category_material">
         <ListPreference
             android:key="list_resolution"
@@ -34,6 +35,36 @@
             android:summary="@string/summary_seekbar_bitrate"
             android:text="@string/suffix_seekbar_bitrate_mbps"
             android:title="@string/title_seekbar_bitrate" />
+        <CheckBoxPreference
+            android:key="checkbox_adaptive_bitrate"
+            android:title="@string/title_adaptive_bitrate"
+            android:summary="@string/summary_adaptive_bitrate"
+            android:defaultValue="false" />
+        <ListPreference
+            android:key="list_fec_mode"
+            android:title="@string/title_fec_mode"
+            android:summary="@string/summary_fec_mode"
+            android:entries="@array/fec_mode_names"
+            android:entryValues="@array/fec_mode_values"
+            android:defaultValue="host" />
+        <com.limelight.preferences.SeekBarPreference
+            android:key="seekbar_fec_percentage"
+            android:title="@string/title_fec_percentage"
+            android:text="%"
+            android:dialogMessage="@string/summary_fec_percentage"
+            android:summary="@string/summary_fec_percentage"
+            android:defaultValue="20"
+            seekbar:min="0"
+            android:max="100"
+            seekbar:step="1" />
+        <ListPreference
+            android:key="list_abr_mode"
+            android:title="@string/title_abr_mode"
+            android:summary="@string/summary_abr_mode"
+            android:entries="@array/abr_mode_names"
+            android:entryValues="@array/abr_mode_values"
+            android:defaultValue="balanced"
+            android:dependency="checkbox_adaptive_bitrate" />
         <com.limelight.preferences.SeekBarPreference
             android:key="seekbar_resolutions_scale"
             android:dialogMessage="@string/summary_seekbar_scale"
@@ -56,19 +87,6 @@
         android:order="4"
         android:layout="@layout/preference_category_material"
         app:initialExpandedChildrenCount="6">
-        <CheckBoxPreference
-            android:key="checkbox_adaptive_bitrate"
-            android:title="@string/title_adaptive_bitrate"
-            android:summary="@string/summary_adaptive_bitrate"
-            android:defaultValue="false" />
-        <ListPreference
-            android:key="list_abr_mode"
-            android:title="@string/title_abr_mode"
-            android:summary="@string/summary_abr_mode"
-            android:entries="@array/abr_mode_names"
-            android:entryValues="@array/abr_mode_values"
-            android:defaultValue="balanced"
-            android:dependency="checkbox_adaptive_bitrate" />
         <ListPreference
             android:key="frame_pacing"
             android:title="@string/title_frame_pacing"
@@ -280,6 +298,13 @@
             android:entryValues="@array/video_format_values"
             android:summary="@string/summary_video_format"
             android:defaultValue="auto" />
+        <ListPreference
+            android:key="decoder_input_buffer_mode"
+            android:title="@string/title_decoder_input_buffer_mode"
+            android:summary="@string/summary_decoder_input_buffer_mode"
+            android:entries="@array/decoder_input_buffer_mode_names"
+            android:entryValues="@array/decoder_input_buffer_mode_values"
+            android:defaultValue="auto" />
         <CheckBoxPreference
             android:key="checkbox_enable_hdr"
             android:title="@string/title_enable_hdr"
@@ -327,6 +352,11 @@
             android:key="capability_diagnostic"
             android:title="@string/title_capability_diagnostic"
             android:summary="@string/summary_capability_diagnostic" />
+        <Preference
+            android:key="pyrowave_capability_diagnostic"
+            android:persistent="false"
+            android:title="@string/title_pyrowave_capability_diagnostic"
+            android:summary="@string/summary_pyrowave_capability_diagnostic" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="category_display_behavior"
@@ -342,11 +372,6 @@
             android:key="checkbox_stretch_video"
             android:title="@string/title_checkbox_stretch_video"
             android:summary="@string/summary_checkbox_stretch_video"
-            android:defaultValue="false" />
-        <CheckBoxPreference
-            android:key="checkbox_reverse_resolution"
-            android:title="@string/title_checkbox_reverse_resolution"
-            android:summary="@string/summary_checkbox_reverse_resolution"
             android:defaultValue="false" />
         <CheckBoxPreference
             android:key="checkbox_rotable_screen"
@@ -392,6 +417,11 @@
             seekbar:tickMarks="true"
             android:text="%"
             android:dialogMessage="@string/summary_screen_offset_y" />
+        <CheckBoxPreference
+            android:key="checkbox_reverse_resolution"
+            android:title="@string/title_checkbox_reverse_resolution"
+            android:summary="@string/summary_checkbox_reverse_resolution"
+            android:defaultValue="false" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/category_ui_settings"
         android:key="category_ui_settings"
@@ -500,6 +530,11 @@
             android:title="@string/title_enable_perf_overlay"
             android:summary="@string/summary_enable_perf_overlay"
             android:defaultValue="false"/>
+        <com.limelight.preferences.PerfOverlayDisplayItemsPreference
+            android:key="perf_overlay_display_items"
+            android:title="@string/title_perf_overlay_display_items"
+            android:summary="@string/summary_perf_overlay_display_items"
+            android:dependency="checkbox_enable_perf_overlay"/>
         <com.limelight.preferences.PerfOverlayOrientationPreference
             android:key="list_perf_overlay_orientation"
             android:title="@string/title_perf_overlay_orientation"
@@ -508,16 +543,19 @@
             android:entryValues="@array/perf_overlay_orientation_values"
             android:defaultValue="horizontal"
             android:dependency="checkbox_enable_perf_overlay"/>
+        <ListPreference
+            android:key="list_perf_overlay_clock_format"
+            android:title="@string/title_perf_overlay_clock_format"
+            android:summary="@string/summary_perf_overlay_clock_format"
+            android:entries="@array/perf_overlay_clock_format_names"
+            android:entryValues="@array/perf_overlay_clock_format_values"
+            android:defaultValue="system_minutes"
+            android:dependency="checkbox_enable_perf_overlay" />
         <com.limelight.preferences.DynamicPerfOverlayPositionPreference
             android:key="list_perf_overlay_position"
             android:title="@string/title_perf_overlay_position"
             android:summary="@string/summary_perf_overlay_position"
             android:defaultValue="top"
-            android:dependency="checkbox_enable_perf_overlay"/>
-        <com.limelight.preferences.PerfOverlayDisplayItemsPreference
-            android:key="perf_overlay_display_items"
-            android:title="@string/title_perf_overlay_display_items"
-            android:summary="@string/summary_perf_overlay_display_items"
             android:dependency="checkbox_enable_perf_overlay"/>
         <com.limelight.preferences.SeekBarPreference
             android:key="seekbar_perf_overlay_bg_opacity"
@@ -880,6 +918,11 @@
             android:summary="@string/summary_checkbox_touch_keyboard_auto_invoke"
             android:defaultValue="true" />
         <CheckBoxPreference
+            android:key="checkbox_remote_ime_auto_show"
+            android:title="@string/title_checkbox_remote_ime_auto_show"
+            android:summary="@string/summary_checkbox_remote_ime_auto_show"
+            android:defaultValue="true" />
+        <CheckBoxPreference
             android:key="pref_enable_double_click_drag"
             android:title="@string/title_enable_double_click_drag"
             android:summary="@string/summary_enable_double_click_drag"
@@ -945,6 +988,13 @@
             android:title="@string/title_checkbox_absolute_mouse_mode"
             android:summary="@string/summary_checkbox_absolute_mouse_mode"
             android:defaultValue="false" />
+        <ListPreference
+            android:key="list_mouse_axis_correction"
+            android:title="@string/title_list_mouse_axis_correction"
+            android:summary="@string/summary_list_mouse_axis_correction"
+            android:entries="@array/mouse_axis_correction_names"
+            android:entryValues="@array/mouse_axis_correction_values"
+            android:defaultValue="off" />
         <CheckBoxPreference
             android:key="checkbox_enable_esc_menu"
             android:title="@string/title_checkbox_enable_esc_menu"
@@ -963,6 +1013,16 @@
             android:title="@string/title_optimize_hardware_touchpad"
             android:summary="@string/summary_optimize_hardware_touchpad"
             android:defaultValue="false" />
+        <com.limelight.preferences.SeekBarPreference
+            android:key="seekbar_hardware_touchpad_pointer_speed"
+            android:dialogMessage="@string/dialog_title_hardware_touchpad_pointer_speed"
+            seekbar:min="50"
+            seekbar:step="10"
+            android:max="300"
+            android:defaultValue="100"
+            android:summary="@string/summary_hardware_touchpad_pointer_speed"
+            android:text="@string/suffix_hardware_touchpad_pointer_speed"
+            android:title="@string/title_hardware_touchpad_pointer_speed" />
         <!-- Legacy storage flag. Kept for old backups and hidden by StreamSettings. -->
         <CheckBoxPreference
             android:defaultValue="true"

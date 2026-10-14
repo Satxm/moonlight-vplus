@@ -137,7 +137,7 @@
 \nמונלייט אינו אחראי לבעיות או נזקים שנגרמים כתוצאה משימוש ברזולוציה מותאמת אישית.
 \n
 \nהמכשיר שלך כנראה ואינו תומך ברזולוציה טבעית.</string>
-    <string name="summary_seekbar_bitrate">הגבר לשיפור איכות התמונה. הנמך בכדי לשפר ביצועים על גבי חיבור רשת איטי.</string>
+    <string name="summary_seekbar_bitrate">קצב סיביות גבוה יותר משפר את איכות התמונה אך משתמש ברוחב פס רב יותר; קצב נמוך יותר מתאים לרשתות איטיות או לא יציבות. אם הזרמת הווידאו מקרטעת, הנמיכו תחילה את קצב הסיביות; אם הרשת יציבה אך התמונה אינה חדה, העלו אותו; עבור 1080p60 התחילו בערך ב־10–20 Mbps.</string>
     <string name="summary_audio_config_list">הפעל קול היקפי בהגדרת 5.1 או 7.1 עבור מערכות קולנוע ביתי</string>
     <string name="summary_checkbox_enable_audiofx">אפשר לאפקטי סאונד לפעול בזמן הזרמה, יגרום להשהיית אודיו</string>
     <string name="conn_hardware_latency">זמן פענוח ממוצע:</string>
@@ -171,4 +171,50 @@
     <string name="suffix_seekbar_mic_balance_target" formatted="false">%</string>
     <string name="title_checkbox_mic_voice_enhancement">שיפור קול</string>
     <string name="summary_checkbox_mic_voice_enhancement">הפחתת רעש בתדר נמוך ושיפור בהירות הדיבור. זמין במצבי הגבר קבוע ואיזון עוצמה.</string>
+    <string name="summary_video_format">לא בטוחים במה לבחור? השתמשו באפשרות «אוטומטי». HEVC מומלץ לרוב המכשירים המודרניים ובדרך כלל מאזן בין איכות התמונה, רוחב הפס ו־HDR; AV1 יכול לחסוך רוחב פס אם שני הצדדים תומכים בו, אך בחלק מהמכשירים זמן הפענוח וההשהיה עשויים להיות גבוהים יותר; H.264 מציע את התאימות הטובה ביותר, אך דורש יותר רוחב פס ואינו תומך ב־HDR.</string>
+    <string name="title_pyrowave_capability_diagnostic">בדיקת יכולות PyroWave</string>
+    <string name="summary_pyrowave_capability_diagnostic">בדיקת יכולות Vulkan והדרישות של מפענח PyroWave הנוכחי.</string>
+    <string name="pyrowave_diag_loading">בודק יכולות PyroWave…</string>
+    <string name="pyrowave_diag_runtime">API של ספריית PyroWave המצורפת</string>
+    <string name="pyrowave_diag_gpu_frontend">מודול הצגה באמצעות GPU</string>
+    <string name="pyrowave_diag_gpu_gate">הצגה באמצעות GPU דורשת Android 10+, arm64-v8a ו-Vulkan 1.3. המסלול החלופי ל-SDR דורש Vulkan 1.2 ואת יכולות המפענח שלהלן; הוא אינו מפענח באמצעות CPU בלבד.</string>
+    <string name="pyrowave_diag_ready">הדרישות שנבדקו מתקיימות</string>
+    <string name="pyrowave_diag_missing">דרישות המימוש הנוכחי אינן מתקיימות</string>
+    <string name="pyrowave_diag_scope">דוח זה בודק רק יכולות שמנהל ההתקן מצהיר עליהן. הצגה בחלון, פורמטי תמונה, רזולוציית היעד, פלט HDR וביצועי הפענוח עדיין דורשים בדיקה בהזרמה.</string>
+    <string name="pyrowave_diag_loader_missing">אין טוען Vulkan נגיש</string>
+    <string name="pyrowave_diag_no_devices">לא נמצא התקן Vulkan פיזי</string>
+    <string name="pyrowave_diag_query_failed">לא ניתן לקרוא את יכולות Vulkan. אין בכך אישור שההתקן אינו נתמך.</string>
+    <string name="pyrowave_diag_storage_path">אחסון 8 סיביות או מאגרי טקסלים גדולים</string>
+    <string name="pyrowave_diag_gpu_backend">דרישות הצגה באמצעות GPU</string>
+    <string name="pyrowave_diag_staging_backend">דרישות המסלול החלופי ל-SDR</string>
+    <string name="pyrowave_diag_subgroup_range">תתי-קבוצות חישוב מלאות בטווח wave4–wave128</string>
+    <string name="pyrowave_diag_max_workgroup">מספר תהליכונים בקבוצת עבודה</string>
+    <string name="pyrowave_diag_shared_memory">זיכרון משותף של קבוצת העבודה</string>
+    <string name="pyrowave_diag_queue">תור משולב לגרפיקה ולחישוב</string>
+    <string name="pyrowave_diag_android_surface">הרחבות Vulkan Surface של Android</string>
+    <string name="pyrowave_diag_copy_failed">לא ניתן להעתיק את הדוח</string>
+    <string name="pyrowave_diag_present">קיים</string>
+    <string name="pyrowave_diag_absent">לא קיים</string>
+    <string name="pyrowave_diag_vulkan_loader">טוען Vulkan</string>
+    <string name="pyrowave_diag_subgroup_ops">פעולות של תתי-קבוצות</string>
+    <string name="pyrowave_diag_subgroup_size">גודל תת-קבוצה</string>
+    <string name="pyrowave_diag_subgroup_limits">גודל תת-קבוצה מינימלי / מרבי</string>
+    <string name="pyrowave_diag_required_subgroup">פעולות נדרשות של תתי-קבוצות</string>
+    <string name="pyrowave_diag_texel_limit">מספר מרבי של איברים במאגר טקסלים</string>
+    <string name="pyrowave_diag_back">חזרה</string>
+    <string name="pyrowave_diag_copy">העתקה</string>
+    <string name="pyrowave_diag_copy_success">הדוח הועתק ללוח</string>
+    <string name="pyrowave_diag_unavailable">לא זמין</string>
+    <string name="image_saved_successfully">התמונה נשמרה בהצלחה בנתיב: Picture/vplus</string>
+    <string name="image_save_failed_with_error">שמירת התמונה נכשלה: %1$s</string>
+    <string name="tip_double_tap_mouse">טיפ: כדי לשמור את תמונת הרקע הנוכחית, לחצו לחיצה ארוכה על האזור הריק בראש רשימת המחשבים.</string>
+    <string name="pyrowave_negotiation_fallback">משא ומתן עם PyroWave נכשל. מעבר ל־%1$s.</string>
+    <string name="title_list_mouse_axis_correction">תיקון כיוון העכבר</string>
+    <string name="summary_list_mouse_axis_correction">סיבוב תנועת העכבר שנלכדה לפני שליחתה למארח. יש לשנות זאת רק אם מכשיר Android מדווח על צירי עכבר מסובבים.</string>
+    <string name="mouse_axis_correction_off">כבוי</string>
+    <string name="mouse_axis_correction_90">סיבוב של 90 מעלות</string>
+    <string name="mouse_axis_correction_180">סיבוב של 180 מעלות</string>
+    <string name="mouse_axis_correction_270">סיבוב של 270 מעלות</string>
+    <string name="summary_checkbox_reverse_resolution">הפעל רק כאשר כיוון התמונה או המידות שלה שגויים; עלול להתנגש עם סיבוב בהתאם למכשיר.</string>
+    <string name="summary_checkbox_rotable_screen">מסנכרן אוטומטית את פריסת הסטרימינג כאשר המכשיר עובר בין מצב לאורך למצב לרוחב.</string>
 </resources>

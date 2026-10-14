@@ -5,10 +5,13 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
+import android.content.BroadcastReceiver
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
+import android.graphics.drawable.GradientDrawable
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -18,6 +21,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import android.os.Vibrator
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -41,6 +45,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import android.view.animation.AnimationUtils
 
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
@@ -48,12 +53,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.CheckBoxPreference
 import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
+import androidx.preference.PreferenceScreen
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
 import androidx.preference.PreferenceGroupAdapter
@@ -68,6 +75,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.FutureTarget
 import com.bumptech.glide.request.transition.Transition
 import com.bumptech.glide.signature.ObjectKey
 import com.limelight.ui.ThemedAppCompatActivity
@@ -75,6 +83,7 @@ import com.limelight.utils.AppTheme
 import com.limelight.LimeLog
 import com.limelight.PcView
 import com.limelight.R
+import com.limelight.nvstream.http.AdaptiveBitrateService
 import com.limelight.ExternalDisplayManager
 import com.limelight.TargetDisplayResolver
 import com.limelight.binding.input.InputDeviceSensorPolicy
@@ -96,9 +105,15 @@ import com.limelight.utils.ConfigurationSyncScheduler
 import com.limelight.utils.Dialog
 import com.limelight.utils.AppDialogStyler
 import com.limelight.utils.HdrCapabilityHelper
+import com.limelight.utils.RemoteImeAutoShowPolicy
 import com.limelight.ui.ScreenCombinationModePickerView
 import com.limelight.utils.UiHelper
 import com.limelight.utils.UpdateManager
+import com.limelight.utils.background.PipwImages
+import com.limelight.utils.background.PipwImageStore
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 import jp.wasabeef.glide.transformations.BlurTransformation
 import jp.wasabeef.glide.transformations.ColorFilterTransformation
@@ -122,6 +137,23 @@ class StreamSettings : ThemedAppCompatActivity() {
 
     private lateinit var previousPrefs: PreferenceConfiguration
     private var previousDisplayPixelCount = 0
+    private val backgroundFutureLock = Any()
+    @Volatile private var backgroundGeneration = 0
+    private var backgroundJob: Job? = null
+    private var backgroundTarget: CustomTarget<Drawable>? = null
+    private var backgroundFuture: FutureTarget<Drawable>? = null
+    private var pipwBackgroundLease: PipwImageStore.Lease? = null
+    private var backgroundReceiverRegistered = false
+    private val backgroundReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (!isDestroyed && !isFinishing) loadBackgroundImage()
+        }
+    }
+    private val backgroundPrefsListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+        if (key == BackgroundSource.KEY_SOURCE || key == BackgroundSource.KEY_API_URL || key == BackgroundSource.KEY_LOCAL_PATH) {
+            if (!isDestroyed && !isFinishing) loadBackgroundImage()
+        }
+    }
     private var externalDisplayManager: ExternalDisplayManager? = null
 
     // 抽屉菜单相关
@@ -131,11 +163,15 @@ class StreamSettings : ThemedAppCompatActivity() {
     private val categories: MutableList<CategoryItem> = ArrayList()
     private var selectedCategoryIndex = 0
 
-    // 搜索栏相关（仅竖屏 layout 提供，横屏 layout 不渲染搜索控件）
+    // 搜索栏：竖屏是可展开按钮，横屏常驻在分类栏 Logo 下方
     private var searchBar: View? = null
     private var searchInput: EditText? = null
     private var searchToggle: ImageView? = null
     private var menuToggleView: ImageView? = null
+    // 进入搜索前记住的选中分类；退出搜索（含空结果）后按它恢复
+    private var preSearchCategoryKey: String? = null
+    private var pendingRestoreCategoryKey: String? = null
+    private var lastQueryBlank = true
     private var screenCombinationModeReturnFocus: View? = null
     private var lastNightMode = false
 
@@ -236,6 +272,10 @@ class StreamSettings : ThemedAppCompatActivity() {
 
         // 加载背景图片
         loadBackgroundImage()
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(backgroundPrefsListener)
+        ContextCompat.registerReceiver(this, backgroundReceiver,
+            IntentFilter(BackgroundSource.ACTION_REFRESH), ContextCompat.RECEIVER_NOT_EXPORTED)
+        backgroundReceiverRegistered = true
 
         // 设置版本号
         setupVersionInfo()
@@ -293,6 +333,7 @@ class StreamSettings : ThemedAppCompatActivity() {
         val fragment = supportFragmentManager.findFragmentById(R.id.preference_container) as? SettingsFragment
         fragment?.view?.findViewById<RecyclerView>(androidx.preference.R.id.recycler_view)
             ?.adapter?.notifyDataSetChanged()
+        applySearchBarTheme()
         val accent = ColorStateList.valueOf(UiHelper.accentColor(this))
         findViewById<ImageView>(R.id.settings_search_toggle)?.imageTintList = accent
         findViewById<TextView>(R.id.drawer_version)?.setTextColor(
@@ -303,10 +344,40 @@ class StreamSettings : ThemedAppCompatActivity() {
         findViewById<View>(R.id.settingsBackgroundOverlay)?.setBackgroundColor(
                 ContextCompat.getColor(this, R.color.settings_background_overlay)
         )
+        // 横屏侧栏背景在布局创建时解析。深浅切换不重建 Activity，需要按当前主题重设。
+        findViewById<View>(R.id.drawer_menu)?.setBackgroundColor(
+                ContextCompat.getColor(this, R.color.settings_drawer_background_landscape)
+        )
+        findViewById<ImageView>(R.id.settings_back)?.setColorFilter(
+                ContextCompat.getColor(this, R.color.ui_shell_text_primary)
+        )
+        applySearchBarTheme()
         val useDarkSystemIcons = !isNightMode()
         androidx.core.view.WindowCompat.getInsetsController(window, window.decorView).apply {
             isAppearanceLightStatusBars = useDarkSystemIcons
             isAppearanceLightNavigationBars = useDarkSystemIcons
+        }
+    }
+
+    /** 搜索框的底色、描边、图标和文字都在创建时解析，深浅切换时按当前主题重设。 */
+    private fun applySearchBarTheme() {
+        val searchBar = findViewById<View>(R.id.settings_search_bar) ?: return
+        val background = GradientDrawable().apply {
+            shape = GradientDrawable.RECTANGLE
+            cornerRadius = resources.getDimension(R.dimen.corner_radius_extra_large)
+            setColor(ContextCompat.getColor(this@StreamSettings, R.color.ui_shell_surface_elevated))
+            setStroke(
+                (resources.displayMetrics.density).toInt().coerceAtLeast(1),
+                UiHelper.accentFocusColor(this@StreamSettings)
+            )
+        }
+        searchBar.background = background
+        val accent = ColorStateList.valueOf(UiHelper.accentColor(this))
+        searchBar.findViewById<ImageView>(R.id.settings_search_icon)?.imageTintList = accent
+        searchBar.findViewById<ImageView>(R.id.settings_search_close)?.imageTintList = accent
+        searchBar.findViewById<TextView>(R.id.settings_search_input)?.apply {
+            setTextColor(ContextCompat.getColor(this@StreamSettings, R.color.ui_shell_text_primary))
+            setHintTextColor(ContextCompat.getColor(this@StreamSettings, R.color.ui_shell_text_secondary))
         }
     }
 
@@ -335,9 +406,20 @@ class StreamSettings : ThemedAppCompatActivity() {
         categoryList = findViewById(R.id.category_list)
 
         setupMenuToggle()
+        setupBackButton()
         setupCategoryList()
         setupDrawerListener()
         setupSearchBar()
+    }
+
+    /**
+     * 横屏分类栏顶部的返回。竖屏用系统返回和抽屉，没有这个按钮。
+     */
+    private fun setupBackButton() {
+        val backButton = findViewById<ImageView>(R.id.settings_back) ?: return
+        backButton.setOnClickListener { onBackPressed() }
+        backButton.isFocusable = true
+        backButton.isFocusableInTouchMode = false
     }
 
     /**
@@ -351,8 +433,8 @@ class StreamSettings : ThemedAppCompatActivity() {
     }
 
     /**
-     * 设置浮动搜索按钮 + 顶部搜索栏（仅竖屏 layout 提供这些 view，
-     * 横屏 layout 不包含搜索控件，findViewById 返回 null，自动跳过）。
+     * 竖屏：浮动搜索按钮展开顶部搜索栏。
+     * 横屏：搜索框常驻在分类栏 Logo 下方，没有展开按钮，清空按钮只清内容。
      */
     private fun setupSearchBar() {
         searchBar = findViewById(R.id.settings_search_bar)
@@ -361,11 +443,16 @@ class StreamSettings : ThemedAppCompatActivity() {
         menuToggleView = findViewById(R.id.settings_menu_toggle)
         val closeBtn = findViewById<ImageView?>(R.id.settings_search_close)
 
-        // 横屏布局没有这些控件
-        if (searchBar == null || searchInput == null || searchToggle == null) return
+        if (searchBar == null || searchInput == null) return
 
         searchToggle?.setOnClickListener { showSearchBar() }
-        closeBtn?.setOnClickListener { hideSearchBar() }
+        closeBtn?.setOnClickListener {
+            if (searchToggle == null) {
+                clearSearchQuery()
+            } else {
+                hideSearchBar()
+            }
+        }
 
         searchInput?.doAfterTextChanged { applyFilterToFragment(it?.toString().orEmpty()) }
 
@@ -379,7 +466,7 @@ class StreamSettings : ThemedAppCompatActivity() {
     }
 
     private val isSearchBarVisible: Boolean
-        get() = searchBar?.visibility == View.VISIBLE
+        get() = searchToggle != null && searchBar?.visibility == View.VISIBLE
 
     private fun fadeIn(v: View?) {
         v ?: return
@@ -403,16 +490,30 @@ class StreamSettings : ThemedAppCompatActivity() {
     }
 
     private fun hideSearchBar() {
-        searchInput?.setText("")
-        applyFilterToFragment("")
+        clearSearchQuery()
         fadeOut(searchBar)
         fadeIn(searchToggle)
         fadeIn(menuToggleView)
+    }
+
+    private fun clearSearchQuery() {
+        searchInput?.setText("")
+        applyFilterToFragment("")
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
         imm?.hideSoftInputFromWindow(searchInput?.windowToken, 0)
     }
 
     private fun applyFilterToFragment(query: String) {
+        val searching = query.isNotBlank()
+        if (searching && lastQueryBlank) {
+            // 空结果会清掉分类列表，进入搜索前记住当前分类
+            preSearchCategoryKey = categories.getOrNull(selectedCategoryIndex)?.key
+        }
+        if (!searching && !lastQueryBlank && preSearchCategoryKey != null) {
+            pendingRestoreCategoryKey = preSearchCategoryKey
+            preSearchCategoryKey = null
+        }
+        lastQueryBlank = !searching
         val fragment = supportFragmentManager
                 .findFragmentById(R.id.preference_container) as? SettingsFragment
         fragment?.applySearchFilter(query)
@@ -675,16 +776,40 @@ class StreamSettings : ThemedAppCompatActivity() {
      * 通知 Activity 分类已加载
      */
     fun onCategoriesLoaded(loadedCategories: List<CategoryItem>) {
+        val hadCategories = categories.isNotEmpty()
+        val restoredIndex = selectedCategoryIndex
         val selectedKey = categories.getOrNull(selectedCategoryIndex)?.key
         categories.clear()
         categories.addAll(loadedCategories)
 
-        selectedCategoryIndex = selectedKey
+        // 退出搜索时优先回到进入前的分类；空结果时上面的 selectedKey 已丢，
+        // 没有这个快照会强制跳回第 0 项
+        val restoreIndex = pendingRestoreCategoryKey
             ?.let { key -> categories.indexOfFirst { it.key == key } }
             ?.takeIf { it >= 0 }
-            ?: selectedCategoryIndex.coerceIn(0, (categories.size - 1).coerceAtLeast(0))
+        pendingRestoreCategoryKey = null
+
+        val keptIndex = selectedKey
+            ?.let { key -> categories.indexOfFirst { it.key == key } }
+            ?.takeIf { it >= 0 }
+        selectedCategoryIndex = when {
+            restoreIndex != null -> restoreIndex
+            keptIndex != null -> keptIndex
+            !hadCategories && categories.isNotEmpty() ->
+                restoredIndex.coerceIn(categories.indices)
+            hadCategories && categories.isNotEmpty() -> 0
+            else -> restoredIndex
+        }
 
         categoryAdapter?.notifyDataSetChanged()
+        if (categories.isNotEmpty() &&
+            (restoreIndex != null || (hadCategories && keptIndex == null))
+        ) {
+            // 侧栏高亮回到恢复/兜底分类的同时右窗格也滚过去，
+            // 否则同一 adapter 位置在全量列表里已经是别的内容
+            categoryList?.scrollToPosition(selectedCategoryIndex)
+            categories.getOrNull(selectedCategoryIndex)?.let { scrollToCategory(it.key) }
+        }
     }
 
     /**
@@ -899,7 +1024,16 @@ class StreamSettings : ThemedAppCompatActivity() {
     }
 
     override fun onDestroy() {
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(backgroundPrefsListener)
+        if (backgroundReceiverRegistered) {
+            unregisterReceiver(backgroundReceiver)
+            backgroundReceiverRegistered = false
+        }
+        cancelBackgroundLoad()
+        pipwBackgroundLease?.close()
+        pipwBackgroundLease = null
         AboutDialogLauncher.release(this)
+        UpdateManager.cleanup()
         super.onDestroy()
         externalDisplayManager?.cleanup()
         externalDisplayManager = null
@@ -914,6 +1048,12 @@ class StreamSettings : ThemedAppCompatActivity() {
         // 搜索栏可见时，优先关闭搜索而不是退出
         if (isSearchBarVisible) {
             hideSearchBar()
+            return
+        }
+        // 横屏常驻搜索框没有展开按钮，isSearchBarVisible 恒 false；
+        // 有查询内容时返回先清搜索再退出，与竖屏行为一致
+        if (!searchInput?.text?.toString().isNullOrBlank()) {
+            clearSearchQuery()
             return
         }
 
@@ -1268,6 +1408,7 @@ class StreamSettings : ThemedAppCompatActivity() {
         }
 
         private fun resetBitrateToDefault(prefs: SharedPreferences, res: String?, fps: String?) {
+            if (!prefs.getBoolean(PreferenceConfiguration.AUTO_ADJUST_BITRATE_PREF_STRING, true)) return
             var resValue = res
             var fpsValue = fps
             if (resValue == null) {
@@ -1337,6 +1478,7 @@ class StreamSettings : ThemedAppCompatActivity() {
                 val recyclerView = listView
                 if (recyclerView != null) {
                     setupScrollListener(recyclerView, settingsActivity)
+
                 }
             }
         }
@@ -1361,11 +1503,63 @@ class StreamSettings : ThemedAppCompatActivity() {
                 onCategoryEligibilityChanged = { rebuildCategoryList() },
             )
         }
+        private var pendingCategoryRevealKey: String? = null
+        private var revealAfterListRebuild = false
 
         private val modeStore by lazy {
             LegacySettingsModeStore(
                 PreferenceManager.getDefaultSharedPreferences(requireContext())
             )
+        }
+
+        /**
+         * XML 里的普通分类换成会在绑定后自己挂点击的分类。
+         * 外部补挂会被 Preference 的重绑清掉，标题命中时整组重绑，点击就丢了。
+         */
+        private fun replaceSearchableCategories(group: PreferenceGroup) {
+            val pending = ArrayList<PreferenceCategory>()
+            for (index in 0 until group.preferenceCount) {
+                val category = group.getPreference(index) as? PreferenceCategory ?: continue
+                if (category !is SearchablePreferenceCategory) pending.add(category)
+            }
+            for (category in pending) {
+                val order = category.order
+                val children = ArrayList<androidx.preference.Preference>()
+                for (index in 0 until category.preferenceCount) children.add(category.getPreference(index))
+                category.removeAll()
+                group.removePreference(category)
+
+                val replacement = SearchablePreferenceCategory(requireContext())
+                replacement.key = category.key
+                replacement.title = category.title
+                replacement.summary = category.summary
+                replacement.layoutResource = category.layoutResource
+                replacement.isVisible = category.isVisible
+                replacement.isIconSpaceReserved = category.isIconSpaceReserved
+                replacement.order = order
+                replacement.initialExpandedChildrenCount = category.initialExpandedChildrenCount
+                group.addPreference(replacement)
+                children.forEach { child ->
+                    replacement.addPreference(child)
+                    if (child is PreferenceGroup) replaceSearchableCategories(child)
+                }
+            }
+        }
+
+        private fun updateSearchCategoryActions(group: PreferenceGroup) {
+            for (index in 0 until group.preferenceCount) {
+                val child = group.getPreference(index)
+                if (child is SearchablePreferenceCategory) {
+                    val wasOpenable = child.searchOpenHandler != null
+                    child.searchOpenHandler = if (visibilityController.isSearching()) {
+                        { openCategoryFromSearch(it) }
+                    } else {
+                        null
+                    }
+                    if (wasOpenable != (child.searchOpenHandler != null)) child.refreshSearchAction()
+                }
+                if (child is PreferenceGroup) updateSearchCategoryActions(child)
+            }
         }
 
         private fun rebuildCategoryList() {
@@ -1375,7 +1569,7 @@ class StreamSettings : ThemedAppCompatActivity() {
             val items = ArrayList<CategoryItem>()
             for (i in 0 until screen.preferenceCount) {
                 val category = screen.getPreference(i) as? PreferenceCategory ?: continue
-                val eligible = visibilityController.isRuntimeVisible(category)
+                val eligible = visibilityController.isListed(category)
                 val title = category.title?.toString() ?: continue
                 if (!eligible) continue
                 val key = category.key ?: "category_$i"
@@ -1384,6 +1578,10 @@ class StreamSettings : ThemedAppCompatActivity() {
             }
             categoryPositionsValid = false
             settingsActivity.onCategoriesLoaded(items)
+            if (revealAfterListRebuild) {
+                revealAfterListRebuild = false
+                listView?.post { revealPendingCategory() }
+            }
         }
 
         private fun updateRuntimeVisibility(preference: Preference?, visible: Boolean) {
@@ -1392,10 +1590,62 @@ class StreamSettings : ThemedAppCompatActivity() {
 
         /**
          * 应用搜索过滤。空查询恢复全部可见性 + 原始折叠状态；
-         * 非空查询仅显示匹配的项，匹配类的整组也展开。
+         * 非空查询匹配标题、说明和下拉选项文案。分类名命中时整组展开。
          */
         fun applySearchFilter(query: String) {
             visibilityController.applySearch(query)
+            if (query.isBlank()) refreshSettingsPresentation("list_fec_mode")
+            preferenceScreen?.let { updateSearchCategoryActions(it) }
+            refreshSearchPresentation()
+        }
+
+        /**
+         * 退出搜索并回到这个分类的完整内容。分类标题上的「在分类中查看」走这里，
+         * 设置项本身的点击仍然直接修改。
+         */
+        fun openCategoryFromSearch(categoryKey: String) {
+            pendingCategoryRevealKey = categoryKey
+            revealAfterListRebuild = true
+            (activity as? StreamSettings)?.clearSearchQuery()
+        }
+
+        /** 上一轮各 List/MultiSelect 行的「包含：…」备注，用于跳过没变化的行。 */
+        private val lastSearchNotes = IdentityHashMap<Preference, String?>()
+
+        @SuppressLint("RestrictedApi")
+        private fun refreshSearchPresentation() {
+            val adapter = listView?.adapter as? PreferenceGroupAdapter ?: return
+            for (index in 0 until adapter.itemCount) {
+                val preference = adapter.getItem(index)
+                when {
+                    // setSummary 内部会 notifyChanged，只重建即可，避免双重刷新
+                    preference is IconListPreference -> preference.refreshSearchMatchNote()
+                    preference is ListPreference || preference is MultiSelectListPreference -> {
+                        // 备注有变化才重绑；其余行不因每次按键全量刷新
+                        val note = searchMatchNote(preference)
+                        if (lastSearchNotes[preference] != note) {
+                            lastSearchNotes[preference] = note
+                            adapter.notifyItemChanged(index)
+                        }
+                    }
+                }
+            }
+        }
+
+        private fun revealPendingCategory() {
+            val categoryKey = pendingCategoryRevealKey ?: return
+            if (visibilityController.isSearching()) return
+            pendingCategoryRevealKey = null
+            val index = categoryList.indexOfFirst { it.key == categoryKey }
+            if (index < 0) return
+            scrollToCategoryAtIndex(index)
+            (activity as? StreamSettings)?.updateSelectedCategory(index)
+            listView?.post {
+                if (!isAdded) return@post
+                val position = findAdapterPositionForPreference(categoryList.getOrNull(index))
+                val holder = if (position >= 0) listView?.findViewHolderForAdapterPosition(position) else null
+                holder?.itemView?.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.settings_category_reveal))
+            }
         }
 
         /**
@@ -1420,8 +1670,9 @@ class StreamSettings : ThemedAppCompatActivity() {
                 when {
                     child is PreferenceGroup -> applyHighlightedSummariesRecursively(child, valueText, disabledAccent)
                     // IconListPreference 自己重写 setSummary 维护 "(当前：xxx)"，
-                    // 装 SummaryProvider 会与其 super.setSummary 调用互斥，跳过。
-                    child is IconListPreference -> Unit
+                    // 装 SummaryProvider 会与其 super.setSummary 调用互斥。
+                    // 命中说明改由它在拼接时询问，避免被当成新的原始说明保存。
+                    child is IconListPreference -> child.searchMatchNoteProvider = { searchMatchNote(child) }
                     child is ListPreference -> applyHighlightedSummary(child, valueText, disabledAccent) {
                         val entry = it.entry?.toString()
                         if (entry.isNullOrBlank()) "—" else entry
@@ -1430,6 +1681,9 @@ class StreamSettings : ThemedAppCompatActivity() {
                         val display = it.formatDisplayValue(it.currentValue)
                         val suffix = it.suffix?.takeIf { s -> s.isNotBlank() }
                         if (suffix != null) "$display $suffix" else display
+                    }
+                    child is MultiSelectListPreference -> applyHighlightedSummary(child, valueText, disabledAccent) {
+                        selectedMultiSelectLabels(it)
                     }
                 }
             }
@@ -1483,8 +1737,41 @@ class StreamSettings : ThemedAppCompatActivity() {
                 if (description != null) {
                     builder.append('\n').append(description)
                 }
+                searchMatchNote(p)?.let { note ->
+                    val noteStart = builder.length
+                    builder.append('\n').append(note)
+                    builder.setSpan(
+                        ForegroundColorSpan(UiHelper.accentColor(requireActivity())),
+                        noteStart, builder.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    builder.setSpan(
+                        StyleSpan(Typeface.BOLD),
+                        noteStart, builder.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                }
                 builder
             }
+        }
+
+        /** 多选没有「当前值」行，搜索时用已选项顶上，避免说明只剩命中备注。 */
+        private fun selectedMultiSelectLabels(preference: MultiSelectListPreference): String {
+            val selected = preference.values ?: emptySet()
+            val labels = preference.entryValues
+                ?.mapIndexedNotNull { index, value ->
+                    preference.entries?.getOrNull(index)?.takeIf { selected.contains(value.toString()) }
+                }
+                .orEmpty()
+            return if (labels.isEmpty()) "—" else labels.joinToString(
+                getString(R.string.settings_search_match_separator)
+            )
+        }
+
+        private fun searchMatchNote(preference: Preference): String? {
+            if (!visibilityController.isSearching()) return null
+            val matches = visibilityController.matchedDropdownLabels(preference)
+            if (matches.isEmpty()) return null
+            return getString(
+                R.string.settings_search_contains,
+                matches.joinToString(getString(R.string.settings_search_match_separator))
+            )
         }
 
         /**
@@ -2402,14 +2689,9 @@ class StreamSettings : ThemedAppCompatActivity() {
                 return
             }
 
-            val accessToken = PreferenceManager.getDefaultSharedPreferences(ctx)
-                    .getString(DeveloperUnlockSettings.PREF_ACCESS_TOKEN, null)
-            val prefs = PreferenceManager.getDefaultSharedPreferences(ctx)
-            if (accessToken.isNullOrBlank() ||
-                    !DeveloperUnlockSettings.hasAccessTokenScope(
-                            prefs,
-                            GitHubStarVerifier.OAuthScope.CROWN_STORE_PUBLISH
-                    )) {
+            if (GitHubDeviceAuthorization.accessToken(
+                    ctx, GitHubStarVerifier.OAuthScope.CROWN_STORE_PUBLISH
+                ) == null) {
                 showCrownStoreGitHubAuthorizationRequiredDialog(clearSavedToken = false)
                 return
             }
@@ -2530,14 +2812,10 @@ class StreamSettings : ThemedAppCompatActivity() {
 
         private fun publishCrownStoreProfile(request: GitHubCrownProfileStorePublisher.PublishRequest) {
             val appContext = requireContext().applicationContext
-            val accessToken = PreferenceManager.getDefaultSharedPreferences(appContext)
-                    .getString(DeveloperUnlockSettings.PREF_ACCESS_TOKEN, null)
-            val prefs = PreferenceManager.getDefaultSharedPreferences(appContext)
-            if (accessToken.isNullOrBlank() ||
-                    !DeveloperUnlockSettings.hasAccessTokenScope(
-                            prefs,
-                            GitHubStarVerifier.OAuthScope.CROWN_STORE_PUBLISH
-                    )) {
+            val accessToken = GitHubDeviceAuthorization.accessToken(
+                    appContext, GitHubStarVerifier.OAuthScope.CROWN_STORE_PUBLISH
+            )
+            if (accessToken == null) {
                 showCrownStoreGitHubAuthorizationRequiredDialog(clearSavedToken = false)
                 return
             }
@@ -2550,39 +2828,35 @@ class StreamSettings : ThemedAppCompatActivity() {
 
                 Handler(Looper.getMainLooper()).post {
                     if (!isAdded) return@post
-                    result
-                            .onSuccess { publishResult ->
-                                showCrownStorePublishSuccessDialog(publishResult)
-                            }
-                            .onFailure { error ->
-                                Log.e("CrownStore", "Failed to publish Crown Store profile", error)
-                                if (error is GitHubCrownProfileStorePublisher.GitHubCrownStoreException &&
-                                        error.authorizationFailure) {
-                                    showCrownStoreGitHubAuthorizationRequiredDialog(clearSavedToken = true)
-                                } else {
-                                    Toast.makeText(
-                                            appContext,
-                                            getString(
-                                                    R.string.toast_crown_store_publish_failed_with_error,
-                                                    error.message ?: error.javaClass.simpleName
-                                            ),
-                                            Toast.LENGTH_LONG
-                                    ).show()
-                                }
-                            }
+                    result.onSuccess { publishResult ->
+                        showCrownStorePublishSuccessDialog(publishResult)
+                    }.onFailure { error ->
+                        if (error is GitHubCrownProfileStorePublisher.GitHubCrownStoreException &&
+                                error.authorizationFailure) {
+                            showCrownStoreGitHubAuthorizationRequiredDialog(
+                                clearSavedToken = true,
+                                failedToken = accessToken
+                            )
+                        } else {
+                            Log.e("CrownStore", "Failed to publish Crown Store profile", error)
+                            Toast.makeText(
+                                appContext,
+                                getString(
+                                    R.string.toast_crown_store_publish_failed_with_error,
+                                    error.message ?: error.javaClass.simpleName
+                                ),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
                 }
             }
         }
 
-        private fun showCrownStoreGitHubAuthorizationRequiredDialog(clearSavedToken: Boolean) {
+        private fun showCrownStoreGitHubAuthorizationRequiredDialog(clearSavedToken: Boolean, failedToken: String? = null) {
             val ctx = requireContext()
             if (clearSavedToken) {
-                PreferenceManager.getDefaultSharedPreferences(ctx).edit {
-                    remove(DeveloperUnlockSettings.PREF_ACCESS_TOKEN)
-                    remove(DeveloperUnlockSettings.PREF_ACCESS_TOKEN_SCOPE)
-                    remove(DeveloperUnlockSettings.PREF_UNLOCKED)
-                    remove(DeveloperUnlockSettings.PREF_VERIFIED_AT_MS)
-                }
+                if (failedToken == null || !GitHubDeviceAuthorization.clearCredentials(ctx, failedToken)) return
                 refreshDeveloperFeatureGateState()
             }
 
@@ -3213,8 +3487,17 @@ class StreamSettings : ThemedAppCompatActivity() {
 
             MicrophoneButtonPreferences(requireContext()).migrateLegacyVisibilityIfNeeded()
             initializeTouchModeDefaultsIfNeeded()
+            val bitratePrefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+            if (!bitratePrefs.contains(PreferenceConfiguration.AUTO_ADJUST_BITRATE_PREF_STRING)) {
+                val recommended = PreferenceConfiguration.getDefaultBitrate(requireContext())
+                bitratePrefs.edit {
+                    putBoolean(PreferenceConfiguration.AUTO_ADJUST_BITRATE_PREF_STRING,
+                        bitratePrefs.getInt(PreferenceConfiguration.BITRATE_PREF_STRING, recommended) == recommended)
+                }
+            }
             setPreferencesFromResource(R.xml.preferences, rootKey)
             val screen = preferenceScreen
+            replaceSearchableCategories(screen)
 
             setupLowResolutionPresetVisibility()
 
@@ -3222,6 +3505,7 @@ class StreamSettings : ThemedAppCompatActivity() {
             setupConfigSyncPreferences()
             setupMicVolumeProcessingPreferences()
             setupInputModePresetPreference()
+            setupPerfOverlayPreferences()
             setupMicrophoneButtonPositionPreference()
             setupFloatBallPositionPreference()
             setupLegacyBackedModeSelectors()
@@ -3291,6 +3575,12 @@ class StreamSettings : ThemedAppCompatActivity() {
                     !requireActivity().packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_GYROSCOPE)) {
                 val category = findPreference<PreferenceCategory>("category_gamepad_settings")!!
                 category.removePreference(findPreference("checkbox_gamepad_motion_fallback")!!)
+            }
+
+            // Remote text field auto-show uses the temporary input connection on API 30+.
+            // API 33+ additionally enables StreamView's auto-handwriting shield.
+            if (!RemoteImeAutoShowPolicy.isSupported(Build.VERSION.SDK_INT)) {
+                findPreference<Preference>("checkbox_remote_ime_auto_show")?.isVisible = false
             }
 
             // Hide USB driver options on devices without USB host support
@@ -3620,45 +3910,85 @@ class StreamSettings : ThemedAppCompatActivity() {
                 } else {
                     // HDR is supported, configure the HDR mode preference
                     if (hdrModePref != null) {
-                        val entries = mutableListOf<CharSequence>()
-                        val entryValues = mutableListOf<CharSequence>()
+                        var pyrowaveNativeVivid = false
+                        var pyrowaveVividProbed = false
+                        val updateHdrEntries: (Boolean) -> Unit = { pyrowaveSelected ->
+                            val entries = mutableListOf<CharSequence>()
+                            val entryValues = mutableListOf<CharSequence>()
 
-                        if (foundHdr10 || foundHdr10Plus) {
-                            entries += getString(R.string.hdr_mode_hdr10)
-                            entryValues += "1"
-                        }
-                        if (foundHdr10Plus) {
-                            entries += getString(R.string.hdr_mode_hdr10_plus)
-                            entryValues += "3"
-                        }
-                        if (foundHlg) {
-                            entries += getString(R.string.hdr_mode_hlg)
-                            entryValues += "2"
-                        }
-                        if (foundDolbyVision) {
-                            entries += getString(R.string.hdr_mode_dolby_vision)
-                            entryValues += "4"
-                            // 8.4 rides the HLG base layer into the same DV
-                            // display pipeline; availability is decoder- and
-                            // display-gated identically to 8.1.
-                            entries += getString(R.string.hdr_mode_dolby_vision_84)
-                            entryValues += "5"
-                        }
+                            if (foundHdr10 || foundHdr10Plus) {
+                                entries += getString(R.string.hdr_mode_hdr10)
+                                entryValues += "1"
+                            }
+                            if (foundHdr10Plus || (pyrowaveSelected && foundHdr10)) {
+                                entries += getString(R.string.hdr_mode_hdr10_plus)
+                                entryValues += "3"
+                            }
+                            if (foundHlg) {
+                                entries += getString(R.string.hdr_mode_hlg)
+                                entryValues += "2"
+                            }
+                            if (pyrowaveSelected) {
+                                if (pyrowaveNativeVivid && (foundHdr10 || foundHdr10Plus)) {
+                                    entries += getString(R.string.hdr_mode_pyrowave_vivid_pq)
+                                    entryValues += "6"
+                                }
+                                if (pyrowaveNativeVivid && foundHlg) {
+                                    entries += getString(R.string.hdr_mode_pyrowave_vivid_hlg)
+                                    entryValues += "7"
+                                }
+                                // HDR10+ and Dolby Vision use PyroWave's bounded
+                                // application mapping path. The base transfer still
+                                // follows the display's HDR10/HLG capability.
+                                if (foundHdr10 || foundHdr10Plus) {
+                                    entries += getString(R.string.hdr_mode_dolby_vision)
+                                    entryValues += "4"
+                                }
+                                if (foundHlg) {
+                                    entries += getString(R.string.hdr_mode_dolby_vision_84)
+                                    entryValues += "5"
+                                }
+                            } else if (foundDolbyVision) {
+                                entries += getString(R.string.hdr_mode_dolby_vision)
+                                entryValues += "4"
+                                // 8.4 rides the HLG base layer into the same DV
+                                // display pipeline; availability is decoder- and
+                                // display-gated identically to 8.1.
+                                entries += getString(R.string.hdr_mode_dolby_vision_84)
+                                entryValues += "5"
+                            }
 
-                        hdrModePref.entries = entries.toTypedArray()
-                        hdrModePref.entryValues = entryValues.toTypedArray()
+                            hdrModePref.entries = entries.toTypedArray()
+                            hdrModePref.entryValues = entryValues.toTypedArray()
 
-                        // An HDR10+ selection may have been restored from another display/profile.
-                        // Prefer static HDR10 when this display cannot present HDR10+.
-                        if (hdrModePref.value == "3" && !foundHdr10Plus && foundHdr10) {
-                            hdrModePref.value = "1"
-                        }
-                        if (hdrModePref.value !in entryValues) {
-                            hdrModePref.value = entryValues.first().toString()
-                        }
+                            // An HDR10+ selection may have been restored from another display/profile.
+                            // Prefer static HDR10 when this display cannot present HDR10+.
+                            if (!pyrowaveSelected && hdrModePref.value == "3" && !foundHdr10Plus && foundHdr10) {
+                                hdrModePref.value = "1"
+                            }
+                            val pendingVividSelection = pyrowaveSelected && !pyrowaveVividProbed &&
+                                    (hdrModePref.value == "6" || hdrModePref.value == "7")
+                            if (!pendingVividSelection && hdrModePref.value !in entryValues) {
+                                hdrModePref.value = entryValues.first().toString()
+                            }
 
-                        // 当前选中值由通用的 SummaryProvider 自动显示（applyListPreferenceCurrentValueSummary），
-                        // 这里不再单独设置 summary，避免与 SummaryProvider 互斥而抛 IllegalStateException
+                            // 当前选中值由通用的 SummaryProvider 自动显示（applyListPreferenceCurrentValueSummary），
+                            // 这里不再单独设置 summary，避免与 SummaryProvider 互斥而抛 IllegalStateException
+                        }
+                        val formatPref = findPreference<ListPreference>("video_format")
+                        updateHdrEntries(formatPref?.value == "pyrowave")
+                        formatPref?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
+                            // Keep the current preference/dialog focus; only update HDR choices.
+                            updateHdrEntries(newValue == "pyrowave")
+                            true
+                        }
+                        lifecycleScope.launch {
+                            pyrowaveNativeVivid = PyrowaveCapabilityProbe.collect().hasNativeVivid
+                            pyrowaveVividProbed = true
+                            if (isAdded) {
+                                updateHdrEntries(formatPref?.value == "pyrowave")
+                            }
+                        }
                     }
                 }
             }
@@ -3753,6 +4083,13 @@ class StreamSettings : ThemedAppCompatActivity() {
                     Preference.OnPreferenceClickListener {
                         val capIntent = Intent(requireActivity(), CapabilityDiagnosticActivity::class.java)
                         startActivity(capIntent)
+                        true
+                    }
+
+            findPreference<Preference>("pyrowave_capability_diagnostic")!!.onPreferenceClickListener =
+                    Preference.OnPreferenceClickListener {
+                        startActivity(Intent(requireActivity(), CapabilityDiagnosticActivity::class.java)
+                            .putExtra(CapabilityDiagnosticActivity.EXTRA_PYROWAVE_REPORT, true))
                         true
                     }
 
@@ -4326,8 +4663,25 @@ class StreamSettings : ThemedAppCompatActivity() {
             if (changedKey == null || changedKey in LegacySettingsModeStore.modeKeys) {
                 refreshModeSelectors()
             }
-            if (changedKey == null || changedKey == "checkbox_adaptive_bitrate") {
+            if (changedKey == null || changedKey in setOf(
+                    "checkbox_adaptive_bitrate", "list_abr_mode",
+                    PreferenceConfiguration.BITRATE_PREF_STRING,
+                    PreferenceConfiguration.AUTO_ADJUST_BITRATE_PREF_STRING,
+                    PreferenceConfiguration.RESOLUTION_PREF_STRING,
+                    PreferenceConfiguration.FPS_PREF_STRING,
+                )) {
+                setupAdaptiveBitratePresentation()
                 updateAdaptiveBitratePresentation()
+            }
+            if (changedKey == null || changedKey == "list_fec_mode") {
+                val fixed = findPreference<ListPreference>("list_fec_mode")?.value == "fixed"
+                updateRuntimeVisibility(findPreference("seekbar_fec_percentage"), fixed)
+                findPreference<PreferenceCategory>("category_basic_settings")?.let { category ->
+                    // Preserve an explicit expansion; otherwise reveal the active fixed value.
+                    if (category.initialExpandedChildrenCount != Int.MAX_VALUE) {
+                        category.initialExpandedChildrenCount = if (fixed) 6 else 5
+                    }
+                }
             }
             if (changedKey == null || changedKey == "checkbox_enable_audio_passthrough") {
                 updateAudioPipelineVisibility()
@@ -4416,40 +4770,49 @@ class StreamSettings : ThemedAppCompatActivity() {
         }
 
         private fun setupAdaptiveBitratePresentation() {
-            val adaptiveBitrate = findPreference<CheckBoxPreference>("checkbox_adaptive_bitrate")
-                ?: return
-            val bitrate = findPreference<SeekBarPreference>(PreferenceConfiguration.BITRATE_PREF_STRING)
-                ?: return
+            val adaptiveBitrate = findPreference<CheckBoxPreference>("checkbox_adaptive_bitrate") ?: return
+            val bitrate = findPreference<SeekBarPreference>(PreferenceConfiguration.BITRATE_PREF_STRING) ?: return
+            val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
             val valueText = ContextCompat.getColor(bitrate.context, R.color.ui_shell_text_primary)
-            val disabledAccent =
-                ContextCompat.getColor(bitrate.context, R.color.ui_shell_text_disabled_primary)
+            val disabledAccent = ContextCompat.getColor(bitrate.context, R.color.ui_shell_text_disabled_primary)
+            val recommended = prefs.getBoolean(PreferenceConfiguration.AUTO_ADJUST_BITRATE_PREF_STRING, true)
+            val description = buildString {
+                append(getString(if (adaptiveBitrate.isChecked) R.string.summary_seekbar_bitrate_baseline
+                                 else R.string.summary_seekbar_bitrate))
+                if (adaptiveBitrate.isChecked) {
+                    val range = AdaptiveBitrateService.bitrateRange(bitrate.currentValue,
+                        prefs.getString("list_abr_mode", "balanced") ?: "balanced")
+                    append("\n").append(getString(R.string.summary_abr_bitrate_range,
+                        bitrate.formatDisplayValue(range.first), bitrate.formatDisplayValue(range.last)))
+                }
+                append("\n").append(getString(if (recommended) R.string.summary_bitrate_recommended
+                                              else R.string.summary_bitrate_manual))
+            }
+            bitrate.dialogMessageText = getString(if (adaptiveBitrate.isChecked)
+                R.string.summary_seekbar_bitrate_baseline else R.string.summary_seekbar_bitrate)
+            applyHighlightedSummary(bitrate, valueText, disabledAccent,
+                currentValueProvider = { "${it.formatDisplayValue(it.currentValue)} ${it.suffix.orEmpty()}" },
+                descriptionProvider = { description })
 
-            applyHighlightedSummary(
-                bitrate,
-                valueText,
-                disabledAccent,
-                currentValueProvider = {
-                    val display = it.formatDisplayValue(it.currentValue)
-                    val suffix = it.suffix?.takeIf { suffix -> suffix.isNotBlank() }
-                    if (suffix != null) "$display $suffix" else display
-                },
-                descriptionProvider = {
-                    getString(
-                        if (adaptiveBitrate.isChecked) R.string.summary_seekbar_bitrate_baseline
-                        else R.string.summary_seekbar_bitrate
-                    )
-                },
-            )
+            findPreference<ListPreference>("list_fec_mode")?.let { fec ->
+                applyHighlightedSummary(fec, valueText, disabledAccent,
+                    currentValueProvider = { it.entry?.toString().orEmpty() },
+                    descriptionProvider = { getString(when (it.value) {
+                        "automatic" -> R.string.summary_fec_automatic
+                        "fixed" -> R.string.summary_fec_fixed
+                        else -> R.string.summary_fec_host
+                    }) })
+            }
         }
 
         private fun updateAdaptiveBitratePresentation() {
-            val adaptiveBitrate = findPreference<CheckBoxPreference>("checkbox_adaptive_bitrate")
-                ?: return
-            findPreference<SeekBarPreference>(PreferenceConfiguration.BITRATE_PREF_STRING)
-                ?.setTitle(
-                    if (adaptiveBitrate.isChecked) R.string.title_seekbar_bitrate_baseline
-                    else R.string.title_seekbar_bitrate
-                )
+            val adaptiveBitrate = findPreference<CheckBoxPreference>("checkbox_adaptive_bitrate") ?: return
+            findPreference<SeekBarPreference>(PreferenceConfiguration.BITRATE_PREF_STRING)?.let { bitrate ->
+                bitrate.setTitle(if (adaptiveBitrate.isChecked) R.string.title_seekbar_bitrate_baseline
+                                 else R.string.title_seekbar_bitrate)
+                bitrate.dialogTitle = bitrate.title
+            }
+            updateRuntimeVisibility(findPreference("list_abr_mode"), adaptiveBitrate.isChecked)
         }
 
         private fun updateAudioPipelineVisibility() {
@@ -4591,6 +4954,26 @@ class StreamSettings : ThemedAppCompatActivity() {
                 }
         }
 
+        private fun setupPerfOverlayPreferences() {
+            val metricsPreference = findPreference<PerfOverlayDisplayItemsPreference>(
+                "perf_overlay_display_items"
+            ) ?: return
+            val clockFormatPreference = findPreference<Preference>(
+                "list_perf_overlay_clock_format"
+            ) ?: return
+
+            fun updateClockFormatEnabled(selectedItems: Set<*>?) {
+                clockFormatPreference.isEnabled = selectedItems?.contains("clock") == true
+            }
+
+            updateClockFormatEnabled(metricsPreference.values)
+            metricsPreference.onPreferenceChangeListener =
+                Preference.OnPreferenceChangeListener { _, newValue ->
+                    updateClockFormatEnabled(newValue as? Set<*>)
+                    true
+                }
+        }
+
         private fun refreshDeveloperFeatureGateState() {
             val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
             val unlocked = DeveloperUnlockSettings.isUnlocked(prefs)
@@ -4663,7 +5046,7 @@ class StreamSettings : ThemedAppCompatActivity() {
                 if (pendingDeviceCode?.scope == GitHubStarVerifier.OAuthScope.STAR_VERIFICATION) {
                     developerPendingDeviceCode = pendingDeviceCode
                     showDeveloperDeviceCodeDialog(pendingDeviceCode)
-                    pollDeveloperPendingDeviceCode(showPendingToast = false, enforceThrottle = true)
+                    pollDeveloperPendingDeviceCode(showPendingToast = false)
                     return
                 }
             }
@@ -4691,7 +5074,6 @@ class StreamSettings : ThemedAppCompatActivity() {
             scope: GitHubStarVerifier.OAuthScope = GitHubStarVerifier.OAuthScope.STAR_VERIFICATION
         ) {
             val ctx = requireContext().applicationContext
-            val prefs = PreferenceManager.getDefaultSharedPreferences(ctx)
             if (developerUnlockVerificationRunning) {
                 Toast.makeText(ctx, R.string.toast_developer_verification_running, Toast.LENGTH_LONG).show()
                 return
@@ -4701,15 +5083,11 @@ class StreamSettings : ThemedAppCompatActivity() {
                 return
             }
 
-            val savedToken = prefs.getString(DeveloperUnlockSettings.PREF_ACCESS_TOKEN, null)
-            val savedTokenCanBeUsed = !savedToken.isNullOrBlank() &&
-                    DeveloperUnlockSettings.hasAccessTokenScope(prefs, scope)
-            if (!savedTokenCanBeUsed) {
-                val pendingDeviceCode = GitHubDeviceAuthorization.loadPendingDeviceCode(ctx)
-                if (pendingDeviceCode?.scope == scope) {
+            GitHubDeviceAuthorization.pendingDeviceCode(ctx, scope)?.let { pendingDeviceCode ->
+                if (GitHubDeviceAuthorization.accessToken(ctx, scope) == null) {
                     developerPendingDeviceCode = pendingDeviceCode
                     showDeveloperDeviceCodeDialog(pendingDeviceCode)
-                    pollDeveloperPendingDeviceCode(showPendingToast = false, enforceThrottle = true)
+                    pollDeveloperPendingDeviceCode(showPendingToast = false)
                     return
                 }
             }
@@ -4718,30 +5096,28 @@ class StreamSettings : ThemedAppCompatActivity() {
             Toast.makeText(ctx, R.string.toast_developer_verification_started, Toast.LENGTH_LONG).show()
             thread(name = "DeveloperGitHubStarVerify") {
                 try {
-                    if (savedTokenCanBeUsed) {
+                    val savedToken = GitHubDeviceAuthorization.accessToken(ctx, scope)
+                    val starCheck = try {
+                        savedToken?.let(GitHubStarVerifier::checkStar)
+                    } catch (_: GitHubStarVerifier.AuthorizationExpiredException) {
+                        GitHubDeviceAuthorization.clearCredentials(ctx, savedToken)
+                        null
+                    }
+                    if (savedToken != null && starCheck != null) {
                         completeDeveloperUnlockVerification(
-                            ctx = ctx,
-                            accessToken = savedToken,
-                            starCheck = GitHubStarVerifier.checkStar(savedToken),
-                            scope = scope
+                            ctx, savedToken, starCheck, scope
                         )
-                        return@thread
-                    }
-
-                    val deviceCode = GitHubStarVerifier.requestDeviceCode(scope)
-                    developerPendingDeviceCode = deviceCode
-                    GitHubDeviceAuthorization.savePendingDeviceCode(ctx, deviceCode)
-                    Log.i(
-                        "DeveloperUnlock",
-                        "GitHub star device code requested: userCode=${deviceCode.userCode}, " +
-                            "interval=${deviceCode.intervalSeconds}s, expires=${deviceCode.expiresInSeconds}s"
-                    )
-                    activity?.runOnUiThread {
-                        if (isAdded) {
-                            showDeveloperDeviceCodeDialog(deviceCode)
+                    } else {
+                        val deviceCode = GitHubDeviceAuthorization.pendingDeviceCode(ctx, scope)
+                            ?: GitHubStarVerifier.requestDeviceCode(scope).also {
+                                GitHubDeviceAuthorization.savePendingDeviceCode(ctx, it)
+                            }
+                        developerPendingDeviceCode = deviceCode
+                        activity?.runOnUiThread {
+                            if (isAdded) showDeveloperDeviceCodeDialog(deviceCode)
                         }
+                        developerUnlockVerificationRunning = false
                     }
-                    developerUnlockVerificationRunning = false
                 } catch (e: Exception) {
                     Log.e("DeveloperUnlock", "GitHub star verification failed", e)
                     failDeveloperUnlockVerification(ctx, e.message ?: e.javaClass.simpleName)
@@ -4750,12 +5126,13 @@ class StreamSettings : ThemedAppCompatActivity() {
         }
 
         private fun resumeDeveloperUnlockVerificationIfPending() {
-            pollDeveloperPendingDeviceCode(showPendingToast = false, enforceThrottle = true)
+            pollDeveloperPendingDeviceCode(showPendingToast = false)
         }
 
-        private fun pollDeveloperPendingDeviceCode(showPendingToast: Boolean, enforceThrottle: Boolean) {
+        private fun pollDeveloperPendingDeviceCode(showPendingToast: Boolean) {
             val ctx = requireContext().applicationContext
-            val deviceCode = developerPendingDeviceCode ?: GitHubDeviceAuthorization.loadPendingDeviceCode(ctx)
+            val deviceCode = developerPendingDeviceCode
+                ?: GitHubDeviceAuthorization.loadPendingDeviceCode(ctx)
             if (deviceCode == null) {
                 if (showPendingToast) {
                     Toast.makeText(ctx, R.string.toast_developer_verification_expired, Toast.LENGTH_LONG).show()
@@ -4763,7 +5140,6 @@ class StreamSettings : ThemedAppCompatActivity() {
                 return
             }
             developerPendingDeviceCode = deviceCode
-            developerUnlockVerificationRunning = true
             if (developerForegroundPollRunning) {
                 if (showPendingToast) {
                     Toast.makeText(ctx, R.string.toast_developer_verification_running, Toast.LENGTH_LONG).show()
@@ -4771,12 +5147,16 @@ class StreamSettings : ThemedAppCompatActivity() {
                 return
             }
 
-            val nowMs = System.currentTimeMillis()
-            if (enforceThrottle && nowMs - developerLastForegroundPollMs < 1500L) {
+            val nowMs = SystemClock.elapsedRealtime()
+            if (nowMs - developerLastForegroundPollMs < deviceCode.intervalSeconds * 1000L) {
+                if (showPendingToast) {
+                    Toast.makeText(ctx, R.string.toast_developer_authorization_pending, Toast.LENGTH_LONG).show()
+                }
                 return
             }
             developerLastForegroundPollMs = nowMs
             developerForegroundPollRunning = true
+            developerUnlockVerificationRunning = true
 
             thread(name = "DeveloperGitHubStarVerifyResume") {
                 try {
@@ -4801,10 +5181,11 @@ class StreamSettings : ThemedAppCompatActivity() {
                             }
                         }
                         is GitHubStarVerifier.TokenPollResult.SlowDown -> {
-                            Log.i("DeveloperUnlock", "GitHub star foreground poll slowed down to ${poll.intervalSeconds}s")
-                            if (showPendingToast) {
-                                showDeveloperUnlockToastIfActive(deviceCode)
+                            GitHubDeviceAuthorization.updatePendingPollInterval(ctx, deviceCode, poll.intervalSeconds)
+                            runIfDeveloperAttemptActive(deviceCode) {
+                                developerPendingDeviceCode = deviceCode.copy(intervalSeconds = poll.intervalSeconds)
                             }
+                            if (showPendingToast) showDeveloperUnlockToastIfActive(deviceCode)
                         }
                         is GitHubStarVerifier.TokenPollResult.Failed -> {
                             runIfDeveloperAttemptActive(deviceCode) {
@@ -4820,7 +5201,7 @@ class StreamSettings : ThemedAppCompatActivity() {
                 } finally {
                     activity?.runOnUiThread {
                         developerForegroundPollRunning = false
-                        if (developerPendingDeviceCode == deviceCode) {
+                        if (developerPendingDeviceCode?.deviceCode == deviceCode.deviceCode) {
                             developerUnlockVerificationRunning = false
                         }
                     }
@@ -4833,7 +5214,7 @@ class StreamSettings : ThemedAppCompatActivity() {
             action: () -> Unit
         ) {
             activity?.runOnUiThread {
-                if (isAdded && developerPendingDeviceCode == deviceCode) {
+                if (isAdded && developerPendingDeviceCode?.deviceCode == deviceCode.deviceCode) {
                     action()
                 }
             }
@@ -4897,7 +5278,7 @@ class StreamSettings : ThemedAppCompatActivity() {
                     openDeveloperUrl(GitHubDeviceAuthorization.authorizationUrl(deviceCode))
                 }
                 dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener {
-                    pollDeveloperPendingDeviceCode(showPendingToast = true, enforceThrottle = false)
+                    pollDeveloperPendingDeviceCode(showPendingToast = true)
                 }
             }
             dialog.setOnDismissListener {
@@ -5061,13 +5442,43 @@ class StreamSettings : ThemedAppCompatActivity() {
         return w to h
     }
 
+    private fun cancelBackgroundLoad(): Int {
+        val previous = synchronized(backgroundFutureLock) {
+            backgroundGeneration++
+            backgroundFuture.also { backgroundFuture = null }
+        }
+        backgroundJob?.cancel()
+        // Cache hits use a CustomTarget, so clearing the ImageView's Glide request alone does not detach them.
+        findViewById<ImageView>(R.id.settingsBackgroundImage)?.setImageDrawable(null)
+        backgroundTarget?.let { Glide.with(applicationContext).clear(it) }
+        backgroundTarget = null
+        previous?.let {
+            it.cancel(true)
+            Glide.with(applicationContext).clear(it)
+        }
+        findViewById<ImageView>(R.id.settingsBackgroundImage)?.let { Glide.with(applicationContext).clear(it) }
+        return backgroundGeneration
+    }
+
+    private fun backgroundIsCurrent(generation: Int): Boolean =
+        generation == backgroundGeneration && !isDestroyed && !isFinishing
+
     private fun loadBackgroundImage() {
+        val generation = cancelBackgroundLoad()
         val imageView = findViewById<ImageView>(R.id.settingsBackgroundImage)
+        val orientation = resources.configuration.orientation
         val resolved = BackgroundSource.resolveCurrentTarget(
                 this,
-                resources.configuration.orientation
+                orientation
         )
+        if (!backgroundIsCurrent(generation)) return
         val target = resolved.target
+        val guarded = PipwImages.handles(resolved)
+        if (!guarded || pipwBackgroundLease?.key != resolved.cacheKey) {
+            pipwBackgroundLease?.close()
+            pipwBackgroundLease = null
+        }
+        if (guarded) imageView.setImageDrawable(null)
 
         if (target == null) {
             Glide.with(this).clear(imageView)
@@ -5080,7 +5491,12 @@ class StreamSettings : ThemedAppCompatActivity() {
         // - 低堆设备（典型场景：xiaomi MiTV4 SDK 23 maxMemory ≈ 100 MB）
         //   自动缩到安全尺寸
         // - 极端低剩余堆直接放弃背景图（保守不渲染，避免 OOM）
-        val size = computeBackgroundDecodeSize() ?: return
+        val size = computeBackgroundDecodeSize() ?: run {
+            imageView.setImageDrawable(null)
+            pipwBackgroundLease?.close()
+            pipwBackgroundLease = null
+            return
+        }
         val (width, height) = size
 
         // 模糊 + theme-aware 蒙版，单次解码完成（合并到一个 Glide pipeline）
@@ -5100,6 +5516,27 @@ class StreamSettings : ThemedAppCompatActivity() {
                 .transform(transformations)
                 .signature(ObjectKey(resolved.cacheKey))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+
+        if (guarded) {
+            backgroundJob = lifecycleScope.launch {
+                try {
+                    val lease = pipwBackgroundLease ?: PipwImages.get(this@StreamSettings).acquire(resolved, orientation)
+                        .also { pipwBackgroundLease = it }
+                    val file = lease.await()
+                    if (!backgroundIsCurrent(generation)) return@launch
+                    Glide.with(this@StreamSettings).load(file)
+                        .apply(options.clone().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true))
+                        .transition(DrawableTransitionOptions.withCrossFade(400))
+                        .into(imageView)
+                } catch (_: CancellationException) {
+                    // A new source or Activity now owns the background.
+                } catch (_: Exception) {
+                    if (backgroundIsCurrent(generation)) imageView.setImageDrawable(null)
+                    LimeLog.warning("Pipw settings background unavailable")
+                }
+            }
+            return
+        }
 
         // 候选 URL（含原始与所有代理变体）。Glide 缓存键以 URL 为基础，
         // 因此可能上次走代理 A 命中、原始 URL 在缓存中并不存在；这里逐个尝试，
@@ -5125,7 +5562,7 @@ class StreamSettings : ThemedAppCompatActivity() {
             try { addAll(UpdateManager.buildProxiedUrls(target)) } catch (_: Exception) {}
         }.distinct()
 
-        tryCachedThenNetwork(imageView, options, candidates, 0)
+        tryCachedThenNetwork(imageView, options, candidates, 0, generation)
     }
 
     /**
@@ -5137,50 +5574,64 @@ class StreamSettings : ThemedAppCompatActivity() {
             imageView: ImageView,
             options: RequestOptions,
             candidates: List<String>,
-            index: Int
+            index: Int,
+            generation: Int
     ) {
-        if (isDestroyed || isFinishing) return
+        if (!backgroundIsCurrent(generation)) return
         if (index >= candidates.size) {
-            loadBackgroundImageFromNetwork(imageView, options, candidates)
+            loadBackgroundImageFromNetwork(imageView, options, candidates, generation)
             return
         }
-        Glide.with(this)
-                .load(candidates[index])
-                .apply(options.clone().onlyRetrieveFromCache(true))
-                .into(object : CustomTarget<Drawable>() {
-                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                        imageView.setImageDrawable(resource)
-                    }
-                    override fun onLoadCleared(placeholder: Drawable?) {}
-                    override fun onLoadFailed(errorDrawable: Drawable?) {
-                        tryCachedThenNetwork(imageView, options, candidates, index + 1)
-                    }
-                })
+        val requestTarget = object : CustomTarget<Drawable>() {
+            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                if (backgroundIsCurrent(generation)) imageView.setImageDrawable(resource)
+            }
+            override fun onLoadCleared(placeholder: Drawable?) {}
+            override fun onLoadFailed(errorDrawable: Drawable?) {
+                tryCachedThenNetwork(imageView, options, candidates, index + 1, generation)
+            }
+        }
+        backgroundTarget = requestTarget
+        Glide.with(this).load(candidates[index])
+            .apply(options.clone().onlyRetrieveFromCache(true)).into(requestTarget)
     }
 
     private fun loadBackgroundImageFromNetwork(
             imageView: ImageView,
             options: RequestOptions,
-            preBuiltCandidates: List<String>?
+            preBuiltCandidates: List<String>?,
+            generation: Int
     ) {
         Thread {
+            if (!backgroundIsCurrent(generation)) return@Thread
             // 代理列表可能在调用前还未就绪，需要刷新一次
             UpdateManager.ensureProxyListUpdated(this)
             val candidates = preBuiltCandidates.orEmpty()
             for (url in candidates) {
                 try {
-                    if (isDestroyed || isFinishing) return@Thread
+                    if (!backgroundIsCurrent(generation)) return@Thread
                     // 后台同步预热：把图解码到 Glide 缓存中（包含 blur+mask 变换）；
                     // 失败则尝试下一条代理，不会污染 UI
-                    val ready = Glide.with(applicationContext)
+                    val future = Glide.with(applicationContext)
                             .asDrawable()
                             .load(url)
                             .apply(options)
                             .submit()
-                            .get()
-                    if (ready != null) {
+                    val retained = synchronized(backgroundFutureLock) {
+                        if (generation == backgroundGeneration) {
+                            backgroundFuture = future
+                            true
+                        } else false
+                    }
+                    if (!retained) {
+                        future.cancel(true)
+                        Glide.with(applicationContext).clear(future)
+                        return@Thread
+                    }
+                    try {
+                        future.get()
                         runOnUiThread {
-                            if (isDestroyed || isFinishing) return@runOnUiThread
+                            if (!backgroundIsCurrent(generation)) return@runOnUiThread
                             // 用同一份缓存渲染，加 400ms 渐入避免突兀 pop-in
                             Glide.with(this@StreamSettings)
                                     .load(url)
@@ -5189,6 +5640,11 @@ class StreamSettings : ThemedAppCompatActivity() {
                                     .into(imageView)
                         }
                         return@Thread
+                    } finally {
+                        synchronized(backgroundFutureLock) {
+                            if (backgroundFuture === future) backgroundFuture = null
+                        }
+                        Glide.with(applicationContext).clear(future)
                     }
                 } catch (e: Exception) {
                     // Try next proxy

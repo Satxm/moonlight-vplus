@@ -23,7 +23,7 @@
     <string name="nettest_text_waiting">Moonlight está testando sua conexão com a rede para determinar se o NVIDIA GameStream está bloqueado.
 \n
 \nEste processo pode demorar alguns segundos…</string>
-    <string name="pacing_balanced">Balanceado</string>
+    <string name="pacing_balanced">Balanceado (latência e fluidez)</string>
     <string name="nettest_text_success">A sua rede não parece estar a bloquear o Moonlight. Se ainda tiver problemas a se conectar, verifique as configurações de firewall do seu PC.
 \n
 \nSe estiver a tentar transmitir pela Internet, instale o Moonlight Internet Hosting Tool no seu PC e execute o Internet Streaming Tester para verificar a conexão com a Internet do seu PC.</string>
@@ -112,7 +112,7 @@
     <string name="summary_checkbox_reduce_refresh_rate">Taxas menores de atualização do display podem gravar energia ao custo de latência de video adicional</string>
     <string name="summary_checkbox_disable_warnings">Desativa as mensagens de aviso de conexão no ecrã durante a transmissão</string>
     <string name="summary_disable_frame_drop">Talvez reduza o micro-stuttering em alguns aparelhos, mas pode aumentar a latência</string>
-    <string name="summary_video_format">HEVC reduz os requisitos de largura de banda de vídeo, mas requer um aparelho mais atual</string>
+    <string name="summary_video_format">Não sabe qual escolher? Use Automático. O HEVC é recomendado para a maioria dos dispositivos modernos e normalmente equilibra qualidade de imagem, largura de banda e HDR. O AV1 pode poupar largura de banda se for suportado pelas duas partes, mas pode ter maior latência de descodificação em alguns dispositivos. O H.264 tem a melhor compatibilidade, mas requer mais largura de banda e não suporta HDR.</string>
     <string name="title_enable_hdr">Ativar HDR (Experimental)</string>
     <string name="summary_full_range">Isso causará perda de detalhes em áreas claras e escuras se o seu aparelho não exibir corretamente todo o conteúdo de vídeo em cores.</string>
     <string name="title_disable_frame_drop">Nunca dropar quadros</string>
@@ -128,11 +128,11 @@
     <string name="audioconf_51surround">5.1 Surround</string>
     <string name="videoformat_auto">Automático (recomendado)</string>
     <string name="title_frame_pacing">Ritmo de quadros</string>
-    <string name="pacing_smoothness">Preferir vídeo mais suave (pode aumentar significativamente a latência)</string>
+    <string name="pacing_smoothness">Fluidez em primeiro lugar (maior latência)</string>
     <string name="summary_seekbar_deadzone">Nota: Alguns jogos podem impor uma zona morta maior do que o Moonlight está configurado para usar.</string>
     <string name="dialog_text_reset_osc">Tem certeza de que deseja apagar o layout salvo dos controles de ecrã\?</string>
     <string name="category_host_settings">Configurações de Host</string>
-    <string name="pacing_balanced_alt">Equilibrado com limite de FPS</string>
+    <string name="pacing_balanced_alt">Limitar FPS de saída (até à taxa de atualização)</string>
     <string name="audioconf_71surround">7.1 Surround</string>
     <string name="videoformat_hevcalways">Prefira HEVC</string>
     <string name="error_404">GFE retornou um erro HTTP 404. Verifique se o seu PC tem uma GPU compatível. O uso do software de área de trabalho remota também pode causar esse erro. Tente reiniciar o seu computador ou reinstalar o GFE.</string>
@@ -181,7 +181,7 @@
     <string name="title_native_res_dialog">Alerta de Resolução Nativa</string>
     <string name="title_fps_list">Taxa de quadros por segundo</string>
     <string name="title_seekbar_bitrate">Taxa de bits</string>
-    <string name="summary_seekbar_bitrate">Aumente para uma melhor qualidade de imagem. Diminua para melhorar o desempenho em conexões mais lentas.</string>
+    <string name="summary_seekbar_bitrate">Uma taxa de bits mais alta melhora a qualidade da imagem, mas usa mais largura de banda; uma taxa mais baixa é melhor para redes lentas ou instáveis. Se a transmissão travar, reduza-a primeiro e aumente-a quando a rede estiver estável, mas a imagem continuar pouco nítida; para 1080p60, comece com cerca de 10–20 Mbps.</string>
     <string name="title_checkbox_stretch_video">Esticar vídeo ao ecrã cheio</string>
     <string name="resolution_prefix_native">Nativa</string>
     <string name="resolution_prefix_native_fullscreen">Ecrã Cheio Nativo</string>
@@ -236,7 +236,7 @@
     <string name="resolution_1440p">1440p</string>
     <string name="resolution_4k">4K</string>
     <string name="fps_30">30 FPS</string>
-    <string name="pacing_latency">Preferir baixa latência</string>
+    <string name="pacing_latency">Baixa latência (resposta mais rápida)</string>
     <string name="title_checkbox_mouse_nav_buttons">Ativar os botões de voltar e avançar do rato</string>
     <string name="summary_checkbox_mouse_nav_buttons">Ativar esta opção pode bugar o clique com o botão direito em alguns aparelhos com bugs</string>
     <string name="title_checkbox_flip_face_buttons">Inverter botões</string>
@@ -244,7 +244,7 @@
     <string name="summary_privacy_policy">Veja a política de privacidade do Moonlight</string>
     <string name="resolution_480p">480p</string>
     <string name="resolution_720p">720p</string>
-    <string name="summary_frame_pacing">Especifique o equilíbrio entre latência e suavidade do vídeo</string>
+    <string name="summary_frame_pacing">Escolha como as imagens de vídeo são sincronizadas. O ritmo preciso pode usar as marcas temporais de apresentação do vídeo (PTS) e é recomendado para a maioria dos dispositivos.</string>
     <string name="analogscroll_none">Nenhum (ambos os sticks movem o rato)</string>
     <string name="analogscroll_right">Stick analógico direito</string>
     <string name="analogscroll_left">Stick analógico esquerdo</string>
@@ -440,8 +440,8 @@
     <!-- Video format -->
     <string name="videoformat_av1always">Preferir AV1 (Experimental)</string>
     <string name="videoformat_h264always">Preferir H.264</string>
-    <string name="pacing_experimental_low_latency">Experimental: Latência ultra-baixa (avançado)</string>
-    <string name="pacing_precise_sync">Sincronização precisa</string>
+    <string name="pacing_experimental_low_latency">Latência ultrabaixa (experimental)</string>
+    <string name="pacing_precise_sync">Ritmo de frames preciso (recomendado)</string>
     
     <!-- Microphone -->
     <string name="mic_button">Microfone</string>
@@ -503,9 +503,9 @@
     
     <!-- Reverse resolution -->
     <string name="title_checkbox_reverse_resolution">Inverter resolução</string>
-    <string name="summary_checkbox_reverse_resolution">Trocar valores de largura e altura para requisitos especiais de exibição</string>
+    <string name="summary_checkbox_reverse_resolution">Ative apenas quando a orientação da imagem ou a largura e altura estiverem incorretas; pode entrar em conflito com Seguir rotação da tela.</string>
     <string name="title_checkbox_rotable_screen">Seguir rotação da tela</string>
-    <string name="summary_checkbox_rotable_screen">Quando ativado, a orientação da exibição será ajustada quando o dispositivo girar</string>
+    <string name="summary_checkbox_rotable_screen">Sincroniza automaticamente o layout do streaming quando o dispositivo alterna entre orientação retrato e paisagem.</string>
     
     <!-- Moonlight V+ PC download -->
     <string name="title_moonlight_vplus_pc_download">Download do Moonlight V+ PC</string>
@@ -516,7 +516,7 @@
     
     <!-- Tips -->
     <string name="tip_esc_exit">💡 Dica: Use o botão \"Sair\" para sair rapidamente e completamente do stream, restaurando sua tela ao estado pré-stream~</string>
-    <string name="tip_double_tap_mouse">💡 Dica: Pressione longamente a área em branco superior na página da lista de hosts para baixar o papel de parede atual~</string>
+    <string name="tip_double_tap_mouse">💡 Dica: mantenha premida a área vazia no topo da lista de computadores para guardar a imagem de fundo atual.</string>
     <string name="tip_long_press_controller">💡 Dica: Pressione longamente uma app para escolher streaming com display virtual, super conveniente!</string>
     <string name="tip_volume_keys">💡 Dica: Usar WiFi 5GHz proporciona uma experiência melhor, velocidade ultra rápida~</string>
     <string name="tip_wallpaper_change">💡 Dica: A opção da API de papel de parede pode definir a API para fontes de papel de parede aleatórias, ou um endereço de imagem único</string>
@@ -670,8 +670,8 @@
     <string name="image_download_failed_with_error">Falha no download da imagem: %1$s</string>
     <string name="image_not_loaded_please_retry">Imagem não carregada, tente novamente mais tarde</string>
     <string name="image_invalid">Imagem inválida</string>
-    <string name="image_saved_successfully">Imagem salva com sucesso no diretório do sistema (Picture/setu)</string>
-    <string name="image_save_failed_with_error">Falha ao salvar imagem: %1$s</string>
+    <string name="image_saved_successfully">Imagem guardada com sucesso em: Picture/vplus</string>
+    <string name="image_save_failed_with_error">Falha ao guardar a imagem: %1$s</string>
     <string name="config_save_failed">Falha ao salvar configuração</string>
     <string name="scene_config_applied">Configuração da cena %1$d aplicada: %2$dx%3$d@%4$dFPS %5$.2fMbps %6$s HDR %7$s</string>
     <string name="scene_not_configured">Cena %1$d não configurada</string>
@@ -729,4 +729,44 @@
     <string name="suffix_seekbar_mic_balance_target" formatted="false">%</string>
     <string name="title_checkbox_mic_voice_enhancement">Melhoria de voz</string>
     <string name="summary_checkbox_mic_voice_enhancement">Reduz o ruído de baixa frequência e melhora a clareza da voz. Disponível com ganho fixo e equilíbrio de volume.</string>
+    <string name="title_pyrowave_capability_diagnostic">Deteção de capacidades PyroWave</string>
+    <string name="summary_pyrowave_capability_diagnostic">Consultar as capacidades Vulkan e os requisitos do descodificador PyroWave atual.</string>
+    <string name="pyrowave_diag_loading">A verificar as capacidades PyroWave…</string>
+    <string name="pyrowave_diag_runtime">API da biblioteca PyroWave incluída</string>
+    <string name="pyrowave_diag_gpu_frontend">Módulo de apresentação GPU</string>
+    <string name="pyrowave_diag_gpu_gate">A apresentação GPU requer Android 10+, arm64-v8a e Vulkan 1.3. O caminho alternativo SDR requer Vulkan 1.2 e as funções do descodificador abaixo; não descodifica apenas na CPU.</string>
+    <string name="pyrowave_diag_ready">Os requisitos verificados estão satisfeitos</string>
+    <string name="pyrowave_diag_missing">Faltam requisitos da implementação atual</string>
+    <string name="pyrowave_diag_scope">Este relatório verifica apenas as capacidades declaradas pelo controlador. A apresentação em janela, os formatos de imagem, a resolução pretendida, a saída HDR e o desempenho de descodificação ainda exigem validação durante o streaming.</string>
+    <string name="pyrowave_diag_loader_missing">Nenhum carregador Vulkan acessível</string>
+    <string name="pyrowave_diag_no_devices">Nenhum dispositivo físico Vulkan encontrado</string>
+    <string name="pyrowave_diag_query_failed">Não foi possível ler as capacidades Vulkan. Isto não confirma a ausência de suporte.</string>
+    <string name="pyrowave_diag_storage_path">Armazenamento de 8 bits ou buffers grandes de texels</string>
+    <string name="pyrowave_diag_gpu_backend">Requisitos de apresentação GPU</string>
+    <string name="pyrowave_diag_staging_backend">Requisitos do caminho alternativo SDR</string>
+    <string name="pyrowave_diag_subgroup_range">Subgrupos de computação completos em wave4–wave128</string>
+    <string name="pyrowave_diag_max_workgroup">Threads por grupo de trabalho</string>
+    <string name="pyrowave_diag_shared_memory">Memória partilhada do grupo de trabalho</string>
+    <string name="pyrowave_diag_queue">Fila combinada de gráficos e computação</string>
+    <string name="pyrowave_diag_android_surface">Extensões Vulkan Surface do Android</string>
+    <string name="pyrowave_diag_copy_failed">Não foi possível copiar o relatório</string>
+    <string name="pyrowave_diag_present">Presente</string>
+    <string name="pyrowave_diag_absent">Ausente</string>
+    <string name="pyrowave_diag_vulkan_loader">Carregador Vulkan</string>
+    <string name="pyrowave_diag_subgroup_ops">Operações de subgrupos</string>
+    <string name="pyrowave_diag_subgroup_size">Tamanho do subgrupo</string>
+    <string name="pyrowave_diag_subgroup_limits">Tamanho mín. / máx. do subgrupo</string>
+    <string name="pyrowave_diag_required_subgroup">Operações de subgrupos necessárias</string>
+    <string name="pyrowave_diag_texel_limit">Máximo de elementos do buffer de texels</string>
+    <string name="pyrowave_diag_back">Voltar</string>
+    <string name="pyrowave_diag_copy">Copiar</string>
+    <string name="pyrowave_diag_copy_success">Relatório copiado para a área de transferência</string>
+    <string name="pyrowave_diag_unavailable">Indisponível</string>
+    <string name="pyrowave_negotiation_fallback">A negociação do PyroWave falhou. A mudar para %1$s.</string>
+    <string name="title_list_mouse_axis_correction">Correção da direção do rato</string>
+    <string name="summary_list_mouse_axis_correction">Rodar o movimento do rato capturado antes de o enviar para o anfitrião. Altere isto apenas se um dispositivo Android indicar eixos do rato rodados.</string>
+    <string name="mouse_axis_correction_off">Desativado</string>
+    <string name="mouse_axis_correction_90">Rodar 90 graus</string>
+    <string name="mouse_axis_correction_180">Rodar 180 graus</string>
+    <string name="mouse_axis_correction_270">Rodar 270 graus</string>
 </resources>
