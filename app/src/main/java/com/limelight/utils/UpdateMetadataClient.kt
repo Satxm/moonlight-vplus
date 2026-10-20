@@ -30,16 +30,13 @@ internal data class UpdateMetadata(
 
 internal object UpdateMetadataClient {
     private const val TAG = "UpdateMetadataClient"
-    private const val OFFICIAL_COM_METADATA_URL =
-        "https://www.alkaidlab.com/release-metadata/moonlight-vplus.json"
-    private const val OFFICIAL_CN_METADATA_URL =
-        "https://www.alkaidlab.cn/release-metadata/moonlight-vplus.json"
-    private const val CNB_RELEASE_PAGE_URL =
-        "https://cnb.cool/AlkaidLab/moonlight-vplus-android-release/-/releases"
+    private const val OFFICIAL_COM_METADATA_URL =""
+    private const val OFFICIAL_CN_METADATA_URL =""
+    private const val CNB_RELEASE_PAGE_URL =""
     private const val GITHUB_API_URL =
-        "https://api.github.com/repos/qiin2333/moonlight-vplus/releases/latest"
+        "https://api.github.com/repos/satxm/moonlight-vplus/releases/latest"
     internal const val GITHUB_RELEASE_PAGE_URL =
-        "https://github.com/qiin2333/moonlight-vplus/releases/latest"
+        "https://github.com/satxm/moonlight-vplus/releases/latest"
 
     private const val PRODUCT = "moonlight-vplus"
     private const val CHANNEL = "latest"
@@ -59,22 +56,22 @@ internal object UpdateMetadataClient {
         .build()
 
     fun fetchForChinese(): UpdateMetadata? {
-        fetchOfficialMetadata()?.let { official ->
-            if (!official.releaseNotes.isNullOrBlank()) {
-                return official
-            }
+        // fetchOfficialMetadata()?.let { official ->
+            // if (!official.releaseNotes.isNullOrBlank()) {
+                // return official
+            // }
 
             // The official manifest is authoritative for the APK and its
             // integrity fields, while CNB remains the release-note source
             // when the manifest publisher omitted releaseNotes.
-            fetchCnbRelease()
-                ?.takeIf { it.version == official.version && !it.releaseNotes.isNullOrBlank() }
-                ?.let { cnb ->
-                    return official.copy(releaseNotes = cnb.releaseNotes)
-                }
-            return official
-        }
-        fetchCnbRelease()?.let { return it }
+            // fetchCnbRelease()
+                // ?.takeIf { it.version == official.version && !it.releaseNotes.isNullOrBlank() }
+                // ?.let { cnb ->
+                    // return official.copy(releaseNotes = cnb.releaseNotes)
+                // }
+            // return official
+        // }
+        // fetchCnbRelease()?.let { return it }
         return fetchGithubRelease()
     }
 

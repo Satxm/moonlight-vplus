@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.os.Build
 import android.os.SystemClock
 import android.provider.Settings
+import android.view.Display
 
 import com.limelight.utils.NetHelper
 
@@ -48,6 +49,7 @@ open class NvConnection(
     config: StreamConfiguration,
     private val cryptoProvider: LimelightCryptoProvider,
     serverCert: X509Certificate?,
+    outputDisplay: Display,
     displayName: String? = null,
     forceResumeCurrentSession: Boolean = false
 ) {
@@ -76,21 +78,16 @@ open class NvConnection(
         context.riKey = generateRiAesKey()
         context.riKeyId = generateRiKeyId()
 
-        val brightnessRange = HdrCapabilityHelper.getBrightnessRangeAsInts(appContext).let {
-            if (config.hdrBrightnessOverride) {
-                HdrCapabilityHelper.applyBrightnessOverride(it, config.hdrPeakBrightnessNits)
-            } else {
-                it
-            }
-        }
-        context.minBrightness = brightnessRange[0]
-        context.maxBrightness = brightnessRange[1]
-        context.maxAverageBrightness = brightnessRange[2]
+        context.hdrBrightness = HdrCapabilityHelper.getBrightnessReport(
+            outputDisplay,
+            config.hdrPeakBrightnessNits.takeIf { config.hdrBrightnessOverride },
+        )
 
         if (config.hdrBrightnessOverride) {
+            val brightness = context.hdrBrightness
             LimeLog.info(
-                "HDR brightness override: min=${context.minBrightness}, " +
-                    "max=${context.maxBrightness}, avg=${context.maxAverageBrightness} nits"
+                "HDR brightness override: min=${brightness?.minNits}, " +
+                    "max=${brightness?.maxNits}, avg=${brightness?.maxFullFrameNits} nits"
             )
         }
     }
@@ -576,6 +573,17 @@ open class NvConnection(
             )
         }
     }
+
+    /** Used by ownership handoff: a dropped removal must abort USB export. */
+    fun sendControllerInputChecked(
+        controllerNumber: Short, activeGamepadMask: Short, buttonFlags: Int = 0,
+        leftTrigger: Byte = 0, rightTrigger: Byte = 0,
+        leftStickX: Short = 0, leftStickY: Short = 0,
+        rightStickX: Short = 0, rightStickY: Short = 0
+    ): Int = if (isMonkey) 0 else MoonBridge.sendMultiControllerInputChecked(
+        controllerNumber, activeGamepadMask, buttonFlags, leftTrigger, rightTrigger,
+        leftStickX, leftStickY, rightStickX, rightStickY
+    )
 
     fun sendKeyboardInput(keyMap: Short, keyDirection: Byte, modifier: Byte, flags: Byte) {
         if (!isMonkey) {

@@ -1213,6 +1213,13 @@
     <string name="toast_local_cursor_fallback">已自动使用兼容指针模式</string>
 
     <!-- 特殊按键映射 -->
+    <string name="title_shizuku_keyboard_accessibility">使用 Shizuku 启用键盘无障碍</string>
+    <string name="summary_shizuku_keyboard_accessibility">开始串流时，通过已授权的 Shizuku 启用本应用的键盘无障碍服务。</string>
+    <string name="title_shizuku_keyboard_authorization">Shizuku 授权</string>
+    <string name="summary_shizuku_not_installed">请先安装并启动 Shizuku。</string>
+    <string name="summary_shizuku_not_running">Shizuku 未运行。</string>
+    <string name="summary_shizuku_authorization_required">点按进行授权。</string>
+    <string name="summary_shizuku_authorized">已授权。</string>
     <string name="title_special_key_map">Moonlight 键盘快捷键</string>
     <string name="summary_special_key_map">键盘Home键映射Esc键，Esc+数字键/符号映射F1到F12，Esc+Q键映射串流菜单，安卓截图键映射Windows截图，安卓上一首/播放暂停/下一首分别映射到F5/F10/F11。</string>
 
@@ -1931,6 +1938,7 @@
     <string name="easytier_subnet_mismatch">网段不匹配</string>
     <string name="easytier_relayed">中转</string>
     <string name="easytier_manager_uninitialized">EasyTier Manager尚未初始化</string>
+    <string name="easytier_native_libraries_unavailable">当前安装包未包含适用于本应用运行架构的 EasyTier 本地库，无法使用 EasyTier。</string>
     <string name="easytier_starting">EasyTier服务正在启动…</string>
     <string name="easytier_vpn_permission_required">需要VPN权限才能启动服务。</string>
     <string name="easytier_status_refreshed">状态已刷新</string>
@@ -2031,6 +2039,10 @@
     <string name="diag_min_brightness">最小亮度</string>
     <string name="diag_avg_brightness">平均亮度</string>
     <string name="diag_edid_brightness_missing">驱动未报告 EDID 亮度</string>
+    <string name="diag_edid_brightness_incomplete">EDID 亮度不完整：已报峰值，黑位/全屏缺失</string>
+    <string name="diag_hdr_brightness_host_fallback">不发送亮度参数，由服务端选择回退值</string>
+    <string name="diag_hdr_brightness_estimated">含粗略估算：HDR/SDR 比值 × 300 尼特；未知全屏亮度取峰值 20%，未知黑位取 0.001 尼特</string>
+    <string name="diag_edid_ratio_conflict">EDID 峰值 %1$s 搭配 HDR/SDR 比值 %2$s×，隐含 SDR 白仅 %3$s，疑似驱动低报；若面板实际更高，请在设置中手动指定峰值</string>
     <string name="diag_hdr_panel_high">高阶 HDR 面板 ≥1000 nits</string>
     <string name="diag_hdr_panel_mid">中等 HDR 面板</string>
     <string name="diag_peak_low">峰值亮度偏低 &lt;400 nits</string>
