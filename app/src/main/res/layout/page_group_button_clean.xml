@@ -2,14 +2,13 @@
 <com.limelight.binding.input.advance_setting.superpage.SuperPageLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="280dp"
+    android:layout_width="380dp"
     android:layout_height="match_parent"
-    android:tag="280">
+    android:tag="380">
     
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_height="match_parent"
         android:paddingVertical="12dp"
         android:layout_gravity="center_vertical"
         android:background="@drawable/crown_config_panel_bg"
@@ -22,20 +21,11 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="12dp">
             
-            <!-- 页面标题 -->
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="12dp">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/layout_page_group_button_text_6db87"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="#FFFFFF"/>
-            </LinearLayout>
+                        <!-- 页面标题 -->
+            <include layout="@layout/crown_inspector_header" />
+
+            <include layout="@layout/crown_inspector_preview" />
+
             
             <!-- 组合设置卡片 -->
             <LinearLayout
@@ -46,72 +36,60 @@
                 android:padding="12dp"
                 android:layout_marginBottom="10dp">
                 
-                <TextView
+                <com.limelight.binding.input.advance_setting.superpage.CrownSectionTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/page_section_group_settings"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="#E0E0E0"
+                    app:crownSectionIcon="@drawable/phc_stack"
+                    style="@style/CrownSectionLabel"
                     android:layout_marginBottom="10dp"/>
                 
                 <!-- 隐藏开关 -->
                 <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="8dp">
+                    style="@style/CrownSwitchRow">
                     <TextView
+                        android:labelFor="@id/page_group_button_hidden_switch"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/layout_page_group_button_text_b19b4"
                         android:textSize="13sp"
-                        android:textColor="#CCFFFFFF"/>
-                    <Switch
-                        android:id="@+id/page_group_button_hidden_switch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:textColor="@color/crown_text_primary"/>
+                    <com.limelight.utils.AppSwitchView
+                        style="@style/CrownSwitchRowControl"
+                        android:id="@+id/page_group_button_hidden_switch"/>
                 </LinearLayout>
                 
                 <!-- 普通模式可移动 -->
                 <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="8dp">
+                    style="@style/CrownSwitchRow">
                     <TextView
+                        android:labelFor="@id/page_group_button_movable_in_normal_switch"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/layout_page_group_button_text_f57fc"
                         android:textSize="13sp"
-                        android:textColor="#CCFFFFFF"/>
-                    <Switch
-                        android:id="@+id/page_group_button_movable_in_normal_switch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:textColor="@color/crown_text_primary"/>
+                    <com.limelight.utils.AppSwitchView
+                        style="@style/CrownSwitchRowControl"
+                        android:id="@+id/page_group_button_movable_in_normal_switch"/>
                 </LinearLayout>
                 
                 <!-- 覆盖父级 -->
                 <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical">
+                    style="@style/CrownSwitchRow">
                     <TextView
+                        android:labelFor="@id/page_group_button_override_parent_switch"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/layout_page_group_button_text_7bc0a"
                         android:textSize="13sp"
-                        android:textColor="#CCFFFFFF"/>
-                    <Switch
-                        android:id="@+id/page_group_button_override_parent_switch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:textColor="@color/crown_text_primary"/>
+                    <com.limelight.utils.AppSwitchView
+                        style="@style/CrownSwitchRowControl"
+                        android:id="@+id/page_group_button_override_parent_switch"/>
                 </LinearLayout>
             </LinearLayout>
             
@@ -122,26 +100,26 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/crown_config_section_bg"
                 android:padding="12dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical">
                 
-                <TextView
+                <com.limelight.binding.input.advance_setting.superpage.CrownSectionTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/page_section_child_settings"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="#E0E0E0"
+                    app:crownSectionIcon="@drawable/phc_tree_structure"
+                    style="@style/CrownSectionLabel"
                     android:layout_marginBottom="10dp"/>
                 
                 <!-- 子元素可见 -->
-                <CheckBox
+                <com.limelight.utils.AppSwitchView
+                    style="@style/AppSwitchWidget"
                     android:id="@+id/page_group_button_child_visible"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:text="@string/layout_page_group_button_text_1eb1a"
                     android:textSize="13sp"
-                    android:textColor="#CCFFFFFF"
-                    android:layout_marginBottom="8dp"
+                    android:textColor="@color/crown_text_primary"
+                    android:layout_marginBottom="4dp"
                     android:paddingVertical="4dp"/>
                 
                 <!-- 按键文本 -->
@@ -149,13 +127,14 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp">
+                    android:layout_marginBottom="10dp"
+                android:gravity="center_vertical">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/layout_page_digital_combine_button_text_bab9f"
                         android:textSize="12sp"
-                        android:textColor="#B3FFFFFF"
+                        android:textColor="@color/crown_text_secondary"
                         android:layout_marginBottom="6dp"/>
                     <com.limelight.binding.input.advance_setting.superpage.ElementEditText
                         android:id="@+id/page_group_button_text"
@@ -169,13 +148,13 @@
                 </LinearLayout>
                 
                 <!-- 子元素位置跟随 -->
-                <CheckBox
+                <com.limelight.utils.AppSwitchView
+                    style="@style/AppSwitchWidget"
                     android:id="@+id/page_group_button_child_position_attribute_follow"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:text="@string/layout_page_group_button_text_42edc"
                     android:textSize="13sp"
-                    android:textColor="#CCFFFFFF"
+                    android:textColor="@color/crown_text_primary"
                     android:paddingVertical="4dp"/>
             </LinearLayout>
             
@@ -186,21 +165,21 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/crown_config_section_bg"
                 android:padding="12dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical">
                 
-                <TextView
+                <com.limelight.binding.input.advance_setting.superpage.CrownSectionTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/page_section_position_size"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="#E0E0E0"
+                    app:crownSectionIcon="@drawable/phc_bounding_box"
+                    style="@style/CrownSectionLabel"
                     android:layout_marginBottom="8dp"/>
                 
                 <com.limelight.binding.input.advance_setting.superpage.NumberSeekbar
                     android:id="@+id/page_group_button_central_x"
                     android:layout_width="match_parent"
-                    android:layout_height="58dp"
+                    android:layout_height="40dp"
                     android:layout_marginBottom="6dp"
                     app:text="@string/page_label_coord_x"
                     app:max="100"
@@ -210,7 +189,7 @@
                 <com.limelight.binding.input.advance_setting.superpage.NumberSeekbar
                     android:id="@+id/page_group_button_central_y"
                     android:layout_width="match_parent"
-                    android:layout_height="58dp"
+                    android:layout_height="40dp"
                     android:layout_marginBottom="10dp"
                     app:text="@string/page_label_coord_y"
                     app:max="100"
@@ -218,20 +197,20 @@
                     app:progress="100" />
                 
                 <!-- 子元素其他属性跟随 -->
-                <CheckBox
+                <com.limelight.utils.AppSwitchView
+                    style="@style/AppSwitchWidget"
                     android:id="@+id/page_group_button_child_other_attribute_follow"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:text="@string/layout_page_group_button_text_63921"
                     android:textSize="13sp"
-                    android:textColor="#CCFFFFFF"
+                    android:textColor="@color/crown_text_primary"
                     android:layout_marginBottom="10dp"
                     android:paddingVertical="4dp"/>
                 
                 <com.limelight.binding.input.advance_setting.superpage.NumberSeekbar
                     android:id="@+id/page_group_button_width"
                     android:layout_width="match_parent"
-                    android:layout_height="58dp"
+                    android:layout_height="40dp"
                     android:layout_marginBottom="6dp"
                     app:text="@string/apptext_pg_digital_combine_button_ea5a1"
                     app:max="100"
@@ -241,7 +220,7 @@
                 <com.limelight.binding.input.advance_setting.superpage.NumberSeekbar
                     android:id="@+id/page_group_button_height"
                     android:layout_width="match_parent"
-                    android:layout_height="58dp"
+                    android:layout_height="40dp"
                     app:text="@string/apptext_pg_digital_combine_button_4296d"
                     app:max="100"
                     app:min="0"
@@ -257,19 +236,18 @@
                 android:padding="12dp"
                 android:layout_marginBottom="10dp">
                 
-                <TextView
+                <com.limelight.binding.input.advance_setting.superpage.CrownSectionTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/page_section_appearance"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="#E0E0E0"
+                    app:crownSectionIcon="@drawable/phc_stack"
+                    style="@style/CrownSectionLabel"
                     android:layout_marginBottom="8dp"/>
                 
                 <com.limelight.binding.input.advance_setting.superpage.NumberSeekbar
                     android:id="@+id/page_group_button_radius"
                     android:layout_width="match_parent"
-                    android:layout_height="58dp"
+                    android:layout_height="40dp"
                     android:layout_marginBottom="6dp"
                     app:text="@string/apptext_pg_digital_combine_button_3ebb3"
                     app:max="100"
@@ -279,7 +257,7 @@
                 <com.limelight.binding.input.advance_setting.superpage.NumberSeekbar
                     android:id="@+id/page_group_button_thick"
                     android:layout_width="match_parent"
-                    android:layout_height="58dp"
+                    android:layout_height="40dp"
                     android:layout_marginBottom="6dp"
                     app:text="@string/apptext_pg_analog_stick_ae177"
                     app:max="10"
@@ -289,7 +267,7 @@
                 <com.limelight.binding.input.advance_setting.superpage.NumberSeekbar
                     android:id="@+id/page_group_button_layer"
                     android:layout_width="match_parent"
-                    android:layout_height="58dp"
+                    android:layout_height="40dp"
                     app:text="@string/apptext_pg_analog_stick_6896d"
                     app:max="140"
                     app:min="40" />
@@ -304,13 +282,12 @@
                 android:padding="12dp"
                 android:layout_marginBottom="10dp">
                 
-                <TextView
+                <com.limelight.binding.input.advance_setting.superpage.CrownSectionTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/page_section_child_management"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="#E0E0E0"
+                    app:crownSectionIcon="@drawable/phc_tree_structure"
+                    style="@style/CrownSectionLabel"
                     android:layout_marginBottom="10dp"/>
                 
                 <!-- 选择子元素按钮 -->
@@ -328,10 +305,12 @@
                         android:layout_weight="1"
                         android:text="@string/layout_page_group_button_text_fd8c4"
                         android:textSize="14sp"/>
-                    <View
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:background="@drawable/crown_right_arrow"/>
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/phc_caret_right"
+                        app:tint="@color/crown_text_secondary"/>
                 </LinearLayout>
             </LinearLayout>
             
@@ -344,13 +323,12 @@
                 android:padding="12dp"
                 android:layout_marginBottom="10dp">
                 
-                <TextView
+                <com.limelight.binding.input.advance_setting.superpage.CrownSectionTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/page_section_color_config"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="#E0E0E0"
+                    app:crownSectionIcon="@drawable/phc_palette"
+                    style="@style/CrownSectionLabel"
                     android:layout_marginBottom="10dp"/>
                 
                 <!-- 边框颜色行 -->
@@ -370,12 +348,12 @@
                             android:layout_height="wrap_content"
                             android:text="@string/layout_page_analog_stick_text_9b4ba"
                             android:textSize="11sp"
-                            android:textColor="#B3FFFFFF"
+                            android:textColor="@color/crown_text_secondary"
                             android:layout_marginBottom="4dp"/>
                         <com.limelight.binding.input.advance_setting.superpage.ElementEditText
                             android:id="@+id/page_group_button_normal_color"
                             android:layout_width="match_parent"
-                            android:layout_height="38dp"
+                            android:layout_height="44dp"
                             android:gravity="center"
                             android:text="#FFFFFF"
                             android:textSize="11sp"
@@ -393,12 +371,12 @@
                             android:layout_height="wrap_content"
                             android:text="@string/layout_page_analog_stick_text_3142e"
                             android:textSize="11sp"
-                            android:textColor="#B3FFFFFF"
+                            android:textColor="@color/crown_text_secondary"
                             android:layout_marginBottom="4dp"/>
                         <com.limelight.binding.input.advance_setting.superpage.ElementEditText
                             android:id="@+id/page_group_button_pressed_color"
                             android:layout_width="match_parent"
-                            android:layout_height="38dp"
+                            android:layout_height="44dp"
                             android:gravity="center"
                             android:text="#00FF00"
                             android:textSize="11sp"
@@ -417,12 +395,12 @@
                         android:layout_height="wrap_content"
                         android:text="@string/layout_page_analog_stick_text_4573a"
                         android:textSize="11sp"
-                        android:textColor="#B3FFFFFF"
+                        android:textColor="@color/crown_text_secondary"
                         android:layout_marginBottom="4dp"/>
                     <com.limelight.binding.input.advance_setting.superpage.ElementEditText
                         android:id="@+id/page_group_button_background_color"
                         android:layout_width="match_parent"
-                        android:layout_height="38dp"
+                        android:layout_height="44dp"
                         android:gravity="center"
                         android:text="#80000000"
                         android:textSize="11sp"
@@ -440,19 +418,18 @@
                 android:padding="12dp"
                 android:layout_marginBottom="10dp">
                 
-                <TextView
+                <com.limelight.binding.input.advance_setting.superpage.CrownSectionTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/page_section_text_settings"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="#E0E0E0"
+                    app:crownSectionIcon="@drawable/phc_action_edit"
+                    style="@style/CrownSectionLabel"
                     android:layout_marginBottom="8dp"/>
                 
                 <com.limelight.binding.input.advance_setting.superpage.NumberSeekbar
                     android:id="@+id/page_group_button_text_size"
                     android:layout_width="match_parent"
-                    android:layout_height="58dp"
+                    android:layout_height="40dp"
                     android:layout_marginBottom="8dp"
                     app:text="@string/apptext_pg_analog_stick_5f15e"
                     app:max="150"
@@ -475,12 +452,12 @@
                             android:layout_height="wrap_content"
                             android:text="@string/layout_page_analog_stick_text_69066"
                             android:textSize="11sp"
-                            android:textColor="#B3FFFFFF"
+                            android:textColor="@color/crown_text_secondary"
                             android:layout_marginBottom="4dp"/>
                         <com.limelight.binding.input.advance_setting.superpage.ElementEditText
                             android:id="@+id/page_group_button_normal_text_color"
                             android:layout_width="match_parent"
-                            android:layout_height="38dp"
+                            android:layout_height="44dp"
                             android:gravity="center"
                             android:text="#FFFFFF"
                             android:textSize="11sp"
@@ -498,12 +475,12 @@
                             android:layout_height="wrap_content"
                             android:text="@string/layout_page_analog_stick_text_4b292"
                             android:textSize="11sp"
-                            android:textColor="#B3FFFFFF"
+                            android:textColor="@color/crown_text_secondary"
                             android:layout_marginBottom="4dp"/>
                         <com.limelight.binding.input.advance_setting.superpage.ElementEditText
                             android:id="@+id/page_group_button_pressed_text_color"
                             android:layout_width="match_parent"
-                            android:layout_height="38dp"
+                            android:layout_height="44dp"
                             android:gravity="center"
                             android:text="#000000"
                             android:textSize="11sp"
@@ -522,13 +499,12 @@
                 android:padding="12dp"
                 android:layout_marginBottom="10dp">
                 
-                <TextView
+                <com.limelight.binding.input.advance_setting.superpage.CrownSectionTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/page_section_delete_operation"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:textColor="#E0E0E0"
+                    app:crownSectionIcon="@drawable/phc_action_trash"
+                    style="@style/CrownSectionLabel"
                     android:layout_marginBottom="10dp"/>
                 
                 <LinearLayout

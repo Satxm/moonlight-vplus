@@ -17,11 +17,15 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.READ_PRIVATE_SETTINGS"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CAPTURE_KEYBOARD" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
@@ -187,6 +191,7 @@
 
         <activity
             android:name=".PcView"
+            android:enabled="true"
             android:exported="true"
             android:resizeableActivity="true"
             android:banner="@drawable/atv_banner"
@@ -199,7 +204,7 @@
 
             <meta-data android:name="WindowManagerPreference:FreeformWindowSize" android:value="system-default" />
             <meta-data android:name="WindowManagerPreference:FreeformWindowOrientation" android:value="landscape" />
-
+            <!-- Keep one stable launcher component for phones, TVs, and shortcuts. -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -209,6 +214,31 @@
                 <category android:name="tv.ouya.intent.category.APP" />
             </intent-filter>
         </activity>
+
+        <!--
+            Compatibility targets for explicit desktop intents saved by older versions.
+            These aliases have no launcher filters, so they never add another app icon.
+            PcView remains available regardless of the aliases' saved enabled states.
+        -->
+        <activity-alias
+            android:name=".LauncherSaba"
+            android:enabled="true"
+            android:exported="true"
+            android:targetActivity=".PcView"
+            android:banner="@drawable/atv_banner"
+            android:icon="@mipmap/ic_launcher_saba"
+            android:roundIcon="@mipmap/ic_launcher_saba"
+            android:label="@string/app_label" />
+
+        <activity-alias
+            android:name=".LauncherSabaDark"
+            android:enabled="true"
+            android:exported="true"
+            android:targetActivity=".PcView"
+            android:banner="@drawable/atv_banner"
+            android:icon="@mipmap/ic_launcher_saba"
+            android:roundIcon="@mipmap/ic_launcher_saba"
+            android:label="@string/app_label" />
         <!-- Small hack to support launcher shortcuts without relaunching over and over again when the back button is pressed -->
         <activity
             android:name=".ShortcutTrampoline"

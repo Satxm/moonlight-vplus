@@ -166,7 +166,6 @@
     <string name="dialog_title_reset_osc">Layout zurücksetzen</string>
     <string name="dialog_text_reset_osc">Bist du sicher, dass du das gespeicherte On-Screen-Controllertsten Layout löschen willst\?</string>
     <string name="toast_reset_osc_success">On-Screen-Controller wurde zurückgesetzt</string>
-    <string name="title_osc_opacity">Transparenz der On-Screen-Controllertasten ändern</string>
     <string name="summary_osc_opacity">On-Screen-Controllertasten auf dem Bildschirm mehr/weniger transparent machen</string>
     <string name="suffix_osc_opacity">%</string>
     <string name="dialog_title_osc_opacity">Transparenz ändern</string>
@@ -184,8 +183,6 @@
     <string name="summary_checkbox_host_audio">Audio auf dem Host und auf diesem Gerät wiedergeben</string>
     <string name="category_advanced_settings">Erweiterte Einstellungen</string>
     <string name="title_disable_frame_drop">Nie Frames Überspringen</string>
-    <string name="title_unlock_fps">Alle möglichen Framerates freischalten</string>
-    <string name="summary_unlock_fps">Streaming mit 90 oder 120 FPS kann die Latenz auf High-End-Geräten verringern, kann aber bei Geräten, die dies nicht unterstützen, zu stottern oder Instabilität führen</string>
     <string name="title_checkbox_disable_warnings">Warnhinweise deaktivieren</string>
     <string name="summary_checkbox_disable_warnings">On-Screen Warnmeldungen während des Streaming deaktivieren</string>
     <string name="summary_disable_frame_drop">Kann das Mikro-Ruckeln auf einigen Geräten reduzieren, allerdings erhöht dies gleichzeitig die Latenz</string>
@@ -218,7 +215,6 @@
     <string name="videoformat_hevcalways">Immer HEVC verwenden (könnte Crashes verursachen)</string>
     <string name="title_frame_pacing">Video Frame-Pacing</string>
     <string name="summary_frame_pacing">Lege fest, wie Videobilder getaktet werden. Die präzise Bildausgabe kann Videozeitstempel (PTS) verwenden und wird für die meisten Geräte empfohlen.</string>
-    <string name="resolution_prefix_native_fullscreen">Natives Vollbild</string>
     <string name="pacing_latency">Niedrige Latenz (schnellere Reaktion)</string>
     <string name="pacing_precise_sync">Präzises Bildtempo (empfohlen)</string>
     <string name="pacing_experimental_low_latency">Ultraniedrige Latenz (experimentell)</string>
@@ -233,12 +229,8 @@
     <string name="audioconf_51surround">5.1 Surround Sound</string>
     <string name="audioconf_71surround">7.1 Surround Sound</string>
     <string name="perf_overlay_netlatency">Durchschnittliche Netzwerklatenz: %1$d ms (Abweichung: %2$d ms)</string>
-    <string name="fps_30">30 FPS</string>
     <string name="resolution_480p">480p</string>
-    <string name="fps_120">120 FPS</string>
     <string name="resolution_720p">720p</string>
-    <string name="fps_60">60 FPS</string>
-    <string name="fps_90">90 FPS</string>
     <string name="summary_troubleshooting">Tipps zur Diagnose und Behebung häufiger Streaming-Probleme anzeigen</string>
     <string name="pacing_balanced_alt">Ausgabe-FPS begrenzen (bis zur Bildwiederholrate)</string>
     <string name="summary_checkbox_absolute_mouse_mode">Dies kann die Mausbeschleunigung für die Fernsteuerung natürlicher gestalten, ist aber mit vielen Spielen nicht kompatibel.</string>
@@ -252,14 +244,11 @@
     <string name="summary_privacy_policy">Moonlight\'s Datenschutzbestimmungen anzeigen</string>
     <string name="summary_seekbar_deadzone">Hinweis: Einige Spiele können eine größere Controller-Totzone erzwingen als die, die in Moonlight konfiguriert ist.</string>
     <string name="summary_checkbox_enable_audiofx">Ermöglicht das Funktionieren von Audioeffekten beim Streaming, kann aber die Audio-Latenz erhöhen</string>
-    <string name="resolution_prefix_native_portrait">(Portrait)</string>
     <string name="title_checkbox_reduce_refresh_rate">Aktualisierungsrate verringern erlauben</string>
     <string name="summary_checkbox_reduce_refresh_rate">Durch das Verringern der Display Aktualisierungsrate, kann, auf Kosten der Video-Latenz, der Akkuverbrauch reduziert werden</string>
-    <string name="resolution_prefix_native_landscape">(Landscape)</string>
     <string name="frame_conversion_error">Der Host-PC hat einen schwerwiegenden Videocodierungsfehler gemeldet.
 \n
 \nVersuchen Sie, den HDR-Modus zu deaktivieren, die Streaming-Auflösung zu ändern oder die Bildschirmauflösung des Host-PCs zu ändern.</string>
-    <string name="title_native_fps_dialog">Native FPS Warnung</string>
     <string name="videoformat_av1always">Immer AV1 verwenden (Experimentell)</string>
     <string name="title_checkbox_gamepad_motion_sensors">Erlaube Benutzen von Gamepad Bewegungssensoren</string>
     <string name="videoformat_h264always">Immer H.264 verwenden</string>
@@ -273,15 +262,15 @@
     <string name="analogscroll_none">Keine (beide Sticks bewegen die Maus)</string>
     <string name="analogscroll_right">Rechter Analogstick</string>
     <string name="analogscroll_left">Linker Analogstick</string>
-    <string name="title_screen_combination_mode">Einstellungen für Displaykombination</string>
+    <string name="title_screen_combination_mode">Displaykombination</string>
     <string name="summary_screen_combination_mode">Displaysteuerung für Foundation Sunshine</string>
     <string name="screen_combination_mode_dialog_subtitle">Gilt für die Displaysteuerung von Foundation Sunshine</string>
     <string name="screen_mode_host_default">Host folgen</string>
-    <string name="screen_mode_no_operation">Modus ohne Aktion</string>
-    <string name="screen_mode_auto_activate">Aktivierungsmodus</string>
-    <string name="screen_mode_primary_streaming">Primärer Streaming-Modus</string>
-    <string name="screen_mode_secondary_streaming">Sekundärer Streaming-Modus</string>
-    <string name="screen_mode_exclusive_streaming">Exklusiver Display-Streaming-Modus</string>
+    <string name="screen_mode_no_operation">Keine Aktion</string>
+    <string name="screen_mode_auto_activate">Aktivieren</string>
+    <string name="screen_mode_primary_streaming">Primär</string>
+    <string name="screen_mode_secondary_streaming">Sekundär</string>
+    <string name="screen_mode_exclusive_streaming">Exklusiv</string>
     <string name="screen_mode_host_default_desc">Verwendet die Sunshine-Hosteinstellung, ohne sie zu überschreiben.</string>
     <string name="screen_mode_no_operation_desc">Behält das aktuelle Displaylayout bei.</string>
     <string name="screen_mode_auto_activate_desc">Aktiviert das ausgewählte Display für Streaming.</string>
@@ -339,7 +328,7 @@
     <string name="pyrowave_diag_copy">Kopieren</string>
     <string name="pyrowave_diag_copy_success">Bericht in die Zwischenablage kopiert</string>
     <string name="pyrowave_diag_unavailable">Nicht verfügbar</string>
-    <string name="image_saved_successfully">Bild erfolgreich gespeichert unter: Picture/vplus</string>
+    <string name="image_saved_successfully">Bild erfolgreich gespeichert unter: Pictures/vplus</string>
     <string name="image_save_failed_with_error">Bild konnte nicht gespeichert werden: %1$s</string>
     <string name="tip_double_tap_mouse">Tipp: Halten Sie den leeren Bereich oben in der Computerliste gedrückt, um das aktuelle Hintergrundbild zu speichern.</string>
     <string name="pyrowave_negotiation_fallback">Die PyroWave-Aushandlung ist fehlgeschlagen. Wechsel zu %1$s.</string>
@@ -351,4 +340,23 @@
     <string name="mouse_axis_correction_270">Um 270 Grad drehen</string>
     <string name="summary_checkbox_reverse_resolution">Nur aktivieren, wenn Ausrichtung oder Abmessungen des Bildes nicht stimmen; kann mit der Drehung des Geräts in Konflikt geraten.</string>
     <string name="summary_checkbox_rotable_screen">Synchronisiert das Stream-Layout automatisch, wenn das Gerät zwischen Hoch- und Querformat wechselt.</string>
+    <string name="layout_page_device_text_1a70f">Touch-Eingabe umschalten</string>
+    <string name="game_menu_perf_metrics">Anzuzeigende Messwerte</string>
+    <string name="game_menu_perf_orientation_fixed">Dieser Stil verwendet ein festes Layout. Die gewählte Ausrichtung wird im Standardstil übernommen.</string>
+    <string name="game_menu_perf_orientation_docked">Die gewählte Ausrichtung wird nach dem Verlassen des angedockten Layouts übernommen.</string>
+    <string name="game_menu_perf_orientation_portrait">Im Hochformat ist das Layout immer vertikal.</string>
+    <string name="perf_sheet_previous_page">Vorherige Seite</string>
+    <string name="perf_sheet_next_page">Nächste Seite</string>
+    <string name="perf_sheet_settings">Einstellungen</string>
+    <string name="game_menu_perf_position_reset">Position zurücksetzen</string>
+    <string name="game_menu_perf_gestures">Gesten</string>
+    <string name="game_menu_perf_gestures_full">Alle</string>
+    <string name="game_menu_perf_gestures_long_only">Nur Halten</string>
+    <string name="game_menu_perf_gestures_custom">Aktuelle Gesten sind benutzerdefiniert</string>
+    <string name="game_menu_perf_moon">Mondphase</string>
+    <string name="crown_config_segment_layout">Layout</string>
+    <string name="crown_config_segment_touch">Berührung</string>
+    <string name="crown_config_segment_feedback">Vibration</string>
+    <string name="toast_absolute_mouse_mode_enabled">Absoluter Mausmodus aktiviert</string>
+    <string name="toast_relative_mouse_mode_enabled">Relativer Mausmodus aktiviert</string>
 </resources>

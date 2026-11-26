@@ -177,8 +177,6 @@
     <string name="title_fps_list">Frame rate video</string>
     <string name="summary_checkbox_touchscreen_trackpad">Se abilitato, lo schermo touch si comporta come un trackpad. Se disabilitato, lo schermo touch controlla direttamente il cursore del mouse.</string>
     <string name="title_checkbox_mouse_nav_buttons">Abilita i bottoni avanti e indietro del mouse</string>
-    <string name="title_osc_opacity">Cambia l\'opavità dei controlli a schermo</string>
-    <string name="title_unlock_fps">Sblocca tutti i frame rate possibili</string>
     <string name="pacing_balanced">Bilanciato (ritardo e fluidità)</string>
     <string name="pacing_latency">Bassa latenza (risposta più rapida)</string>
     <string name="pacing_precise_sync">Ritmo fotogrammi preciso (consigliato)</string>
@@ -186,7 +184,6 @@
     <string name="suffix_seekbar_bitrate_mbps">Mbps</string>
     <string name="resolution_prefix_native">Nativo</string>
     <string name="no_video_received_error">Nessun video ricevuto dal PC sorgente.</string>
-    <string name="resolution_prefix_native_fullscreen">Schermo intero nativo</string>
     <string name="category_input_settings">Impostazioni di input</string>
     <string name="title_native_res_dialog">Avviso Risoluzione Nativa</string>
     <string name="dialog_title_osc_opacity">Cambia opacità</string>
@@ -202,10 +199,6 @@
     <string name="resolution_1080p">1080p</string>
     <string name="resolution_1440p">1440p</string>
     <string name="resolution_4k">4K</string>
-    <string name="fps_30">30 FPS</string>
-    <string name="fps_60">60 FPS</string>
-    <string name="fps_90">90 FPS</string>
-    <string name="fps_120">120 FPS</string>
     <string name="audioconf_stereo">Stereo</string>
     <string name="audioconf_51surround">Surround 5.1</string>
     <string name="audioconf_71surround">Surround 7.1</string>
@@ -226,7 +219,6 @@
     <string name="early_termination_error">Qualcosa è andato storto sul PC sorgente mentre la trasmissione veniva avviata.
 \n
 \nAssicurati di non avere nessun contenuto protetto da DRM aperto sul PC sorgente. Puoi anche provare a spengere e riaccendere il PC sorgente.</string>
-    <string name="summary_unlock_fps">Trasmettere a 90 o 120 FPS potrebbe ridurre il ritardo su dispositivi di fascia alta, ma può provocare ritardi i instabilità sui dispositivi che non lo supportano</string>
     <string name="summary_enable_post_stream_toast">Molstra un messaggio con informazioni sulla latenza dopo che la trasmissione è conclusa</string>
     <string name="text_native_res_dialog">Le impostazioni di risoluzione nativa e/o di FPS possono non essere supportate dal server per lo streaming. Dovrai aggiungerle manualmente all\'interno delle impostazioni del PC o del server.
 \n
@@ -254,14 +246,11 @@
 \n
 \nProva a disabilitare la modalità HDR, modificare la risoluzione dello streaming o la risoluzione del display del tuo PC host.</string>
     <string name="summary_checkbox_reduce_refresh_rate">Una minore frequenza di aggiornamento del display può risparmiare energia a scapito di una latenza video aggiuntiva</string>
-    <string name="resolution_prefix_native_landscape">(Panorama)</string>
-    <string name="resolution_prefix_native_portrait">(Ritratto)</string>
     <string name="title_checkbox_enable_audiofx">Abilita il supporto per l\'equalizzatore di sistema</string>
     <string name="summary_checkbox_enable_audiofx">Consente agli effetti audio di funzionare durante lo streaming, ma può aumentare la latenza audio</string>
     <string name="title_checkbox_reduce_refresh_rate">Consenti riduzione della frequenza di aggiornamento</string>
     <string name="summary_full_range">Ciò causerà la perdita di dettagli in aree chiare e scure se il dispositivo non visualizza correttamente i contenuti video a gamma completa.</string>
     <string name="title_full_range">Forza video full range (sperimentale)</string>
-    <string name="title_native_fps_dialog">Avviso FPS nativi</string>
     <string name="videoformat_av1always">Preferisci AV1 (Sperimentale)</string>
     <string name="pcview_menu_eol">Terminazione del servizio NVIDIA GameStream</string>
     <string name="title_checkbox_gamepad_motion_sensors">Permetti l\'uso dei sensori giroscopici del gamepad</string>
@@ -277,15 +266,15 @@
     <string name="pair_pairing_help">Se il tuo PC host sta eseguendo Sunshine, vai nella pagina web locale di Sunshine ed inserisci il PIN.</string>
     <string name="title_checkbox_gamepad_touchpad_as_mouse">Controlla sempre il mouse col touchpad</string>
     <string name="perf_overlay_hostprocessinglatency">Latenza di codifica da parte dell\'host min/max/average: %1$.1f/%2$.1f/%3$.1f ms</string>
-    <string name="title_screen_combination_mode">Impostazioni combinazione schermi</string>
+    <string name="title_screen_combination_mode">Combinazione schermi</string>
     <string name="summary_screen_combination_mode">Controllo display Foundation Sunshine</string>
     <string name="screen_combination_mode_dialog_subtitle">Si applica al controllo display Foundation Sunshine</string>
     <string name="screen_mode_host_default">Segui host</string>
-    <string name="screen_mode_no_operation">Modalità nessuna operazione</string>
-    <string name="screen_mode_auto_activate">Modalità attivazione</string>
-    <string name="screen_mode_primary_streaming">Modalità streaming principale</string>
-    <string name="screen_mode_secondary_streaming">Modalità streaming secondario</string>
-    <string name="screen_mode_exclusive_streaming">Modalità streaming display esclusivo</string>
+    <string name="screen_mode_no_operation">Invariato</string>
+    <string name="screen_mode_auto_activate">Attiva</string>
+    <string name="screen_mode_primary_streaming">Principale</string>
+    <string name="screen_mode_secondary_streaming">Secondario</string>
+    <string name="screen_mode_exclusive_streaming">Esclusivo</string>
     <string name="screen_mode_host_default_desc">Usa l’impostazione dell’host Sunshine senza sovrascriverla.</string>
     <string name="screen_mode_no_operation_desc">Mantiene la disposizione attuale degli schermi.</string>
     <string name="screen_mode_auto_activate_desc">Attiva il display selezionato per lo streaming.</string>
@@ -343,7 +332,7 @@
     <string name="pyrowave_diag_copy">Copia</string>
     <string name="pyrowave_diag_copy_success">Rapporto copiato negli appunti</string>
     <string name="pyrowave_diag_unavailable">Non disponibile</string>
-    <string name="image_saved_successfully">Immagine salvata in: Picture/vplus</string>
+    <string name="image_saved_successfully">Immagine salvata in: Pictures/vplus</string>
     <string name="image_save_failed_with_error">Salvataggio dell\'immagine non riuscito: %1$s</string>
     <string name="tip_double_tap_mouse">Suggerimento: tieni premuta l\'area vuota in alto nell\'elenco dei computer per salvare l\'immagine di sfondo attuale.</string>
     <string name="pyrowave_negotiation_fallback">La negoziazione di PyroWave non è riuscita. Passaggio a %1$s.</string>
@@ -355,4 +344,23 @@
     <string name="mouse_axis_correction_270">Ruota di 270 gradi</string>
     <string name="summary_checkbox_reverse_resolution">Attiva solo quando l\'orientamento o le dimensioni dell\'immagine sono errati; potrebbe entrare in conflitto con la rotazione del dispositivo.</string>
     <string name="summary_checkbox_rotable_screen">Sincronizza automaticamente il layout dello streaming quando il dispositivo passa dall\'orientamento verticale a quello orizzontale e viceversa.</string>
+    <string name="layout_page_device_text_1a70f">Attiva o disattiva il tocco</string>
+    <string name="game_menu_perf_metrics">Indicatori da visualizzare</string>
+    <string name="game_menu_perf_orientation_fixed">Questo stile usa un layout fisso. L’orientamento selezionato viene applicato passando allo stile Standard.</string>
+    <string name="game_menu_perf_orientation_docked">L’orientamento selezionato viene applicato quando si esce dal layout ancorato.</string>
+    <string name="game_menu_perf_orientation_portrait">Con lo schermo in verticale, il layout è sempre verticale.</string>
+    <string name="perf_sheet_previous_page">Pagina precedente</string>
+    <string name="perf_sheet_next_page">Pagina successiva</string>
+    <string name="perf_sheet_settings">Impostazioni</string>
+    <string name="game_menu_perf_position_reset">Ripristina posizione</string>
+    <string name="game_menu_perf_gestures">Gesti</string>
+    <string name="game_menu_perf_gestures_full">Completi</string>
+    <string name="game_menu_perf_gestures_long_only">Solo pressione lunga</string>
+    <string name="game_menu_perf_gestures_custom">I gesti attuali sono personalizzati</string>
+    <string name="game_menu_perf_moon">Fase lunare</string>
+    <string name="crown_config_segment_layout">Layout</string>
+    <string name="crown_config_segment_touch">Tocco</string>
+    <string name="crown_config_segment_feedback">Vibrazione</string>
+    <string name="toast_absolute_mouse_mode_enabled">Modalità mouse assoluto attivata</string>
+    <string name="toast_relative_mouse_mode_enabled">Modalità mouse relativo attivata</string>
 </resources>

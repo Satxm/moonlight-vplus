@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".preferences.StreamSettings">
 
+    <!-- Shared by the main settings page and detail pages. -->
+    <ImageView
+        android:id="@+id/settingsBackgroundImage"
+        android:background="@color/settings_page_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
+
+    <View
+        android:id="@+id/settingsBackgroundOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/settings_background_overlay" />
+
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
@@ -16,18 +30,6 @@
             android:id="@+id/stream_settings"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/settingsBackgroundImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"/>
-
-            <View
-                android:id="@+id/settingsBackgroundOverlay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/settings_background_overlay" />
 
             <!-- 设置内容区域（顶部留出菜单按钮空间） -->
             <FrameLayout
@@ -69,6 +71,7 @@
                 android:scaleType="center"
                 android:padding="10dp"
                 android:elevation="6dp"
+                android:focusable="true"
                 android:contentDescription="@string/settings_search_hint" />
 
             <!-- 顶部搜索栏（默认隐藏，点击搜索按钮后展开） -->
@@ -85,6 +88,9 @@
                 android:background="@drawable/settings_search_bar_background"
                 android:elevation="6dp"
                 android:visibility="gone"
+                android:focusable="true"
+                android:focusableInTouchMode="false"
+                android:nextFocusRight="@id/settings_search_close"
                 android:paddingStart="14dp"
                 android:paddingEnd="6dp">
 
@@ -110,6 +116,8 @@
                     android:inputType="text"
                     android:singleLine="true"
                     android:maxLines="1"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:importantForAutofill="no" />
 
                 <ImageView
@@ -119,7 +127,10 @@
                     android:src="@drawable/ic_close_stylish"
                     android:scaleType="center"
                     android:padding="6dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:background="@drawable/settings_search_close_background"
+                    android:focusable="true"
+                    android:focusableInTouchMode="false"
+                    android:nextFocusLeft="@id/settings_search_bar"
                     android:contentDescription="@string/settings_search_close" />
 
             </LinearLayout>
@@ -193,15 +204,5 @@
         </LinearLayout>
 
     </androidx.drawerlayout.widget.DrawerLayout>
-
-    <FrameLayout
-        android:id="@+id/screen_combination_mode_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/screen_combination_mode_picker_background"
-        android:clickable="true"
-        android:elevation="24dp"
-        android:focusable="true"
-        android:visibility="gone" />
 
 </FrameLayout>

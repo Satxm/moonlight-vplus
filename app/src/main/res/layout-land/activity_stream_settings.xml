@@ -7,24 +7,25 @@
     android:layout_height="match_parent"
     tools:context=".preferences.StreamSettings">
 
+    <!-- Shared by the main settings page and detail pages. -->
+    <ImageView
+        android:id="@+id/settingsBackgroundImage"
+        android:background="@color/settings_page_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
+
+    <!-- 全屏半透明遮罩 -->
+    <View
+        android:id="@+id/settingsBackgroundOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/settings_background_overlay" />
+
     <FrameLayout
         android:id="@+id/settings_layout_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <!-- 全屏背景图片 -->
-        <ImageView
-            android:id="@+id/settingsBackgroundImage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
-
-        <!-- 全屏半透明遮罩 -->
-        <View
-            android:id="@+id/settingsBackgroundOverlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/settings_background_overlay" />
 
         <!-- 内容层：菜单和设置并排 -->
         <LinearLayout
@@ -39,9 +40,8 @@
                 android:layout_width="@dimen/settings_landscape_sidebar_width"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:background="@color/settings_drawer_background_landscape"
-                android:paddingTop="@dimen/activity_safearea_top"
-                android:elevation="4dp">
+                android:background="@color/settings_group_surface"
+                android:paddingTop="@dimen/activity_safearea_top">
 
                 <!-- 返回贴左，品牌图标居中放大，避免返回单独占出一条空白 -->
                 <FrameLayout
@@ -91,6 +91,9 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:background="@drawable/settings_search_bar_background"
+                    android:focusable="true"
+                    android:focusableInTouchMode="false"
+                    android:nextFocusRight="@id/settings_search_close"
                     android:paddingStart="10dp"
                     android:paddingEnd="4dp">
 
@@ -116,6 +119,8 @@
                         android:inputType="text"
                         android:singleLine="true"
                         android:maxLines="1"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
                         android:importantForAutofill="no" />
 
                     <ImageView
@@ -125,7 +130,11 @@
                         android:src="@drawable/ic_close_stylish"
                         android:scaleType="center"
                         android:padding="5dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:background="@drawable/settings_search_close_background"
+                        android:focusable="true"
+                        android:focusableInTouchMode="false"
+                        android:nextFocusLeft="@id/settings_search_bar"
+                        android:nextFocusUp="@id/settings_back"
                         android:contentDescription="@string/settings_search_clear" />
 
                 </LinearLayout>
@@ -177,15 +186,5 @@
         </LinearLayout>
 
     </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/screen_combination_mode_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/screen_combination_mode_picker_background"
-        android:clickable="true"
-        android:elevation="24dp"
-        android:focusable="true"
-        android:visibility="gone" />
 
 </FrameLayout>

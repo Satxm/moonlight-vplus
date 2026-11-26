@@ -1,4 +1,5 @@
 {
     "java.configuration.updateBuildConfiguration": "interactive",
-    "commentTranslate.targetLanguage": "zh-CN"
+    "commentTranslate.targetLanguage": "zh-CN",
+    "cmake.sourceDirectory": "E:/Android/moonlight-vplus/third-party/pyrowave"
 }

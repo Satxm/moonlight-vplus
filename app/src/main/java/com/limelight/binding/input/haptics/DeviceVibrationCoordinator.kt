@@ -22,11 +22,18 @@ internal class DeviceVibrationCoordinator(
     private val vibrateDevice: (Int, Long) -> Unit,
     private val cancelDeviceVibration: () -> Unit,
     executor: ScheduledExecutorService = newWorker(),
-    minimumIntervalMs: Long = MINIMUM_DEVICE_INTERVAL_MS
+    minimumIntervalMs: Long = MINIMUM_DEVICE_INTERVAL_MS,
+    private val playDeviceTick: (() -> Unit)? = null,
+    private val clockMs: () -> Long = { System.nanoTime() / 1_000_000L },
+    detailTickIntervalMs: Long = 90L,
+    dispatcherClockNanos: () -> Long = System::nanoTime,
+    private val nativeHaptics: NativeAuthoredHaptics? = null
 ) {
+    private val detailIntervalMs = detailTickIntervalMs.coerceAtLeast(40L)
     enum class GameSource {
         ROUTED_GAME,
-        LEGACY_OVERLAY
+        LEGACY_OVERLAY,
+        AUTHORED_IR
     }
 
     /** Result of an audio claim; ownership and write readiness are independent states. */
@@ -36,7 +43,7 @@ internal class DeviceVibrationCoordinator(
         OWNED_READY
     }
 
-    private data class MotorState(val amplitude: Int)
+    private data class MotorState(val amplitude: Int, val expiresAtMs: Long = Long.MAX_VALUE)
 
     private data class VibrationCommand(
         val amplitude: Int,
@@ -44,10 +51,15 @@ internal class DeviceVibrationCoordinator(
         val generation: Long,
         val sequence: Long,
         val urgent: Boolean = false,
-        val terminal: Boolean = false
+        val terminal: Boolean = false,
+        val tick: Boolean = false,
+        val expiresAtMs: Long = Long.MAX_VALUE,
+        val minimumIntervalMs: Long? = null,
+        val native: Boolean = false,
+        val audioCleanup: Boolean = false
     ) {
         val isZero: Boolean
-            get() = amplitude == 0
+            get() = amplitude == 0 && !tick && !native
     }
 
     private val lock = Any()
@@ -55,11 +67,14 @@ internal class DeviceVibrationCoordinator(
     private val dispatcher = LatestWinsDispatcher(
         minimumIntervalMs = minimumIntervalMs,
         executor = executor,
+        clockNanos = dispatcherClockNanos,
         dispatch = ::dispatch,
         onError = { error ->
             LimeLog.warning("Device vibration dispatch failed: ${error.message}")
         },
-        isUrgent = { it.urgent }
+        isUrgent = { it.urgent },
+        intervalForValueMs = { it.minimumIntervalMs ?: minimumIntervalMs },
+        intervalFromDispatchStart = { it.tick }
     )
 
     @Volatile
@@ -74,6 +89,104 @@ internal class DeviceVibrationCoordinator(
     private var lastGameCommandAmplitude = -1
     private var outputWriteInFlight = false
     private var touchAudioPreempted = false
+    private var detailOwned = false
+    private var detailTickStarted = false
+    private var detailInputAtMs = 0L
+    private var detailWatchdog: Runnable? = null
+    private var authoredIrOwned = false
+    private data class NativeState(val body: NativeAuthoredBody, val expiresAtMs: Long, val warmUntilMs: Long)
+    private data class NativePoint(val gain: Float, val expiresAtMs: Long)
+    private var nativeState: NativeState? = null
+    private var nativePoint: NativePoint? = null
+    private var nativeOutput = false
+    private var nativeCleanupQueued = false
+    private var nativeResetPending = false
+    private var nativeWake: Runnable? = null
+    private var nativeWakeAt = Long.MAX_VALUE
+
+    val supportsNativeAuthored: Boolean get() = nativeHaptics?.ready == true
+
+    /** Points keep their source deadline and strength; continuous replacements are paced at 20ms.
+     * Like the existing dispatcher, stalled hardware keeps the latest event rather than a backlog.
+     */
+    fun submitNativeAuthored(body: NativeAuthoredBody, point: Float, expiresAtMs: Long,
+                             pointExpiresAtMs: Long, active: Boolean = true) {
+        val command = synchronized(lock) {
+            if (closed) return
+            if (!active && nativeState == null) return
+            if (!active) clearNativeLocked()
+            else {
+                if (nativeState == null) {
+                    authoredIrOwned = true
+                    detailOwned = false
+                    detailWatchdog?.let(removeCallback)
+                    detailWatchdog = null
+                    gameSources.remove(GameSource.AUTHORED_IR)
+                    clearGameRefreshLocked()
+                    if (!audioOwned && !touchActive) generation++
+                }
+                val warmUntil = if (nativeState == null || !body.isSilent || point > 0 && pointExpiresAtMs >= clockMs())
+                    clockMs() + NATIVE_IDLE_WARM_MS else nativeState!!.warmUntilMs
+                nativeState = NativeState(body, expiresAtMs, warmUntil)
+                if (!audioOwned && !touchActive && point > 0 && pointExpiresAtMs >= clockMs())
+                    nativePoint = NativePoint(ControllerRumbleState.normalizeAmplitude(point), pointExpiresAtMs)
+                scheduleNativeStateWakeLocked()
+            }
+            if (audioOwned || touchActive) null else currentGameCommandLocked(forceRefresh = true)
+        }
+        command?.let(dispatcher::submit)
+    }
+
+    private fun clearNativeLocked() {
+        if (nativeState != null) {
+            nativeResetPending = true
+            nativeState = null
+            authoredIrOwned = false
+            lastGameCommandAmplitude = -1
+            if (!audioOwned && !touchActive) generation++
+        }
+        nativePoint = null
+        nativeWake?.let(removeCallback)
+        nativeWake = null
+        nativeWakeAt = Long.MAX_VALUE
+    }
+
+    private fun nativeCommandLocked(): VibrationCommand? {
+        val state = nativeState ?: return null
+        if (state.expiresAtMs <= clockMs()) { clearNativeLocked(); return null }
+        val point = nativePoint?.takeIf { it.expiresAtMs >= clockMs() }
+        return VibrationCommand(0, 0, generation, ++outputSequence,
+            urgent = point != null || !nativeOutput || nativeResetPending, expiresAtMs = state.expiresAtMs,
+            minimumIntervalMs = if (point != null) 0L else 20L, native = true)
+    }
+
+    private fun scheduleNativeStateWakeLocked() {
+        nativeState?.let { state ->
+            scheduleNativeWakeLocked(minOf(state.expiresAtMs,
+                state.warmUntilMs.takeIf { it > clockMs() } ?: Long.MAX_VALUE))
+        }
+    }
+
+    private fun scheduleNativeWakeLocked(atMs: Long) {
+        if (closed || nativeWakeAt <= atMs) return
+        nativeWake?.let(removeCallback)
+        val task = Runnable {
+            val command = synchronized(lock) {
+                nativeWake = null
+                nativeWakeAt = Long.MAX_VALUE
+                if (closed) return@Runnable
+                nativeState?.let {
+                    if (clockMs() >= it.expiresAtMs) clearNativeLocked()
+                    else scheduleNativeStateWakeLocked()
+                }
+                if (audioOwned || touchActive) null else currentGameCommandLocked(forceRefresh = true)
+            }
+            command?.let(dispatcher::submit)
+        }
+        nativeWake = task
+        nativeWakeAt = atMs
+        postDelayed(task, (atMs - clockMs()).coerceAtLeast(1))
+    }
 
     @Volatile
     private var onAudioTouchPreemptRequested: (() -> Boolean)? = null
@@ -91,14 +204,149 @@ internal class DeviceVibrationCoordinator(
         onAudioTouchFinished = onFinished
     }
 
+    fun resetAuthoredIr() {
+        val stop = synchronized(lock) {
+            if (closed) return
+            clearNativeLocked()
+            if (!audioOwned && !touchActive) generation++
+            gameSources.remove(GameSource.AUTHORED_IR)
+            authoredIrOwned = false
+            clearGameRefreshLocked()
+            detailOwned = false
+            detailTickStarted = false
+            detailWatchdog?.let(removeCallback)
+            detailWatchdog = null
+            lastGameCommandAmplitude = -1
+            if (audioOwned || touchActive) null else
+                currentGameCommandLocked(forceRefresh = true).copy(minimumIntervalMs = 0L)
+        }
+        if (stop != null) dispatcher.clearPending()
+        stop?.let(dispatcher::submit)
+    }
+
+    /** Extended owns a separate source; ordinary latest states remain available when it releases. */
+    fun submitAuthoredIrBody(low: Short, high: Short, strengthPercent: Int, active: Boolean,
+                             expiresAtMs: Long = clockMs() + 200L) {
+        val acquired = synchronized(lock) {
+            if (closed) return
+            clearNativeLocked()
+            val acquiring = active && !authoredIrOwned
+            if (acquiring) {
+                authoredIrOwned = true
+                gameSources.remove(GameSource.AUTHORED_IR)
+                clearGameRefreshLocked()
+                lastGameCommandAmplitude = -1
+                if (!audioOwned && !touchActive) generation++
+            } else if (!active && authoredIrOwned) {
+                authoredIrOwned = false
+                gameSources.remove(GameSource.AUTHORED_IR)
+                if (!audioOwned && !touchActive) generation++
+            }
+            acquiring && !audioOwned && !touchActive
+        }
+        if (acquired) dispatcher.clearPending()
+        if (!active) {
+            val stop = synchronized(lock) {
+                if (audioOwned || touchActive || detailOwned) null else
+                    currentGameCommandLocked(forceRefresh = true).copy(minimumIntervalMs = 0L)
+            }
+            stop?.let(dispatcher::submit)
+            return
+        }
+        submitGameRumble(GameSource.AUTHORED_IR, low, high, strengthPercent, expiresAtMs)
+    }
+
+    /** Refresh the authored-detail lease on every IR frame, including silent frames. */
+    fun submitAuthoredDetail(tick: Boolean, strengthPercent: Int, active: Boolean = true) {
+        submitDetail(tick, strengthPercent, active, null)
+    }
+
+    /** Extended carries source-timed events. Sink backpressure replaces pending work, with no rate gate. */
+    fun submitAuthoredIrDetail(tick: Boolean, strengthPercent: Int, expiresAtMs: Long, active: Boolean = true) {
+        submitDetail(tick, strengthPercent, active, expiresAtMs)
+    }
+
+    private fun submitDetail(tick: Boolean, strengthPercent: Int, active: Boolean, sourceExpiryMs: Long?) {
+        val command = synchronized(lock) {
+            if (closed || playDeviceTick == null) return
+            clearNativeLocked()
+            if (!active) {
+                if (!detailOwned) return
+                detailOwned = false
+                if (!audioOwned && !touchActive) generation++
+                detailWatchdog?.let(removeCallback)
+                detailWatchdog = null
+                if (audioOwned || touchActive) null else currentGameCommandLocked(forceRefresh = true)
+                    .let { if (sourceExpiryMs != null) it.copy(minimumIntervalMs = 0L) else it }
+            } else {
+                val acquired = !detailOwned
+                if (acquired) {
+                    detailOwned = true
+                    detailTickStarted = false
+                    if (!audioOwned && !touchActive) generation++
+                    clearGameRefreshLocked()
+                    // Authored PCM supersedes the previous game's ordinary-rumble snapshot.
+                    // Otherwise ending the PCM lease could revive an old nonzero waveform.
+                    if (sourceExpiryMs == null) gameSources.clear()
+                    else gameSources.remove(GameSource.AUTHORED_IR)
+                }
+                detailInputAtMs = clockMs()
+                scheduleDetailWatchdogLocked()
+                if (audioOwned || touchActive) null
+                else if (tick && strengthPercent > 0) VibrationCommand(
+                    amplitude = 0,
+                    durationMs = 0,
+                    generation = generation,
+                    sequence = ++outputSequence,
+                    tick = true,
+                    expiresAtMs = sourceExpiryMs ?: (clockMs() + 150L),
+                    // Public predefined effects have fixed strength; lower user strength
+                    // limits detail density instead of claiming unsupported amplitude scaling.
+                    // A preceding cancel/ordinary waveform must not delay the first native
+                    // point into the next source event. Pace only after a tick has begun.
+                    minimumIntervalMs = if (sourceExpiryMs != null || !detailTickStarted) 0L else
+                        (detailIntervalMs * 100 / strengthPercent.coerceIn(1, 100))
+                )
+                else if (acquired) VibrationCommand(0, 0, generation, ++outputSequence,
+                    minimumIntervalMs = 0L)
+                else null
+            }
+        }
+        command?.let(dispatcher::submit)
+    }
+
+    private fun scheduleDetailWatchdogLocked() {
+        if (detailWatchdog != null) return
+        val callback = Runnable {
+            val command = synchronized(lock) {
+                detailWatchdog = null
+                if (closed || !detailOwned) return@Runnable
+                if (clockMs() - detailInputAtMs < 200L) {
+                    scheduleDetailWatchdogLocked()
+                    return@Runnable
+                }
+                detailOwned = false
+                if (!audioOwned && !touchActive) generation++
+                if (audioOwned || touchActive) null else currentGameCommandLocked(forceRefresh = true)
+            }
+            command?.let(dispatcher::submit)
+        }
+        detailWatchdog = callback
+        postDelayed(callback, 200L)
+    }
+
     /**
      * [targetAmplitude] is 0-255 and already carries every routing gain: callers fold the two
      * motor channels through [SingleMotorRumbleFold] upstream, never here.
      */
-    fun submitGameRumble(
+    fun submitGameRumble(source: GameSource, targetAmplitude: Int, strengthPercent: Int) =
+        submitGameAmplitude(source, targetAmplitude, strengthPercent, Long.MAX_VALUE)
+
+    private fun submitGameAmplitude(
         source: GameSource,
         targetAmplitude: Int,
-        strengthPercent: Int
+        strengthPercent: Int,
+        expiresAtMs: Long
     ) {
         val command = synchronized(lock) {
             if (closed) return
@@ -106,14 +354,14 @@ internal class DeviceVibrationCoordinator(
             // not a minimum level or history-dependent quantization of the authored signal.
             val state = MotorState(
                 (targetAmplitude.coerceIn(0, 255) *
-                    strengthPercent.coerceIn(0, 200) / 100.0).toInt().coerceIn(0, 255)
+                    strengthPercent.coerceIn(0, 200) / 100.0).toInt().coerceIn(0, 255), expiresAtMs
             )
             if (state.amplitude == 0) {
                 gameSources.remove(source)
             } else {
                 gameSources[source] = state
             }
-            if (audioOwned || touchActive) {
+            if (audioOwned || touchActive || detailOwned || nativeState != null) {
                 null
             } else {
                 gameAmplitudeCommandLocked(mixedGameAmplitudeLocked())
@@ -121,6 +369,15 @@ internal class DeviceVibrationCoordinator(
         }
         command?.let(dispatcher::submit)
     }
+
+    fun submitGameRumble(source: GameSource, lowFrequency: Short, highFrequency: Short,
+                         strengthPercent: Int, expiresAtMs: Long = Long.MAX_VALUE) =
+        submitGameAmplitude(source, SingleMotorRumbleFold.amplitude(lowFrequency, highFrequency),
+            strengthPercent, expiresAtMs)
+
+    private fun currentGameCommandLocked(forceRefresh: Boolean = false): VibrationCommand =
+        nativeCommandLocked() ?: gameAmplitudeCommandLocked(mixedGameAmplitudeLocked(), forceWrite = forceRefresh)
+            ?: levelCommandLocked(levelAmplitude)
 
     fun playTouchHaptic(lowFrequency: Short, highFrequency: Short, durationMs: Int) {
         val duration = durationMs.toLong().coerceIn(1L, MAXIMUM_TOUCH_DURATION_MS)
@@ -140,6 +397,7 @@ internal class DeviceVibrationCoordinator(
                 clearGameRefreshLocked()
             }
             touchAudioPreempted = touchAudioPreempted || audioWasOwned
+            nativePoint = null
             touchCompletion?.let(removeCallback)
             clearGameRefreshLocked()
             touchActive = true
@@ -167,6 +425,7 @@ internal class DeviceVibrationCoordinator(
     /** Audio renderers call this before their first phone-motor write. */
     fun claimForAudio(): AudioClaimResult {
         var ownershipChanged = false
+        var cleanup: VibrationCommand? = null
         val result = synchronized(lock) {
             if (closed || touchActive) return AudioClaimResult.REJECTED
             if (!audioOwned) {
@@ -178,14 +437,21 @@ internal class DeviceVibrationCoordinator(
                 touchCompletion = null
                 clearGameRefreshLocked()
                 ownershipChanged = true
+                nativePoint = null
             }
-            if (outputWriteInFlight) {
+            if (nativeOutput && !nativeCleanupQueued) {
+                nativeCleanupQueued = true
+                cleanup = VibrationCommand(0, 0, generation, ++outputSequence,
+                    urgent = true, audioCleanup = true)
+            }
+            if (outputWriteInFlight || nativeOutput) {
                 AudioClaimResult.OWNED_NOT_READY
             } else {
                 AudioClaimResult.OWNED_READY
             }
         }
         if (ownershipChanged) dispatcher.clearPending()
+        cleanup?.let(dispatcher::submit)
         return result
     }
 
@@ -195,7 +461,7 @@ internal class DeviceVibrationCoordinator(
             if (closed || !audioOwned) return
             audioOwned = false
             generation++
-            gameAmplitudeCommandLocked(mixedGameAmplitudeLocked(), forceWrite = true)
+            currentGameCommandLocked(forceRefresh = true)
         }
         command?.let(dispatcher::submit)
     }
@@ -212,7 +478,12 @@ internal class DeviceVibrationCoordinator(
             touchCompletion?.let(removeCallback)
             touchCompletion = null
             clearGameRefreshLocked()
+            clearNativeLocked()
             gameSources.clear()
+            detailOwned = false
+            authoredIrOwned = false
+            detailWatchdog?.let(removeCallback)
+            detailWatchdog = null
             VibrationCommand(
                 amplitude = 0,
                 durationMs = GAME_SOURCE_LEASE_MS,
@@ -235,13 +506,15 @@ internal class DeviceVibrationCoordinator(
             restoreAudio = touchAudioPreempted
             touchAudioPreempted = false
             generation++
-            gameAmplitudeCommandLocked(mixedGameAmplitudeLocked(), forceWrite = true)
+            currentGameCommandLocked(forceRefresh = true)
         }
         command?.let(dispatcher::submit)
         if (restoreAudio) onAudioTouchFinished?.invoke()
     }
 
     private fun mixedGameAmplitudeLocked(): Int {
+        if (detailOwned || nativeState != null) return 0
+        if (authoredIrOwned) return gameSources[GameSource.AUTHORED_IR]?.amplitude ?: 0
         var amplitude = 0
         gameSources.values.forEach { state ->
             amplitude = maxOf(amplitude, state.amplitude)
@@ -285,7 +558,8 @@ internal class DeviceVibrationCoordinator(
             durationMs = GAME_SOURCE_LEASE_MS,
             generation = generation,
             sequence = outputSequence,
-            urgent = urgent
+            urgent = urgent,
+            expiresAtMs = if (authoredIrOwned) gameSources[GameSource.AUTHORED_IR]?.expiresAtMs ?: Long.MAX_VALUE else Long.MAX_VALUE
         )
     }
 
@@ -296,7 +570,9 @@ internal class DeviceVibrationCoordinator(
         }
         if (gameRefreshCallback != null) return
 
-        val callback = Runnable { refreshGameLease() }
+        val callback = object : Runnable {
+            override fun run() = refreshGameLease(this)
+        }
         gameRefreshCallback = callback
         postDelayed(callback, GAME_SOURCE_REFRESH_MS)
     }
@@ -306,8 +582,12 @@ internal class DeviceVibrationCoordinator(
         gameRefreshCallback = null
     }
 
-    private fun refreshGameLease() {
+    private fun refreshGameLease(task: Runnable) {
         val command = synchronized(lock) {
+            // The worker may start this task before an ownership change cancelled it
+            // (cancel(false) cannot stop a running task). The captured level is then stale,
+            // so only the still-registered callback may act.
+            if (gameRefreshCallback !== task) return
             gameRefreshCallback = null
             if (closed || audioOwned || touchActive) return
             if (levelAmplitude == 0) return
@@ -319,31 +599,75 @@ internal class DeviceVibrationCoordinator(
     private fun dispatch(command: VibrationCommand) {
         // Admit the write under the ownership lock, then release it before entering vendor Binder.
         // Audio only writes after claimForAudio() reports that no admitted game write is in flight.
+        var nativeBody = NativeAuthoredBody.ZERO
+        var nativeEvent = 0f
+        var nativeKeepWarm = false
+        var switchingToNative = false
+        var stoppingNative = false
+        var resettingNative = false
         val admitted = synchronized(lock) {
-            if (!command.terminal && (audioOwned || command.generation != generation)) {
+            if (!command.terminal && (audioOwned && !command.audioCleanup || command.generation != generation ||
+                    command.native && (touchActive || nativeState == null) ||
+                    !command.isZero && clockMs() > command.expiresAtMs ||
+                    command.tick && (touchActive || !detailOwned || clockMs() > command.expiresAtMs))) {
                 false
             } else {
                 outputWriteInFlight = true
+                if (command.tick) detailTickStarted = true
+                if (command.native) {
+                    resettingNative = nativeResetPending
+                    nativeResetPending = false
+                    switchingToNative = !nativeOutput || resettingNative
+                    nativeOutput = true
+                    nativeBody = nativeState?.body ?: NativeAuthoredBody.ZERO
+                    nativeKeepWarm = nativeState?.let { it.warmUntilMs > clockMs() } == true
+                    nativeEvent = nativePoint?.takeIf { it.expiresAtMs >= clockMs() }?.gain ?: 0f
+                    nativePoint = null
+                } else {
+                    stoppingNative = nativeOutput
+                }
                 true
             }
         }
         if (!admitted) return
 
         try {
-            if (command.isZero) {
-                cancelDeviceVibration()
+            if (command.native) {
+                if (resettingNative) nativeHaptics?.stop()
+                if (switchingToNative) cancelDeviceVibration()
+                nativeHaptics?.render(nativeBody, nativeEvent, nativeKeepWarm)?.let { at ->
+                    synchronized(lock) {
+                        if (!closed && nativeState != null && command.generation == generation)
+                            scheduleNativeWakeLocked(at)
+                    }
+                }
+            } else if (command.audioCleanup) {
+                nativeHaptics?.stop()
             } else {
-                vibrateDevice(command.amplitude, command.durationMs)
+                if (stoppingNative) nativeHaptics?.stop()
+                if (command.terminal) nativeHaptics?.close()
+                if (command.tick) {
+                    playDeviceTick?.invoke()
+                } else if (command.isZero) {
+                    cancelDeviceVibration()
+                } else {
+                    vibrateDevice(command.amplitude, command.durationMs)
+                }
             }
         } finally {
             synchronized(lock) {
+                if (!command.native) {
+                    nativeOutput = false
+                    nativeCleanupQueued = false
+                    nativeResetPending = false
+                }
                 outputWriteInFlight = false
             }
         }
     }
 
-    private companion object {
-        val THREAD_NUMBER = AtomicInteger()
+    internal companion object {
+        private val THREAD_NUMBER = AtomicInteger()
         // Long one-shot effects are reprogrammed only four times per second. Some vendor
         // vibrator services deadlock when effects are replaced at controller packet rate.
         // Start/stop edges bypass level pacing. Native writes stay serialized; hardware
@@ -352,8 +676,9 @@ internal class DeviceVibrationCoordinator(
         const val GAME_SOURCE_LEASE_MS = 500L
         const val GAME_SOURCE_REFRESH_MS = 375L
         const val MAXIMUM_TOUCH_DURATION_MS = 1_000L
+        const val NATIVE_IDLE_WARM_MS = 1_500L
 
-        fun newWorker(): ScheduledExecutorService {
+        internal fun newWorker(): ScheduledExecutorService {
             val threadNumber = THREAD_NUMBER.incrementAndGet()
             return Executors.newSingleThreadScheduledExecutor { runnable ->
                 Thread(runnable, "DeviceVibration-$threadNumber").apply { isDaemon = true }

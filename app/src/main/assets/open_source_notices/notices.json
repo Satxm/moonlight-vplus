@@ -90,16 +90,16 @@
   {
     "id": "lsfg-vk-android",
     "name": "lsfg-vk-android",
-    "version": "3e89e5439a98f55d5acb003d20039426ab24e69c",
-    "url": "https://github.com/FrankBarretta/lsfg-vk-android",
+    "version": "d35751e42ca44e11c46c7c33243faf7f88087081",
+    "url": "https://github.com/AlkaidLab/lsfg-vk-android-legacy",
     "license": "MIT",
     "licenseFile": "lsfg-vk-android-LICENSE.txt"
   },
   {
     "id": "lsfg-vk-framegen",
     "name": "lsfg-vk-framegen",
-    "version": "bundled in lsfg-vk-android 3e89e543",
-    "url": "https://github.com/FrankBarretta/lsfg-vk-android/tree/3e89e5439a98f55d5acb003d20039426ab24e69c/framegen",
+    "version": "bundled in lsfg-vk-android-legacy d35751e4",
+    "url": "https://github.com/AlkaidLab/lsfg-vk-android-legacy/tree/d35751e42ca44e11c46c7c33243faf7f88087081/framegen",
     "license": "MIT",
     "licenseFile": "lsfg-vk-framegen-LICENSE.txt"
   },
@@ -150,6 +150,14 @@
     "url": "https://github.com/trailofbits/pe-parse",
     "license": "MIT",
     "licenseFile": "pe-parse-LICENSE.txt"
+  },
+  {
+    "id": "phosphor-icons",
+    "name": "Phosphor Icons",
+    "version": "2b75f3ad12b420c9504ef05df8d2564a28f8500e (regular icons snapshot)",
+    "url": "https://github.com/phosphor-icons/core",
+    "license": "MIT",
+    "licenseFile": "phosphor-icons-LICENSE.txt"
   },
   {
     "id": "pyrowave",

@@ -146,7 +146,6 @@
     <string name="suffix_seekbar_bitrate_mbps">מגהביט</string>
     <string name="title_checkbox_stretch_video">מתחית וידיאו למסך מלא</string>
     <string name="resolution_prefix_native">טבעי</string>
-    <string name="resolution_prefix_native_fullscreen">טבעי במסך מלא</string>
     <string name="category_audio_settings">הגדרות אודיו</string>
     <string name="title_audio_config_list">הגדרת קול היקפי (Surround sound)</string>
     <string name="title_checkbox_enable_audiofx">הפעל תמיכה באקולייזר</string>
@@ -205,7 +204,7 @@
     <string name="pyrowave_diag_copy">העתקה</string>
     <string name="pyrowave_diag_copy_success">הדוח הועתק ללוח</string>
     <string name="pyrowave_diag_unavailable">לא זמין</string>
-    <string name="image_saved_successfully">התמונה נשמרה בהצלחה בנתיב: Picture/vplus</string>
+    <string name="image_saved_successfully">התמונה נשמרה בהצלחה בנתיב: Pictures/vplus</string>
     <string name="image_save_failed_with_error">שמירת התמונה נכשלה: %1$s</string>
     <string name="tip_double_tap_mouse">טיפ: כדי לשמור את תמונת הרקע הנוכחית, לחצו לחיצה ארוכה על האזור הריק בראש רשימת המחשבים.</string>
     <string name="pyrowave_negotiation_fallback">משא ומתן עם PyroWave נכשל. מעבר ל־%1$s.</string>
@@ -217,4 +216,23 @@
     <string name="mouse_axis_correction_270">סיבוב של 270 מעלות</string>
     <string name="summary_checkbox_reverse_resolution">הפעל רק כאשר כיוון התמונה או המידות שלה שגויים; עלול להתנגש עם סיבוב בהתאם למכשיר.</string>
     <string name="summary_checkbox_rotable_screen">מסנכרן אוטומטית את פריסת הסטרימינג כאשר המכשיר עובר בין מצב לאורך למצב לרוחב.</string>
+    <string name="layout_page_device_text_1a70f">מתג מגע</string>
+    <string name="game_menu_perf_metrics">מדדים להצגה</string>
+    <string name="game_menu_perf_orientation_fixed">סגנון זה משתמש בפריסה קבועה. הכיוון שנבחר יחול לאחר מעבר לסגנון הרגיל.</string>
+    <string name="game_menu_perf_orientation_docked">הכיוון שנבחר יחול לאחר יציאה מהפריסה המעוגנת.</string>
+    <string name="game_menu_perf_orientation_portrait">במצב לאורך, הפריסה תמיד אנכית.</string>
+    <string name="perf_sheet_previous_page">הדף הקודם</string>
+    <string name="perf_sheet_next_page">הדף הבא</string>
+    <string name="perf_sheet_settings">הגדרות</string>
+    <string name="game_menu_perf_position_reset">איפוס מיקום</string>
+    <string name="game_menu_perf_gestures">מחוות</string>
+    <string name="game_menu_perf_gestures_full">מלא</string>
+    <string name="game_menu_perf_gestures_long_only">לחיצה ארוכה</string>
+    <string name="game_menu_perf_gestures_custom">המחוות הנוכחיות מותאמות אישית</string>
+    <string name="game_menu_perf_moon">מופע הירח</string>
+    <string name="crown_config_segment_layout">פריסה</string>
+    <string name="crown_config_segment_touch">מגע</string>
+    <string name="crown_config_segment_feedback">רטט</string>
+    <string name="toast_absolute_mouse_mode_enabled">מצב עכבר מוחלט הופעל</string>
+    <string name="toast_relative_mouse_mode_enabled">מצב עכבר יחסי הופעל</string>
 </resources>

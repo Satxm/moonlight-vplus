@@ -1,0 +1,98 @@
+package com.limelight.utils
+
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
+import androidx.core.graphics.ColorUtils
+import com.limelight.R
+
+/** Shared switch: a full-height short track with a white thumb. */
+@Composable
+fun AppSwitch(
+    checked: Boolean,
+    onCheckedChange: ((Boolean) -> Unit)?,
+    enabled: Boolean = true,
+    modifier: Modifier = Modifier
+) {
+    val active = appAccentColor()
+    val soft = appAccentSoftColor()
+    val outline = colorResource(R.color.game_menu_list_item_border)
+    val thumbOutline = colorResource(R.color.ui_control_thumb_outline)
+    val travel by animateFloatAsState(
+        targetValue = if (checked) 1f else 0f,
+        animationSpec = tween(AppSwitchMotion.DurationMillis, easing = AppSwitchMotion.easing),
+        label = "appSwitchTravel"
+    )
+    val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
+    Canvas(
+        modifier = modifier
+            .size(AppSwitchSpec.WIDTH_DP.dp, AppSwitchSpec.HEIGHT_DP.dp)
+            .then(
+                if (onCheckedChange != null) {
+                    Modifier.toggleable(
+                        value = checked,
+                        enabled = enabled,
+                        role = Role.Switch,
+                        onValueChange = onCheckedChange
+                    )
+                } else {
+                    Modifier
+                }
+            )
+    ) {
+        val trackW = AppSwitchSpec.TRACK_WIDTH_DP.dp.toPx()
+        val trackH = AppSwitchSpec.TRACK_HEIGHT_DP.dp.toPx()
+        val thumbR = AppSwitchSpec.THUMB_DIAMETER_DP.dp.toPx() / 2f
+        drawRoundRect(
+            color = when {
+                !enabled -> soft.copy(alpha = 0.10f)
+                else -> Color(ColorUtils.blendARGB(soft.toArgb(), active.copy(alpha = 0.82f).toArgb(), travel))
+            },
+            topLeft = Offset((size.width - trackW) / 2f, (size.height - trackH) / 2f),
+            size = Size(trackW, trackH),
+            cornerRadius = CornerRadius(trackH / 2f)
+        )
+        drawRoundRect(
+            color = if (enabled) Color(ColorUtils.blendARGB(
+                outline.toArgb(), active.copy(alpha = 0.46f).toArgb(), travel)) else outline,
+            topLeft = Offset((size.width - trackW) / 2f, (size.height - trackH) / 2f),
+            size = Size(trackW, trackH),
+            cornerRadius = CornerRadius(trackH / 2f),
+            style = Stroke(width = AppSwitchSpec.STROKE_DP.dp.toPx())
+        )
+        val thumbInset = AppSwitchSpec.THUMB_INSET_DP.dp.toPx()
+        val thumbMinX = (size.width - trackW) / 2f + thumbInset + thumbR
+        val thumbMaxX = (size.width + trackW) / 2f - thumbInset - thumbR
+        val thumbX = thumbMinX + (thumbMaxX - thumbMinX) * (if (rtl) 1f - travel else travel)
+        drawCircle(
+            color = when {
+                !enabled -> Color.White.copy(alpha = 0.38f)
+                else -> Color.White
+            },
+            radius = thumbR,
+            center = Offset(thumbX, size.height / 2f)
+        )
+        drawCircle(
+            color = if (enabled) thumbOutline else thumbOutline.copy(alpha = thumbOutline.alpha * 0.38f),
+            radius = thumbR - (AppSwitchSpec.STROKE_DP / 2f).dp.toPx(),
+            center = Offset(thumbX, size.height / 2f),
+            style = Stroke(width = AppSwitchSpec.STROKE_DP.dp.toPx())
+        )
+    }
+}

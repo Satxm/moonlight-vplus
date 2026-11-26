@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -25,8 +24,7 @@ class PageDeviceController(
     private val devicePage: SuperPageLayout =
         LayoutInflater.from(context).inflate(R.layout.page_device, null) as SuperPageLayout
     private val keyboardDrawing: LinearLayout = devicePage.findViewById(R.id.keyboard_drawing)
-    private val mouseDrawing: FrameLayout = devicePage.findViewById(R.id.mouse_drawing)
-    private val gamepadDrawing: FrameLayout = devicePage.findViewById(R.id.gamepad_drawing)
+    private val deviceNavigation = DevicePickerNavigationController(devicePage)
     private val keyboardPickerController: KeyboardKeyPickerController
     private var deviceCallBack: DeviceCallBack? = null
     private var returnFocus: View? = null
@@ -46,6 +44,7 @@ class PageDeviceController(
         setListenersForDevice(devicePage, onClickListener)
         val externalPickerViews = mutableListOf<View>()
         collectSelectableViews(devicePage, externalPickerViews)
+        externalPickerViews += deviceNavigation.navigationViews
         keyboardPickerController = KeyboardKeyPickerController(
             root = keyboardDrawing,
             onKeySelected = { key ->
@@ -55,6 +54,7 @@ class PageDeviceController(
             externalViews = externalPickerViews,
             onDismiss = ::close
         )
+        deviceNavigation.onCategoryChanged = { keyboardPickerController.refreshNavigation() }
 
         devicePage.findViewById<View>(R.id.device_cancel).setOnClickListener {
             close()
@@ -67,9 +67,11 @@ class PageDeviceController(
     fun open(deviceCallBack: DeviceCallBack, keyboardVisible: Int, mouseVisible: Int, gamepadVisible: Int) {
         returnFocus = (context as? Game)?.currentFocus
         this.deviceCallBack = deviceCallBack
-        keyboardDrawing.visibility = keyboardVisible
-        mouseDrawing.visibility = mouseVisible
-        gamepadDrawing.visibility = gamepadVisible
+        deviceNavigation.setAvailableDevices(
+            keyboardVisible == View.VISIBLE,
+            mouseVisible == View.VISIBLE,
+            gamepadVisible == View.VISIBLE
+        )
         if (keyboardVisible == View.VISIBLE) {
             keyboardPickerController.showPage(
                 KeyboardKeyPickerController.Page.MAIN,
@@ -154,16 +156,15 @@ class PageDeviceController(
             Toast.makeText(context, R.string.crown_direct_config_no_other, Toast.LENGTH_SHORT).show()
             return
         }
-        val names = ids.map {
-            database.queryConfigAttribute(it, PageConfigController.COLUMN_STRING_CONFIG_NAME, "") as String
-        }
+        val choices = CrownConfigChoiceFactory.create(database, ids, sourceId)
         val callback = deviceCallBack ?: return
-        game.showCrownConfigPicker(names, onSelected = { index ->
+        game.showCrownConfigPicker(choices, onSelected = { choice ->
+            val selectedId = choice.configId
             if (deviceCallBack === callback && controllerManager.superPagesController?.pageNow === devicePage &&
-                configController.currentConfigId == sourceId && index in ids.indices &&
-                ids[index] in configController.directSwitchTargetIds) {
+                configController.currentConfigId == sourceId &&
+                selectedId != sourceId && selectedId in configController.directSwitchTargetIds) {
                 val key = TextView(context).apply {
-                    tag = DirectConfigAction.encode(ids[index])
+                    tag = DirectConfigAction.encode(selectedId)
                     text = getKeyNameByValue(tag.toString())
                 }
                 callback.OnKeyClick(key)

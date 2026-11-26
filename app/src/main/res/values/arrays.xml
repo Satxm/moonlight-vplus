@@ -62,14 +62,6 @@
         <item>3840x2160</item>
     </string-array>
 
-    <string-array name="fps_names">
-        <item>@string/fps_30</item>
-        <item>@string/fps_60</item>
-        <item>@string/fps_90</item>
-        <item>@string/fps_120</item>
-        <item>@string/fps_144</item>
-        <item>@string/fps_165</item>
-    </string-array>
     <string-array name="fps_values" translatable="false">
         <item>30</item>
         <item>60</item>
@@ -174,17 +166,17 @@
 
     <string-array name="video_format_names">
         <item>@string/videoformat_auto</item>
-        <item>@string/videoformat_pyrowave</item>
         <item>@string/videoformat_av1always</item>
         <item>@string/videoformat_hevcalways</item>
         <item>@string/videoformat_h264always</item>
+        <item>@string/videoformat_pyrowave</item>
     </string-array>
     <string-array name="video_format_values" translatable="false">
         <item>auto</item>
-        <item>pyrowave</item>
         <item>forceav1</item>
         <item>forceh265</item>
         <item>neverh265</item>
+        <item>pyrowave</item>
     </string-array>
 
     <string-array name="decoder_input_buffer_mode_names">
@@ -371,6 +363,19 @@
         <item>horizontal</item>
         <item>vertical</item>
     </string-array>
+
+    <string-array name="perf_overlay_style_names">
+        <item>@string/perf_overlay_style_mini</item>
+        <item>@string/perf_overlay_style_standard</item>
+        <item>@string/perf_overlay_style_detailed</item>
+        <item>@string/perf_overlay_style_classic</item>
+    </string-array>
+    <string-array name="perf_overlay_style_values" translatable="false">
+        <item>mini</item>
+        <item>standard</item>
+        <item>detailed</item>
+        <item>classic</item>
+    </string-array>
     
     <!-- Performance overlay position options - horizontal -->
     <string-array name="perf_overlay_position_horizontal_names">
@@ -425,6 +430,7 @@
         <item>@string/perf_stats_item_battery</item>
         <item>@string/perf_stats_item_one_percent_low</item>
         <item>@string/perf_stats_item_clock</item>
+        <item>@string/game_menu_perf_moon</item>
     </string-array>
     <string-array name="perf_overlay_display_items_values" translatable="false">
         <item>resolution</item>
@@ -437,6 +443,7 @@
         <item>battery</item>
         <item>one_percent_low</item>
         <item>clock</item>
+        <item>health</item>
     </string-array>
     <string-array name="mic_menu_action_mode_entries">
         <item>@string/mic_menu_action_show_button</item>
@@ -619,6 +626,7 @@
         <item>@string/float_ball_action_open_menu</item>
         <item>@string/float_ball_action_toggle_visibility</item>
         <item>@string/float_ball_action_show_perf_overlay</item>
+        <item>@string/quick_btn_unlock_host</item>
     </string-array>
     <string-array name="float_ball_action_values" translatable="false">
         <item>none</item>
@@ -626,6 +634,7 @@
         <item>open_menu</item>
         <item>toggle_visibility</item>
         <item>show_perf_overlay</item>
+        <item>unlock_host</item>
     </string-array>
     <string-array name="float_ball_position_entries">
         <item>@string/mic_button_position_top_left</item>

@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="ui_control_thumb_outline">#26585B63</color>
     <color name="advance_setting_background">#4D464A</color>
     <!-- Splash screen colors. splash_bg MUST match advance_setting_background so any
          premature theme/window swap during the launch handoff is invisible to the user. -->
@@ -48,8 +49,8 @@
     <color name="ui_shell_surface_elevated">#FCFFFFFF</color>
     <color name="ui_shell_surface_pressed">#142B2F35</color>
     <color name="settings_drawer_background">#E6FFFFFF</color>
-    <color name="settings_drawer_background_landscape">#CCFFFFFF</color>
-    <color name="appview_quick_menu_background">#E6FFFFFF</color>
+    <color name="settings_group_surface">#40FFFFFF</color>
+    <color name="appview_panel_surface">#EBFFFFFF</color>
     <color name="ui_shell_outline">#261D1B20</color>
     <color name="ui_shell_outline_strong">#3D1D1B20</color>
     <color name="ui_shell_text_primary">#F21F2026</color>
@@ -62,7 +63,8 @@
     <color name="ui_shell_accent">#FF6B9D</color>
     <color name="ui_shell_accent_soft">#1AFF6B9D</color>
     <color name="ui_shell_accent_focus">#33FF6B9D</color>
-    <color name="settings_background_overlay">#CCFFFFFF</color>
+    <color name="settings_page_background">#FFF6F3F6</color>
+    <color name="settings_background_overlay">#A6FAF7FA</color>
     <color name="pc_toolbar_menu_surface_start">#E8FFFFFF</color>
     <color name="pc_toolbar_menu_surface_center">#DDFCE4EC</color>
     <color name="pc_toolbar_menu_surface_end">#CFF3E5F5</color>
@@ -84,6 +86,8 @@
     <color name="app_dialog_accent_soft">#1AFF6B9D</color>
     <color name="app_dialog_accent_focus">#33FF6B9D</color>
     <color name="app_action_sheet_danger">#FFB04A5A</color>
+    <color name="app_action_sheet_danger_soft">#12B04A5A</color>
+    <color name="app_action_sheet_danger_border">#40B04A5A</color>
     <color name="app_action_sheet_divider">#141D1B20</color>
     <color name="iperf_output_surface">#FFF8F6FA</color>
     <color name="iperf_output_text">#FF242830</color>
@@ -94,17 +98,45 @@
     <color name="about_dialog_link_surface">#FFFFF5F8</color>
     <color name="about_dialog_links_bar_surface">#FFFFF9FC</color>
 
-    <!-- Crown side panel -->
-    <color name="crown_panel_background">#F21B1B22</color>
-    <color name="crown_panel_border">#3DFFFFFF</color>
-    <color name="crown_section_background">#CC252833</color>
-    <color name="crown_section_border">#1FFFFFFF</color>
-    <color name="crown_input_background">#E62F3340</color>
-    <color name="crown_input_border">#2EFFFFFF</color>
-    <color name="crown_text_primary">#F7F3F7</color>
-    <color name="crown_text_secondary">#C9D0D8</color>
-    <color name="crown_button_focused">#22FFFFFF</color>
-    
+    <!-- Crown side panel: aliases into the shared shell roles. -->
+    <color name="crown_panel_background">@color/ui_shell_surface_elevated</color>
+    <color name="crown_panel_border">@color/ui_shell_outline</color>
+    <color name="crown_section_background">@color/crown_surface_raised</color>
+    <color name="crown_section_border">@color/ui_shell_outline</color>
+    <color name="crown_input_background">@color/ui_shell_surface</color>
+    <color name="crown_input_border">@color/ui_shell_outline</color>
+    <color name="crown_text_primary">@color/ui_shell_text_primary</color>
+    <color name="crown_text_secondary">@color/ui_shell_text_secondary</color>
+    <color name="crown_text_danger">@color/app_action_sheet_danger</color>
+    <color name="crown_button_focused">@color/ui_shell_accent_focus</color>
+    <color name="crown_on_accent">#FF1F2026</color>
+    <color name="crown_surface_raised">#FFFFFFFF</color>
+    <color name="crown_section_label">#FFB8406C</color>
+    <color name="crown_keyboard_single_background">@color/ui_shell_accent_soft</color>
+    <color name="crown_keyboard_single_border">@color/ui_shell_accent</color>
+    <color name="crown_keyboard_locked_background">@color/ui_shell_accent</color>
+    <color name="crown_keyboard_locked_border">@color/ui_shell_accent</color>
+    <color name="crown_keyboard_popup_background">@color/ui_shell_surface_elevated</color>
+    <color name="crown_keyboard_popup_text">@color/ui_shell_text_primary</color>
+    <color name="crown_keyboard_hint">@color/ui_shell_text_secondary</color>
+    <!-- Inspector live-preview canvas: intentionally dark in both themes so the
+         element renders the way it will appear over the game picture. -->
+    <color name="crown_preview_bg_top">#FF232B3A</color>
+    <color name="crown_preview_bg_bottom">#FF0E121A</color>
+    <color name="crown_preview_border">#1AFFFFFF</color>
+    <color name="crown_preview_accent">#FFFF8FA3</color>
+    <color name="crown_preview_ink">#FFF4F6FF</color>
+    <color name="crown_preview_secondary">#FFD0B1FF</color>
+    <color name="crown_preview_tertiary">#FFB4C7FF</color>
+
+    <!-- EasyTier 控制面板：跟随系统深浅色（暗色值与 crown 系一致） -->
+    <color name="easytier_panel_background">@color/ui_shell_surface_elevated</color>
+    <color name="easytier_section_background">#F5F6F8</color>
+    <color name="easytier_input_background">#FFFFFFFF</color>
+    <color name="easytier_text_primary">@color/ui_shell_text_primary</color>
+    <color name="easytier_text_secondary">@color/ui_shell_text_secondary</color>
+    <color name="easytier_warning">#C62828</color>
+
     <!-- 通用对话框颜色 -->
     <color name="app_dialog_title_color">@color/app_dialog_text_primary</color>
     <color name="app_dialog_subtitle_color">@color/app_dialog_text_secondary</color>
@@ -132,4 +164,10 @@
     <color name="retro_space_moon_shadow">#FF735563</color>
     <color name="retro_space_moon_crater">#FFB77A86</color>
     <color name="retro_space_text">#FFFFF3E4</color>
+
+    <!-- Moonwax connection loader. The lit disc borrows the perf HUD's moon cream so the
+         loading page and the in-stream HUD read as the same object. -->
+    <color name="loading_moon_light">#FFF8EA</color>
+    <color name="loading_moon_warm">#F8DFD0</color>
+    <color name="loading_moon_crater">#C79A86</color>
 </resources>

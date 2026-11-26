@@ -127,7 +127,7 @@ import com.limelight.binding.input.driver.UsbDriverListener
 import com.limelight.binding.input.driver.UsbDriverService
 import com.limelight.gamemenu.GameMenuCardShape
 import com.limelight.gamemenu.GameMenuDimens
-import com.limelight.gamemenu.gamepadFocusOutline
+import com.limelight.ui.gamepadFocusOutline
 import com.limelight.nvstream.input.ControllerPacket
 import com.limelight.ui.theme.AppShapes
 import com.limelight.utils.UiHelper
@@ -1402,7 +1402,10 @@ private object ControllerDiagnostics {
                     })
                     val rumble = runCatching { inputDevice.vibrator.hasVibrator() }.getOrNull()
                     val gyro = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
-                        InputDeviceSensorPolicy.isSupported(Build.VERSION.SDK_INT)) {
+                        InputDeviceSensorPolicy.shouldUse(
+                            Build.VERSION.SDK_INT,
+                            prefs.gamepadMotionSensors,
+                        )) {
                         runCatching {
                             inputDevice.sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null
                         }.getOrNull()

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.KeyEvent
+import androidx.preference.PreferenceManager
 
 import com.limelight.R
 import com.limelight.computers.ComputerManagerService
@@ -13,6 +14,8 @@ import com.limelight.preferences.PreferenceConfiguration
 
 import org.json.JSONException
 import org.json.JSONObject
+
+import java.math.BigDecimal
 
 /**
  * App Settings Manager
@@ -76,7 +79,7 @@ class AppSettingsManager(private val context: Context) {
     /**
      * Get the timestamp of the last settings for an app
      */
-    fun getAppLastSettingsTimestamp(computerUuid: String, app: NvApp?): Long {
+    private fun getAppLastSettingsTimestamp(computerUuid: String, app: NvApp?): Long {
         if (app == null) return 0
 
         val key = generateKey(computerUuid, app.appId)
@@ -116,66 +119,6 @@ class AppSettingsManager(private val context: Context) {
         return "${computerUuid}_${appId}"
     }
 
-    /**
-     * Get settings summary information
-     */
-    fun getSettingsSummary(computerUuid: String, app: NvApp): String {
-        val settings = getAppLastSettings(computerUuid, app)
-                ?: return context.getString(R.string.app_last_settings_none)
-
-        val timestamp = getAppLastSettingsTimestamp(computerUuid, app)
-        val timeStr = formatTimestamp(timestamp)
-
-        val summary = StringBuilder()
-
-        // Basic video settings
-        summary.append(context.getString(R.string.setting_resolution, settings.width, settings.height))
-        summary.append(" | ").append(context.getString(R.string.setting_fps, settings.fps))
-        summary.append(" | ").append(context.getString(R.string.setting_bitrate, settings.bitrate))
-
-        // Resolution scale
-        if (settings.resolutionScale != 100) {
-            summary.append(" | ").append(context.getString(R.string.setting_scale, settings.resolutionScale))
-        }
-
-        // Video format
-        summary.append(" | ").append(context.getString(R.string.setting_format, settings.videoFormat.toString()))
-
-        // HDR settings
-        if (settings.enableHdr) {
-            summary.append(" | ").append(context.getString(R.string.setting_hdr_enabled))
-        }
-
-        // Microphone settings
-        if (settings.enableMic) {
-            summary.append(" | ").append(context.getString(R.string.setting_mic_enabled, settings.micBitrate))
-        }
-
-        // Native mouse pointer
-        if (settings.enableNativeMousePointer) {
-            summary.append(" | ").append(context.getString(R.string.setting_native_mouse_enabled))
-        }
-
-        // Card configuration
-        if (settings.showBitrateCard) {
-            summary.append(" | ").append(context.getString(R.string.setting_bitrate_card_enabled))
-        }
-        if (settings.showAudioHapticsCard) {
-            summary.append(" | ").append(context.getString(R.string.setting_audio_haptics_card_enabled))
-        }
-        if (settings.showGyroCard) {
-            summary.append(" | ").append(context.getString(R.string.setting_gyro_card_enabled))
-        }
-        if (settings.showQuickKeyCard) {
-            summary.append(" | ").append(context.getString(R.string.setting_QuickKey_card_enabled))
-        }
-
-        // Add time information
-        summary.append(" (").append(timeStr).append(")")
-
-        return summary.toString()
-    }
-
     private fun formatTimestamp(timestamp: Long): String {
         if (timestamp == 0L) {
             return context.getString(R.string.time_unknown)
@@ -190,6 +133,83 @@ class AppSettingsManager(private val context: Context) {
             diff < 86400000 -> context.getString(R.string.time_hours_ago, diff / 3600000)
             else -> context.getString(R.string.time_days_ago, diff / 86400000)
         }
+    }
+
+    /** 生成 AppView 底部「上一次设置」的胶囊摘要和分组详情。 */
+    fun getLastSettingsSummary(computerUuid: String, app: NvApp?): LastSettingsSummary? {
+        val settings = getAppLastSettings(computerUuid, app) ?: return null
+        val timeLabel = formatTimestamp(getAppLastSettingsTimestamp(computerUuid, app))
+
+        val resolution = "${settings.width}×${settings.height}"
+        val bitrateMbps = BigDecimal.valueOf(settings.bitrate.toLong(), 3)
+            .stripTrailingZeros().toPlainString()
+        val bitrateCompact = if (settings.bitrate >= 1000) "${bitrateMbps}M" else "${settings.bitrate}K"
+        val hdrLabel = context.getString(
+            if (settings.enableHdr) R.string.app_last_settings_hdr_on
+            else R.string.app_last_settings_hdr_off
+        )
+
+        val cards = enabledGameMenuCards(settings)
+
+        val rows = ArrayList<Pair<String, String>>(5)
+        rows.add(
+            context.getString(R.string.app_last_settings_row_video) to
+                    "$resolution\u2002${settings.fps} FPS\u2002$bitrateMbps Mbps"
+        )
+
+        val encodingValue = StringBuilder(videoFormatLabel(settings.videoFormat))
+                .append('\u2002').append(hdrLabel)
+        if (settings.resolutionScale != 100) {
+            encodingValue.append('\u2002')
+                    .append(context.getString(R.string.app_last_settings_scale, settings.resolutionScale))
+        }
+        rows.add(context.getString(R.string.app_last_settings_row_encoding) to encodingValue.toString())
+
+        rows.add(
+            context.getString(R.string.app_last_settings_row_audio) to
+                    if (settings.enableMic) {
+                        context.getString(R.string.app_last_settings_mic_on, settings.micBitrate)
+                    } else {
+                        context.getString(R.string.app_last_settings_mic_off)
+                    }
+        )
+
+        if (settings.enableNativeMousePointer) {
+            rows.add(
+                context.getString(R.string.app_last_settings_row_input) to
+                        context.getString(R.string.app_last_settings_native_mouse_on)
+            )
+        }
+
+        rows.add(
+            context.getString(R.string.app_last_settings_row_cards) to
+                    if (cards.isEmpty()) context.getString(R.string.app_last_settings_cards_none)
+                    else cards.joinToString("\u2002")
+        )
+
+        val metricsLine = "$resolution\u2002${settings.fps}\u2002$bitrateCompact"
+        return LastSettingsSummary(metricsLine, timeLabel, rows)
+    }
+
+    private fun videoFormatLabel(format: PreferenceConfiguration.FormatOption): String {
+        return when (format) {
+            PreferenceConfiguration.FormatOption.AUTO -> "AUTO"
+            PreferenceConfiguration.FormatOption.FORCE_PYROWAVE -> "PyroWave"
+            PreferenceConfiguration.FormatOption.FORCE_H264 -> "H.264"
+            PreferenceConfiguration.FormatOption.FORCE_HEVC -> "HEVC"
+            PreferenceConfiguration.FormatOption.FORCE_AV1 -> "AV1"
+        }
+    }
+
+    private fun enabledGameMenuCards(settings: PreferenceConfiguration): List<String> {
+        val cards = ArrayList<String>(6)
+        if (settings.showBitrateCard) cards.add(context.getString(R.string.app_last_settings_card_bitrate))
+        if (settings.showDisplaySettingsCard) cards.add(context.getString(R.string.app_last_settings_card_display))
+        if (settings.showAudioHapticsCard) cards.add(context.getString(R.string.app_last_settings_card_audio_haptics))
+        if (settings.showGyroCard) cards.add(context.getString(R.string.app_last_settings_card_gyro))
+        if (settings.showQuickKeyCard) cards.add(context.getString(R.string.app_last_settings_card_quick_key))
+        if (settings.showWaveformHapticsCard) cards.add(context.getString(R.string.app_last_settings_card_waveform))
+        return cards
     }
 
     private fun getVideoFormatPreferenceString(format: PreferenceConfiguration.FormatOption): String {
@@ -241,9 +261,11 @@ class AppSettingsManager(private val context: Context) {
             put("gyroToRightStick", settings.gyroToRightStick)
             put("gyroToMouse", settings.gyroToMouse)
             put("showBitrateCard", settings.showBitrateCard)
+            put("showDisplaySettingsCard", settings.showDisplaySettingsCard)
             put("showAudioHapticsCard", settings.showAudioHapticsCard)
             put("showGyroCard", settings.showGyroCard)
             put("showQuickKeyCard", settings.showQuickKeyCard)
+            put("showWaveformHapticsCard", settings.showWaveformHapticsCard)
             put("timestamp", System.currentTimeMillis())
         }
     }
@@ -260,10 +282,6 @@ class AppSettingsManager(private val context: Context) {
         settings.enablePerfOverlay = false
         settings.reverseResolution = false
         settings.rotableScreen = false
-        settings.showBitrateCard = false
-        settings.showAudioHapticsCard = false
-        settings.showGyroCard = false
-        settings.showQuickKeyCard = false
 
         // Parse resolution string format "1920x1080"
         val resolutionStr = settingsJson.optString("resolution", "1920x1080")
@@ -301,9 +319,24 @@ class AppSettingsManager(private val context: Context) {
         settings.gyroToRightStick = !settings.gyroToMouse &&
             settingsJson.optBoolean("gyroToRightStick", false)
         settings.showBitrateCard = settingsJson.optBoolean("showBitrateCard", true)
+        val globalPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        settings.showDisplaySettingsCard = settingsJson.optBoolean(
+            "showDisplaySettingsCard",
+            globalPreferences.getBoolean(
+                PreferenceConfiguration.SHOW_DISPLAY_SETTINGS_CARD_PREF_STRING,
+                true
+            )
+        )
         settings.showAudioHapticsCard = settingsJson.optBoolean("showAudioHapticsCard", false)
         settings.showGyroCard = settingsJson.optBoolean("showGyroCard", true)
         settings.showQuickKeyCard = settingsJson.optBoolean("showQuickKeyCard", true)
+        settings.showWaveformHapticsCard = settingsJson.optBoolean(
+            "showWaveformHapticsCard",
+            globalPreferences.getBoolean(
+                PreferenceConfiguration.SHOW_WAVEFORM_HAPTICS_CARD_PREF_STRING,
+                true
+            )
+        )
 
         return settings
     }
@@ -357,6 +390,11 @@ class AppSettingsManager(private val context: Context) {
 
             prefConfig.width = intent.getIntExtra(INTENT_LAST_SETTINGS_WIDTH, prefConfig.width)
             prefConfig.height = intent.getIntExtra(INTENT_LAST_SETTINGS_HEIGHT, prefConfig.height)
+            if (intent.hasExtra(INTENT_LAST_SETTINGS_WIDTH) || intent.hasExtra(INTENT_LAST_SETTINGS_HEIGHT)) {
+                // Saved per-game dimensions are explicit sizes, not a Native selection.
+                prefConfig.isNativeResolution = false
+                prefConfig.isCustomResolution = PreferenceConfiguration.isNativeResolution(prefConfig.width, prefConfig.height)
+            }
             prefConfig.fps = intent.getIntExtra(INTENT_LAST_SETTINGS_FPS, prefConfig.fps)
             prefConfig.bitrate = intent.getIntExtra(INTENT_LAST_SETTINGS_BITRATE, prefConfig.bitrate)
             prefConfig.resolutionScale = intent.getIntExtra(INTENT_LAST_SETTINGS_RESOLUTION_SCALE, prefConfig.resolutionScale)
@@ -381,9 +419,14 @@ class AppSettingsManager(private val context: Context) {
             prefConfig.gyroToRightStick = !prefConfig.gyroToMouse &&
                 intent.getBooleanExtra(INTENT_LAST_SETTINGS_GYRO_TO_RIGHT_STICK, prefConfig.gyroToRightStick)
             prefConfig.showBitrateCard = intent.getBooleanExtra(INTENT_LAST_SETTINGS_SHOW_BITRATE_CARD, prefConfig.showBitrateCard)
+            prefConfig.showDisplaySettingsCard = intent.getBooleanExtra(INTENT_LAST_SETTINGS_SHOW_DISPLAY_SETTINGS_CARD, prefConfig.showDisplaySettingsCard)
             prefConfig.showAudioHapticsCard = intent.getBooleanExtra(INTENT_LAST_SETTINGS_SHOW_AUDIO_HAPTICS_CARD, prefConfig.showAudioHapticsCard)
             prefConfig.showGyroCard = intent.getBooleanExtra(INTENT_LAST_SETTINGS_SHOW_GYRO_CARD, prefConfig.showGyroCard)
             prefConfig.showQuickKeyCard = intent.getBooleanExtra(INTENT_LAST_SETTINGS_SHOW_QuickKeyCard, prefConfig.showQuickKeyCard)
+            prefConfig.showWaveformHapticsCard = intent.getBooleanExtra(
+                INTENT_LAST_SETTINGS_SHOW_WAVEFORM_HAPTICS_CARD,
+                prefConfig.showWaveformHapticsCard
+            )
 
             prefConfig.videoFormat = parseVideoFormat(intent.getStringExtra(INTENT_LAST_SETTINGS_VIDEO_FORMAT))
 
@@ -436,9 +479,11 @@ class AppSettingsManager(private val context: Context) {
         private const val INTENT_LAST_SETTINGS_GYRO_TO_RIGHT_STICK = "LastSettingsGyroToRightStick"
         private const val INTENT_LAST_SETTINGS_GYRO_TO_MOUSE = "LastSettingsGyroToMouse"
         private const val INTENT_LAST_SETTINGS_SHOW_BITRATE_CARD = "LastSettingsShowBitrateCard"
+        private const val INTENT_LAST_SETTINGS_SHOW_DISPLAY_SETTINGS_CARD = "LastSettingsShowDisplaySettingsCard"
         private const val INTENT_LAST_SETTINGS_SHOW_AUDIO_HAPTICS_CARD = "LastSettingsShowAudioHapticsCard"
         private const val INTENT_LAST_SETTINGS_SHOW_GYRO_CARD = "LastSettingsShowGyroCard"
         private const val INTENT_LAST_SETTINGS_SHOW_QuickKeyCard = "LastSettingsshowQuickKeyCard"
+        private const val INTENT_LAST_SETTINGS_SHOW_WAVEFORM_HAPTICS_CARD = "LastSettingsShowWaveformHapticsCard"
 
         /**
          * Add last settings to Intent
@@ -471,9 +516,24 @@ class AppSettingsManager(private val context: Context) {
             intent.putExtra(INTENT_LAST_SETTINGS_GYRO_TO_RIGHT_STICK, lastSettings.gyroToRightStick)
             intent.putExtra(INTENT_LAST_SETTINGS_GYRO_TO_MOUSE, lastSettings.gyroToMouse)
             intent.putExtra(INTENT_LAST_SETTINGS_SHOW_BITRATE_CARD, lastSettings.showBitrateCard)
+            intent.putExtra(INTENT_LAST_SETTINGS_SHOW_DISPLAY_SETTINGS_CARD, lastSettings.showDisplaySettingsCard)
             intent.putExtra(INTENT_LAST_SETTINGS_SHOW_AUDIO_HAPTICS_CARD, lastSettings.showAudioHapticsCard)
             intent.putExtra(INTENT_LAST_SETTINGS_SHOW_GYRO_CARD, lastSettings.showGyroCard)
             intent.putExtra(INTENT_LAST_SETTINGS_SHOW_QuickKeyCard, lastSettings.showQuickKeyCard)
+            intent.putExtra(INTENT_LAST_SETTINGS_SHOW_WAVEFORM_HAPTICS_CARD, lastSettings.showWaveformHapticsCard)
         }
     }
 }
+
+/**
+ * AppView「上一次设置」胶囊的结构化摘要。
+ *
+ * @param metricsLine 胶囊上的分辨率、帧率和码率。
+ * @param timeLabel 相对时间，例如 `3 小时前`
+ * @param rows 展开后的分组行（标签 to 内容）
+ */
+data class LastSettingsSummary(
+    val metricsLine: String,
+    val timeLabel: String,
+    val rows: List<Pair<String, String>>
+)

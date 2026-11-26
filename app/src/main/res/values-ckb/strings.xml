@@ -52,7 +52,7 @@
     <string name="pyrowave_diag_copy">کۆپی</string>
     <string name="pyrowave_diag_copy_success">ڕاپۆرتەکە بۆ کلیپبۆرد کۆپی کرا</string>
     <string name="pyrowave_diag_unavailable">بەردەست نییە</string>
-    <string name="image_saved_successfully">وێنەکە بە سەرکەوتوویی پاشەکەوت کرا لە: Picture/vplus</string>
+    <string name="image_saved_successfully">وێنەکە بە سەرکەوتوویی پاشەکەوت کرا لە: Pictures/vplus</string>
     <string name="image_save_failed_with_error">پاشەکەوتکردنی وێنەکە سەرکەوتوو نەبوو: %1$s</string>
     <string name="tip_double_tap_mouse">ئامۆژگاری: بۆ پاشەکەوتکردنی وێنەی پاشبنەمای ئێستا، شوێنی بەتاڵی سەرەوەی لیستی کۆمپیوتەرەکان بە درێژی دابگرە.</string>
     <string name="pyrowave_negotiation_fallback">گفتوگۆی PyroWave سەرکەوتوو نەبوو. لەبری ئەوە %1$s بەکاردێت.</string>
@@ -64,4 +64,23 @@
     <string name="mouse_axis_correction_270">سووڕاندن بە ٢٧٠ پلە</string>
     <string name="summary_checkbox_reverse_resolution">تەنها کاتێک چالاکی بکە کە ئاراستە یان قەبارەکانی وێنەکە هەڵە بن؛ لەوانەیە لەگەڵ سووڕانەوەی ئامێر ناکۆک بێت.</string>
     <string name="summary_checkbox_rotable_screen">کاتێک ئامێرەکە لە نێوان ئاراستەی ستوونی و ئاسۆیی دەگۆڕێت، ڕێکخستنی ستریم بە شێوەی خۆکار هاوکات دەکات.</string>
+    <string name="layout_page_device_text_1a70f">گۆڕینی لمس</string>
+    <string name="game_menu_perf_metrics">پێوانەکان بۆ پیشاندان</string>
+    <string name="game_menu_perf_orientation_fixed">ئەم شێوازە ڕێکخستنێکی جێگیر بەکاردەهێنێت. ئاراستەی هەڵبژێردراو لە شێوازی ستاندارددا جێبەجێ دەبێت.</string>
+    <string name="game_menu_perf_orientation_docked">ئاراستەی هەڵبژێردراو دوای دەرچوون لە ڕێکخستنی جێگیرکراو جێبەجێ دەبێت.</string>
+    <string name="game_menu_perf_orientation_portrait">لە دۆخی شاشەی ستوونیدا، ڕێکخستن هەمیشە ستوونییە.</string>
+    <string name="perf_sheet_previous_page">پەڕەی پێشوو</string>
+    <string name="perf_sheet_next_page">پەڕەی داهاتوو</string>
+    <string name="perf_sheet_settings">ڕێکخستن</string>
+    <string name="game_menu_perf_position_reset">گەڕاندنەوەی شوێن</string>
+    <string name="game_menu_perf_gestures">ئاماژەکان</string>
+    <string name="game_menu_perf_gestures_full">تەواو</string>
+    <string name="game_menu_perf_gestures_long_only">تەنها فشاری درێژ</string>
+    <string name="game_menu_perf_gestures_custom">ئاماژەکان بە دلخوازن</string>
+    <string name="game_menu_perf_moon">قۆناغی مانگ</string>
+    <string name="crown_config_segment_layout">ڕێکخستن</string>
+    <string name="crown_config_segment_touch">دەستدان</string>
+    <string name="crown_config_segment_feedback">لەرزین</string>
+    <string name="toast_absolute_mouse_mode_enabled">دۆخی ماوسی ڕەها چالاک کرا</string>
+    <string name="toast_relative_mouse_mode_enabled">دۆخی ماوسی ڕێژەیی چالاک کرا</string>
 </resources>
